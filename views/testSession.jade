@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 Testing Sessions
+  p #{msg}
+  p.
+    I have set the session object to time out after 60 seconds. If you wait more than 60
+    seconds and then refresh this page the above message should be gone (because the session
+    object will have gone) 
+  p Return #[a(href="/") home]
