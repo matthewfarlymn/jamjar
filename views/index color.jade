@@ -10,8 +10,7 @@ block content
       small
         a(href='/deleteColor?id=#{row.id}') delete
 
-  form(action='/addColor', method='post')
+  form(action='/addColor', method='get')
     span Enter a color:
     input(type="text", name="color")
-    input(type="text", name="animal")
     input(type="submit")

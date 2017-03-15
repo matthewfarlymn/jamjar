@@ -4,16 +4,90 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multer = require('multer');
 
-/*
- * To use sessions we need to require the following node package. 
- * See https://github.com/expressjs/session for more information
- */
 var session = require('express-session');
 
 var index = require('./routes/index');
 
 var app = express();
+
+var mysql = require('mysql');
+
+var connection;
+
+function connectToDB() {
+  // Create a connection by calling createConnection and pass it a JSON object with
+  // all the neccessary information.
+  connection = mysql.createConnection({
+   host : 'localhost',
+   user : 'root',
+   password : 'root',
+   database : 'jamjar',
+   charset : 'utf8',
+   port : 3306,
+   socketPath : '/Applications/MAMP/tmp/mysql/mysql.sock'
+ });
+
+  // connect to the DB, the calling back function gets called once the connection
+  // has been made (or not)
+  connection.connect(function(err) {
+    if (err) {
+      console.log('Error connecting to DB: ', err);
+      // If we experienced a problem when connection to the DB then
+      // back off fro 2000 ms and try again. To try again we call this function
+      // again, hence the reason we have put all of this code it its own function
+      setTimeout(connectToDB, 2000);
+    }
+  });
+
+  // If we receive an error event handle it
+  connection.on('error', function(err) {
+    console.log('Got a DB Error: ', err);
+    /**
+     * If we have lost a connection to the DB, ,maybe we are restarting it, then
+     * try and reconnect, otherwise throw an exception
+     */
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+      connectToDB();
+    } else {
+      throw err;
+    }
+  });
+}
+
+// Call the connectToDB function
+connectToDB();
+
+
+// connection.connect();
+//
+// var userIns = {
+//   userName: 'Fido2',
+//   userPassword: 'password'
+// };
+
+// var query = connection.query('INSERT INTO user SET ?', userIns, function(err, result) {
+//
+// });
+
+// console.log(query.sql);
+
+// connection.query('SELECT * FROM user', function(err, rows, fields)
+// {
+//   if (err) {
+//     throw err;
+//   }
+//
+//   // for (var i=0; i<rows.length; i++) {
+//   //   console.log(rows[i]);
+//   // }
+//
+// });
+
+// connection.end();
+
+app.set('dbConnection', connection);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,36 +100,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-/*
- * Next we need to set up express-session. First we create a js object to
- * store all the setup options (read https://github.com/expressjs/session
- * for details).
- * 
- * cookie.maxAge is the number of milliSeconds in which the cookie should
- * expire after when the cookie is created. If you don't specify a value
- * then the cookie gets destroyed when the browser is shutdown.
- * 
- * secret is a string used to sign the cookie using HMAC read all
- * about it here https://en.wikipedia.org/wiki/Hash-based_message_authentication_code
- * 
- * resave determines whether the session object should be resaved back to
- * the "session store" even if the session wasn't modified during the request. 
- * Session objects can be stored in what is know as a "session store". By default
- * this is simply computer memory but can be a database.
- * 
- * saveUninitialized, when true, causes a new but unmodified session object to be
- * saved to the session store. It is recommended that this is set to false.
- *   
- */
+/* Express Session */
 
 var expressSessionOptions = {
-  cookie : {
-      maxAge: 1000*60 
-  },
   secret:'mySecret',
   resave: false,
   saveUninitialized: false
-}
+};
 
 // Now set it up so that the session middleware is used on all requests
 app.use(session(expressSessionOptions));
@@ -81,5 +132,39 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.get('/register', function (req, res) {
+  res.render('register', {
+      title: 'Register',
+      twitterDetails: req.session.twitterDetails
+    }
+  );
+});
+
+app.post('/register', function (req, res, next) {
+  // Generic validation
+  req.assert('fname', 'First name is empty').notEmpty();
+  req.assert('lname', 'Last name is empty').notEmpty();
+  req.assert('street1', 'Street address is empty').notEmpty();
+  req.assert('city', 'City is empty').notEmpty();
+  req.assert('county', 'County is empty').notEmpty();
+  req.assert('postcode', 'Post code is empty').notEmpty();
+  req.assert('phone', 'Phone is empty').notEmpty();
+  // Email validation
+  req.assert('email', 'Email is invalid.').isEmail();
+  req.assert('email', 'Email field is empty').notEmpty();
+  // Password validation
+  req.assert('password', 'Password too short. Must be 8 characters or more.').len(8);
+  req.assert('password', 'Passwords do not match.').is(req.body.confirm);
+  req.assert('password', 'Password field is empty').notEmpty();
+  req.assert('confirm', 'Confirm password field is empty').notEmpty();
+  var errors = req.validationErrors(true);
+  if (errors) {
+    console.log(errors);
+    // What do to if there are errors?
+  }
+  // If there are no errors, continue handling the form…
+});
+
 
 module.exports = app;

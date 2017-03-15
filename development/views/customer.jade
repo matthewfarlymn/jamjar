@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  ul
+   for row in customer
+    li #{row.customerFirstName}
+
+  form(action='/addCustomer', method='get')
+    span Enter a customer:
+    brr
+    span.label First Name
+    input(type="text", name="firstName")
+    br
+    span.label Last Name
+    input(type="text", name="lastName")
+    br
+    span.label Street Address 1
+    input(type="text", name="street1")
+    br
+    span.label Street Address 2 (optional)
+    input(type="text", name="street2")
+    br
+    span.label City
+    input(type="text", name="city")
+    br
+    span.label County
+    input(type="text", name="county")
+    br
+    span.label Postcode
+    input(type="text", name="postcode")
+    br
+    span.label Phone
+    input(type="text", name="phone")
+    br
+    span.label Mobile
+    input(type="text", name="mobile")
+    br
+    span.label Email
+    input(type="text", name="email")
+    br
+    span.label Password
+    input(type="password", name="password")
+    br
+    span.label Confirm Password
+    input(type="password", name="confirmPassword")
+    br
+    span.label Avatar
+    input(type="text", name="avatar")
+    br
+    input(type="submit")
