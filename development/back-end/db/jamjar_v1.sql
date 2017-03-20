@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 20, 2017 at 09:29 PM
+-- Generation Time: Mar 20, 2017 at 09:52 PM
 -- Server version: 5.6.33
 -- PHP Version: 7.0.12
 
@@ -17,33 +17,76 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `colors`
 --
 
-CREATE TABLE `user` (
-  `userId` int(11) NOT NULL,
-  `userFirstName` varchar(45) NOT NULL,
-  `userLastName` varchar(45) NOT NULL,
-  `userStreet1` varchar(45) NOT NULL,
-  `userStreet2` varchar(45) DEFAULT NULL,
-  `userCity` varchar(45) NOT NULL,
-  `userCounty` varchar(45) NOT NULL,
-  `userPostcode` varchar(8) NOT NULL,
-  `userPhone` varchar(45) DEFAULT NULL,
-  `userEmail` varchar(45) NOT NULL,
-  `userPassword` varchar(45) NOT NULL,
-  `userImage` varchar(100) NOT NULL,
-  `userActive` tinyint(1) NOT NULL
+CREATE TABLE `colors` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `color` varchar(25) NOT NULL,
+  `animal` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `colors`
 --
 
-INSERT INTO `user` (`userId`, `userFirstName`, `userLastName`, `userStreet1`, `userStreet2`, `userCity`, `userCounty`, `userPostcode`, `userPhone`, `userEmail`, `userPassword`, `userImage`, `userActive`) VALUES
-(1, 'First Name', 'Lastname', '6 Upper Gladstone', NULL, 'Clonmel', 'Tipperary', 'E91 D702', '052 123 4567', 'test@test.com', 'password', 'test', 1),
-(2, 'test1', 'test1', '1 test st', NULL, 'clonmel', 'tipperary', 'e91 d702', '052 123 4567', 'test@test.com', 'password', 'test', 1),
-(3, 'admin', 'user', '3 test st', NULL, 'clonmel', 'tipperary', 'e91 d702', '052 123 4567', 'admin@jamjar.com', 'password', 'test', 1);
+INSERT INTO `colors` (`id`, `color`, `animal`) VALUES
+(1, 'red', 'dog'),
+(3, 'orange', 'cat'),
+(4, 'yellow', 'bird'),
+(5, 'green', 'grasshopper'),
+(6, 'blue', 'giraffe'),
+(12, '0', '0'),
+(13, '0', '0'),
+(14, '0', '0'),
+(15, '0', '0'),
+(16, '0', '0'),
+(17, '0', '0'),
+(18, 'purple', 'hippo');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comment`
+--
+
+CREATE TABLE `comment` (
+  `commentId` int(11) NOT NULL,
+  `commentText` varchar(200) NOT NULL,
+  `commentTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userId` int(11) NOT NULL,
+  `mediaItemId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `customerId` int(11) NOT NULL,
+  `customerFirstName` varchar(45) NOT NULL,
+  `customerLastName` varchar(45) NOT NULL,
+  `customerStreet1` varchar(45) NOT NULL,
+  `customerStreet2` varchar(45) DEFAULT NULL,
+  `customerCity` varchar(45) NOT NULL,
+  `customerCounty` varchar(45) NOT NULL,
+  `customerPostcode` varchar(8) NOT NULL,
+  `customerPhone` varchar(45) DEFAULT NULL,
+  `customerEmail` varchar(45) NOT NULL,
+  `customerPassword` varchar(45) NOT NULL,
+  `customerAvatar` varchar(100) NOT NULL,
+  `customerActive` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`customerId`, `customerFirstName`, `customerLastName`, `customerStreet1`, `customerStreet2`, `customerCity`, `customerCounty`, `customerPostcode`, `customerPhone`, `customerEmail`, `customerPassword`, `customerAvatar`, `customerActive`) VALUES
+(1, 'First Name', 'Lastname', '6 Upper Gladstone', NULL, 'Clonmel', 'Tipperary', 'E91 D702', '052 123 4567', 'test@test.com', 'password', '', 1),
+(2, 'test1', 'test1', '1 test st', NULL, 'clonmel', 'tipperary', 'e91 d702', '052 123 4567', 'test@test.com', 'password', 'test', 1);
 
 -- --------------------------------------------------------
 
@@ -54,7 +97,7 @@ INSERT INTO `user` (`userId`, `userFirstName`, `userLastName`, `userStreet1`, `u
 CREATE TABLE `orderItem` (
   `orderId` int(11) NOT NULL,
   `orderDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `userId` int(11) NOT NULL
+  `customerId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -146,21 +189,44 @@ CREATE TABLE `template` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `userId` int(11) NOT NULL,
+  `userName` varchar(45) NOT NULL,
+  `userPassword` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `user`
+-- Indexes for table `colors`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`userId`);
+ALTER TABLE `colors`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `comment`
+--
+ALTER TABLE `comment`
+  ADD PRIMARY KEY (`commentId`),
+  ADD KEY `fk_comment_user` (`userId`);
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`customerId`);
 
 --
 -- Indexes for table `orderItem`
 --
 ALTER TABLE `orderItem`
   ADD PRIMARY KEY (`orderId`),
-  ADD KEY `fk_order_user` (`userId`);
+  ADD KEY `fk_order_customer` (`customerId`);
 
 --
 -- Indexes for table `order_product`
@@ -197,14 +263,31 @@ ALTER TABLE `template`
   ADD KEY `fk_template_user` (`userAdded`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`userId`),
+  ADD UNIQUE KEY `userName` (`userName`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT for table `colors`
 --
-ALTER TABLE `user`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `colors`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT for table `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `commentId` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `customerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `orderItem`
 --
@@ -225,16 +308,26 @@ ALTER TABLE `product`
 --
 ALTER TABLE `template`
   MODIFY `templateId` int(11) NOT NULL AUTO_INCREMENT;
-
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `comment`
+--
+ALTER TABLE `comment`
+  ADD CONSTRAINT `fk_comment_user` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`);
+
+--
 -- Constraints for table `orderItem`
 --
 ALTER TABLE `orderItem`
-  ADD CONSTRAINT `fk_order_user` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`);
+  ADD CONSTRAINT `fk_order_customer` FOREIGN KEY (`customerId`) REFERENCES `customer` (`customerId`);
 
 --
 -- Constraints for table `order_product`
