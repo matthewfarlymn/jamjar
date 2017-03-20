@@ -5,8 +5,8 @@ var Access = React.createClass({
         return(
             <div>
                 <section className="access">
-                    <div className="row container">
-                        <div className="col-xs-12 col-sm-6 sign-in">
+                    <div className="row center-xs container">
+                        <div className="col-xs-12 col-sm-4 sign-in">
                             <h1>Sign-In</h1>
                             <form action="/" method="get">
                                 <label htmlFor="Email">Email</label>
@@ -20,7 +20,7 @@ var Access = React.createClass({
                                 <span> | <a href="/">Forgot password?</a></span>
                             </form>
                         </div>
-                        <div className="col-xs-12 col-sm-6 register">
+                        <div className="col-xs-12 col-sm-4 register">
                             <h1>Register</h1>
                             <form action="/" method="post">
                                 <label htmlFor="FirstName">First Name</label>
