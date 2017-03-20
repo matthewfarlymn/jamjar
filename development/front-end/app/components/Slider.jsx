@@ -6,7 +6,7 @@ var Slider = React.createClass({
             <section className="slider">
                 <div className="row reverse middle-xs container">
                     <div className="col-xs-12 col-sm-6">
-                        <img src="../assets/images/jam-jar_AdobeStock_84330027.jpg" alt="Logo"/>
+                        <img src={'./assets/images/jam-jar_AdobeStock_84330027.jpg'} alt="Logo"/>
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         <h1>Blueberry's Back</h1>

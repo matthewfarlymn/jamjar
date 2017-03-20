@@ -9,7 +9,7 @@ var Header = React.createClass({
                     <nav className="col-xs col-sm-6">
                         <div className="row middle-xs">
                             <IndexLink to="/">
-                                <img className="logo" src="../assets/images/jam-jar-logo.png" alt="Logo"/>
+                                <img className="logo" src={'./assets/images/jam-jar-logo.png'} alt="Logo"/>
                             </IndexLink>
                             <ul className="primary-nav">
                                 <li>
