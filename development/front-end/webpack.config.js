@@ -21,8 +21,13 @@ module.exports = {
     resolve: {
         root: __dirname,
         alias: {
-            Main: 'app/components/Main.jsx',
-            Nav: 'app/components/Nav.jsx',
+            Body: 'app/components/Body.jsx',
+            Header: 'app/components/Header.jsx',
+            Footer: 'app/components/Footer.jsx',
+            Home: 'app/components/Home.jsx',
+            Slider: 'app/components/Slider.jsx',
+            CTA: 'app/components/CTA.jsx',
+            Access: 'app/components/Access.jsx',
             Weather: 'app/components/Weather.jsx',
             WeatherForm: 'app/components/WeatherForm.jsx',
             WeatherMessage: 'app/components/WeatherMessage.jsx',

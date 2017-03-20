@@ -2,13 +2,69 @@
 @import 'flexboxgrid';
 @import 'font-awesome';
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+body {
+    background-color: #5d4037;
 }
 
-nav {
-    background: #5d4037;
+h1 {
+    font-size: 48px;
+    padding: 0;
+    margin: 0;
+}
+
+h2 {
+    font-size: 28px;
+    padding: 0;
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    &.logo {
+        max-height: 60px;
+        background-color: #ffffff;
+        border-radius: 50%;
+        padding: 5px;
+    }
+}
+
+.button {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 1px rgba(#000000, .5);
+    display: inline-block;
+    border-style: none;
+    &.pink {
+        background-color: #ee2a7b;
+    }
+    &.gold {
+        background-color: #cca677;
+    }
+    &.brown {
+        background-color: #5d4037;
+    }
+}
+
+form {
+    margin-top: 30px;
+    input[type="text"], input[type="email"],input[type="password"] {
+        display: block;
+        width: 100%;
+        margin: 5px 0 15px 0;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    input[type="checkbox"] {
+        margin: 15px 5px 0 0;
+    }
+}
+
+header, footer {
+    color: #ffffff;
+    background-color: #5d4037;
     padding: 20px 0;
     ul {
         padding: 0;
@@ -28,26 +84,31 @@ nav {
                 span {
                     &.fa {
                         font-size: 20px;
-                        &.fa-user-circle-o {
-                            background-color: #cccccc;
-                            font-size: 28px;
-                            border-radius: 50%;
-                        }
                     }
                 }
             }
         }
     }
-    img {
-        &.logo {
-            max-height: 60px;
-            background: #fff;
-            border-radius: 50%;
-            padding: 5px;
-        }
-        &.user {
+}
 
-        }
+footer {
+    font-size: 12px;
+}
+
+section {
+    background-color: #ffffff;
+    padding: 40px 0;
+    .button {
+        margin-right: 10px;
     }
 }
 
+.cta {
+    background-color: #cca677;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
