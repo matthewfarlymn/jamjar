@@ -44,7 +44,11 @@ module.exports = {
             Products: 'app/components/Products.jsx',
 
             // Styles & Scripts
-            ApplicationStyles: 'app/assets/scss/app.scss'
+            ApplicationStyles: 'app/assets/scss/app.scss',
+
+            // Queries
+            DatabaseConnection: 'app/queries/DatabaseConnection.js',
+            UsersQuesries: 'app/queries/Users.js'
         },
         extensions: ['', '.js', '.jsx']
     },
