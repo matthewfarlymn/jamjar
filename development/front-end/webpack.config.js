@@ -21,20 +21,29 @@ module.exports = {
     resolve: {
         root: __dirname,
         alias: {
+            // All
             Body: 'app/components/Body.jsx',
             Header: 'app/components/Header.jsx',
             Footer: 'app/components/Footer.jsx',
+
+            // Home
             Home: 'app/components/Home.jsx',
             Slider: 'app/components/Slider.jsx',
-            CTA: 'app/components/CTA.jsx',
+            CtaRegister: 'app/components/CtaRegister.jsx',
+            CarouselPopular: 'app/components/CarouselPopular.jsx',
+            CarouselRecent: 'app/components/CarouselRecent.jsx',
+            CtaContact: 'app/components/CtaContact.jsx',
+
+            //Access
             Access: 'app/components/Access.jsx',
-            Weather: 'app/components/Weather.jsx',
-            WeatherForm: 'app/components/WeatherForm.jsx',
-            WeatherMessage: 'app/components/WeatherMessage.jsx',
+
+            // About
             About: 'app/components/About.jsx',
+
+            // Products
             Products: 'app/components/Products.jsx',
-            OpenWeatherMap: 'app/api/OpenWeatherMap.jsx',
-            ErrorModal: 'app/components/ErrorModal.jsx',
+
+            // Styles & Scripts
             ApplicationStyles: 'app/assets/scss/app.scss'
         },
         extensions: ['', '.js', '.jsx']
