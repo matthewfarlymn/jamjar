@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var {Route, Router, IndexRoute, browserHash} = require('react-router');
+var {Route, Router, IndexRoute, browserHistory} = require('react-router');
 var Body = require('Body');
 var Home = require('Home');
 var Access = require('Access');
@@ -11,7 +11,7 @@ var Products = require('Products');
 require('style!css!sass!ApplicationStyles')
 
 ReactDOM.render(
-    <Router history={browserHash}>
+    <Router history={browserHistory}>
         <Route path="/" component={Body}>
             <IndexRoute component={Home} />
             <Route path="access" component={Access} />

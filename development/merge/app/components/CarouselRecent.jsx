@@ -1,16 +1,28 @@
 var React = require('react');
-
-var recent_products = [];
-
-for (var i = 0; i < 4; i++) {
-    recent_products.push(<div className="col-xs-12 col-sm-6 col-md-3">
-        <img src={'./assets/images/jam-jar_AdobeStock_84330027.jpg'} alt="Logo"/>
-        <h3>Blueberry {i}</h3>
-        <p>Excerpt ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo.<a href="/">Learn More</a></p>
-    </div>)
-}
+var axios = require('axios');
 
 var CarouselRecent = React.createClass({
+
+    getInitialState: function() {
+        return {
+            products: []
+        }
+    },
+
+    componentDidMount: function() {
+        var _this = this;
+        this.serverRequest = axios
+        .get("/api/Products")
+        .then(function(response) {
+            console.log(response);
+            _this.setState({
+                products: response.data
+            });
+        }) .catch(function (error) {
+            console.log(error);
+        });
+    },
+
     render: function() {
         return(
             <section className="carousel grey">
@@ -23,7 +35,15 @@ var CarouselRecent = React.createClass({
                     </div>
                 </header>
                 <div className="row container">
-                    {recent_products}
+                    {this.state.products.slice(0, 4).map(function(product) {
+                        return(
+                            <div className="col-xs-12 col-sm-6 col-md-3" key={product.productId}>
+                                <img src={product.productImage1} Image1 alt="Logo"/>
+                                <h3>{product.productTitle}</h3>
+                                <p>{product.productDesc}<a href="/">Learn More</a></p>
+                            </div>
+                        );
+                    })}
                 </div>
             </section>
         );
