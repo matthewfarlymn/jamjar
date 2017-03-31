@@ -8,22 +8,29 @@ var User={
   getUserById:function(id,callback){
     return db.query("SELECT * FROM user WHERE userId=?",[id],callback);
   },
-  addUser:function(firstname, lastname, password, callback){
-    // var id = -1;
-    // var firstname = req.body.firstname;
-    // var lastname = req.body.lastname;
-    // var password = req.body.password;
-    // var confirm = req.body.confirm;
-    // var record = [name, password];
+  addUser:function(User,callback){
 
-    // return db.query("INSERT INTO user (userFirstName=?, userLastName=?, userPassword=?)",[firstname, lastname, password],callback);
-    return db.query("INSERT INTO user (userFirstName, userLastName, userPassword) VALUES(?,?,?)",[firstname, lastname, password],callback);
+    // User.userId = 5;
+    // User.userFirstName = 'First5';
+    // User.userLastName = 'Last5';
+    // User.userPassword = 'password';
+
+    console.log("inside service");
+    // console.log(User.userId);
+    console.log(User.userFirstName);
+    console.log(User.userLastName);
+    console.log(User.userEmail);
+    console.log(User.userPassword);
+    // return db.query("INSERT INTO users values(?,?,?,?)",[User.userId,User.userFirstName,User.userLastName,User.userPassword],callback);
+    // return db.query("INSERT INTO user (userId=?, userFirstName=?, userLastName=?, userPassword=?)",[User.userId,User.userFirstName,User.userLastName,User.userPassword],callback);
+    // return db.query("INSERT INTO user (userId, userFirstName, userLastName, userPassword) VALUES (?,?,?,?)",[User.userId,User.userFirstName,User.userLastName,User.userPassword],callback);
+    return db.query("INSERT INTO user (userFirstName, userLastName, userEmail, userPassword) VALUES (?,?,?,?)",[User.userFirstName,User.userLastName,User.userEamil,User.userPassword],callback);
   },
   deleteUser:function(id,callback){
     return db.query("DELETE FROM user WHERE userId=?",[id],callback);
   },
   updateUser:function(id,User,callback){
-    return db.query("UPDATE user SET userFirstName=?, userLastName=?, userPassword=? WHERE userId=?",[user.firstname,user.lastname,user.password,id],callback);
+    return db.query("UPDATE user SET userFirstName=?, userLastName=?, userPassword=? WHERE userId=?",[User.userFirstName,User.userLastName,User.userPassword,id],callback);
   }
 
 };
