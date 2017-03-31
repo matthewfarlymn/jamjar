@@ -1,10 +1,20 @@
 var db=require('../dbconnection');
 
+var RecentProduct={
+
+  getRecentProducts:function(callback){
+    return db.query("SELECT * FROM product ORDER BY id DESC",callback);
+  }
+};
+
 var Product={
 
   getAllProducts:function(callback){
     return db.query("SELECT * FROM product",callback);
   },
+  // getRecentProducts:function(callback){
+  //   return db.query("SELECT * FROM product ORDER BY id DESC",callback);
+  // },
   getProductById:function(id,callback){
     return db.query("SELECT * FROM product WHERE customerId=?",[id],callback);
   },
