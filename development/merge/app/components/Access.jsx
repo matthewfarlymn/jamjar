@@ -3,17 +3,21 @@ var React = require('react');
 var Access = React.createClass({
     getInitialState: function() {
         return {
-            products: []
+            firstName: '',
+            lastName: '',
+            email: '',
+            password1: ''
         }
     },
+
     componentDidMount: function() {
         var _this = this;
         this.serverRequest = axios
         .post("/api/Users", {
-            userFirstName: req.body.firstName.trim(),
-            userLastName: req.body.lastName.trim(),
-            userEmail: req.body.email.trim(),
-            userPassword: req.body.password1.trim()
+            userFirstName: this.state.firstName.trim(),
+            userLastName: this.state.lastName.trim(),
+            userEmail: this.state.email.trim(),
+            userPassword: this.state.password1.trim()
         })
         .then(function(response) {
             console.log(response);
@@ -44,13 +48,13 @@ var Access = React.createClass({
                             <h1>Register</h1>
                             <form action="/api/Users" method="post">
                                 <label htmlFor="firstName">First Name</label>
-                                <input type="text" name="firstName" placeholder="First Name"/>
+                                <input type="text" name="firstName" placeholder="First Name" value={this.state.firstName}/>
                                 <label htmlFor="lastName">Last Name</label>
-                                <input type="text" name="lastName" placeholder="Last Name"/>
+                                <input type="text" name="lastName" placeholder="Last Name" value={this.state.lastName}/>
                                 <label htmlFor="email">Email</label>
-                                <input type="email" name="email" placeholder="Email"/>
+                                <input type="email" name="email" placeholder="Email" value={this.state.email} />
                                 <label htmlFor="password1">Password</label>
-                                <input type="password" name="password1" placeholder="Password"/>
+                                <input type="password" name="password1" placeholder="Password" value={this.state.password1}/>
                                 <label htmlFor="password2">Re-enter Password</label>
                                 <input type="password" name="password2" placeholder="Password"/>
                                 <input className="button gold" type="submit" value="Register"/>
