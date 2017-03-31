@@ -35,7 +35,7 @@ var CarouselRecent = React.createClass({
                     </div>
                 </header>
                 <div className="row container">
-                    {this.state.products.slice(0, 4).map(function(product) {
+                    {this.state.products.reverse().slice(0, 4).map(function(product) {
                         return(
                             <div className="col-xs-12 col-sm-6 col-md-3" key={product.productId}>
                                 <img src={product.productImage1} Image1 alt="Logo"/>
