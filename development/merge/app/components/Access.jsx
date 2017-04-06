@@ -14,7 +14,6 @@ var Access = React.createClass({
     handleSubmit: function(e) {
         var _this = this;
         this.serverRequest = axios
-        console.log(_this.ref.firstName)
         .post("/api/Users", {
             userFirstName: this.firstName.value,
             userLastName: this.lastName.value,
