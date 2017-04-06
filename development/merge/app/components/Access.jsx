@@ -10,14 +10,14 @@ var Access = React.createClass({
         }
     },
 
-    componentDidMount: function() {
+    handleSubmit: function(e) {
         var _this = this;
         this.serverRequest = axios
         .post("/api/Users", {
-            userFirstName: this.state.firstName.trim(),
-            userLastName: this.state.lastName.trim(),
-            userEmail: this.state.email.trim(),
-            userPassword: this.state.password1.trim()
+            userFirstName: _this.ref.firstName,
+            userLastName: _this.ref.lastName,
+            userEmail: _this.ref.email,
+            userPassword: _this.ref.password1
         })
         .then(function(response) {
             console.log(response);
@@ -25,6 +25,7 @@ var Access = React.createClass({
             console.log(error);
         });
     },
+
     render: function() {
         return(
             <div>
@@ -46,15 +47,15 @@ var Access = React.createClass({
                         </div>
                         <div className="col-xs-12 col-sm-4 register">
                             <h1>Register</h1>
-                            <form action="/api/Users" method="post">
+                            <form onSubmit={this.onSubmit}>
                                 <label htmlFor="firstName">First Name</label>
-                                <input type="text" name="firstName" placeholder="First Name" value={this.state.firstName}/>
+                                <input type="text" name="firstName" placeholder="First Name" ref="firstName"/>
                                 <label htmlFor="lastName">Last Name</label>
-                                <input type="text" name="lastName" placeholder="Last Name" value={this.state.lastName}/>
+                                <input type="text" name="lastName" placeholder="Last Name" ref="lastName"/>
                                 <label htmlFor="email">Email</label>
-                                <input type="email" name="email" placeholder="Email" value={this.state.email} />
+                                <input type="email" name="email" placeholder="Email" ref="email"/>
                                 <label htmlFor="password1">Password</label>
-                                <input type="password" name="password1" placeholder="Password" value={this.state.password1}/>
+                                <input type="password" name="password1" placeholder="Password" ref="password1"/>
                                 <label htmlFor="password2">Re-enter Password</label>
                                 <input type="password" name="password2" placeholder="Password"/>
                                 <input className="button gold" type="submit" value="Register"/>
