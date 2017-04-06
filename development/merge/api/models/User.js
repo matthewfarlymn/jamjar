@@ -6,13 +6,25 @@ var User={
 
   getAllUsers:function(callback){
 
-    console.log("getAllUsers");
-    return db.query("SELECT * FROM user",callback);
+    db(function(err, connection) {
+      if(err) {
+        console.log('error');
+        throw err;
+      } else {
+        return connection.query("SELECT * FROM user",callback);
+      }
+    });
   },
   getUserById:function(id,callback){
 
-    console.log("getUserById " + id);
-    return db.query("SELECT * FROM user WHERE userId=?",[id],callback);
+    db(function(err, connection) {
+      if(err) {
+        console.log('error');
+        throw err;
+      } else {
+        return connection.query("SELECT * FROM user WHERE userId=?",[id],callback);
+      }
+    });
   },
   addUser:function(User,callback){
 
@@ -27,16 +39,37 @@ var User={
     console.log(User.userLastName);
     console.log(User.userEmail);
     console.log(User.userPassword);
-    // return db.query("INSERT INTO users values(?,?,?,?)",[User.userId,User.userFirstName,User.userLastName,User.userPassword],callback);
-    // return db.query("INSERT INTO user (userId=?, userFirstName=?, userLastName=?, userPassword=?)",[User.userId,User.userFirstName,User.userLastName,User.userPassword],callback);
-    // return db.query("INSERT INTO user (userId, userFirstName, userLastName, userPassword) VALUES (?,?,?,?)",[User.userId,User.userFirstName,User.userLastName,User.userPassword],callback);
-    return db.query("INSERT INTO user (userFirstName, userLastName, userEmail, userPassword) VALUES (?,?,?,?)",[User.userFirstName,User.userLastName,User.userEamil,User.userPassword],callback);
+
+    db(function(err, connection) {
+      if(err) {
+        console.log('error');
+        throw err;
+      } else {
+        return connection.query("INSERT INTO user (userFirstName, userLastName, userEmail, userPassword) VALUES (?,?,?,?)",[User.userFirstName,User.userLastName,User.userEamil,User.userPassword],callback);
+      }
+    });
+
   },
   deleteUser:function(id,callback){
-    return db.query("DELETE FROM user WHERE userId=?",[id],callback);
+
+    db(function(err, connection) {
+      if(err) {
+        console.log('error');
+        throw err;
+      } else {
+        return connection.query("DELETE FROM user WHERE userId=?",[id],callback);
+      }
+    });
   },
   updateUser:function(id,User,callback){
-    return db.query("UPDATE user SET userFirstName=?, userLastName=?, userPassword=? WHERE userId=?",[User.userFirstName,User.userLastName,User.userPassword,id],callback);
+    db(function(err, connection) {
+      if(err) {
+        console.log('error');
+        throw err;
+      } else {
+      return connection.query("UPDATE user SET userFirstName=?, userLastName=?, userPassword=? WHERE userId=?",[User.userFirstName,User.userLastName,User.userPassword,id],callback);
+      }
+    });
   }
 
 };
