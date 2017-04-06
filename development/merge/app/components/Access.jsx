@@ -1,4 +1,5 @@
 var React = require('react');
+var axios = require('axios');
 
 var Access = React.createClass({
     getInitialState: function() {
@@ -13,11 +14,12 @@ var Access = React.createClass({
     handleSubmit: function(e) {
         var _this = this;
         this.serverRequest = axios
+        console.log(_this.ref.firstName)
         .post("/api/Users", {
-            userFirstName: _this.ref.firstName,
-            userLastName: _this.ref.lastName,
-            userEmail: _this.ref.email,
-            userPassword: _this.ref.password1
+            userFirstName: this.firstName.value,
+            userLastName: this.lastName.value,
+            userEmail: this.email.value,
+            userPassword: this.password1.value
         })
         .then(function(response) {
             console.log(response);
@@ -49,13 +51,13 @@ var Access = React.createClass({
                             <h1>Register</h1>
                             <form onSubmit={this.onSubmit}>
                                 <label htmlFor="firstName">First Name</label>
-                                <input type="text" name="firstName" placeholder="First Name" ref="firstName"/>
+                                <input type="text" name="firstName" placeholder="First Name" ref={(input) => { this.firstName = input; }}/>
                                 <label htmlFor="lastName">Last Name</label>
-                                <input type="text" name="lastName" placeholder="Last Name" ref="lastName"/>
+                                <input type="text" name="lastName" placeholder="Last Name" ref={(input) => { this.lastName = input; }}/>
                                 <label htmlFor="email">Email</label>
-                                <input type="email" name="email" placeholder="Email" ref="email"/>
+                                <input type="email" name="email" placeholder="Email" ref={(input) => { this.email = input; }}/>
                                 <label htmlFor="password1">Password</label>
-                                <input type="password" name="password1" placeholder="Password" ref="password1"/>
+                                <input type="password" name="password1" placeholder="Password" ref={(input) => { this.password1 = input; }}/>
                                 <label htmlFor="password2">Re-enter Password</label>
                                 <input type="password" name="password2" placeholder="Password"/>
                                 <input className="button gold" type="submit" value="Register"/>
