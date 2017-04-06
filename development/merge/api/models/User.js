@@ -1,11 +1,17 @@
 var db=require('../dbconnection');
 
+console.log("in User -- ");
+
 var User={
 
   getAllUsers:function(callback){
+
+    console.log("getAllUsers");
     return db.query("SELECT * FROM user",callback);
   },
   getUserById:function(id,callback){
+
+    console.log("getUserById " + id);
     return db.query("SELECT * FROM user WHERE userId=?",[id],callback);
   },
   addUser:function(User,callback){
