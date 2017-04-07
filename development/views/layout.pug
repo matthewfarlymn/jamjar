@@ -11,7 +11,7 @@ html
         block header
             header
                 div.row.middle-xs.container
-                    nav.col-xs-6
+                    nav.col-xs-4.col-sm-6
                         div.row.middle-xs
                             a(href='/')
                                 img(src='../img/logo.png' alt='Logo').logo
@@ -22,7 +22,7 @@ html
                                     a(href='/products') Products
                                 li    
                                     a(href='/contact') Contact
-                    div.col-xs-6
+                    div.col-xs-8.col-sm-6
                         ul.row.end-xs.middle-xs.secondary-nav
                             li.search
                                 span.fa.fa-search
@@ -32,13 +32,23 @@ html
                                 a(href='/shopping-cart')
                                     span.fa.fa-shopping-cart
                             li.options
-                                a(href='/')
-                                    span.fa.fa-ellipsis-v
+                                span.fa.fa-ellipsis-v
             section.search-field
                 div.row.container
                     div.col-xs-12
                         form(action='/search' method='post')
                             input(type='search' name='search' placeholder='Search for keyword...')                
+            section.mobile-nav
+                nav.row.container
+                    ul.col-xs-12.primary-nav
+                        li
+                            a(href='/about') About
+                        li    
+                            a(href='/products') Products
+                        li    
+                            a(href='/contact') Contact
+                        li    
+                            a(href='/shopping-cart') Cart
         block content
         block footer
             footer

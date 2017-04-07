@@ -49,6 +49,10 @@ textarea, input, button {
     font-size: 16px;
 }
 
+ul {
+    margin: 0;
+}
+
 .button {
     color: #ffffff;
     text-decoration: none;
@@ -107,6 +111,8 @@ header, footer {
     color: #ffffff;
     background-color: #5d4037;
     padding: 20px 0;
+    position: relative;
+    z-index: 2;
     ul {
         padding: 0 20px;
         margin: 0;
@@ -121,6 +127,7 @@ header, footer {
                     display: none;
                     span {
                         font-size: 40px;
+                        cursor: pointer;
                     }
                 }
             }
@@ -207,9 +214,7 @@ section {
 .search-field {
     background-color: #ee2a7b;
     padding: 20px 0;
-    margin-top: -79px;
-    position: relative;
-    z-index: -1;
+    margin-top: -69px;
     transition: all 0.25s ease-in-out;
     &.show {
         margin-top: 0;
@@ -220,7 +225,7 @@ section {
             background-color: transparent;
             display: block;
             width: 100%;
-            padding: 10px 0;
+            padding: 0 0 10px 0;
             box-sizing: border-box;
             border: 0;
             border-bottom: 1px solid #ffffff;
@@ -242,6 +247,46 @@ section {
             color: #ffffff;
         }
     }
+}
+
+.mobile-nav {
+    padding: 20px 0;
+    background-color: #cca677;
+    margin-top: -192px;
+    transition: all 0.25s ease-in-out;
+    font-size: 20px;
+    display: none;
+    &.show {
+        margin-top: 0;
+    }
+    @include breakpoint(xs) {
+        display: block;
+    }
+    nav {
+        ul {
+            list-style: none;
+            text-align: center;
+            li {
+                margin-bottom: 20px;
+                &:last-of-type {
+                    margin: 0;
+                }
+                a {
+                    color: #ffffff;
+                }
+            }
+        }
+    }
+}
+
+.flyout-menu {
+    padding: 0;
+
+    &.show {
+        margin-top: 0;
+    }
+
+
 }
 
 .slider {
