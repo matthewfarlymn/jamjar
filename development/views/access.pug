@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    main
+        section.access
+            div.row.center-xs.container
+                div.col-xs-12.col-sm-6.col-md-4.sign-in
+                    h1 Sign-In
+                    form(action='/sign-in' method='post')
+                        label(for='email') Email
+                        input(type='email' name='email' placeholder='Email')
+                        label(for='password') Password
+                        input(type='password' name='password' placeholder='Password')
+                        button(type='submit').button.pink Sign-In
+                        br
+                        input(type='checkbox' name='RememberMe')
+                        label(for='RememberMe') Remember me 
+                            span | #[a(href='/') Forgot password?]
+                div.col-xs-12.col-sm-6.col-md-4.register
+                    h1 Register
+                    form(action='/register' method='post')
+                        label(for='firstName') First Name
+                        input(type='text' name='firstName' placeholder='First Name' required)
+                        label(for='lastName') Last Name
+                        input(type='text' name='lastName' placeholder='Last Name' required)
+                        label(for='email') Email
+                        input(type='email' name='email' placeholder='Email' required)
+                        label(for='password1') Password
+                        input(type='password' name='password1' placeholder='Password' required)
+                        label(for='password2') Re-enter Password
+                        input(type='password' name='password2' placeholder='Password' required)
+                        button(type="submit").button.gold Register

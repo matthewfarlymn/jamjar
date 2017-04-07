@@ -23,7 +23,7 @@ function errorLog(error) {
 
 gulp.task('browser-sync', function() {
     browserSync.init( {
-        proxy: "localhost:2583",
+        proxy: "localhost:3000",
     } );
 });
 
