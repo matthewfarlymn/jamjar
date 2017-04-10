@@ -20,6 +20,12 @@ router.get('/products', function(req, res, next) {
   });
 });
 
+router.get('/product', function(req, res, next) {
+  res.render('product', {
+    access: req.session.email
+  });
+});
+
 router.get('/contact', function(req, res, next) {
   res.render('contact', {
     access: req.session.email
