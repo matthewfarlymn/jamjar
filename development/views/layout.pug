@@ -24,45 +24,53 @@ html
                                     a(href='/contact') Contact
                     div.col-xs-8.col-sm-6
                         ul.row.end-xs.middle-xs.secondary-nav
+                            li.search
+                                span.fa.fa-search
                             if access
-                                li.search
-                                    span.fa.fa-search
-                                li.dashboard
-                                    a(href='/dashboard')
-                                        img(src='img/avatar.jpg')
+                                if !userImage
+                                    li.user
+                                        a(href='/dashboard')
+                                            span.fa.fa-user
+                                else
+                                    li(style='background-image: url(img/" + userId + "/" + userImage");').user
+                                        a(href='/dashboard')
                                 li.sign-out
                                     a(href='/sign-out').button.pink Sign-Out
-                                li.cart
-                                    a(href='/shopping-cart')
-                                        span.fa.fa-shopping-cart
-                                li.options
-                                    span.fa.fa-ellipsis-v
                             else
-                                li.search
-                                    span.fa.fa-search
                                 li.sign-in
                                     a(href='/sign-in').button.pink Sign-In
-                                li.cart
-                                    a(href='/shopping-cart')
-                                        span.fa.fa-shopping-cart
-                                li.options
-                                    span.fa.fa-ellipsis-v
+                            li.cart
+                                a(href='/shopping-cart')
+                                    span.fa.fa-shopping-cart
+                            li.options
+                                span.fa.fa-ellipsis-v
             section.search-field
                 div.row.container
                     div.col-xs-12
                         form(action='/search' method='post')
                             input(type='search' name='search' placeholder='Search for keyword...')                
-            section.mobile-nav
-                nav.row.container
-                    ul.col-xs-12.primary-nav
-                        li
-                            a(href='/about') About
-                        li    
-                            a(href='/products') Products
-                        li    
-                            a(href='/contact') Contact
-                        li    
-                            a(href='/shopping-cart') Cart
+            if access
+                section.mobile-nav.access
+                    nav.row.container
+                        ul.col-xs-12.primary-nav
+                            li
+                                a(href='/about') About
+                            li    
+                                a(href='/products') Products
+                            li    
+                                a(href='/contact') Contact
+                            li
+                                a(href='/sign-out').button.pink Sign-Out
+            else 
+                section.mobile-nav
+                    nav.row.container
+                        ul.col-xs-12.primary-nav
+                            li
+                                a(href='/about') About
+                            li    
+                                a(href='/products') Products
+                            li    
+                                a(href='/contact') Contact
         block content
         block footer
             footer
