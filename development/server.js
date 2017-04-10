@@ -4,9 +4,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var mysql = require('mysql');
 
 var index = require('./routes/index');
 var user = require('./routes/user');
+var admin = require('./routes/admin');
 
 var app = express();
 
@@ -41,6 +43,8 @@ var access = function(req, res, next) {
 
 app.use('/user', access);
 app.use('/user', user);
+app.use('/admin', access);
+app.use('/admin', admin);
 app.use('/', index);
 
 // catch 404 and forward to error handler
