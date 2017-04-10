@@ -34,6 +34,10 @@ a {
     text-decoration: none;
 }
 
+p {
+    margin: 20px 0;
+}
+
 img {
     max-width: 100%;
     &.logo {
@@ -45,7 +49,7 @@ img {
     }
 }
 
-textarea, input, button {
+textarea, input, button, .slick-slide {
     outline: none;
     font-size: 16px;
 }
@@ -87,7 +91,7 @@ ul {
 
 form {
     margin-top: 30px;
-    input[type="text"], input[type="email"], input[type="password"], input[type="tel"], textarea {
+    input, textarea {
         display: block;
         width: 100%;
         margin: 5px 0 15px 0;
@@ -97,6 +101,8 @@ form {
     }
     input[type="checkbox"] {
         margin: 15px 5px 0 0;
+        display: inline-block;
+        width: auto;
     }
     textarea {
         resize: none;
@@ -370,6 +376,11 @@ section {
             }
         }
     }
+    img {
+        @include breakpoint(xs) {
+            margin-bottom: 20px;
+        }
+    }
 }
 
 .cta {
@@ -401,6 +412,54 @@ section {
             a {
                 display: block;
                 margin-top: 5px;
+            }
+        }
+    }
+}
+
+.product {
+    h2 {
+        span {
+            font-weight: normal;
+        }
+    }
+    form {
+        margin-top: 20px;
+        input {
+            width: 50px;
+            display: inline-block;
+            padding-right: 5px;
+            margin: 0 10px;
+            &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+               opacity: 1;
+            }
+        }
+    }
+    .product-slider {
+        @include breakpoint(xs) {
+            margin-bottom: 20px;
+        }
+        ul {
+            &.slick-dots {
+                display: flex;
+                justify-content:flex-start;
+                position: relative;
+                bottom: -5px;
+                padding: 0;
+                list-style: none;
+                li {
+                    height: auto;
+                    width: auto;
+                    margin: 5px;
+                    flex-basis: 20%;
+                    cursor: pointer;
+                    &:first-of-type {
+                        margin-left: 0;
+                    }
+                    &:last-of-type {
+                        margin-right: 0;
+                    }
+                }
             }
         }
     }

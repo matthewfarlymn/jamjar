@@ -22,4 +22,17 @@ jQuery(document).ready(function($) {
         nextArrow: false
     });
 
+    $(".product-slider").slick({
+        dots: true,
+        customPaging : function(slider, i) {
+            var thumb = $(slider.$slides[i]).data('thumb');
+            return '<a><img src="' + thumb + '"></a>';
+        },
+        speed: 100,
+      	fade: true,
+      	cssEase: 'linear',
+        prevArrow: null,
+        nextArrow: null,
+    });
+
 });
