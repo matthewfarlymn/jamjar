@@ -20,6 +20,11 @@ router.get('/contact', function(req, res, net) {
 
 router.get('/sign-in', function(req, res, net) {
 
+  console.log(req.session.msg);
+  console.log(req.session.email);
+  console.log(req.session.firstname);
+  console.log(req.session.lastname);
+
   var msg = req.session.msg ? req.session.msg : "";
   var email = req.session.email ? req.session.email : "";
   var firstname = req.session.firstname ? req.session.firstname : "";
@@ -31,7 +36,7 @@ router.get('/sign-in', function(req, res, net) {
   req.session.lastname = "";
 
     res.render('access', {
-      errorMessage: userMsg,
+      errorMessage: msg,
       email: email,
       firstName: firstname,
       lastName: lastname,
@@ -73,10 +78,12 @@ router.post('/register', function(req, res, next) {
         // fail - email exists
         else if (results.length !== 0) {
           console.log("Email already exists.");
+
+
           req.session.msg = "Email already in use.";
           req.session.email = email;
-          req.session.firstname = firstName;
-          req.session.lastname = lastName;
+          req.session.firstname = results[0].firstName;
+          req.session.lastname = results[0].lastName;
           // console.log(email);
           res.redirect('/sign-in');
         }
@@ -85,8 +92,8 @@ router.post('/register', function(req, res, next) {
           if (email.trim().length === 0) {
             console.log("Email field empty.");
             req.session.msg = "Please enter email.";
-            req.session.firstname = firstName;
-            req.session.lastname = lastName;
+            req.session.firstname = results[0].firstName;
+            req.session.lastname = results[0].lastName;
             res.redirect('/sign-in');
           }
           // fail - firstName not entered
@@ -94,7 +101,7 @@ router.post('/register', function(req, res, next) {
             console.log("firstName field empty.");
             req.session.msg = "Please enter firstname.";
             req.session.email = email;
-            req.session.lastname = lastName;
+            req.session.lastname = results[0].lastName;
             res.redirect('/sign-in');
           }
           // fail - lastName not entered
@@ -102,7 +109,7 @@ router.post('/register', function(req, res, next) {
             console.log("lastName field empty.");
             req.session.msg = "Please enter lastname.";
             req.session.email = email;
-            req.session.firstname = firstName;
+            req.session.firstname = results[0].firstName;
             res.redirect('/sign-in');
           }
           // fail - password not entered
@@ -110,8 +117,8 @@ router.post('/register', function(req, res, next) {
             console.log("Password field empty.");
             req.session.msg = "Please enter password.";
             req.session.email = email;
-            req.session.firstname = firstName;
-            req.session.lastname = lastName;
+            req.session.firstname = results[0].firstName;
+            req.session.lastname = results[0].lastName;
             res.redirect('/sign-in');
           }
           // fail - confirm password not entered
@@ -119,8 +126,8 @@ router.post('/register', function(req, res, next) {
             console.log("Re-enter password field empty.");
             req.session.msg = "Please re-enter password.";
             req.session.email = email;
-            req.session.firstname = firstName;
-            req.session.lastname = lastName;
+            req.session.firstname = results[0].firstName;
+            req.session.lastname = results[0].lastName;
             res.redirect('/sign-in');
           }
           // fail - password and confirm password do not match
@@ -128,8 +135,8 @@ router.post('/register', function(req, res, next) {
             console.log("Confirm field empty.");
             req.session.msg = "Password fields do not match. Please try again.";
             req.session.email = email;
-            req.session.firstname = firstName;
-            req.session.lastname = lastName;
+            req.session.firstname = results[0].firstName;
+            req.session.lastname = results[0].lastName;
             res.redirect('/sign-in');
           }
           else {
