@@ -158,7 +158,7 @@ header, footer {
             }
             @include breakpoint(xs) {
                 li {
-                    &.search {
+                    &.search, &.cart, &.sign-in, &.sign-out {
                         display: none;
                     }
                     &.user {
@@ -167,9 +167,6 @@ header, footer {
                         span {
                             font-size: 40px;
                         }
-                    }
-                    &.sign-out {
-                        display: none;
                     }
                     &.options {
                         display: inline-block;
@@ -181,7 +178,7 @@ header, footer {
             display: inline-block;
             margin-right: 20px;
             text-transform: capitalize;
-            &.options, &:last-of-type {
+            &.sign-in, &.sign-out, &.options, &:last-of-type {
                 margin: 0;
             }
             a {
@@ -291,17 +288,13 @@ section {
 .mobile-nav {
     padding: 20px 0;
     background-color: #cca677;
-    margin-top: -149px;
-    height: 109px;
+    margin-top: -255px;
+    height: 215px;
     transition: all 0.25s ease-in-out;
     font-size: 20px;
     display: none;
     position: relative;
     z-index: 0;
-    &.access {
-        margin-top: -212px;
-        height: 172px;
-    }
     &.show {
         margin-top: 0;
     }
@@ -319,6 +312,11 @@ section {
                 }
                 a {
                     color: #ffffff;
+                    span {
+                        &.fa-shopping-cart {
+                            margin-left: 10px;
+                        }
+                    }
                     &.button {
                         margin-right: 0;
                     }

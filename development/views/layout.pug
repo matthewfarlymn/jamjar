@@ -26,19 +26,20 @@ html
                         ul.row.end-xs.middle-xs.secondary-nav
                             li.search
                                 span.fa.fa-search
+                            li.cart
+                                a(href='/shopping-cart')
+                                    span.fa.fa-shopping-cart
                             if access
                                 li(style=userImage ? 'background-image: url(img/" + userId + "/" + userImage");' : '').user
                                     a(href='/dashboard')
                                         if !userImage
                                             span.fa.fa-user
-                                li.sign-out
+                            if access
+                                li.sign-in
                                     a(href='/sign-out').button.pink Sign-Out
                             else
-                                li.sign-in
+                                li.sign-out
                                     a(href='/sign-in').button.pink Sign-In
-                            li.cart
-                                a(href='/shopping-cart')
-                                    span.fa.fa-shopping-cart
                             li.options
                                 span.fa.fa-ellipsis-v
             section.search-field
@@ -46,7 +47,7 @@ html
                     div.col-xs-12
                         form(action='/search' method='post')
                             input(type='search' name='search' placeholder='Search for keyword...')                
-            section(class=access ? 'access' : '').mobile-nav
+            section.mobile-nav
                 nav.row.container
                     ul.col-xs-12.primary-nav
                         li
@@ -55,9 +56,15 @@ html
                             a(href='/products') Products
                         li    
                             a(href='/contact') Contact
+                        li    
+                            a(href='/shopping-cart') Shopping Cart
+                                span.fa.fa-shopping-cart
                         if access
                             li
                                 a(href='/sign-out').button.pink Sign-Out
+                        else
+                            li
+                                a(href='/sign-in').button.pink Sign-In
         block content
         block footer
             footer
