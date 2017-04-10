@@ -11,10 +11,10 @@ html
         block header
             header
                 div.row.middle-xs.container
-                    nav.col-xs-6
+                    nav.col-xs-4.col-sm-6
                         div.row.middle-xs
                             a(href='/')
-                                img(src='../img/logo.png' alt='Logo').logo
+                                img(src='img/logo.png' alt='Logo').logo
                             ul.primary-nav
                                 li
                                     a(href='/about') About
@@ -22,23 +22,47 @@ html
                                     a(href='/products') Products
                                 li    
                                     a(href='/contact') Contact
-                    div.col-xs-6
+                    div.col-xs-8.col-sm-6
                         ul.row.end-xs.middle-xs.secondary-nav
-                            li.search
-                                span.fa.fa-search
-                            li.sign-up
-                                a(href='/sign-in').button.pink Sign-In
-                            li.cart
-                                a(href='/shopping-cart')
-                                    span.fa.fa-shopping-cart
-                            li.options
-                                a(href='/')
+                            if access
+                                li.search
+                                    span.fa.fa-search
+                                li.dashboard
+                                    a(href='/dashboard')
+                                        img(src='img/avatar.jpg')
+                                li.sign-out
+                                    a(href='/sign-out').button.pink Sign-Out
+                                li.cart
+                                    a(href='/shopping-cart')
+                                        span.fa.fa-shopping-cart
+                                li.options
+                                    span.fa.fa-ellipsis-v
+                            else
+                                li.search
+                                    span.fa.fa-search
+                                li.sign-in
+                                    a(href='/sign-in').button.pink Sign-In
+                                li.cart
+                                    a(href='/shopping-cart')
+                                        span.fa.fa-shopping-cart
+                                li.options
                                     span.fa.fa-ellipsis-v
             section.search-field
                 div.row.container
                     div.col-xs-12
                         form(action='/search' method='post')
                             input(type='search' name='search' placeholder='Search for keyword...')                
+            section.mobile-nav
+                nav.row.container
+                    ul.col-xs-12.primary-nav
+                        li
+                            a(href='/about') About
+                        li    
+                            a(href='/products') Products
+                        li    
+                            a(href='/contact') Contact
+                        li    
+                            a(href='/shopping-cart') Cart
         block content
         block footer
             footer
@@ -51,12 +75,11 @@ html
                     div.col-xs-6
                         ul.row.end-xs.middle-xs
                             li
-                                a(href='/')
+                                a(href='http://facebook.com')
                                     span.fa.fa-facebook-official
                             li
-                                a(href='/')
-                                    span.fa.fa-twitter
-                            li
-                                a(href='/')
+                                a(href='http://linkedin.com')
                                     span.fa.fa-linkedin
-                                
+                            li
+                                a(href='http://twitter.com')
+                                    span.fa.fa-twitter

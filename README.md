@@ -1,2 +1,2 @@
 # Jam Jar
-Micro e-commerce platform built utilising React, Node and Flexbox.
+Micro e-commerce platform built utilizing Node, Express, Pug and Flexbox.
