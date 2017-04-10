@@ -27,11 +27,10 @@ html
                             li.search
                                 span.fa.fa-search
                             if access
-                                li(style=!userImage ? 'background-image: url(img/" + userId + "/" + userImage");' : '').user
-                                    li.user
-                                        a(href='/dashboard')
-                                            if !userImage
-                                                span.fa.fa-user
+                                li(style=userImage ? 'background-image: url(img/" + userId + "/" + userImage");' : '').user
+                                    a(href='/dashboard')
+                                        if !userImage
+                                            span.fa.fa-user
                                 li.sign-out
                                     a(href='/sign-out').button.pink Sign-Out
                             else
