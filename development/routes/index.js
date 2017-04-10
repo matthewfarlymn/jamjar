@@ -2,23 +2,36 @@ var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
 
-router.get('/', function(req, res, net) {
-    res.render('index');
+router.get('/', function(req, res, next) {
+    res.render('index', {
+      access: req.session.email
+    });
 });
 
-router.get('/about', function(req, res, net) {
-    res.render('about');
+router.get('/about', function(req, res, next) {
+  res.render('about', {
+    access: req.session.email
+  });
 });
 
-router.get('/products', function(req, res, net) {
-    res.render('products');
+router.get('/products', function(req, res, next) {
+  res.render('products', {
+    access: req.session.email
+  });
 });
 
-router.get('/contact', function(req, res, net) {
-    res.render('contact');
+router.get('/contact', function(req, res, next) {
+  res.render('contact', {
+    access: req.session.email
+  });
 });
 
-router.get('/sign-in', function(req, res, net) {
+router.get('/sign-out', function(req, res, next) {
+  req.session.destroy();
+  res.redirect('/');
+});
+
+router.get('/sign-in', function(req, res, next) {
 
   var msg = req.session.msg ? req.session.msg : "";
   var userEmail = req.session.userEmail ? req.session.userEmail : "";
@@ -67,8 +80,7 @@ router.post('/sign-in', function(req, res, next) {
         // successful login - id and password match
         else if ((results.length !== 0) && (password === results[0].password)) {
           console.log("Login successful!" + email);
-          req.session.userEmail = email;
-          // req.session.id = results.id;
+          req.session.email = email;
           res.redirect('/');
         }
         // fail login - email not entered
@@ -139,7 +151,6 @@ router.post('/register', function(req, res, next) {
           req.session.email = email;
           req.session.firstname = firstName;
           req.session.lastname = lastName;
-          // console.log(email);
           res.redirect('/sign-in');
         }
         else if (results.length === 0) {
