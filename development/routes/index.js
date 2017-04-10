@@ -3,6 +3,57 @@ var router = express.Router();
 var connect = require('../database/connect');
 
 router.get('/', function(req, res, next) {
+
+  var products = new Array();
+
+  connect(function(err, connection) {
+    if (err) {
+      console.log("Error connecting to the database");
+      throw err;
+    }
+    else {
+      console.log("Connected to the DB");
+
+      // connection.query('SELECT * FROM products WHERE email=?',[email], function(err, results, fields) {
+      connection.query('SELECT * FROM products',[], function(err, results, fields) {
+        connection.release();
+
+        console.log('Query returned ' + JSON.stringify(results));
+
+        if(err) {
+          throw err;
+        }
+        // no products found
+        else if (results.length === 0) {
+          console.log("no products found :(");
+          // req.session.email = email;
+          // res.redirect('/');
+        }
+        // products found
+        else {
+          console.log("products found :)");
+
+          for (var i=0; i<4; i++) {
+            var product = {};
+            product.id = results[i].id;
+            product.title = results[i].title;
+            product.description = results[i].description;
+            product.image1 = results[i].image1;
+
+            console.log(JSON.stringify(product));
+
+            products.push(product);
+          }
+
+          // req.session.email = email;
+          // res.redirect('/');
+        }
+      });
+    }
+  });
+
+
+
     res.render('index', {
       access: req.session.email
     });
@@ -15,12 +66,64 @@ router.get('/about', function(req, res, next) {
 });
 
 router.get('/products', function(req, res, next) {
+
+  // console.log("products");
+
+  var products = new Array();
+
+  connect(function(err, connection) {
+    if (err) {
+      console.log("Error connecting to the database");
+      throw err;
+    }
+    else {
+      console.log("Connected to the DB");
+
+      // connection.query('SELECT * FROM products WHERE email=?',[email], function(err, results, fields) {
+      connection.query('SELECT * FROM products',[], function(err, results, fields) {
+        connection.release();
+
+        console.log('Query returned ' + JSON.stringify(results));
+
+        if(err) {
+          throw err;
+        }
+        // no products found
+        else if (results.length === 0) {
+          console.log("no products found :(");
+          // req.session.email = email;
+          // res.redirect('/');
+        }
+        // products found
+        else {
+          console.log("products found :)");
+
+          for (var i=0; i<results.length; i++) {
+            var product = {};
+            product.id = results[i].id;
+            product.title = results[i].title;
+            product.description = results[i].description;
+            product.image1 = results[i].image1;
+
+            console.log(JSON.stringify(product));
+
+            products.push(product);
+          }
+
+          // req.session.email = email;
+          // res.redirect('/');
+        }
+      });
+    }
+  });
+
   res.render('products', {
     access: req.session.email
   });
 });
 
 router.get('/product', function(req, res, next) {
+
   res.render('product', {
     access: req.session.email
   });
