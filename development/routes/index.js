@@ -67,8 +67,7 @@ router.post('/sign-in', function(req, res, next) {
         // successful login - id and password match
         else if ((results.length !== 0) && (password === results[0].password)) {
           console.log("Login successful!" + email);
-          req.session.userEmail = email;
-          // req.session.id = results.id;
+          req.session.email = email;
           res.redirect('/');
         }
         // fail login - email not entered
@@ -139,7 +138,6 @@ router.post('/register', function(req, res, next) {
           req.session.email = email;
           req.session.firstname = firstName;
           req.session.lastname = lastName;
-          // console.log(email);
           res.redirect('/sign-in');
         }
         else if (results.length === 0) {
