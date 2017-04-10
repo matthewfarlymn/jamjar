@@ -3,6 +3,10 @@ extends layout
 block content
     main
         section.access
+            if errorMessage
+                div.row.center-xs.container
+                    div.col-xs-12.col-sm-12.col-md-8.error
+                        span #{errorMessage}
             div.row.center-xs.container
                 div.col-xs-12.col-sm-6.col-md-4.sign-in
                     h1 Sign-In
