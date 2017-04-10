@@ -12,9 +12,9 @@ block content
                     h1 Sign-In
                     form(action='/sign-in' method='post')
                         label(for='email') Email
-                        input(type='email' name='email' placeholder='Email')
+                        input(type='email' name='email' placeholder='Email' value=userEmail required)
                         label(for='password') Password
-                        input(type='password' name='password' placeholder='Password')
+                        input(type='password' name='password' placeholder='Password' required)
                         button(type='submit').button.pink Sign-In
                         br
                         input(type='checkbox' name='RememberMe')
@@ -24,11 +24,11 @@ block content
                     h1 Register
                     form(action='/register' method='post')
                         label(for='firstName') First Name
-                        input(type='text' name='firstName' placeholder='First Name' required)
+                        input(type='text' name='firstName' placeholder='First Name' value=firstName required)
                         label(for='lastName') Last Name
-                        input(type='text' name='lastName' placeholder='Last Name' required)
+                        input(type='text' name='lastName' placeholder='Last Name' value=lastName required)
                         label(for='email') Email
-                        input(type='email' name='email' placeholder='Email' required)
+                        input(type='email' name='email' placeholder='Email' value=email required)
                         label(for='password1') Password
                         input(type='password' name='password1' placeholder='Password' required)
                         label(for='password2') Re-enter Password
