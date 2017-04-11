@@ -38,6 +38,21 @@ router.get('/', function(req, res, next) {
                     for (var key in obj)
                         popularProducts.push(obj[key]);
 
+                    for (var i=0; i<results.length; i++) {
+                        var excerptLength = 75;
+                        var description = results[i].description;
+                        var excerpt = "";
+
+                        if (description.length > excerptLength) {
+                            excerpt = description.substring(0,excerptLength).trim() + '...';
+                        }
+                        else {
+                            excerpt = description;
+                        }
+
+                        results[i].excerpt = excerpt;
+                    }
+
                     popularProducts = popularProducts.slice(0,4);
 
                 }
@@ -47,18 +62,34 @@ router.get('/', function(req, res, next) {
             connection.query('SELECT * FROM products ORDER BY id DESC',[], function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
-                    if(err) {
-                        throw err;
+                if(err) {
+                    throw err;
+                }
+                // no products found
+                else if (results.length === 0) {
+                    console.log("No products found :(");
+                }
+                // products found
+                else {
+                    console.log("Products found :)");
+
+                    for (var i=0; i<results.length; i++) {
+                        var excerptLength = 75;
+                        var description = results[i].description;
+                        var excerpt = "";
+
+                        if (description.length > excerptLength) {
+                            excerpt = description.substring(0,excerptLength).trim() + '...';
+                        }
+                        else {
+                            excerpt = description;
+                        }
+
+                        results[i].excerpt = excerpt;
                     }
-                    // no products found
-                    else if (results.length === 0) {
-                        console.log("No products found :(");
-                    }
-                    // products found
-                    else {
-                        console.log("Products found :)");
-                        recentProducts = results.slice(0,4);
-                    }
+
+                    recentProducts = results.slice(0,4);
+                }
             });
         }
 
@@ -196,10 +227,10 @@ router.get('/product/:id/:title', function(req, res, next) {
                     details = results;
                     // console.log(results);
 
-                    if (results[0].color === null){
+                    if ((results[0].color === null) || (results[0].color === "")) {
                         colors = false;
                     }
-                    if (results[0].size === null){
+                    if ((results[0].size === null) || (results[0].size === "")) {
                         sizes = false;
                     }
 
@@ -232,6 +263,21 @@ router.get('/product/:id/:title', function(req, res, next) {
 
                     for (var key in obj)
                         popularProducts.push(obj[key]);
+
+                    for (var i=0; i<results.length; i++) {
+                        var excerptLength = 75;
+                        var description = results[i].description;
+                        var excerpt = "";
+
+                        if (description.length > excerptLength) {
+                            excerpt = description.substring(0,excerptLength).trim() + '...';
+                        }
+                        else {
+                            excerpt = description;
+                        }
+
+                        results[i].excerpt = excerpt;
+                    }
 
                     popularProducts = popularProducts.slice(0,4);
 
