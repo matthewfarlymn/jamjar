@@ -117,6 +117,7 @@ router.get('/about', function(req, res, next) {
     });
 });
 
+
 router.get('/products', function(req, res, next) {
 
     var products = '';
@@ -141,10 +142,26 @@ router.get('/products', function(req, res, next) {
                 }
                 // products found
                 else {
-                  console.log("products found :)");
-                  products = results;
+                    console.log("products found :)");
+
+                    for (var i=0; i<results.length; i++) {
+                        var excerptLength = 75;
+                        var description = results[i].description;
+                        var excerpt = "";
+
+                        if (description.length > excerptLength) {
+                          excerpt = description.substring(0,excerptLength).trim() + '...';
+                        }
+                        else {
+                          excerpt = description;
+                        }
+
+                        results[i].excerpt = excerpt;
+                    }
+
+                    products = results;
                 }
-          });
+            });
         }
 
         connection.commit(function(err) {
@@ -163,6 +180,7 @@ router.get('/products', function(req, res, next) {
         });
     });
 });
+
 
 router.get('/product/:id/:title', function(req, res, next) {
 
