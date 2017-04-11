@@ -1,0 +1,17 @@
+section.dashboard-nav
+    nav.row.center-xs.container
+        ul.col-xs-12.col-sm-8
+            if adminAccess
+                li
+                    a(href='/admin/profile') Profile
+                li    
+                    a(href='/admin/products') Products
+                li    
+                    a(href='/admin/users') Users
+                li    
+                    a(href='/admin/orders') Orders
+            else
+                li
+                    a(href='/user/profile') Profile
+                li    
+                    a(href='/user/orders') Orders

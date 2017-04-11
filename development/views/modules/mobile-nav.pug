@@ -1,0 +1,18 @@
+section.mobile-nav
+    nav.row.container
+        ul.col-xs-12.primary-nav
+            li
+                a(href='/about') About
+            li    
+                a(href='/products') Products
+            li    
+                a(href='/contact') Contact
+            li    
+                a(href='/shopping-cart') Shopping Cart
+                    span.fa.fa-shopping-cart
+            if access
+                li
+                    a(href='/sign-out').button.pink Sign-Out
+            else
+                li
+                    a(href='/sign-in').button.pink Sign-In

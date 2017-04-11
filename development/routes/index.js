@@ -539,4 +539,8 @@ router.post('/register', function(req, res, next) {
   });
 });
 
+router.get('/dashboard', function(req, res, next) {
+    res.render('profile');
+});
+
 module.exports = router;

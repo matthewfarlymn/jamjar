@@ -1,0 +1,35 @@
+header
+    div.row.middle-xs.container
+        nav.col-xs-4.col-sm-6
+            div.row.middle-xs
+                a(href='/')
+                    img(src='/img/logo.png' alt='Logo').logo
+                ul.primary-nav
+                    li
+                        a(href='/about') About
+                    li    
+                        a(href='/products') Products
+                    li    
+                        a(href='/contact') Contact
+        div.col-xs-8.col-sm-6
+            ul.row.end-xs.middle-xs.secondary-nav
+                li.search
+                    span.fa.fa-search
+                li.cart
+                    a(href='/shopping-cart')
+                        span.fa.fa-shopping-cart
+                if access
+                    li(style=userImage ? 'background-image: url(/img/" + userId + "/" + userImage");' : '').user
+                        a(href='/dashboard')
+                            if !userImage
+                                span.fa.fa-user
+                if access
+                    li.sign-in
+                        a(href='/sign-out').button.pink Sign-Out
+                else
+                    li.sign-out
+                        a(href='/sign-in').button.pink Sign-In
+                li.options
+                    span.fa.fa-ellipsis-v
+include ../modules/search-field
+include ../modules/mobile-nav
