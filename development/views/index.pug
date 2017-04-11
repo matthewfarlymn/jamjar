@@ -36,30 +36,13 @@ block content
                 div.col-xs-6.end-xs
                     a(href='/products').button.pink See All
             div.row.container
-                div.col-xs-12.col-sm-6.col-md-3
-                    div.product
-                        img(src='img/blueberry.jpg' alt='Blueberry')
-                        h3 Blueberry
-                        p Excerpt ipsum dolor sit amet sapien etiam, nunc amet dolor ac odio mauris justo
-                        a(href='/product') Learn More
-                div.col-xs-12.col-sm-6.col-md-3
-                    div.product
-                        img(src='img/blueberry.jpg' alt='Blueberry')
-                        h3 Blueberry
-                        p Excerpt ipsum dolor sit amet sapien etiam, nunc amet dolor ac odio mauris justo
-                        a(href='/product') Learn More
-                div.col-xs-12.col-sm-6.col-md-3
-                    div.product
-                        img(src='img/blueberry.jpg' alt='Blueberry')
-                        h3 Blueberry
-                        p Excerpt ipsum dolor sit amet sapien etiam, nunc amet dolor ac odio mauris justo
-                        a(href='/product') Learn More
-                div.col-xs-12.col-sm-6.col-md-3
-                    div.product
-                        img(src='img/blueberry.jpg' alt='Blueberry')
-                        h3 Blueberry
-                        p Excerpt ipsum dolor sit amet sapien etiam, nunc amet dolor ac odio mauris justo
-                        a(href='/product') Learn More
+                each product in popularProducts
+                    div.col-xs-12.col-sm-6.col-md-3
+                        div.product
+                            img(src=product.image)
+                            h3 #{product.title}
+                            p #{product.excerpt}
+                            a(href='/product/' + product.id) Learn More
         section.carousel.grey
             header.row.middle-xs.container
                 div.col-xs-6
@@ -67,30 +50,13 @@ block content
                 div.col-xs-6.end-xs
                     a(href='/products').button.pink See All
             div.row.container
-                div.col-xs-12.col-sm-6.col-md-3
-                    div.product
-                        img(src='img/blueberry.jpg' alt='Blueberry')
-                        h3 Blueberry
-                        p Excerpt ipsum dolor sit amet sapien etiam, nunc amet dolor ac odio mauris justo
-                        a(href='/product') Learn More
-                div.col-xs-12.col-sm-6.col-md-3
-                    div.product
-                        img(src='img/blueberry.jpg' alt='Blueberry')
-                        h3 Blueberry
-                        p Excerpt ipsum dolor sit amet sapien etiam, nunc amet dolor ac odio mauris justo
-                        a(href='/product') Learn More
-                div.col-xs-12.col-sm-6.col-md-3
-                    div.product
-                        img(src='img/blueberry.jpg' alt='Blueberry')
-                        h3 Blueberry
-                        p Excerpt ipsum dolor sit amet sapien etiam, nunc amet dolor ac odio mauris justo
-                        a(href='/product') Learn More
-                div.col-xs-12.col-sm-6.col-md-3
-                    div.product
-                        img(src='img/blueberry.jpg' alt='Blueberry')
-                        h3 Blueberry
-                        p Excerpt ipsum dolor sit amet sapien etiam, nunc amet dolor ac odio mauris justo
-                        a(href='/product') Learn More
+                each product in recentProducts
+                    div.col-xs-12.col-sm-6.col-md-3
+                        div.product
+                            img(src=product.image)
+                            h3 #{product.title}
+                            p #{product.excerpt}
+                            a(href='/product/' + product.id) Learn More
         section.cta.contact
             div.row.center-xs.container
                 div.col-xs-12.col-md-8
