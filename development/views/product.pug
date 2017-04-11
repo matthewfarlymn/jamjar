@@ -6,15 +6,41 @@ block content
             div.row.reverse.middle-xs.container
                 div.col-xs-12.col-sm-6
                     div.product-slider
-                        each image in productImages
-                            div(data-thumb='/img/' + image)
-                                img(src='/img/' + image)
+                        if product[0].image1 !== null
+                            div(data-thumb='/img/' + product[0].image1)
+                                img(src='/img/' + product[0].image1)
+                        if product[0].image2 !== null
+                            div(data-thumb='/img/' + product[0].image2)
+                                img(src='/img/' + product[0].image2)
+                        if product[0].image3 !== null
+                            div(data-thumb='/img/' + product[0].image3)
+                                img(src='/img/' + product[0].image3)
+                        if product[0].image4 !== null
+                            div(data-thumb='/img/' + product[0].image4)
+                                img(src='/img/' + product[0].image4)
+                        if product[0].image5 !== null
+                            div(data-thumb='/img/' + product[0].image5)
+                                img(src='/img/' + product[0].image5)
                 div.col-xs-12.col-sm-6
                     h1 #{product[0].title}
                     p #{product[0].description}
-                    h2 Price: 
-                        span $29.99
+                    h2 Price:
+                        span.price $25.00
                     form(action='/add-to-cart' method='post')
+                        select(id='size' name='size' required)
+                            option(value='' disabled='true') -- Size --
+                            option(value='50 mL' data-price='25.00' selected='true') 50 mL
+                            option(value='250 mL' data-price='75.00') 250 mL
+                            option(value='500 mL' data-price='150.00') 500 mL
+                            option(value='750 mL' data-price='375.00') 750 mL
+                            option(value='1 L' data-price='500.00') 1 L
+                        select(name='color' required)
+                            option(value='' selected='', disabled='true') -- Color --
+                            option(value='red') Red
+                            option(value='blue') Blue
+                            option(value='green') Green
+                            option(value='pink') Pink
+                            option(value='yellow') Yellow
                         label(for='quantity') Qty:
                         input(type='number' name='quantity' min='1' placeholder='0' value='1' required)
                         button(type='submit').button.pink Add to Cart   
@@ -30,7 +56,7 @@ block content
                         div.product
                             img(src='/img/' + product.image1)
                             h3 #{product.title}
-                            p #{product.excerpt}
+                            p #{product.description}
                             a(href='/product/' + product.id + '/' + product.title) Learn More
         section.cta.register
             div.row.center-xs.container

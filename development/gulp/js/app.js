@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
         nextArrow: false
     });
 
-    $(".product-slider").slick({
+    $('.product-slider').slick({
         dots: true,
         customPaging : function(slider, i) {
             var thumb = $(slider.$slides[i]).data('thumb');
@@ -33,6 +33,10 @@ jQuery(document).ready(function($) {
       	cssEase: 'linear',
         prevArrow: null,
         nextArrow: null,
+    });
+
+    $('#size').change(function() {
+        $('span.price').html('$' + $(this).find(':selected').data('price'));
     });
 
 });
