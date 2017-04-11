@@ -17,18 +17,18 @@ router.get('/', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
-                console.log('Query returned ' + JSON.stringify(results));
+                // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
                 }
                 // no products found
                 else if (results.length === 0) {
-                    console.log("no products found :(");
+                    console.log("No products found :(");
                 }
                 // products found
                 else {
-                    console.log("products found :)");
+                    console.log("Products found :)");
                     popularProducts = results;
 
                     var obj = {};
@@ -45,18 +45,18 @@ router.get('/', function(req, res, next) {
 
 
             connection.query('SELECT * FROM products ORDER BY id DESC',[], function(err, results, fields) {
-                console.log('Query returned ' + JSON.stringify(results));
+                // console.log('Query returned ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
                     }
                     // no products found
                     else if (results.length === 0) {
-                        console.log("no products found :(");
+                        console.log("No products found :(");
                     }
                     // products found
                     else {
-                        console.log("products found :)");
+                        console.log("Products found :)");
                         recentProducts = results.slice(0,4);
                     }
             });
@@ -99,8 +99,7 @@ router.get('/products', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM products ORDER BY id DESC',[], function(err, results, fields) {
-
-                console.log('Query returned ' + JSON.stringify(results));
+                // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
                   throw err;
@@ -151,7 +150,7 @@ router.get('/product/:id/:title', function(req, res, next) {
                 console.log("Connected to the DB");
 
                 connection.query('SELECT * FROM products WHERE id=? ',[req.params.id],function(err, results, fields) {
-                    console.log('Query returned ' + JSON.stringify(results));
+                    // console.log('Query returned ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
@@ -162,23 +161,42 @@ router.get('/product/:id/:title', function(req, res, next) {
                     }
                     // products found
                     else {
-                        console.log(results.title + "Product found");
+                        console.log(results[0].title + " product found");
                         product = results;
 
-                        for (var i=1; i<=5; i++) {
-                            var img = "image" + i;
-                            console.log(img);
-                            productImages[i] = results.img;
-                        }
-
-                        console.log(productImages);
-
+                        // for (var i=0; i<=4; i++) {
+                        //     // var str1 = "results[0].image";
+                        //     var result = this["results[0].image" + i];
+                        //     console.log(result);
+                        //
+                        //     productImages[i] = result;
+                        //     console.log(productImages[i]);
+                        // }
                     }
                 });
             }
 
+
+            connection.query('SELECT * FROM products WHERE id=? AND status="enabled"',[req.params.id],function(err, results, fields) {
+                // console.log('Query returned ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no products found
+                else if (results.length === 0) {
+                    console.log("Details not found");
+                }
+                // products found
+                else {
+                    console.log("Details product found");
+                    details = results;
+                }
+            });
+
+
             connection.query('SELECT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
-                console.log('Query returned ' + JSON.stringify(results));
+                // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -216,7 +234,7 @@ router.get('/product/:id/:title', function(req, res, next) {
                     res.render('product', {
                         access: req.session.email,
                         product: product,
-                        productImages: productImages,
+                        details: details,
                         popularProducts: popularProducts
                     });
                 }
@@ -276,8 +294,7 @@ router.post('/sign-in', function(req, res, next) {
 
       connection.query('SELECT * FROM users WHERE email=?',[email], function(err, results, fields) {
         connection.release();
-
-        console.log('Query returned ' + JSON.stringify(results));
+        // console.log('Query returned ' + JSON.stringify(results));
 
         if(err) {
           throw err;
@@ -340,8 +357,7 @@ router.post('/register', function(req, res, next) {
 
       connection.query('SELECT * FROM users WHERE email=?',[email], function(err, results, fields) {
         connection.release();
-
-        console.log('Query returned ' + JSON.stringify(results));
+        // console.log('Query returned ' + JSON.stringify(results));
 
         if(err) {
           throw err;
