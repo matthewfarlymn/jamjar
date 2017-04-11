@@ -4,154 +4,170 @@ var connect = require('../database/connect');
 
 router.get('/', function(req, res, next) {
 
-  var products = new Array();
+    var popularProducts = '';
+    var recentProducts = '';
 
-  connect(function(err, connection) {
-    if (err) {
-      console.log("Error connecting to the database");
-      throw err;
-    }
-    else {
-      console.log("Connected to the DB");
-
-      // connection.query('SELECT * FROM products WHERE email=?',[email], function(err, results, fields) {
-      connection.query('SELECT * FROM products',[], function(err, results, fields) {
-        connection.release();
-
-        console.log('Query returned ' + JSON.stringify(results));
-
-        if(err) {
-          throw err;
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
         }
-        // no products found
-        else if (results.length === 0) {
-          console.log("no products found :(");
-          // req.session.email = email;
-          // res.redirect('/');
-        }
-        // products found
         else {
-          console.log("products found :)");
+            console.log("Connected to the DB");
+            // connection.query('SELECT p.*, d.stock FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE EXISTS (SELECT MIN(d.stock) FROM product_details d WHERE p.id = d.productsId) ORDER BY d.stock',[],function(err, results, fields) {
+            // connection.query('SELECT DISTINCT(p.id), p.title, p.description, p.image1, d.stock FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE EXISTS (SELECT MIN(d.stock) FROM product_details d WHERE p.id = d.productsId) ORDER BY d.stock',[],function(err, results, fields) {
+            // connection.query('SELECT DISTINCT (d.productsId), p.id, p.title, p.description, p.image1, d.stock FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
+            connection.query('SELECT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
+                console.log('Query returned ' + JSON.stringify(results));
 
-          for (var i=0; i<4; i++) {
-            var product = {};
-            product.id = results[i].id;
-            product.title = results[i].title;
-            product.description = results[i].description;
-            product.image1 = results[i].image1;
+                if(err) {
+                    throw err;
+                }
+                // no products found
+                else if (results.length === 0) {
+                    console.log("no products found :(");
+                }
+                // products found
+                else {
+                    console.log("products found :)");
+                    // popularProducts = results.slice(0,4);
+                    popularProducts = results;
 
-            console.log(JSON.stringify(product));
+                    var obj = {};
+                    for ( var i=0; i < popularProducts.length; i++ )
+                        obj[popularProducts[i]['title']] = popularProducts[i];
 
-            products.push(product);
-          }
+                    popularProducts = new Array();
 
-          // req.session.email = email;
-          // res.redirect('/');
+                    for ( var key in obj )
+                        popularProducts.push(obj[key]);
+
+                    popularProducts = popularProducts.slice(0,4);
+
+                }
+            });
+
+
+            connection.query('SELECT * FROM products ORDER BY id DESC',[], function(err, results, fields) {
+                console.log('Query returned ' + JSON.stringify(results));
+
+                    if(err) {
+                        throw err;
+                    }
+                    // no products found
+                    else if (results.length === 0) {
+                        console.log("no products found :(");
+                    }
+                    // products found
+                    else {
+                        console.log("products found :)");
+                        recentProducts = results.slice(0,4);
+                    }
+            });
         }
-      });
-    }
-  });
 
-
-
-    res.render('index', {
-      access: req.session.email
+        connection.commit(function(err) {
+          connection.release();
+          if (err) {
+            connection.rollback(function() {
+              throw err;
+            });
+          }
+          else {
+            res.render('index', {
+              access: req.session.email,
+              popularProducts: popularProducts,
+              recentProducts: recentProducts
+            });
+          }
+        });
     });
 });
 
 router.get('/about', function(req, res, next) {
-  res.render('about', {
-    access: req.session.email
-  });
+    res.render('about', {
+        access: req.session.email
+    });
 });
 
 router.get('/products', function(req, res, next) {
 
-  // console.log("products");
+    var products = '';
 
-  var products = new Array();
-
-  connect(function(err, connection) {
-    if (err) {
-      console.log("Error connecting to the database");
-      throw err;
-    }
-    else {
-      console.log("Connected to the DB");
-
-      // connection.query('SELECT * FROM products WHERE email=?',[email], function(err, results, fields) {
-      connection.query('SELECT * FROM products',[], function(err, results, fields) {
-        connection.release();
-
-        console.log('Query returned ' + JSON.stringify(results));
-
-        if(err) {
-          throw err;
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
         }
-        // no products found
-        else if (results.length === 0) {
-          console.log("no products found :(");
-          // req.session.email = email;
-          // res.redirect('/');
-        }
-        // products found
         else {
-          console.log("products found :)");
+            console.log("Connected to the DB");
 
-          for (var i=0; i<results.length; i++) {
-            var product = {};
-            product.id = results[i].id;
-            product.title = results[i].title;
-            product.description = results[i].description;
-            product.image1 = results[i].image1;
+            connection.query('SELECT * FROM products ORDER BY id DESC',[], function(err, results, fields) {
 
-            console.log(JSON.stringify(product));
+                console.log('Query returned ' + JSON.stringify(results));
 
-            products.push(product);
-          }
-
-          // req.session.email = email;
-          // res.redirect('/');
+                if(err) {
+                  throw err;
+                }
+                // no products found
+                else if (results.length === 0) {
+                  console.log("no products found :(");
+                }
+                // products found
+                else {
+                  console.log("products found :)");
+                  products = results;
+                }
+          });
         }
-      });
-    }
-  });
 
-  res.render('products', {
-    access: req.session.email
-  });
+        connection.commit(function(err) {
+            connection.release();
+            if (err) {
+                connection.rollback(function() {
+                    throw err;
+                });
+            }
+            else {
+                res.render('products', {
+                    access: req.session.email,
+                    products: products
+                });
+            }
+        });
+    });
 });
 
 router.get('/product', function(req, res, next) {
 
-  res.render('product', {
-    access: req.session.email
-  });
+    res.render('product', {
+        access: req.session.email
+    });
 });
 
 router.get('/contact', function(req, res, next) {
-  res.render('contact', {
-    access: req.session.email
-  });
+    res.render('contact', {
+        access: req.session.email
+    });
 });
 
 router.get('/sign-out', function(req, res, next) {
-  req.session.destroy();
-  res.redirect('/');
+    req.session.destroy();
+    res.redirect('/');
 });
 
 router.get('/sign-in', function(req, res, next) {
 
-  var msg = req.session.msg ? req.session.msg : "";
-  var userEmail = req.session.userEmail ? req.session.userEmail : "";
-  var email = req.session.email ? req.session.email : "";
-  var firstname = req.session.firstname ? req.session.firstname : "";
-  var lastname = req.session.lastname ? req.session.lastname : "";
+    var msg = req.session.msg ? req.session.msg : "";
+    var userEmail = req.session.userEmail ? req.session.userEmail : "";
+    var email = req.session.email ? req.session.email : "";
+    var firstname = req.session.firstname ? req.session.firstname : "";
+    var lastname = req.session.lastname ? req.session.lastname : "";
 
-  req.session.msg = "";
-  req.session.email = "";
-  req.session.firstname = "";
-  req.session.lastname = "";
+    req.session.msg = "";
+    req.session.email = "";
+    req.session.firstname = "";
+    req.session.lastname = "";
 
   res.render('access', {
       errorMessage: msg,
