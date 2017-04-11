@@ -25,22 +25,16 @@ block content
                     h1 #{product[0].title}
                     p #{product[0].description}
                     h2 Price:
-                        span.price $25.00
+                        span.price $#{details[0].price}
                     form(action='/add-to-cart' method='post')
                         select(id='size' name='size' required)
-                            option(value='' disabled='true') -- Size --
-                            option(value='50 mL' data-price='25.00' selected='true') 50 mL
-                            option(value='250 mL' data-price='75.00') 250 mL
-                            option(value='500 mL' data-price='150.00') 500 mL
-                            option(value='750 mL' data-price='375.00') 750 mL
-                            option(value='1 L' data-price='500.00') 1 L
+                            option(value='' selected='true' disabled='true') -- Select Size --
+                            each detail in details
+                                option(value=detail.size data-price=detail.price) #{detail.size}
                         select(name='color' required)
-                            option(value='' selected='', disabled='true') -- Color --
-                            option(value='red') Red
-                            option(value='blue') Blue
-                            option(value='green') Green
-                            option(value='pink') Pink
-                            option(value='yellow') Yellow
+                            option(value='' selected='true' disabled='true') -- Select Color --
+                            each detail in details
+                                option(value=detail.color) #{detail.color}
                         label(for='quantity') Qty:
                         input(type='number' name='quantity' min='1' placeholder='0' value='1' required)
                         button(type='submit').button.pink Add to Cart   
