@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
 
+
 router.get('/', function(req, res, next) {
 
     var popularProducts = '';
@@ -14,9 +15,7 @@ router.get('/', function(req, res, next) {
         }
         else {
             console.log("Connected to the DB");
-            // connection.query('SELECT p.*, d.stock FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE EXISTS (SELECT MIN(d.stock) FROM product_details d WHERE p.id = d.productsId) ORDER BY d.stock',[],function(err, results, fields) {
-            // connection.query('SELECT DISTINCT(p.id), p.title, p.description, p.image1, d.stock FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE EXISTS (SELECT MIN(d.stock) FROM product_details d WHERE p.id = d.productsId) ORDER BY d.stock',[],function(err, results, fields) {
-            // connection.query('SELECT DISTINCT (d.productsId), p.id, p.title, p.description, p.image1, d.stock FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
+
             connection.query('SELECT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
                 console.log('Query returned ' + JSON.stringify(results));
 
@@ -30,16 +29,13 @@ router.get('/', function(req, res, next) {
                 // products found
                 else {
                     console.log("products found :)");
-                    // popularProducts = results.slice(0,4);
                     popularProducts = results;
 
                     var obj = {};
-                    for ( var i=0; i < popularProducts.length; i++ )
-                        obj[popularProducts[i]['title']] = popularProducts[i];
+                    for (var i=0; i < popularProducts.length; i++)
+                        obj[popularProducts[i].title] = popularProducts[i];
 
-                    popularProducts = new Array();
-
-                    for ( var key in obj )
+                    for (var key in obj)
                         popularProducts.push(obj[key]);
 
                     popularProducts = popularProducts.slice(0,4);
@@ -138,11 +134,84 @@ router.get('/products', function(req, res, next) {
     });
 });
 
-router.get('/product', function(req, res, next) {
+router.get('/product/:id/:title', function(req, res, next) {
 
-    res.render('product', {
-        access: req.session.email
-    });
+    var product = '';
+    var popularProducts = '';
+
+    if (req.params.id) {
+
+        connect(function(err, connection) {
+            if (err) {
+                console.log("Error connecting to the database");
+                throw err;
+            }
+            else {
+                console.log("Connected to the DB");
+
+                connection.query('SELECT * FROM products WHERE id=? ',[req.params.id],function(err, results, fields) {
+                    console.log('Query returned ' + JSON.stringify(results));
+
+                    if(err) {
+                        throw err;
+                    }
+                    // no products found
+                    else if (results.length === 0) {
+                        console.log("Product not found");
+                    }
+                    // products found
+                    else {
+                        console.log(results.title + "Product found");
+                        product = results
+                    }
+                });
+            }
+
+            connection.query('SELECT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
+                console.log('Query returned ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no products found
+                else if (results.length === 0) {
+                    console.log("no products found :(");
+                }
+                // products found
+                else {
+                    console.log("products found :)");
+                    // popularProducts = results.slice(0,4);
+                    popularProducts = results;
+
+                    var obj = {};
+                    for (var i=0; i < popularProducts.length; i++)
+                        obj[popularProducts[i].title] = popularProducts[i];
+
+                    for (var key in obj)
+                        popularProducts.push(obj[key]);
+
+                    popularProducts = popularProducts.slice(0,4);
+
+                }
+            });
+
+            connection.commit(function(err) {
+              connection.release();
+              if (err) {
+                connection.rollback(function() {
+                  throw err;
+                });
+              }
+              else {
+                res.render('product', {
+                  access: req.session.email,
+                  product: product,
+                  popularProducts: popularProducts
+                });
+              }
+            });
+        });
+    }
 });
 
 router.get('/contact', function(req, res, next) {
