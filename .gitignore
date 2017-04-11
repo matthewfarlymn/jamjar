@@ -1,5 +1,6 @@
 /development/node_modules
 /development/.env
+/development/npm-debug.log
 
 /old_development/back-end/node_modules
 /old_development/front-end/node_modules

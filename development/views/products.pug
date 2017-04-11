@@ -10,10 +10,10 @@ block content
                 each product in products 
                     div.col-xs-12.col-sm-6.col-md-3
                         div.product
-                            img(src='../img/' + product.image1)
+                            img(src='/img/' + product.image1)
                             h3 #{product.title}
                             p #{product.description}
-                            a(href='/product/' + product.id) Learn More
+                            a(href='/product/' + product.id + '/' + product.title) Learn More
         section.cta.register
             div.row.center-xs.container
                 div.col-xs-12.col-md-8

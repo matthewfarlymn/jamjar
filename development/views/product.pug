@@ -6,19 +6,12 @@ block content
             div.row.reverse.middle-xs.container
                 div.col-xs-12.col-sm-6
                     div.product-slider
-                        div(data-thumb='../img/blueberry.jpg')
-                            img(src='../img/blueberry.jpg')
-                        div(data-thumb='../img/strawberry.jpg')
-                            img(src='../img/strawberry.jpg')
-                        //- div(data-thumb='../img/pineapple.jpg')
-                        //-     img(src='../img/pineapple.jpg')
-                        //- div(data-thumb='../img/apple.jpg')
-                        //-     img(src='../img/apple.jpg')
-                        //- div(data-thumb='../img/raspberry.jpg')
-                        //-     img(src='../img/raspberry.jpg')
+                        each image in productImages
+                            div(data-thumb='/img/' + image)
+                                img(src='/img/' + image)
                 div.col-xs-12.col-sm-6
-                    h1 Blueberry's Back
-                    p Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi mattis pariatur aliquam pharetra eget.
+                    h1 #{product[0].title}
+                    p #{product[0].description}
                     h2 Price: 
                         span $29.99
                     form(action='/add-to-cart' method='post')
@@ -35,10 +28,10 @@ block content
                 each product in popularProducts
                     div.col-xs-12.col-sm-6.col-md-3
                         div.product
-                            img(src='../img/' + product.image1)
+                            img(src='/img/' + product.image1)
                             h3 #{product.title}
                             p #{product.excerpt}
-                            a(href='/product/' + product.id) Learn More
+                            a(href='/product/' + product.id + '/' + product.title) Learn More
         section.cta.register
             div.row.center-xs.container
                 div.col-xs-12.col-md-8
