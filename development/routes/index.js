@@ -177,7 +177,7 @@ router.get('/product/:id/:title', function(req, res, next) {
             }
 
 
-            connection.query('SELECT * FROM product_details WHERE id=? AND status="enabled"',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT * FROM product_details WHERE productsId=? AND status="enabled" ORDER BY price',[req.params.id],function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
@@ -191,6 +191,7 @@ router.get('/product/:id/:title', function(req, res, next) {
                 else {
                     console.log("Details product found");
                     details = results;
+                    // console.log(results);
                 }
             });
 
