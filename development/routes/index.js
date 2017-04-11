@@ -137,6 +137,8 @@ router.get('/product/:id/:title', function(req, res, next) {
 
     var product = '';
     var details = '';
+    var colors = true;
+    var sizes = true;
     var popularProducts = '';
 
     if (req.params.id) {
@@ -178,6 +180,7 @@ router.get('/product/:id/:title', function(req, res, next) {
 
 
             connection.query('SELECT * FROM product_details WHERE productsId=? AND status="enabled" ORDER BY price',[req.params.id],function(err, results, fields) {
+            // connection.query('SELECT id, productsId, size, color, stock, CONCAT(price), salePrice, status, date FROM product_details WHERE productsId=? AND status="enabled" ORDER BY price',[req.params.id],function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
@@ -192,6 +195,17 @@ router.get('/product/:id/:title', function(req, res, next) {
                     console.log("Details product found");
                     details = results;
                     // console.log(results);
+
+                    if (results[0].color === null){
+                        colors = false;
+                    }
+                    if (results[0].size === null){
+                        sizes = false;
+                    }
+
+                    // console.log(colorset + " " + sizeset);
+
+
                 }
             });
 
@@ -236,6 +250,8 @@ router.get('/product/:id/:title', function(req, res, next) {
                         access: req.session.email,
                         product: product,
                         details: details,
+                        colors: colors,
+                        sizes: sizes,
                         popularProducts: popularProducts
                     });
                 }
