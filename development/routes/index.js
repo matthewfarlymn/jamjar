@@ -136,7 +136,7 @@ router.get('/products', function(req, res, next) {
 router.get('/product/:id/:title', function(req, res, next) {
 
     var product = '';
-    var productImages = [];
+    var details = '';
     var popularProducts = '';
 
     if (req.params.id) {
@@ -177,7 +177,7 @@ router.get('/product/:id/:title', function(req, res, next) {
             }
 
 
-            connection.query('SELECT * FROM products WHERE id=? AND status="enabled"',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT * FROM product_details WHERE id=? AND status="enabled"',[req.params.id],function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
