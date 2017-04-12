@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'assets')));
 
 var access = function(req, res, next) {
     if ((!req.session.email)) {
-        res.redirect('/');
+        res.redirect('/sign-in');
     } else {
         next();
     }
