@@ -20,7 +20,7 @@ header
                         span.fa.fa-shopping-cart
                 if access
                     li(style=avatar ? 'background-image: url(/img/" + userId + "/" + userImage");' : '').user
-                        a(href=admin ? '/admin/dashboard' : '/user/dashboard')
+                        a(href=admin ? '/admin/dashboard/profile' : '/user/dashboard/profile')
                             if !userImage
                                 span.fa.fa-user
                 if access

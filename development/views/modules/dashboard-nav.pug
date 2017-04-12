@@ -4,17 +4,12 @@ header.row.center-xs.container
 div.navigation
     nav.row.center-xs.container
         ul.col-xs-12.col-md-8
+            li
+                a(class=profile ? 'active' : '' href=admin ? '/admin/dashboard/profile' : '/user/dashboard/profile') Profile
+            li    
+                a(class=products ? 'active' : '' href=admin ? '/admin/dashboard/products' : '/user/dashboard/products') Products
             if admin
-                li
-                    a(href='/admin/profile') Profile
                 li    
-                    a(href='/admin/products') Products
+                    a(class=users ? 'active' : '' href='/admin/dashboard/users') Users
                 li    
-                    a(href='/admin/users') Users
-                li    
-                    a(href='/admin/orders') Orders
-            else
-                li
-                    a(href='/user/profile') Profile
-                li    
-                    a(href='/user/orders') Orders
+                    a(class=orders ? 'active' : '' href='/admin/dashboard/orders') Orders
