@@ -5,10 +5,10 @@ div.navigation
     nav.row.center-xs.container
         ul.col-xs-12.col-md-8
             li
-                a(class=profile ? 'active' : '' href=admin ? '/admin/dashboard/profile' : '/user/dashboard/profile') Profile
+                a(class=profile ? 'active' : '' href=owner ? '/admin/dashboard/profile' : '/user/dashboard/profile') Profile
             li    
-                a(class=orders ? 'active' : '' href=admin ? '/admin/dashboard/orders' : '/user/dashboard/orders') Orders
-            if admin
+                a(class=orders ? 'active' : '' href=owner ? '/admin/dashboard/orders' : '/user/dashboard/orders') Orders
+            if owner
                 li    
                     a(class=products ? 'active' : '' href='/admin/dashboard/products') Products
                 li    
