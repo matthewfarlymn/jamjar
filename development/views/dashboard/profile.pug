@@ -24,7 +24,7 @@ block content
                                 label(for='phoneNumber') Phone Number
                                 input(type='tel' name='phoneNumber' placeholder='0123456789' value=phoneNumber)
                                 label(for='avatar') Avatar
-                                span(style=avatar ? 'background-image: url(/img/" + userId + "/" + avatar");' : '').user
+                                span(style=avatar ? 'background-image: url(/img/' + userId + '/' + avatar + ');' : '').user
                                     input(type='file' name='avatar')
                                     if !avatar
                                         span.fa.fa-user

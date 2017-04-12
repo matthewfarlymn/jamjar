@@ -2,8 +2,14 @@ var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
 
+// var session = '';
+
 
 router.get('/', function(req, res, next) {
+
+    // if (!session) {
+    //     session = req.session.id;
+    // }
 
     var popularProducts = '';
     var recentProducts = '';
@@ -16,7 +22,7 @@ router.get('/', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
+                connection.query('SELECT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
@@ -104,6 +110,8 @@ router.get('/', function(req, res, next) {
             res.render('index', {
                 access: req.session.user,
                 owner: req.session.admin,
+                userId: req.session.userId,
+                avatar: req.session.avatar,
                 popularProducts: popularProducts,
                 recentProducts: recentProducts
             });
@@ -115,7 +123,9 @@ router.get('/', function(req, res, next) {
 router.get('/about', function(req, res, next) {
     res.render('about', {
         access: req.session.user,
-        owner: req.session.admin
+        owner: req.session.admin,
+        userId: req.session.userId,
+        avatar: req.session.avatar
     });
 });
 
@@ -131,7 +141,6 @@ router.get('/products', function(req, res, next) {
         }
         else {
             console.log("Connected to the DB");
-
             connection.query('SELECT * FROM products ORDER BY id DESC',[], function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
@@ -177,6 +186,8 @@ router.get('/products', function(req, res, next) {
                 res.render('products', {
                     access: req.session.user,
                     owner: req.session.admin,
+                    userId: req.session.userId,
+                    avatar: req.session.avatar,
                     products: products
                 });
             }
@@ -316,6 +327,8 @@ router.get('/product/:id/:title', function(req, res, next) {
                     res.render('product', {
                         access: req.session.user,
                         owner: req.session.admin,
+                        userId: req.session.userId,
+                        avatar: req.session.avatar,
                         product: product,
                         details: details,
                         colors: colors,
@@ -331,7 +344,9 @@ router.get('/product/:id/:title', function(req, res, next) {
 router.get('/contact', function(req, res, next) {
     res.render('contact', {
         access: req.session.user,
-        owner: req.session.admin
+        owner: req.session.admin,
+        userId: req.session.userId,
+        avatar: req.session.avatar
     });
 });
 
@@ -342,24 +357,30 @@ router.get('/sign-out', function(req, res, next) {
 
 router.get('/sign-in', function(req, res, next) {
 
-    var msg = req.session.msg ? req.session.msg : "";
-    var email = req.session.email ? req.session.email : "";
-    var user = req.session.user ? req.session.user : "";
-    var firstname = req.session.firstname ? req.session.firstname : "";
-    var lastname = req.session.lastname ? req.session.lastname : "";
+    if (!req.session.user) {
 
-    req.session.msg = "";
-    req.session.user = "";
-    req.session.firstname = "";
-    req.session.lastname = "";
+        var msg = req.session.msg ? req.session.msg : "";
+        var email = req.session.email ? req.session.email : "";
+        var user = req.session.user ? req.session.user : "";
+        var firstname = req.session.firstname ? req.session.firstname : "";
+        var lastname = req.session.lastname ? req.session.lastname : "";
 
-  res.render('access', {
-        errorMessage: msg,
-        email: email,
-        user: user,
-        firstName: firstname,
-        lastName: lastname,
-    });
+        req.session.msg = "";
+        req.session.user = "";
+        req.session.firstname = "";
+        req.session.lastname = "";
+
+        res.render('access', {
+            errorMessage: msg,
+            email: email,
+            user: user,
+            firstName: firstname,
+            lastName: lastname
+        });
+    }
+    else {
+        res.redirect('/');
+    }
 });
 
 // sign-in user
@@ -395,7 +416,7 @@ router.post('/sign-in', function(req, res, next) {
                 req.session.admin = 'admin';
             }
 
-            res.redirect('/');
+            res.redirect('/user-session');
         }
         // fail login - email not entered
         else if (email.trim().length === 0) {
@@ -536,7 +557,7 @@ router.post('/register', function(req, res, next) {
                   else {
                     console.log("Register and login successful. " + email);
                     req.session.user = email;
-                    res.redirect('/');
+                    res.redirect('/user-session');
                   }
                 });
               }
@@ -548,8 +569,60 @@ router.post('/register', function(req, res, next) {
   });
 });
 
-router.get('/dashboard', function(req, res, next) {
-    res.render('profile');
+router.get('/user-session', function(req, res, next) {
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            connection.query('SELECT * FROM users WHERE email=?',[req.session.user],function(err, results, fields) {
+                console.log('Query returned ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no user found
+                else if (results.length === 0) {
+                    console.log("User not found");
+                }
+                // user found
+                else {
+                    console.log("User found");
+                    console.log(results[0].firstName);
+
+                    req.session.userId = results[0].id;
+                    req.session.firstName = results[0].firstName;
+                    req.session.lastName = results[0].lastName;
+                    req.session.address1 = results[0].address1;
+                    req.session.address2 = results[0].address2;
+                    req.session.city = results[0].city;
+                    req.session.province = results[0].province;
+                    req.session.postalcode = results[0].postalcode;
+                    req.session.country = results[0].country;
+                    req.session.user = results[0].email;
+                    req.session.phoneNumber = results[0].phoneNumber;
+                    req.session.avatar = results[0].avatar;
+
+                }
+            });
+            connection.commit(function(err) {
+                connection.release();
+                if (err) {
+                    connection.rollback(function() {
+                        throw err;
+                    });
+                }
+                else {
+                    res.redirect('/');
+
+                }
+            });
+
+        }
+    });
 });
 
 module.exports = router;

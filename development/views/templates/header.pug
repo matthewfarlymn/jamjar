@@ -19,7 +19,7 @@ header
                     a(href='/shopping-cart')
                         span.fa.fa-shopping-cart
                 if access
-                    li(style=avatar ? 'background-image: url(/img/" + userId + "/" + avatar");' : '').user
+                    li(style=avatar ? 'background-image: url(/img/' + userId + '/' + avatar + ');' : '').user
                         a(href=owner ? '/admin/dashboard/profile' : '/user/dashboard/profile')
                             if !avatar
                                 span.fa.fa-user

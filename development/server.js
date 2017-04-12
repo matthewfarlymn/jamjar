@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'assets')));
 
 var access = function(req, res, next) {
-    if ((!req.session.user)) {
+    if (!req.session.user) {
         res.redirect('/sign-in');
     } else {
         next();
@@ -42,7 +42,7 @@ var access = function(req, res, next) {
 };
 
 var owner = function(req, res, next) {
-    if ((!req.session.admin)) {
+    if (!req.session.admin) {
         res.redirect('/sign-in');
     } else {
         next();

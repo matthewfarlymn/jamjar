@@ -53,6 +53,7 @@ router.get('/dashboard/profile', function(req, res, next) {
                     console.log("User found");
                     console.log(results[0].firstName);
 
+                    userId = req.session.userId = results[0].id;
                     firstName = req.session.firstName = results[0].firstName;
                     lastName = req.session.lastName = results[0].lastName;
                     address1 = req.session.address1 = results[0].address1;
@@ -63,7 +64,7 @@ router.get('/dashboard/profile', function(req, res, next) {
                     country = req.session.country = results[0].country;
                     email = req.session.user = results[0].email;
                     phoneNumber = req.session.phoneNumber = results[0].phoneNumber;
-                    req.session.avatar = results[0].avatar;
+                    avatar = req.session.avatar = results[0].avatar;
 
                 }
             });
@@ -82,6 +83,7 @@ router.get('/dashboard/profile', function(req, res, next) {
                 res.render('dashboard/profile', {
                     access: req.session.user,
                     profile: true,
+                    userId: userId,
                     firstName: firstName,
                     lastName: lastName,
                     address1: address1,
