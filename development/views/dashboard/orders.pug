@@ -1,9 +1,9 @@
-extends templates/layout
+extends ../templates/layout
 
 block content
     main
         section.dashboard
-            include modules/dashboard-nav
+            include ../modules/dashboard-nav
         section.orders
             if errorMessage
                 div.row.center-xs.container
