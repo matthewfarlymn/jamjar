@@ -34,7 +34,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'assets')));
 
 var access = function(req, res, next) {
-    if ((!req.session.email)) {
+    if ((!req.session.user)) {
+        res.redirect('/sign-in');
+    } else {
+        next();
+    }
+};
+
+var owner = function(req, res, next) {
+    if ((!req.session.admin)) {
         res.redirect('/sign-in');
     } else {
         next();
@@ -43,7 +51,7 @@ var access = function(req, res, next) {
 
 app.use('/user', access);
 app.use('/user', user);
-app.use('/admin', access);
+app.use('/admin', owner);
 app.use('/admin', admin);
 app.use('/', index);
 
@@ -62,7 +70,7 @@ app.use(function(err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error', {
-        access: req.session.email
+        access: req.session.user
     });
 });
 

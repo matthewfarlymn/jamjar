@@ -5,16 +5,109 @@ var connect = require('../database/connect');
 
 router.get('/dashboard/profile', function(req, res, next) {
 
-    res.render('profile', {
-        access: req.session.email,
-        profile: true
-    });
+    var firstName = req.session.firstName ? req.session.firstName : "";
+    var lastName = req.session.lastName ? req.session.lastName : "";
+    var address1 = req.session.address1 ? req.session.address1 : "";
+    var address2 = req.session.address2 ? req.session.address2 : "";
+    var city = req.session.city ? req.session.city : "";
+    var postalcode = req.session.postalcode ? req.session.postalcode : "";
+    var country = req.session.country ? req.session.country : "";
+    var email = req.session.user ? req.session.user : "";
+    var phoneNumber = req.session.phoneNumber ? req.session.phoneNumber : "";
+    var avatar = req.session.avatar ? req.session.avatar : "";
+
+    req.session.firstname = "";
+    req.session.lastname = "";
+    req.session.address1 = "";
+    req.session.address2 = "";
+    req.session.city = "";
+    req.session.postalcode = "";
+    req.session.country = "";
+    // req.session.user = "";
+    req.session.phonenumber = "";
+    req.session.avatar = "";
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            connection.query('SELECT * FROM users WHERE email=?',[req.session.user],function(err, results, fields) {
+                console.log('Query returned ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no user found
+                else if (results.length === 0) {
+                    console.log("User not found");
+                }
+                // user found
+                else {
+                    console.log("User found");
+                    console.log(results[0].firstName);
+
+                    req.body.firstName = results[0].firstName;
+                    req.body.lastName = results[0].lastName;
+                    results[0].address1 = req.body.address1;
+                    results[0].address2 = req.body.address1;
+                    results[0].city = req.body.city;
+                    results[0].postalcode = req.body.postalcode;
+                    results[0].country = req.body.country;
+                    results[0].email = req.body.email;
+                    results[0].phoneNumber = req.body.phoneNumber;
+                    results[0].password1 = req.body.password1;
+                    results[0].password2 = req.body.password2;
+                    results[0].password3 = req.body.password3;
+                    results[0].avatar = req.body.avatar;
+
+                    // user = results;
+                }
+            });
+
+        }
+
+        connection.commit(function(err) {
+            connection.release();
+            if (err) {
+                connection.rollback(function() {
+                    throw err;
+                });
+            }
+            else {
+
+                res.render('access', {
+                  errorMessage: msg,
+                  userEmail: userEmail,
+                  email: email,
+                  firstName: firstname,
+                  lastName: lastname,
+                });
+
+
+                res.render('profile', {
+                    access: req.session.user,
+                    profile: true,
+                    user: user
+                });
+
+            }
+        });
+    })
+
+    // res.render('profile', {
+    //     access: req.session.user,
+    //     profile: true
+    // });
 });
 
 router.get('/dashboard/orders', function(req, res, next) {
 
     res.render('orders', {
-        access: req.session.email,
+        access: req.session.user,
         orders: true
     });
 });
@@ -31,7 +124,7 @@ router.get('/update-profile', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM users WHERE email=?',[req.session.email],function(err, results, fields) {
+            connection.query('SELECT * FROM users WHERE email=?',[req.session.user],function(err, results, fields) {
                 console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
@@ -45,19 +138,19 @@ router.get('/update-profile', function(req, res, next) {
                 else {
                     console.log("User found");
 
-                    resutls[0].firstName = req.body.firstName;
-                    resutls[0].lastName = req.body.lastName;
-                    resutls[0].address1 = req.body.address1;
-                    resutls[0].address2 = req.body.address1;
-                    resutls[0].city = req.body.city;
-                    resutls[0].postalcode = req.body.postalcode;
-                    resutls[0].country = req.body.country;
-                    resutls[0].email = req.body.email;
-                    resutls[0].phoneNumber = req.body.phoneNumber;
-                    resutls[0].password1 = req.body.password1;
-                    resutls[0].password2 = req.body.password2;
-                    resutls[0].password3 = req.body.password3;
-                    resutls[0].avatar = req.body.avatar;
+                    results[0].firstName = req.body.firstName;
+                    results[0].lastName = req.body.lastName;
+                    results[0].address1 = req.body.address1;
+                    results[0].address2 = req.body.address1;
+                    results[0].city = req.body.city;
+                    results[0].postalcode = req.body.postalcode;
+                    results[0].country = req.body.country;
+                    results[0].email = req.body.email;
+                    results[0].phoneNumber = req.body.phoneNumber;
+                    results[0].password1 = req.body.password1;
+                    results[0].password2 = req.body.password2;
+                    results[0].password3 = req.body.password3;
+                    results[0].avatar = req.body.avatar;
 
 
                     user = results;
@@ -75,7 +168,7 @@ router.get('/update-profile', function(req, res, next) {
             }
             else {
                 res.render('dashboard', {
-                    access: req.session.email,
+                    access: req.session.user,
                     user: user
                 });
             }
@@ -129,7 +222,7 @@ router.get('/update-profile', function(req, res, next) {
 //                 }
 //                 else {
 //                     res.render('selectUser', {
-//                         access: req.session.email,
+//                         access: req.session.user,
 //                         user: user
 //                     });
 //                 }
@@ -187,7 +280,7 @@ router.get('/update-profile', function(req, res, next) {
 //             }
 //             else {
 //                 res.render('addProduct', {
-//                     access: req.session.email,
+//                     access: req.session.user,
 //                     product: product
 //                 });
 //             }
@@ -249,7 +342,7 @@ router.get('/update-profile', function(req, res, next) {
 //         //   console.log("Email already exists.");
 //         //
 //         //   req.session.msg = "Email already in use.";
-//         //   req.session.email = email;
+//         //   req.session.user = email;
 //         //   req.session.firstname = firstName;
 //         //   req.session.lastname = lastName;
 //         //   res.redirect('/addProduct');
@@ -267,7 +360,7 @@ router.get('/update-profile', function(req, res, next) {
 //           else if (description.trim().length === 0) {
 //             console.log("description field empty.");
 //             req.session.msg = "Please enter product description.";
-//             // req.session.email = email;
+//             // req.session.user = email;
 //             // req.session.lastname = lastName;
 //             res.redirect('/addProduct');
 //           }
@@ -276,7 +369,7 @@ router.get('/update-profile', function(req, res, next) {
 //           else if (image1.trim().length === 0) {
 //             console.log("image1 field empty.");
 //             req.session.msg = "Please enter an image.";
-//             // req.session.email = email;
+//             // req.session.user = email;
 //             // req.session.firstname = firstName;
 //             res.redirect('/addProduct');
 //           }
@@ -284,7 +377,7 @@ router.get('/update-profile', function(req, res, next) {
 //           else if (stock.trim().length === 0) {
 //             console.log("stock field empty.");
 //             req.session.msg = "Please enter product stock amount.";
-//             // req.session.email = email;
+//             // req.session.user = email;
 //             // req.session.firstname = firstName;
 //             // req.session.lastname = lastName;
 //             res.redirect('/addProduct');
@@ -309,7 +402,7 @@ router.get('/update-profile', function(req, res, next) {
 //                   }
 //                   else {
 //                     console.log("Register and login successful. " + email);
-//                     req.session.email = email;
+//                     req.session.user = email;
 //                     res.redirect('/');
 //                   }
 //                 });
@@ -328,7 +421,7 @@ router.get('/update-profile', function(req, res, next) {
 //         }
 //         else {
 //             res.render('addProduct', {
-//                 access: req.session.email,
+//                 access: req.session.user,
 //                 product: product
 //             });
 //         }
@@ -347,12 +440,12 @@ router.get('/update-profile', function(req, res, next) {
 //
 //     var msg = req.session.msg ? req.session.msg : "";
 //     var userEmail = req.session.userEmail ? req.session.userEmail : "";
-//     var email = req.session.email ? req.session.email : "";
+//     var email = req.session.user ? req.session.user : "";
 //     var firstname = req.session.firstname ? req.session.firstname : "";
 //     var lastname = req.session.lastname ? req.session.lastname : "";
 //
 //     req.session.msg = "";
-//     req.session.email = "";
+//     req.session.user = "";
 //     req.session.firstname = "";
 //     req.session.lastname = "";
 //
@@ -391,7 +484,7 @@ router.get('/update-profile', function(req, res, next) {
 //         // successful login - id and password match
 //         else if ((results.length !== 0) && (password === results[0].password)) {
 //           console.log("Login successful!" + email);
-//           req.session.email = email;
+//           req.session.user = email;
 //           res.redirect('/');
 //         }
 //         // fail login - email not entered
@@ -455,10 +548,8 @@ router.get('/update-profile', function(req, res, next) {
 //         else if (results.length !== 0) {
 //           console.log("Email already exists.");
 //
-//           console.log("Email already exists.");
-//
 //           req.session.msg = "Email already in use.";
-//           req.session.email = email;
+//           req.session.user = email;
 //           req.session.firstname = firstName;
 //           req.session.lastname = lastName;
 //           res.redirect('/addProduct');
@@ -476,7 +567,7 @@ router.get('/update-profile', function(req, res, next) {
 //           else if (firstName.trim().length === 0) {
 //             console.log("firstName field empty.");
 //             req.session.msg = "Please enter firstname.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.lastname = lastName;
 //             res.redirect('/addProduct');
 //           }
@@ -484,7 +575,7 @@ router.get('/update-profile', function(req, res, next) {
 //           else if (lastName.trim().length === 0) {
 //             console.log("lastName field empty.");
 //             req.session.msg = "Please enter lastname.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.firstname = firstName;
 //             res.redirect('/addProduct');
 //           }
@@ -492,7 +583,7 @@ router.get('/update-profile', function(req, res, next) {
 //           else if (password1.trim().length === 0) {
 //             console.log("Password field empty.");
 //             req.session.msg = "Please enter password.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.firstname = firstName;
 //             req.session.lastname = lastName;
 //             res.redirect('/addProduct');
@@ -501,7 +592,7 @@ router.get('/update-profile', function(req, res, next) {
 //           else if (password2.trim().length === 0) {
 //             console.log("Re-enter password field empty.");
 //             req.session.msg = "Please re-enter password.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.firstname = firstName;
 //             req.session.lastname = lastName;
 //             res.redirect('/addProduct');
@@ -510,7 +601,7 @@ router.get('/update-profile', function(req, res, next) {
 //           else if (password1.trim() !== password2.trim()) {
 //             console.log("Confirm field empty.");
 //             req.session.msg = "Password fields do not match. Please try again.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.firstname = firstName;
 //             req.session.lastname = lastName;
 //             res.redirect('/addProduct');
@@ -534,7 +625,7 @@ router.get('/update-profile', function(req, res, next) {
 //                   }
 //                   else {
 //                     console.log("Register and login successful. " + email);
-//                     req.session.email = email;
+//                     req.session.user = email;
 //                     res.redirect('/');
 //                   }
 //                 });

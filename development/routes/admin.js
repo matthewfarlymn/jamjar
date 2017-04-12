@@ -12,8 +12,8 @@ var connect = require('../database/connect');
 router.get('/dashboard/profile', function(req, res, next) {
 
     res.render('profile', {
-        access: req.session.email,
-        admin: req.session.admin,
+        access: req.session.user,
+        owner: req.session.admin,
         profile: true
     });
 });
@@ -21,8 +21,8 @@ router.get('/dashboard/profile', function(req, res, next) {
 router.get('/dashboard/orders', function(req, res, next) {
 
     res.render('orders', {
-        access: req.session.email,
-        admin: req.session.admin,
+        access: req.session.user,
+        owner: req.session.admin,
         orders: true
     });
 });
@@ -30,8 +30,8 @@ router.get('/dashboard/orders', function(req, res, next) {
 router.get('/dashboard/products', function(req, res, next) {
 
     res.render('products', {
-        access: req.session.email,
-        admin: req.session.admin,
+        access: req.session.user,
+        owner: req.session.admin,
         products: true
     });
 });
@@ -39,8 +39,8 @@ router.get('/dashboard/products', function(req, res, next) {
 router.get('/dashboard/users', function(req, res, next) {
 
     res.render('users', {
-        access: req.session.email,
-        admin: req.session.admin,
+        access: req.session.user,
+        owner: req.session.admin,
         users: true
     });
 });
@@ -91,7 +91,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //                 }
 //                 else {
 //                     res.render('selectProduct', {
-//                         access: req.session.email,
+//                         access: req.session.user,
 //                         product: product
 //                     });
 //                 }
@@ -142,7 +142,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //             }
 //             else {
 //                 res.render('addProduct', {
-//                     access: req.session.email,
+//                     access: req.session.user,
 //                     product: product
 //                 });
 //             }
@@ -204,7 +204,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //         //   console.log("Email already exists.");
 //         //
 //         //   req.session.msg = "Email already in use.";
-//         //   req.session.email = email;
+//         //   req.session.user = email;
 //         //   req.session.firstname = firstName;
 //         //   req.session.lastname = lastName;
 //         //   res.redirect('/addProduct');
@@ -222,7 +222,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //           else if (description.trim().length === 0) {
 //             console.log("description field empty.");
 //             req.session.msg = "Please enter product description.";
-//             // req.session.email = email;
+//             // req.session.user = email;
 //             // req.session.lastname = lastName;
 //             res.redirect('/addProduct');
 //           }
@@ -231,7 +231,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //           else if (image1.trim().length === 0) {
 //             console.log("image1 field empty.");
 //             req.session.msg = "Please enter an image.";
-//             // req.session.email = email;
+//             // req.session.user = email;
 //             // req.session.firstname = firstName;
 //             res.redirect('/addProduct');
 //           }
@@ -239,7 +239,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //           else if (stock.trim().length === 0) {
 //             console.log("stock field empty.");
 //             req.session.msg = "Please enter product stock amount.";
-//             // req.session.email = email;
+//             // req.session.user = email;
 //             // req.session.firstname = firstName;
 //             // req.session.lastname = lastName;
 //             res.redirect('/addProduct');
@@ -264,7 +264,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //                   }
 //                   else {
 //                     console.log("Register and login successful. " + email);
-//                     req.session.email = email;
+//                     req.session.user = email;
 //                     res.redirect('/');
 //                   }
 //                 });
@@ -283,7 +283,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //         }
 //         else {
 //             res.render('addProduct', {
-//                 access: req.session.email,
+//                 access: req.session.user,
 //                 product: product
 //             });
 //         }
@@ -302,12 +302,12 @@ router.get('/dashboard/users', function(req, res, next) {
 //
 //     var msg = req.session.msg ? req.session.msg : "";
 //     var userEmail = req.session.userEmail ? req.session.userEmail : "";
-//     var email = req.session.email ? req.session.email : "";
+//     var email = req.session.user ? req.session.user : "";
 //     var firstname = req.session.firstname ? req.session.firstname : "";
 //     var lastname = req.session.lastname ? req.session.lastname : "";
 //
 //     req.session.msg = "";
-//     req.session.email = "";
+//     req.session.user = "";
 //     req.session.firstname = "";
 //     req.session.lastname = "";
 //
@@ -346,7 +346,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //         // successful login - id and password match
 //         else if ((results.length !== 0) && (password === results[0].password)) {
 //           console.log("Login successful!" + email);
-//           req.session.email = email;
+//           req.session.user = email;
 //           res.redirect('/');
 //         }
 //         // fail login - email not entered
@@ -413,7 +413,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //           console.log("Email already exists.");
 //
 //           req.session.msg = "Email already in use.";
-//           req.session.email = email;
+//           req.session.user = email;
 //           req.session.firstname = firstName;
 //           req.session.lastname = lastName;
 //           res.redirect('/addProduct');
@@ -431,7 +431,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //           else if (firstName.trim().length === 0) {
 //             console.log("firstName field empty.");
 //             req.session.msg = "Please enter firstname.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.lastname = lastName;
 //             res.redirect('/addProduct');
 //           }
@@ -439,7 +439,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //           else if (lastName.trim().length === 0) {
 //             console.log("lastName field empty.");
 //             req.session.msg = "Please enter lastname.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.firstname = firstName;
 //             res.redirect('/addProduct');
 //           }
@@ -447,7 +447,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //           else if (password1.trim().length === 0) {
 //             console.log("Password field empty.");
 //             req.session.msg = "Please enter password.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.firstname = firstName;
 //             req.session.lastname = lastName;
 //             res.redirect('/addProduct');
@@ -456,7 +456,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //           else if (password2.trim().length === 0) {
 //             console.log("Re-enter password field empty.");
 //             req.session.msg = "Please re-enter password.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.firstname = firstName;
 //             req.session.lastname = lastName;
 //             res.redirect('/addProduct');
@@ -465,7 +465,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //           else if (password1.trim() !== password2.trim()) {
 //             console.log("Confirm field empty.");
 //             req.session.msg = "Password fields do not match. Please try again.";
-//             req.session.email = email;
+//             req.session.user = email;
 //             req.session.firstname = firstName;
 //             req.session.lastname = lastName;
 //             res.redirect('/addProduct');
@@ -489,7 +489,7 @@ router.get('/dashboard/users', function(req, res, next) {
 //                   }
 //                   else {
 //                     console.log("Register and login successful. " + email);
-//                     req.session.email = email;
+//                     req.session.user = email;
 //                     res.redirect('/');
 //                   }
 //                 });
