@@ -5,6 +5,7 @@ var connect = require('../database/connect');
 
 router.get('/dashboard/profile', function(req, res, next) {
 
+    var msg = req.session.msg ? req.session.msg : "";
     var firstName = req.session.firstName ? req.session.firstName : "";
     var lastName = req.session.lastName ? req.session.lastName : "";
     var address1 = req.session.address1 ? req.session.address1 : "";
@@ -50,19 +51,6 @@ router.get('/dashboard/profile', function(req, res, next) {
                     console.log("User found");
                     console.log(results[0].firstName);
 
-                    req.body.firstName = results[0].firstName;
-                    req.body.lastName = results[0].lastName;
-                    results[0].address1 = req.body.address1;
-                    results[0].address2 = req.body.address1;
-                    results[0].city = req.body.city;
-                    results[0].postalcode = req.body.postalcode;
-                    results[0].country = req.body.country;
-                    results[0].email = req.body.email;
-                    results[0].phoneNumber = req.body.phoneNumber;
-                    results[0].password1 = req.body.password1;
-                    results[0].password2 = req.body.password2;
-                    results[0].password3 = req.body.password3;
-                    results[0].avatar = req.body.avatar;
 
                     // user = results;
                 }
@@ -79,13 +67,12 @@ router.get('/dashboard/profile', function(req, res, next) {
             }
             else {
 
-                res.render('access', {
-                  errorMessage: msg,
-                  userEmail: userEmail,
-                  email: email,
-                  firstName: firstname,
-                  lastName: lastname,
-                });
+                // res.render('access', {
+                //   userEmail: userEmail,
+                //   email: email,
+                //   firstName: firstname,
+                //   lastName: lastname,
+                // });
 
 
                 res.render('profile', {
