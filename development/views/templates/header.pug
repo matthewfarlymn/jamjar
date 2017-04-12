@@ -19,8 +19,8 @@ header
                     a(href='/shopping-cart')
                         span.fa.fa-shopping-cart
                 if access
-                    li(style=userImage ? 'background-image: url(/img/" + userId + "/" + userImage");' : '').user
-                        a(href='/dashboard')
+                    li(style=avatar ? 'background-image: url(/img/" + userId + "/" + userImage");' : '').user
+                        a(href=admin ? '/admin/dashboard' : '/user/dashboard')
                             if !userImage
                                 span.fa.fa-user
                 if access

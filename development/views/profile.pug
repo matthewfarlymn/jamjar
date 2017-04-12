@@ -3,18 +3,15 @@ extends templates/layout
 block content
     main
         section.dashboard
-            header.row.center-xs.container
-                div.col-xs-12.col-md-8
-                    h1 Dashboard
-            div.navigation
-                include modules/dashboard-nav
+            include modules/dashboard-nav
+        section.profile
             if errorMessage
                 div.row.center-xs.container
                     div.col-xs-12.col-sm-12.col-md-8.error
                         span #{errorMessage}
             div.row.center-xs.container
                 div.col-xs-12.col-md-8.sign-in
-                    form(action='/sign-in' method='post')
+                    form(action=admin ? '/admin/update-profile' : '/user/update-profile' method='post')
                         span.row.grey
                             span.col-xs-12.col-sm-6.fieldset
                                 h2 Personal Details
@@ -25,7 +22,7 @@ block content
                                 label(for='email') Email
                                 input(type='email' name='email' placeholder='Email' value=email required)
                                 label(for='phoneNumber') Phone Number
-                                input(type='tel' name='phoneNumber' placeholder='(000) 000 - 0000')
+                                input(type='tel' name='phoneNumber' placeholder='0123456789')
                                 label(for='avatar') Avatar
                                 span.user
                                     input(type='file' name='avatar')

@@ -495,10 +495,10 @@ section {
 }
 
 .dashboard {
+    padding-bottom: 0;
     .navigation {
         background-color: #f6f6f6;
         padding: 20px 0;
-        margin-bottom: 10px;
         nav {
             ul {
                 li {
@@ -514,7 +514,11 @@ section {
             }
         }
     }
+}
+
+.profile {
     form {
+        margin: 0;
         .grey {
             background-color: #f6f6f6;
             border-radius: 5px;
@@ -582,6 +586,44 @@ section {
         }
         .button {
             &:last-of-type {
+                margin: 0;
+            }
+        }
+    }
+}
+
+.orders {
+    overflow-x: scroll;
+    @include breakpoint(xs) {
+        margin-right: 20px;
+    }
+    .brown {
+        background-color: #5d4037;
+        border-radius: 5px 5px 0 0;
+        margin: 0;
+        padding: 20px 10px;
+        color: #ffffff;
+        min-width: 725px;
+    }
+    .grey {
+        background-color: #f6f6f6;
+        margin: 0;
+        min-width: 725px;
+        &:last-of-type {
+            border-radius: 0 0 5px 5px;
+        }
+        .column {
+            padding: 20px 20px;
+            border-top: 4px solid #ffffff;
+            border-right: 2px solid #ffffff;
+            border-left: 2px solid #ffffff;
+            &:first-of-type {
+                border-left: none;
+            }
+            &:last-of-type {
+                border-right: none;
+            }
+            p {
                 margin: 0;
             }
         }

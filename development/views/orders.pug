@@ -1,0 +1,40 @@
+extends templates/layout
+
+block content
+    main
+        section.dashboard
+            include modules/dashboard-nav
+        section.orders
+            if errorMessage
+                div.row.center-xs.container
+                    div.col-xs-12.col-sm-12.col-md-8.error
+                        span #{errorMessage}
+            div.row.center-xs.container
+                div.col-xs-12.col-md-8
+                    div.row.brown
+                        div.col-xs-3
+                            h3 ID
+                        div.col-xs-3
+                            h3 Date
+                        div.col-xs-3
+                            h3 Total
+                        div.col-xs-3
+                            h3 Details
+                    div.row.middle-xs.grey
+                        div.col-xs-3.column
+                            p 123456789
+                        div.col-xs-3.column
+                            p 02/22/2017
+                        div.col-xs-3.column
+                            p $80.03
+                        div.col-xs-3.column
+                            a(hre='/') More Details
+                    div.row.middle-xs.grey
+                        div.col-xs-3.column
+                            p 123456789
+                        div.col-xs-3.column
+                            p 02/22/2017
+                        div.col-xs-3.column
+                            p $80.03
+                        div.col-xs-3.column
+                            a(hre='/') More Details
