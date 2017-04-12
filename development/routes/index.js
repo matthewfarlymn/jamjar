@@ -102,9 +102,10 @@ router.get('/', function(req, res, next) {
           }
           else {
             res.render('index', {
-              access: req.session.user,
-              popularProducts: popularProducts,
-              recentProducts: recentProducts
+                access: req.session.user,
+                owner: req.session.admin,
+                popularProducts: popularProducts,
+                recentProducts: recentProducts
             });
           }
         });
@@ -113,7 +114,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/about', function(req, res, next) {
     res.render('about', {
-        access: req.session.user
+        access: req.session.user,
+        owner: req.session.admin
     });
 });
 
@@ -174,6 +176,7 @@ router.get('/products', function(req, res, next) {
             else {
                 res.render('products', {
                     access: req.session.user,
+                    owner: req.session.admin,
                     products: products
                 });
             }
@@ -312,6 +315,7 @@ router.get('/product/:id/:title', function(req, res, next) {
                 else {
                     res.render('product', {
                         access: req.session.user,
+                        owner: req.session.admin,
                         product: product,
                         details: details,
                         colors: colors,
@@ -326,7 +330,8 @@ router.get('/product/:id/:title', function(req, res, next) {
 
 router.get('/contact', function(req, res, next) {
     res.render('contact', {
-        access: req.session.user
+        access: req.session.user,
+        owner: req.session.admin
     });
 });
 
@@ -338,8 +343,8 @@ router.get('/sign-out', function(req, res, next) {
 router.get('/sign-in', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
-    var userEmail = req.session.userEmail ? req.session.userEmail : "";
-    var email = req.session.user ? req.session.user : "";
+    var email = req.session.email ? req.session.email : "";
+    var user = req.session.user ? req.session.user : "";
     var firstname = req.session.firstname ? req.session.firstname : "";
     var lastname = req.session.lastname ? req.session.lastname : "";
 
@@ -349,11 +354,11 @@ router.get('/sign-in', function(req, res, next) {
     req.session.lastname = "";
 
   res.render('access', {
-      errorMessage: msg,
-      userEmail: userEmail,
-      email: email,
-      firstName: firstname,
-      lastName: lastname,
+        errorMessage: msg,
+        email: email,
+        user: user,
+        firstName: firstname,
+        lastName: lastname,
     });
 });
 
@@ -382,9 +387,15 @@ router.post('/sign-in', function(req, res, next) {
         }
         // successful login - id and password match
         else if ((results.length !== 0) && (password === results[0].password)) {
-          console.log("Login successful!" + email);
-          req.session.user = email;
-          res.redirect('/');
+            console.log("Login successful!" + email);
+
+            req.session.user = email;
+
+            if (results[0].userType === 'admin') {
+                req.session.admin = 'admin';
+            }
+
+            res.redirect('/');
         }
         // fail login - email not entered
         else if (email.trim().length === 0) {
@@ -396,14 +407,14 @@ router.post('/sign-in', function(req, res, next) {
         else if (password.trim().length === 0) {
           console.log("No password entered.");
           req.session.msg = "Please enter password.";
-          req.session.userEmail = email;
+          req.session.user = email;
           res.redirect('/sign-in');
         }
         // fail login - password does not match
         else if ((results.length !== 0) && (password !== results[0].password)) {
           console.log("Incorrect password.");
           req.session.msg = "Password incorrect.";
-          req.session.userEmail = email;
+          req.session.user = email;
           res.redirect('/sign-in');
         }
         // fail login - email not found
@@ -427,7 +438,6 @@ router.post('/register', function(req, res, next) {
   var lastName = req.body.lastName;
   var password1 = req.body.password1;
   var password2 = req.body.password2;
-  var userType = "customer";
 
   connect(function(err, connection) {
     if (err) {
@@ -448,10 +458,8 @@ router.post('/register', function(req, res, next) {
         else if (results.length !== 0) {
           console.log("Email already exists.");
 
-          console.log("Email already exists.");
-
-          req.session.msg = "Email already in use.";
-          req.session.user = email;
+          req.session.msg = email + " already in use.";
+          req.session.email = '';
           req.session.firstname = firstName;
           req.session.lastname = lastName;
           res.redirect('/sign-in');
@@ -469,7 +477,7 @@ router.post('/register', function(req, res, next) {
           else if (firstName.trim().length === 0) {
             console.log("firstName field empty.");
             req.session.msg = "Please enter firstname.";
-            req.session.user = email;
+            req.session.email = email;
             req.session.lastname = lastName;
             res.redirect('/sign-in');
           }
@@ -477,7 +485,7 @@ router.post('/register', function(req, res, next) {
           else if (lastName.trim().length === 0) {
             console.log("lastName field empty.");
             req.session.msg = "Please enter lastname.";
-            req.session.user = email;
+            req.session.email = email;
             req.session.firstname = firstName;
             res.redirect('/sign-in');
           }
@@ -485,7 +493,7 @@ router.post('/register', function(req, res, next) {
           else if (password1.trim().length === 0) {
             console.log("Password field empty.");
             req.session.msg = "Please enter password.";
-            req.session.user = email;
+            req.session.email = email;
             req.session.firstname = firstName;
             req.session.lastname = lastName;
             res.redirect('/sign-in');
@@ -494,7 +502,7 @@ router.post('/register', function(req, res, next) {
           else if (password2.trim().length === 0) {
             console.log("Re-enter password field empty.");
             req.session.msg = "Please re-enter password.";
-            req.session.user = email;
+            req.session.email = email;
             req.session.firstname = firstName;
             req.session.lastname = lastName;
             res.redirect('/sign-in');
@@ -503,7 +511,7 @@ router.post('/register', function(req, res, next) {
           else if (password1.trim() !== password2.trim()) {
             console.log("Confirm field empty.");
             req.session.msg = "Password fields do not match. Please try again.";
-            req.session.user = email;
+            req.session.email = email;
             req.session.firstname = firstName;
             req.session.lastname = lastName;
             res.redirect('/sign-in');
@@ -518,7 +526,7 @@ router.post('/register', function(req, res, next) {
               else {
                 console.log("Connected to the DB - insert");
 
-                connection.query('INSERT INTO users (firstName, lastName, email, password, userType) VALUES (?,?,?,?,?)',[firstName, lastName, email, password1, userType], function(err, results, fields) {
+                connection.query('INSERT INTO users (firstName, lastName, email, password) VALUES (?,?,?,?)',[firstName, lastName, email, password1], function(err, results, fields) {
                   connection.release();
 
                   if (err) {
