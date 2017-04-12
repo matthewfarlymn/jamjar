@@ -2,4 +2,57 @@ extends templates/layout
 
 block content
     main
-        include modules/dashboard-nav
+        section.dashboard
+            header.row.center-xs.container
+                div.col-xs-12.col-md-8
+                    h1 Dashboard
+            div.navigation
+                include modules/dashboard-nav
+            if errorMessage
+                div.row.center-xs.container
+                    div.col-xs-12.col-sm-12.col-md-8.error
+                        span #{errorMessage}
+            div.row.center-xs.container
+                div.col-xs-12.col-md-8.sign-in
+                    form(action='/sign-in' method='post')
+                        span.row.grey
+                            span.col-xs-12.col-sm-6.fieldset
+                                h2 Personal Details
+                                label(for='firstName') First Name
+                                input(type='text' name='firstName' placeholder='First Name' value=firstName required)
+                                label(for='lastName') Last Name
+                                input(type='text' name='lastName' placeholder='Last Name' value=lastName required)
+                                label(for='email') Email
+                                input(type='email' name='email' placeholder='Email' value=email required)
+                                label(for='phoneNumber') Phone Number
+                                input(type='tel' name='phoneNumber' placeholder='(000) 000 - 0000')
+                                label(for='avatar') Avatar
+                                span.user
+                                    input(type='file' name='avatar')
+                                    span.fa.fa-user
+                            span.col-xs-12.col-sm-6.fieldset
+                                h2 Billing Details
+                                label(for='address1') Address 1
+                                input(type='text' name='address1' placeholder='Address' value=address1)
+                                label(for='address2') Address 2
+                                input(type='text' name='address2' placeholder='Address' value=address2)
+                                label(for='city') Town/City
+                                input(type='text' name='city' placeholder='Town/City' value=city)
+                                label(for='province') Province/State/County
+                                input(type='text' name='province' placeholder='Province/State/County' value=province)
+                                label(for='postalcode') Postalcode/Zipcode/Postcode
+                                input(type='text' name='postalcode' placeholder='Postalcode/Zipcode/Postcode' value=postalcode)
+                                label(for='country') Country
+                                input(type='text' name='country' placeholder='Country' value=country)
+                            span.col-xs-12.col-sm-6.fieldset
+                                h2 Password
+                                label(for='password1') Current Password
+                                input(type='password' name='password1' placeholder='********')
+                                label(for='password2') New Password
+                                input(type='password' name='password2' placeholder='********')
+                                label(for='password3') Re-enter New Password
+                                input(type='password' name='password3' placeholder='********')
+                        span.flex
+                                button(type='reset').button.brown Cancel
+                                button(type='submit').button.pink Update
+                                

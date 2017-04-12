@@ -13,7 +13,7 @@ body {
 h1 {
     font-size: 48px;
     padding: 0;
-    margin: 0;
+    margin: -10px 0 0 0;
 }
 
 h2 {
@@ -61,6 +61,14 @@ ul {
     margin: 0;
 }
 
+span {
+    &.flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
 .button {
     color: #ffffff;
     text-decoration: none;
@@ -82,16 +90,6 @@ ul {
     }
 }
 
-.error {
-    span {
-        background: #ffcccc;
-        display: block;
-        text-align: center;
-        padding: 20px;
-        margin-bottom: 40px;
-    }
-}
-
 form {
     margin-top: 30px;
     input, textarea, select {
@@ -103,10 +101,14 @@ form {
         box-sizing: border-box;
         border: 1px solid #cccccc;
     }
-    input[type="checkbox"] {
+    input[type='checkbox'] {
         margin: 15px 5px 0 0;
         display: inline-block;
         width: auto;
+    }
+    input[type='file'] {
+        border: none;
+        padding: 0;
     }
     textarea {
         resize: none;
@@ -227,6 +229,11 @@ footer {
     }
 }
 
+main {
+    background-color: #ffffff;
+    overflow: auto;
+}
+
 section {
     background-color: #ffffff;
     padding: 40px 0;
@@ -274,7 +281,7 @@ section {
             width: 100%;
             padding: 0 0 10px 0;
             box-sizing: border-box;
-            border: 0;
+            border: none;
             border-bottom: 1px solid #ffffff;
             color: #ffffff;
         }
@@ -337,17 +344,21 @@ section {
     }
 }
 
-.flyout-menu {
-    padding: 0;
-
-    &.show {
-        margin-top: 0;
+.error {
+    span {
+        background: #ffcccc;
+        display: block;
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 40px;
     }
-
-
 }
 
 .slider {
+    display: none;
+    &.slick-initialized {
+        display: block;
+    }
     .slick-list {
         padding-bottom: 2px;
     }
@@ -422,6 +433,13 @@ section {
     }
 }
 
+.about {
+    padding-bottom: 20px;
+    ul {
+        margin: 20px 0;
+    }
+}
+
 .product {
     h2 {
         span {
@@ -473,5 +491,99 @@ section {
 .sign-in {
     @include breakpoint(xs) {
         margin-bottom: 40px;
+    }
+}
+
+.dashboard {
+    .navigation {
+        background-color: #f6f6f6;
+        padding: 20px 0;
+        margin-bottom: 10px;
+        nav {
+            ul {
+                li {
+                    display: inline-block;
+                    margin-right: 20px;
+                    a {
+                        color: #cccccc;
+                        &.active {
+                            color: #000000;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    form {
+        .grey {
+            background-color: #f6f6f6;
+            border-radius: 5px;
+            padding: 20px 5px 0 5px;
+            margin: 0 0 15px 0;
+        }
+        .fieldset {
+            margin-bottom: 20px;
+            &:last-of-type {
+                margin-bottom: 10px;
+            }
+            h2 {
+                margin-bottom: 20px;
+            }
+            .user {
+                position: relative;
+                background-color: #cccccc;
+                width: 200px;
+                height: 200px;
+                overflow: hidden;
+                margin: 5px 0 10px 0;
+                background-size: cover;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #ffffff;
+                &:before {
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-family: 'fontawesome';
+                    font-size: 50px;
+                    content: '\f067';
+                    background-color: rgba(#cca677, 0.75);
+                    opacity: 0;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    transition: all 0.25s ease-in-out;
+                }
+                &:hover {
+                    &:before {
+                        opacity: 1;
+                    }
+                }
+                input {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 100%;
+                    opacity: 0;
+                    cursor: pointer;
+                }
+                span {
+                    &.fa-user {
+                        font-size: 150px;
+                    }
+                }
+            }
+        }
+        .button {
+            &:last-of-type {
+                margin: 0;
+            }
+        }
     }
 }
