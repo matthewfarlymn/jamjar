@@ -11,7 +11,7 @@ block content
                         span #{errorMessage}
             div.row.center-xs.container
                 div.col-xs-12.col-md-8.sign-in
-                    form(action=admin ? '/admin/update-profile' : '/user/update-profile' method='post')
+                    form(action=owner ? '/admin/update-profile' : '/user/update-profile' method='post')
                         span.row.grey
                             span.col-xs-12.col-sm-6.fieldset
                                 h2 Personal Details
@@ -26,8 +26,8 @@ block content
                                 label(for='avatar') Avatar
                                 span(style=avatar ? 'background-image: url(/img/" + userId + "/" + avatar");' : '').user
                                     input(type='file' name='avatar')
-                                        if !avatar
-                                            span.fa.fa-user
+                                    if !avatar
+                                        span.fa.fa-user
                             span.col-xs-12.col-sm-6.fieldset
                                 h2 Billing Details
                                 label(for='address1') Address 1
