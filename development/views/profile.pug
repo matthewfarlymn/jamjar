@@ -22,11 +22,12 @@ block content
                                 label(for='email') Email
                                 input(type='email' name='email' placeholder='Email' value=email required)
                                 label(for='phoneNumber') Phone Number
-                                input(type='tel' name='phoneNumber' placeholder='0123456789')
+                                input(type='tel' name='phoneNumber' placeholder='0123456789' value=phoneNumber)
                                 label(for='avatar') Avatar
-                                span.user
+                                span(style=avatar ? 'background-image: url(/img/" + userId + "/" + avatar");' : '').user
                                     input(type='file' name='avatar')
-                                    span.fa.fa-user
+                                        if !avatar
+                                            span.fa.fa-user
                             span.col-xs-12.col-sm-6.fieldset
                                 h2 Billing Details
                                 label(for='address1') Address 1
