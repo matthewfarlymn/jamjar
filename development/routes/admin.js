@@ -18,6 +18,14 @@ router.get('/dashboard/profile', function(req, res, next) {
     });
 });
 
+router.get('/dashboard/orders', function(req, res, next) {
+
+    res.render('orders', {
+        access: req.session.email,
+        admin: req.session.admin,
+        orders: true
+    });
+});
 
 router.get('/dashboard/products', function(req, res, next) {
 
@@ -37,14 +45,6 @@ router.get('/dashboard/users', function(req, res, next) {
     });
 });
 
-router.get('/dashboard/orders', function(req, res, next) {
-
-    res.render('orders', {
-        access: req.session.email,
-        admin: req.session.admin,
-        orders: true
-    });
-});
 
 
 // // SELECT product from products * product_details
