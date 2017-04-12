@@ -11,22 +11,24 @@ router.get('/dashboard/profile', function(req, res, next) {
     var address1 = req.session.address1 ? req.session.address1 : "";
     var address2 = req.session.address2 ? req.session.address2 : "";
     var city = req.session.city ? req.session.city : "";
+    var province = req.session.province ? req.session.province : "";
     var postalcode = req.session.postalcode ? req.session.postalcode : "";
     var country = req.session.country ? req.session.country : "";
     var email = req.session.user ? req.session.user : "";
     var phoneNumber = req.session.phoneNumber ? req.session.phoneNumber : "";
     var avatar = req.session.avatar ? req.session.avatar : "";
-
-    req.session.firstname = "";
-    req.session.lastname = "";
-    req.session.address1 = "";
-    req.session.address2 = "";
-    req.session.city = "";
-    req.session.postalcode = "";
-    req.session.country = "";
-    // req.session.user = "";
-    req.session.phonenumber = "";
-    req.session.avatar = "";
+    //
+    // req.session.firstName = "";
+    // req.session.lastName = "";
+    // req.session.address1 = "";
+    // req.session.address2 = "";
+    // req.session.city = "";
+    // req.session.province = "";
+    // req.session.postalcode = "";
+    // req.session.country = "";
+    // // req.session.user = "";
+    // req.session.phoneNumber = "";
+    // req.session.avatar = "";
 
     connect(function(err, connection) {
         if (err) {
@@ -51,8 +53,18 @@ router.get('/dashboard/profile', function(req, res, next) {
                     console.log("User found");
                     console.log(results[0].firstName);
 
+                    firstName = req.session.firstName = results[0].firstName;
+                    lastName = req.session.lastName = results[0].lastName;
+                    address1 = req.session.address1 = results[0].address1;
+                    address2 = req.session.address2 = results[0].address2;
+                    city = req.session.city = results[0].city;
+                    province = req.session.province = results[0].province;
+                    postalcode = req.session.postalcode = results[0].postalcode;
+                    country = req.session.country = results[0].country;
+                    email = req.session.user = results[0].email;
+                    phoneNumber = req.session.phoneNumber = results[0].phoneNumber;
+                    req.session.avatar = results[0].avatar;
 
-                    // user = results;
                 }
             });
 
@@ -66,34 +78,32 @@ router.get('/dashboard/profile', function(req, res, next) {
                 });
             }
             else {
-
-                // res.render('access', {
-                //   userEmail: userEmail,
-                //   email: email,
-                //   firstName: firstname,
-                //   lastName: lastname,
-                // });
-
-
-                res.render('profile', {
+                console.log("render");
+                res.render('dashboard/profile', {
                     access: req.session.user,
                     profile: true,
-                    user: user
+                    firstName: firstName,
+                    lastName: lastName,
+                    address1: address1,
+                    address2: address2,
+                    city: city,
+                    province: province,
+                    postalcode: postalcode,
+                    country: country,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    avatar: avatar
                 });
 
             }
         });
     })
 
-    // res.render('profile', {
-    //     access: req.session.user,
-    //     profile: true
-    // });
 });
 
 router.get('/dashboard/orders', function(req, res, next) {
 
-    res.render('orders', {
+    res.render('dashboard/orders', {
         access: req.session.user,
         orders: true
     });
