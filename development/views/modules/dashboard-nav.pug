@@ -7,9 +7,9 @@ div.navigation
             li
                 a(class=profile ? 'active' : '' href=admin ? '/admin/dashboard/profile' : '/user/dashboard/profile') Profile
             li    
-                a(class=products ? 'active' : '' href=admin ? '/admin/dashboard/products' : '/user/dashboard/products') Products
+                a(class=orders ? 'active' : '' href=admin ? '/admin/dashboard/orders' : '/user/dashboard/orders') Orders
             if admin
                 li    
-                    a(class=users ? 'active' : '' href='/admin/dashboard/users') Users
+                    a(class=products ? 'active' : '' href='/admin/dashboard/products') Products
                 li    
-                    a(class=orders ? 'active' : '' href='/admin/dashboard/orders') Orders
+                    a(class=users ? 'active' : '' href='/admin/dashboard/users') Users
