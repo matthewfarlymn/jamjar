@@ -78,7 +78,6 @@ router.get('/dashboard/profile', function(req, res, next) {
                 });
             }
             else {
-                console.log("render");
                 res.render('dashboard/profile', {
                     errorMessage: msg,
                     access: req.session.user,
@@ -100,15 +99,6 @@ router.get('/dashboard/profile', function(req, res, next) {
         });
     })
 });
-
-router.get('/dashboard/orders', function(req, res, next) {
-
-    res.render('dashboard/orders', {
-        access: req.session.user,
-        orders: true
-    });
-});
-
 
 
 router.post('/update-profile', function(req, res, next) {
@@ -138,7 +128,6 @@ router.post('/update-profile', function(req, res, next) {
 
             connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
                 console.log('Query returned2 ' + JSON.stringify(results));
-                // console.log('results[0].email ' + results[0].email);
 
                 if(err) {
                     throw err;
@@ -311,6 +300,99 @@ router.post('/update-profile', function(req, res, next) {
         }
     });
 });
+
+
+router.get('/dashboard/orders', function(req, res, next) {
+
+    var msg = req.session.msg ? req.session.msg : "";
+    var orderId = req.session.orderId ? req.session.orderId : "";
+    var date = req.session.date ? req.session.date : "";
+    var total = req.session.total ? req.session.total : "";
+    var orderData = req.session.orderData ? req.session.orderData : "";
+
+    req.session.msg = "";
+    req.session.orderId = "";
+    req.session.date = "";
+    req.session.total = "";
+    req.session.orderData = "";
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+            console.log('req.session.id: ' + req.session.userId);
+
+            connection.query('SELECT d.id, d.date, d.userId, o.orderId, SUM(o.price * o.quantity) AS SubTotal, d.tax, d.shipping FROM orders o INNER JOIN order_details d ON o.orderId = d.id WHERE d.userId=? GROUP BY o.orderId',[req.session.userId],function(err, results, fields) {
+                console.log('Query returned3 ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no user found
+                else if (results.length === 0) {
+                    console.log("No orders found for user");
+                    orderData = false;
+                }
+                // user found
+                else {
+                    console.log("Orders found for user found");
+                    orderData = true;
+
+                    for (var i=0; i<results.length; i++) {
+
+                        orderId = req.session.orderId = results[i].id;
+                        date = req.session.date = results[i].date;
+                        total = req.session.total = results[i].SubTotal + results[i].tax + results[i].shipping;
+
+                        var d = date;
+                        var curr_date = d.getDate();
+                        var curr_month = d.getMonth() + 1;
+                        var curr_year = d.getFullYear();
+
+                        date = curr_date + "/" + curr_month + "/" + curr_year;
+
+                        total = total.toFixed(2);
+
+                        console.log("orderid: " + orderId);
+                        console.log("date: " + date);
+                        console.log("total: " + total);
+                        console.log("orderData: " + orderData);
+
+                    }
+                }
+            });
+        }
+
+        connection.commit(function(err) {
+            connection.release();
+            if (err) {
+                connection.rollback(function() {
+                    throw err;
+                });
+            }
+            else {
+                res.render('dashboard/orders', {
+                    errorMessage: msg,
+                    access: req.session.user,
+                    orders: true,
+                    userId: userId,
+                    orderId: orderId,
+                    date: date,
+                    total: total,
+                    orderData: orderData,
+                });
+            }
+        });
+    })
+});
+
+
+
+
+
 
 //         }
 //
