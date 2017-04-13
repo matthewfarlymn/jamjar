@@ -1,0 +1,38 @@
+extends ../templates/layout
+
+block content
+    main
+        section.dashboard
+            include ../modules/dashboard-nav
+            div.users
+                if errorMessage
+                    div.row.center-xs.container
+                        div.col-xs-12.col-sm-12.col-md-8.error
+                            span #{errorMessage}
+                div.row.center-xs.container
+                    div.col-xs-12.col-md-8
+                        div.row.middle-xs.grey
+                            div.col-sm-4.image
+                                img(src='/img/blueberry.jpg')
+                            div.col-xs-9.col-sm-6
+                                h3 John Does
+                                p johndoe@gmail.com
+                                p 123-456-7890
+                            div.col-xs-3.right
+                                a(href='/admin/dashboard/user/' + userId + '/' + email) Edit
+                        div.row.middle-xs.grey
+                            div.col-sm-4.image
+                                img(src='/img/blueberry.jpg')
+                            div.col-xs-9.col-sm-6
+                                h3 John Does
+                                p johndoe@gmail.com
+                            div.col-xs-3.right
+                                a(href='/admin/dashboard/user/' + userId + '/' + email) Edit
+                        div.row.middle-xs.grey
+                            div.col-sm-4.image
+                                img(src='/img/blueberry.jpg')
+                            div.col-xs-9.col-sm-6
+                                h3 John Does
+                                p johndoe@gmail.com
+                            div.col-xs-3.right
+                                a(href='/admin/dashboard/user/' + userId + '/' + email) Edit

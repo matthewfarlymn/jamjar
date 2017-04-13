@@ -1,0 +1,37 @@
+extends ../templates/layout
+
+block content
+    main
+        section.dashboard
+            include ../modules/dashboard-nav
+            div.products
+                if errorMessage
+                    div.row.center-xs.container
+                        div.col-xs-12.col-sm-12.col-md-8.error
+                            span #{errorMessage}
+                div.row.center-xs.container
+                    div.col-xs-12.col-md-8
+                        div.row.middle-xs.grey
+                            div.col-sm-4.image
+                                img(src='/img/blueberry.jpg')
+                            div.col-xs-9.col-sm-6
+                                h3 Blueberry
+                                p Excerpt ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo...
+                            div.col-xs-3.right
+                                a(href='/admin/dashboard/product/' + productId + '/' + title) Edit
+                        div.row.middle-xs.grey
+                            div.col-sm-4.image
+                                img(src='/img/blueberry.jpg')
+                            div.col-xs-9.col-sm-6
+                                h3 Blueberry
+                                p Excerpt ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo...
+                            div.col-xs-3.right
+                                a(href='/admin/dashboard/product/' + productId + '/' + title) Edit
+                        div.row.middle-xs.grey
+                            div.col-sm-4.image
+                                img(src='/img/blueberry.jpg')
+                            div.col-xs-9.col-sm-6
+                                h3 Blueberry
+                                p Excerpt ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo...
+                            div.col-xs-3.right
+                                a(href='/admin/dashboard/product/' + productId + '/' + title) Edit

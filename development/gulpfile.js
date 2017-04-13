@@ -4,7 +4,7 @@ var browserSync = require('browser-sync').create();
 
 var paths = {
 	src: {
-        pug: 'views/*.pug',
+        pug: 'views/**/*.pug',
 		js: 'gulp/js/*.js',
 		vendor: 'gulp/js/vendor/**/*.js',
 		scss: 'gulp/scss/app.scss',
