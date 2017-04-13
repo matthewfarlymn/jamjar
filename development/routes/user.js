@@ -40,7 +40,7 @@ router.get('/dashboard/profile', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM users WHERE email=?',[req.session.user],function(err, results, fields) {
-                console.log('Query returned ' + JSON.stringify(results));
+                console.log('Query returned1 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -136,14 +136,14 @@ router.post('/update-profile', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM users WHERE email=?',[req.session.user],function(err, results, fields) {
-                console.log('Query returned ' + JSON.stringify(results));
-                console.log('results[0].email ' + results[0].email);
+            connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
+                console.log('Query returned2 ' + JSON.stringify(results));
+                // console.log('results[0].email ' + results[0].email);
 
                 if(err) {
                     throw err;
                 }
-                // fail - email not entered
+                // error - email not entered
                 else if (email.trim().length === 0) {
                     console.log("email field empty.");
                     req.session.msg = "Please enter email.";
@@ -152,16 +152,16 @@ router.post('/update-profile', function(req, res, next) {
                     // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
-                // fail - email already in use by another
-                else if (results[0].email !== email) {
+                // error - email already registered
+                else if ((results.length !== 0) && (email !== req.session.user)) {
                     console.log("Email already registered");
-                    req.session.msg = "Unable to update. Email already registered.";
+                    req.session.msg = "Unable to update. Email address already registered.";
                     // req.session.user = email;
                     // req.session.firstname = firstName;
                     // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
-                // fail - firstname not entered
+                // error - firstname not entered
                 else if (firstName.trim().length === 0) {
                     console.log("firstName field empty.");
                     req.session.msg = "Please enter Firstname.";
@@ -170,7 +170,7 @@ router.post('/update-profile', function(req, res, next) {
                     // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
-                // fail - lastname not entered
+                // error - lastname not entered
                 else if (lastName.trim().length === 0) {
                     console.log("lastname field empty.");
                     req.session.msg = "Please enter Lastname.";
@@ -178,7 +178,7 @@ router.post('/update-profile', function(req, res, next) {
                     // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
-                // fail - current password empty
+                // error - current password empty
                 else if ((password1.trim().length === 0) && (password2.trim().length !== 0) && (password3.trim().length !== 0)) {
                     console.log("current password field empty.");
                     req.session.msg = "Current password missing. Please re-enter all password fields.";
@@ -186,7 +186,7 @@ router.post('/update-profile', function(req, res, next) {
                     // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
-                // fail - new password empty
+                // error - new password empty
                 else if ((password1.trim().length !== 0) && (password2.trim().length === 0) && (password3.trim().length !== 0)) {
                     console.log("new password field empty.");
                     req.session.msg = "New password missing. Please re-enter all password fields.";
@@ -194,7 +194,7 @@ router.post('/update-profile', function(req, res, next) {
                     // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
-                // fail - confirm password empty
+                // error - confirm password empty
                 else if ((password1.trim().length !== 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
                     console.log("new re-enter password field empty.");
                     req.session.msg = "Re-enter password missing. Please re-enter all password fields.";
@@ -202,7 +202,7 @@ router.post('/update-profile', function(req, res, next) {
                     // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
-                // fail - new and confirm empty
+                // error - new and confirm empty
                 else if ((password1.trim().length !== 0) && (password2.trim().length === 0) && (password3.trim().length === 0)) {
                     console.log("only current password entered.");
                     req.session.msg = "Enter all password fields to change password.";
@@ -210,7 +210,7 @@ router.post('/update-profile', function(req, res, next) {
                     // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
-                // fail - current and confirm empty
+                // error - current and confirm empty
                 else if ((password1.trim().length === 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
                     console.log("only new password entered.");
                     req.session.msg = "Enter all password fields to change password.";
@@ -218,7 +218,7 @@ router.post('/update-profile', function(req, res, next) {
                     // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
-                // fail - current and new empty
+                // error - current and new empty
                 else if ((password1.trim().length === 0) && (password2.trim().length === 0) && (password3.trim().length !== 0)) {
                     console.log("only re-enter password entered.");
                     req.session.msg = "Enter all password fields to change password.";
@@ -228,7 +228,7 @@ router.post('/update-profile', function(req, res, next) {
                 }
                 // okay - all password filds entered
                 else if ((password1.trim().length !== 0) && (password2.trim().length !== 0) && (password3.trim().length !== 0)) {
-                    // fail - current does not match
+                    // error - current does not match
                     if (password1.trim() !== results[0].password) {
                         console.log("current password does not match table.");
                         req.session.msg = "Current password is incorrect.  Please re-enter all password fields.";
@@ -236,7 +236,7 @@ router.post('/update-profile', function(req, res, next) {
                         // req.session.lastname = lastName;
                         res.redirect('/user/dashboard/profile');
                     }
-                    // fail - current and new do not match
+                    // error - current and new do not match
                     else if (password2.trim() !== password3.trim()) {
                         console.log("new and confirm passwords does not match.");
                         req.session.msg = "New and confrim passwords do not match.  Please re-enter all password fields.";
@@ -492,7 +492,7 @@ router.post('/update-profile', function(req, res, next) {
 //         if(err) {
 //           throw err;
 //         }
-//         // fail - email exists
+//         // error - email exists
 //         // else if (results.length !== 0) {
 //         //   console.log("Email already exists.");
 //         //
@@ -503,7 +503,7 @@ router.post('/update-profile', function(req, res, next) {
 //         //   res.redirect('/addProduct');
 //         // }
 //         // else if (results.length === 0) {
-//           // fail - title not entered
+//           // error - title not entered
 //           if (title.trim().length === 0) {
 //             console.log("title field empty.");
 //             req.session.msg = "Please enter product title.";
@@ -511,7 +511,7 @@ router.post('/update-profile', function(req, res, next) {
 //             // req.session.lastname = lastName;
 //             res.redirect('/addProduct');
 //           }
-//           // fail - description not entered
+//           // error - description not entered
 //           else if (description.trim().length === 0) {
 //             console.log("description field empty.");
 //             req.session.msg = "Please enter product description.";
@@ -519,7 +519,7 @@ router.post('/update-profile', function(req, res, next) {
 //             // req.session.lastname = lastName;
 //             res.redirect('/addProduct');
 //           }
-//           // fail - image1 not entered
+//           // error - image1 not entered
 //           // image2 thru image5 can empty
 //           else if (image1.trim().length === 0) {
 //             console.log("image1 field empty.");
@@ -528,7 +528,7 @@ router.post('/update-profile', function(req, res, next) {
 //             // req.session.firstname = firstName;
 //             res.redirect('/addProduct');
 //           }
-//           // fail - confirm password not entered
+//           // error - confirm password not entered
 //           else if (stock.trim().length === 0) {
 //             console.log("stock field empty.");
 //             req.session.msg = "Please enter product stock amount.";
