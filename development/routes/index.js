@@ -227,16 +227,8 @@ router.get('/product/:id/:title', function(req, res, next) {
                     // products found
                     else {
                         console.log(results[0].title + " product found");
-                        product = results;
 
-                        // for (var i=0; i<=4; i++) {
-                        //     // var str1 = "results[0].image";
-                        //     var result = this["results[0].image" + i];
-                        //     console.log(result);
-                        //
-                        //     productImages[i] = result;
-                        //     console.log(productImages[i]);
-                        // }
+                        product = results;
                     }
                 });
             }
@@ -258,6 +250,10 @@ router.get('/product/:id/:title', function(req, res, next) {
                     console.log("Details product found");
                     details = results;
                     // console.log(results);
+
+                    for (var i=0; i<results.length; i++) {
+                        results[i].price = results[i].price.toFixed(2);
+                    }
 
                     if ((results[0].color === null) || (results[0].color === "")) {
                         colors = false;
@@ -475,7 +471,7 @@ router.post('/register', function(req, res, next) {
         if(err) {
           throw err;
         }
-        // fail - email exists
+        // error - email exists
         else if (results.length !== 0) {
           console.log("Email already exists.");
 
@@ -486,7 +482,7 @@ router.post('/register', function(req, res, next) {
           res.redirect('/sign-in');
         }
         else if (results.length === 0) {
-          // fail - email not entered
+          // error - email not entered
           if (email.trim().length === 0) {
             console.log("Email field empty.");
             req.session.msg = "Please enter email.";
@@ -494,7 +490,7 @@ router.post('/register', function(req, res, next) {
             req.session.lastname = lastName;
             res.redirect('/sign-in');
           }
-          // fail - firstName not entered
+          // error - firstName not entered
           else if (firstName.trim().length === 0) {
             console.log("firstName field empty.");
             req.session.msg = "Please enter firstname.";
@@ -502,7 +498,7 @@ router.post('/register', function(req, res, next) {
             req.session.lastname = lastName;
             res.redirect('/sign-in');
           }
-          // fail - lastName not entered
+          // error - lastName not entered
           else if (lastName.trim().length === 0) {
             console.log("lastName field empty.");
             req.session.msg = "Please enter lastname.";
@@ -510,7 +506,7 @@ router.post('/register', function(req, res, next) {
             req.session.firstname = firstName;
             res.redirect('/sign-in');
           }
-          // fail - password not entered
+          // error - password not entered
           else if (password1.trim().length === 0) {
             console.log("Password field empty.");
             req.session.msg = "Please enter password.";
@@ -519,7 +515,7 @@ router.post('/register', function(req, res, next) {
             req.session.lastname = lastName;
             res.redirect('/sign-in');
           }
-          // fail - confirm password not entered
+          // error - confirm password not entered
           else if (password2.trim().length === 0) {
             console.log("Re-enter password field empty.");
             req.session.msg = "Please re-enter password.";
@@ -528,7 +524,7 @@ router.post('/register', function(req, res, next) {
             req.session.lastname = lastName;
             res.redirect('/sign-in');
           }
-          // fail - password and confirm password do not match
+          // error - password and confirm password do not match
           else if (password1.trim() !== password2.trim()) {
             console.log("Confirm field empty.");
             req.session.msg = "Password fields do not match. Please try again.";
