@@ -352,6 +352,13 @@ router.get('/dashboard/orders', function(req, res, next) {
                         var curr_month = d.getMonth() + 1;
                         var curr_year = d.getFullYear();
 
+                        if (curr_date < 10) {
+                            curr_date = '0' + curr_date
+                        }
+                        if (curr_month < 10) {
+                            curr_month = '0' + curr_month
+                        }
+
                         date = curr_date + "/" + curr_month + "/" + curr_year;
 
                         total = total.toFixed(2);

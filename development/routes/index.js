@@ -227,16 +227,8 @@ router.get('/product/:id/:title', function(req, res, next) {
                     // products found
                     else {
                         console.log(results[0].title + " product found");
-                        product = results;
 
-                        // for (var i=0; i<=4; i++) {
-                        //     // var str1 = "results[0].image";
-                        //     var result = this["results[0].image" + i];
-                        //     console.log(result);
-                        //
-                        //     productImages[i] = result;
-                        //     console.log(productImages[i]);
-                        // }
+                        product = results;
                     }
                 });
             }
@@ -258,6 +250,10 @@ router.get('/product/:id/:title', function(req, res, next) {
                     console.log("Details product found");
                     details = results;
                     // console.log(results);
+
+                    for (var i=0; i<results.length; i++) {
+                        results[i].price = results[i].price.toFixed(2);
+                    }
 
                     if ((results[0].color === null) || (results[0].color === "")) {
                         colors = false;
