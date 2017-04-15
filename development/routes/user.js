@@ -308,7 +308,7 @@ router.get('/dashboard/orders', function(req, res, next) {
     // var orderDetails = req.session.orderDetails ? req.session.orderDetails : "";
     // var orderData = req.session.orderData ? req.session.orderData : "";
 
-    var orderDetails = {};
+    var orderDetails = [];
 
     // req.session.msg = "";
     // req.session.orderDetails = "";
@@ -341,9 +341,7 @@ router.get('/dashboard/orders', function(req, res, next) {
 
                     for (var i=0; i<results.length; i++) {
 
-                        // orderId = req.session.orderId = results[i].id;
-                        // date = req.session.date = results[i].date;
-                        // total = req.session.total = results[i].SubTotal + results[i].tax + results[i].shipping;
+                        var orderDetail = {};
 
                         var total = results[i].SubTotal + results[i].tax + results[i].shipping;
 
@@ -359,14 +357,11 @@ router.get('/dashboard/orders', function(req, res, next) {
                             curr_month = '0' + curr_month
                         }
 
-                        orderDetails.orderId = results[i].id;
-                        orderDetails.date = curr_date + "/" + curr_month + "/" + curr_year;
-                        orderDetails.total = total.toFixed(2);
+                        orderDetail.orderId = results[i].id;
+                        orderDetail.date = curr_date + "/" + curr_month + "/" + curr_year;
+                        orderDetail.total = total.toFixed(2);
 
-                        console.log("orderid: " + orderDetails.orderId);
-                        console.log("date: " + orderDetails.date);
-                        console.log("total: " + orderDetails.total);
-                        console.log("orderData: " + orderData);
+                        orderDetails.push(orderDetail);
 
                     }
                 }
@@ -381,6 +376,8 @@ router.get('/dashboard/orders', function(req, res, next) {
                 });
             }
             else {
+                console.log(orderDetails);
+
                 res.render('dashboard/orders', {
                     // errorMessage: msg,
                     access: req.session.user,
