@@ -23,6 +23,21 @@ block content
                                     div.col-xs-12.col-sm-4.details
                                         strong Total:
                                         span $#{orderDetails[0].total}
+                    if owner
+                        div.col-xs-12.col-md-8
+                            div.row.middle-xs.grey
+                                div.col-sm-4.image
+                                    img(src='/img/blueberry.jpg')
+                                div.col-xs-9.col-sm-6
+                                    h3 #{user.firstName} #{user.lastName}
+                                    ul
+                                        li
+                                            strong Email:
+                                            span #{user.email}
+                                        if user.phoneNumber !== ''
+                                            li
+                                                strong Phone Number:
+                                                span #{user.phoneNumber}
                     div.col-xs-12.col-md-8
                         each product in productDetails
                             div.row.middle-xs.grey

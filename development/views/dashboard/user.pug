@@ -11,7 +11,7 @@ block content
                             span #{errorMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        form(action='/admin/update-user' method='post')
+                        form(action=add ? '/admin/dashboard/add-user' : '/admin/dashboard/update-user' method='post')
                             span.row.grey
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Personal Details
@@ -56,4 +56,7 @@ block content
                                     input(type='password' name='password3' placeholder='********')
                             span.flex.between
                                     button(type='reset').button.brown Cancel
-                                    button(type='submit').button.pink Update
+                                    if add
+                                        button(type='submit').button.pink Add
+                                    else
+                                        button(type='submit').button.pink Update
