@@ -30,33 +30,35 @@ block content
                                     img(src='/img/' + product.image)
                                 div.col-xs-12.col-sm-8
                                     div.row
-                                        div.col-xs-7.col-sm-12
+                                        div.col-xs-12
                                             h3 #{product.title}
                                             p #{product.excerpt}
-                                        div.col-xs-5.col-sm-12.product-details
-                                            div.row
-                                                div.col-xs-12.col-sm-4.details
-                                                    strong Price:
-                                                    span $#{product.price}
-                                                div.col-xs-12.col-sm-4.details
-                                                    strong Quantity:
-                                                    span #{product.quantity}
-                                                div.col-xs-12.col-sm-4.details
-                                                    strong Total:
-                                                    span $#{product.subtotal}
+                                        div.col-xs-12
+                                            div.product-details
+                                                div.row.middle-xs
+                                                    div.col-xs-12.col-sm-4.details
+                                                        strong Price:
+                                                        span $#{product.price}
+                                                    div.col-xs-12.col-sm-4.details
+                                                        span.flex
+                                                            strong Quantity:
+                                                            span #{product.quantity}
+                                                    div.col-xs-12.col-sm-4.details
+                                                        strong Total:
+                                                        span $#{product.subtotal}
                     div.col-xs-12.col-md-8
                         div.row.middle-xs.grey
                             div.col-xs-12
                                 div.row.middle-xs
                                     div.col-xs-12.col-sm-3.details
                                         strong Sub-total:
-                                        span $#{orderDetails.subtotal}
+                                        span $#{orderDetails[0].subtotal}
                                     div.col-xs-12.col-sm-3.details
                                         strong Tax:
-                                        span $#{orderDetails.tax}
+                                        span $#{orderDetails[0].tax}
                                     div.col-xs-12.col-sm-3.details
                                         strong Shipping:
-                                        span $#{orderDetails.shipping}
+                                        span $#{orderDetails[0].shipping}
                                     div.col-xs-12.col-sm-3.details
                                         strong Total:
-                                        span $#{orderDetails.total}
+                                        span $#{orderDetails[0].total}
