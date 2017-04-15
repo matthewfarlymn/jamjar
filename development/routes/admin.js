@@ -406,7 +406,7 @@ router.get('/dashboard/order/:id', function(req, res, next) {
             console.log("Connected to the DB");
             console.log('req.session.id: ' + req.session.userId);
 
-            connection.query('SELECT d.id, d.date, d.userId, o.orderId, SUM(o.price * o.quantity) AS SubTotal, d.tax, d.shipping, u.firstName, u.lastName, u.email FROM orders o INNER JOIN order_details d ON o.orderId = d.id INNER JOIN users u ON d.userId = u.id WHERE o.orderId=? GROUP BY o.orderId',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT d.id, d.date, d.userId, o.orderId, SUM(o.price * o.quantity) AS SubTotal, d.tax, d.shipping, u.firstName, u.lastName, u.email, u.phoneNumber FROM orders o INNER JOIN order_details d ON o.orderId = d.id INNER JOIN users u ON d.userId = u.id WHERE o.orderId=? GROUP BY o.orderId',[req.params.id],function(err, results, fields) {
                 console.log('Query returned3 ' + JSON.stringify(results));
 
                 if(err) {
@@ -449,6 +449,7 @@ router.get('/dashboard/order/:id', function(req, res, next) {
                         orderDetail.firstName = results[i].firstName;
                         orderDetail.lastName = results[i].lastName;
                         orderDetail.email = results[i].email;
+                        orderDetail.phoneNumber = results[i].phoneNumber;
 
                         console.log(orderDetail);
                         orderDetails.push(orderDetail);
