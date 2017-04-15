@@ -419,7 +419,7 @@ router.get('/dashboard/order/:id', function(req, res, next) {
 
                     for (var i=0; i<results.length; i++) {
 
-                        var productDetail = {};
+                        var product = {};
 
                         var subtotal = results[i].price * results[i].quantity;
 
@@ -434,15 +434,15 @@ router.get('/dashboard/order/:id', function(req, res, next) {
                             excerpt = description;
                         }
 
-                        productDetail.image = results[i].image1;
-                        productDetail.title = results[i].title;
-                        productDetail.excerpt = excerpt;
-                        productDetail.price = results[i].price.toFixed(2);
-                        productDetail.quantity = results[i].quantity;
-                        productDetail.subtotal = subtotal.toFixed(2);
+                        product.image = results[i].image1;
+                        product.title = results[i].title;
+                        product.excerpt = excerpt;
+                        product.price = results[i].price.toFixed(2);
+                        product.quantity = results[i].quantity;
+                        product.subtotal = subtotal.toFixed(2);
 
-                        console.log(productDetail);
-                        productDetails.push(productDetail);
+                        console.log(product);
+                        productDetails.push(product);
                     }
                 }
             });
@@ -456,7 +456,7 @@ router.get('/dashboard/order/:id', function(req, res, next) {
                 });
             }
             else {
-                res.render('dashboard/order/' + req.params.id, {
+                res.render('dashboard/order', {
                     // errorMessage: msg,
                     access: req.session.user,
                     orders: true,
