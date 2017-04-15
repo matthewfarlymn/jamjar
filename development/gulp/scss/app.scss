@@ -606,9 +606,34 @@ section {
                     border-bottom: none;
                     margin-bottom: 15px;
                 }
+                .product-details{
+                    padding: 20px 20px 0 20px;
+                    margin-left: 20px;
+                    .details {
+                        background-color: #eeeeee;
+                        box-sizing: border-box;
+                        padding: 10px 20px;
+                        margin: 0 0 0 -10px;
+                    }
+                }
                 @include breakpoint(xs) {
                     .image {
                         display: none;
+                    }
+                    .product-details{
+                        padding: 0 20px 0 20px;
+                        margin: 0;
+                        margin-top: 0px;
+                        .details {
+                            padding-bottom: 5px;
+                            padding-top: 0;
+                            &:first-of-type {
+                                padding-top: 20px;
+                            }
+                            &:last-of-type {
+                                padding-bottom: 20px;
+                            }
+                        }
                     }
                     .details {
                         padding-bottom: 5px;
