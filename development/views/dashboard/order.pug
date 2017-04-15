@@ -26,17 +26,18 @@ block content
                     if owner
                         div.col-xs-12.col-md-8
                             div.row.middle-xs.grey
-                                div.col-xs-12.col-sm-6
+                                div.col-xs-12.col-sm-4
                                     h3 #{orderDetails[0].firstName} #{orderDetails[0].lastName}
-                                div.col-xs-12.col-sm-6
+                                div.col-xs-12.col-sm-4
                                     ul
                                         li
-                                            strong Email:
+                                            span.fa.fa-envelope
                                             span #{orderDetails[0].email}
-                                        if orderDetails.phoneNumber
-                                            li
-                                                strong Phone Number:
-                                                span #{orderDetails[0].phoneNumber}
+                                div.col-xs-12.col-sm-4
+                                    ul
+                                        li
+                                            span.fa.fa-phone
+                                            span #{orderDetails[0].phoneNumber}
                     div.col-xs-12.col-md-8
                         each product in productDetails
                             div.row.middle-xs.grey

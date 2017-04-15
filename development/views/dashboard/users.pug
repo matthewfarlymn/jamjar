@@ -19,11 +19,11 @@ block content
                                     h3 #{user.firstName} #{user.lastName}
                                     ul
                                         li
-                                            strong Email:
+                                            span.fa.fa-envelope
                                             span #{user.email}
                                         if user.phoneNumber !== ''
                                             li
-                                                strong Phone Number:
+                                                span.fa.fa-phone
                                                 span #{user.phoneNumber}
                                 div.col-xs-3.col-sm-2
                                     a(href='/admin/dashboard/edit-user/' + user.id + '/' + user.email) Edit
