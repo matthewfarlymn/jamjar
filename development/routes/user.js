@@ -304,15 +304,9 @@ router.post('/update-profile', function(req, res, next) {
 
 router.get('/dashboard/orders', function(req, res, next) {
 
-    // var msg = req.session.msg ? req.session.msg : "";
-    // var orderDetails = req.session.orderDetails ? req.session.orderDetails : "";
-    // var orderData = req.session.orderData ? req.session.orderData : "";
-
     var orderDetails = [];
 
-    // req.session.msg = "";
-    // req.session.orderDetails = "";
-    // req.session.orderData = "";
+    req.session.orderDetails = orderDetails;
 
     connect(function(err, connection) {
         if (err) {
@@ -362,7 +356,6 @@ router.get('/dashboard/orders', function(req, res, next) {
                         orderDetail.total = total.toFixed(2);
 
                         orderDetails.push(orderDetail);
-
                     }
                 }
             });
@@ -376,8 +369,6 @@ router.get('/dashboard/orders', function(req, res, next) {
                 });
             }
             else {
-                console.log(orderDetails);
-
                 res.render('dashboard/orders', {
                     // errorMessage: msg,
                     access: req.session.user,
@@ -392,106 +383,93 @@ router.get('/dashboard/orders', function(req, res, next) {
 });
 
 
-// router.get('/dashboard/order/:id', function(req, res, next) {
-//
-//     var orderDetails = [];
-//
-//     connect(function(err, connection) {
-//         if (err) {
-//             console.log("Error connecting to the database");
-//             throw err;
-//         }
-//         else {
-//             console.log("Connected to the DB");
-//             console.log('req.session.id: ' + req.session.userId);
-//
-//             connection.query('SELECT d.id, d.date, d.userId, o.orderId, SUM(o.price * o.quantity) AS SubTotal, d.tax, d.shipping FROM orders o INNER JOIN order_details d ON o.orderId = d.id WHERE d.userId=? GROUP BY o.orderId',[req.session.userId],function(err, results, fields) {
-//                 console.log('Query returned3 ' + JSON.stringify(results));
-//
-//                 if(err) {
-//                     throw err;
-//                 }
-//                 // no user found
-//                 else if (results.length === 0) {
-//                     console.log("No orders found for user");
-//                     orderData = false;
-//                 }
-//                 // user found
-//                 else {
-//                     console.log("Orders found for user");
-//                     orderData = true;
-//
-//                     for (var i=0; i<results.length; i++) {
-//
-//                         var orderDetail = {};
-//
-//                         var total = results[i].SubTotal + results[i].tax + results[i].shipping;
-//
-//                         var d = results[i].date;
-//                         var curr_date = d.getDate();
-//                         var curr_month = d.getMonth() + 1;
-//                         var curr_year = d.getFullYear();
-//
-//                         if (curr_date < 10) {
-//                             curr_date = '0' + curr_date
-//                         }
-//                         if (curr_month < 10) {
-//                             curr_month = '0' + curr_month
-//                         }
-//
-//                         orderDetail.id = results[i].id;
-//                         orderDetail.date = curr_date + "/" + curr_month + "/" + curr_year;
-//                         orderDetail.total = total.toFixed(2);
-//
-//                         orderDetails.push(orderDetail);
-//
-//                     }
-//                 }
-//             });
-//         }
-//
-//         connection.commit(function(err) {
-//             connection.release();
-//             if (err) {
-//                 connection.rollback(function() {
-//                     throw err;
-//                 });
-//             }
-//             else {
-//                 console.log(orderDetails);
-//
-//                 res.render('dashboard/orders', {
-//                     // errorMessage: msg,
-//                     access: req.session.user,
-//                     orders: true,
-//                     userId: userId,
-//                     orderDetails: orderDetails,
-//                     orderData: orderData,
-//                 });
-//             }
-//         });
-//     })
-// });
+router.get('/dashboard/order/:id', function(req, res, next) {
 
+    var productDetails = [];
+    var orderDetails = req.session.orderDetails;
 
-//         }
-//
-//         connection.commit(function(err) {
-//             connection.release();
-//             if (err) {
-//                 connection.rollback(function() {
-//                     throw err;
-//                 });
-//             }
-//             else {
-//                 res.render('dashboard', {
-//                     access: req.session.user,
-//                     user: user
-//                 });
-//             }
-//         });
-//     })
-// });
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+            console.log('req.session.id: ' + req.session.userId);
+
+            connection.query('SELECT * FROM orders o INNER JOIN product_details d ON o.productId = d.id INNER JOIN products p ON d.productsId = p.id  WHERE o.orderId=? GROUP BY o.id',[req.params.id],function(err, results, fields) {
+                console.log('Query returned4 ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no user found
+                else if (results.length === 0) {
+                    console.log("No product details found for order");
+                    // orderData = false;
+                }
+                // user found
+                else {
+                    console.log("Product details found for order");
+                    // orderData = true;
+
+                    for (var i=0; i<results.length; i++) {
+
+                        var productDetail = {};
+
+                        // ordersub
+                        // ordertax
+                        // ordershipping
+                        // ordertotal
+
+                        var subtotal = results[i].price * results[i].quantity;
+
+                        var excerptLength = 75;
+                        var description = results[i].description;
+                        var excerpt = "";
+
+                        if (description.length > excerptLength) {
+                            excerpt = description.substring(0,excerptLength).trim() + '...';
+                        }
+                        else {
+                            excerpt = description;
+                        }
+
+                        productDetail.image = results[i].image1;
+                        productDetail.title = results[i].title;
+                        productDetail.excerpt = excerpt;
+                        productDetail.price = results[i].price.toFixed(2);
+                        productDetail.quantity = results[i].quantity;
+                        productDetail.subtotal = subtotal.toFixed(2);
+
+                        productDetails.push(productDetail);
+                    }
+                }
+            });
+        }
+
+        connection.commit(function(err) {
+            connection.release();
+            if (err) {
+                connection.rollback(function() {
+                    throw err;
+                });
+            }
+            else {
+                res.render('dashboard/order/' + req.params.id, {
+                    // errorMessage: msg,
+                    access: req.session.user,
+                    orders: true,
+                    // userId: userId
+                    orderDetails: orderDetails,
+                    productDetails: productDetails,
+                    // orderData: orderData,
+                });
+            }
+        });
+    })
+});
+
 
 //edit user
 
