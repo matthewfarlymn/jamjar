@@ -353,8 +353,12 @@ router.get('/dashboard/orders', function(req, res, next) {
 
                         orderDetail.id = results[i].id;
                         orderDetail.date = curr_date + "/" + curr_month + "/" + curr_year;
+                        orderDetail.subtotal = results[i].SubTotal.toFixed(2);
+                        orderDetail.tax = results[i].tax.toFixed(2);
+                        orderDetail.shipping = results[i].shipping.toFixed(2);
                         orderDetail.total = total.toFixed(2);
 
+                        console.log(orderDetail);
                         orderDetails.push(orderDetail);
                     }
                 }
@@ -417,11 +421,6 @@ router.get('/dashboard/order/:id', function(req, res, next) {
 
                         var productDetail = {};
 
-                        // ordersub
-                        // ordertax
-                        // ordershipping
-                        // ordertotal
-
                         var subtotal = results[i].price * results[i].quantity;
 
                         var excerptLength = 75;
@@ -442,6 +441,7 @@ router.get('/dashboard/order/:id', function(req, res, next) {
                         productDetail.quantity = results[i].quantity;
                         productDetail.subtotal = subtotal.toFixed(2);
 
+                        console.log(productDetail);
                         productDetails.push(productDetail);
                     }
                 }
