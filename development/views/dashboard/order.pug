@@ -1,0 +1,42 @@
+extends ../templates/layout
+
+block content
+    main
+        section.dashboard
+            include ../modules/dashboard-nav
+            div.orders
+                if errorMessage
+                    div.row.center-xs.container
+                        div.col-xs-12.col-sm-12.col-md-8.error
+                            span #{errorMessage}
+                div.row.center-xs.container
+                    div.col-xs-12.col-md-8
+                        each order in orderDetails
+                            div.row.middle-xs.grey
+                                div.col-xs-8.col-sm-10
+                                    div.row.middle-xs
+                                        div.col-xs-12.col-sm-3.details
+                                            strong ID:
+                                            span #{order.id}
+                                        div.col-xs-12.col-sm-5.details
+                                            strong Date:
+                                            span #{order.date}
+                                        div.col-xs-12.col-sm-4.details
+                                            strong Total:
+                                            span $#{order.total}
+                                div.col-xs-4.col-sm-2.right
+                                    a(href=owner ? '/admin/dashboard/order/' + order.id : '/user/dashboard/order/' + order.id) Details
+                    div.col-xs-12.col-md-8
+                        each order in orderDetails
+                            div.row.middle-xs.grey
+                                div.col-sm-2.image
+                                    img(src='/img/blueberry.jpg')
+                                div.col-xs-9.col-sm-4
+                                    h3 Blueberry
+                                    p Excerpt ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo...
+                                div.col-xs-3.col-sm-2
+                                    span Price: $29.99
+                                div.col-xs-3.col-sm-2
+                                    span Quantity: 1
+                                div.col-xs-3.col-sm-2
+                                    span Total: $29.99
