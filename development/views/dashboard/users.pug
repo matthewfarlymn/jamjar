@@ -21,10 +21,9 @@ block content
                                         li
                                             span.fa.fa-envelope
                                             span #{user.email}
-                                        if user.phoneNumber !== ''
-                                            li
-                                                span.fa.fa-phone
-                                                span #{user.phoneNumber}
+                                        li
+                                            span.fa.fa-phone
+                                            span #{user.phoneNumber}
                                 div.col-xs-3.col-sm-2
                                     a(href='/admin/dashboard/edit-user/' + user.id + '/' + user.email) Edit
                     div.col-xs-12.col-md-8
