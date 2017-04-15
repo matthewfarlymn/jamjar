@@ -306,8 +306,6 @@ router.get('/dashboard/orders', function(req, res, next) {
 
     var orderDetails = [];
 
-    req.session.orderDetails = orderDetails;
-
     connect(function(err, connection) {
         if (err) {
             console.log("Error connecting to the database");
@@ -318,6 +316,7 @@ router.get('/dashboard/orders', function(req, res, next) {
             console.log('req.session.id: ' + req.session.userId);
 
             connection.query('SELECT d.id, d.date, d.userId, o.orderId, SUM(o.price * o.quantity) AS SubTotal, d.tax, d.shipping FROM orders o INNER JOIN order_details d ON o.orderId = d.id WHERE d.userId=? GROUP BY o.orderId',[req.session.userId],function(err, results, fields) {
+
                 console.log('Query returned3 ' + JSON.stringify(results));
 
                 if(err) {
@@ -389,8 +388,8 @@ router.get('/dashboard/orders', function(req, res, next) {
 
 router.get('/dashboard/order/:id', function(req, res, next) {
 
+    var orderDetails = [];
     var productDetails = [];
-    var orderDetails = req.session.orderDetails;
 
     connect(function(err, connection) {
         if (err) {
@@ -401,7 +400,53 @@ router.get('/dashboard/order/:id', function(req, res, next) {
             console.log("Connected to the DB");
             console.log('req.session.id: ' + req.session.userId);
 
-            // connection.query('SELECT * FROM orders o INNER JOIN product_details d ON o.productId = d.id INNER JOIN products p ON d.productsId = p.id  WHERE o.orderId=? GROUP BY o.id',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT d.id, d.date, d.userId, o.orderId, SUM(o.price * o.quantity) AS SubTotal, d.tax, d.shipping FROM orders o INNER JOIN order_details d ON o.orderId = d.id WHERE o.orderId=? GROUP BY o.orderId',[req.params.id],function(err, results, fields) {
+                console.log('Query returned3 ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no user found
+                else if (results.length === 0) {
+                    console.log("No orders found for user");
+                    orderData = false;
+                }
+                // user found
+                else {
+                    console.log("Orders found for user");
+                    orderData = true;
+
+                    for (var i=0; i<results.length; i++) {
+
+                        var orderDetail = {};
+
+                        var total = results[i].SubTotal + results[i].tax + results[i].shipping;
+
+                        var d = results[i].date;
+                        var curr_date = d.getDate();
+                        var curr_month = d.getMonth() + 1;
+                        var curr_year = d.getFullYear();
+
+                        if (curr_date < 10) {
+                            curr_date = '0' + curr_date
+                        }
+                        if (curr_month < 10) {
+                            curr_month = '0' + curr_month
+                        }
+
+                        orderDetail.id = results[i].id;
+                        orderDetail.date = curr_date + "/" + curr_month + "/" + curr_year;
+                        orderDetail.subtotal = results[i].SubTotal.toFixed(2);
+                        orderDetail.tax = results[i].tax.toFixed(2);
+                        orderDetail.shipping = results[i].shipping.toFixed(2);
+                        orderDetail.total = total.toFixed(2);
+
+                        console.log(orderDetail);
+                        orderDetails.push(orderDetail);
+                    }
+                }
+            });
+
             connection.query('SELECT o.id, o.orderId, o.price, o.quantity, p.title, p.description, p.image1 FROM orders o INNER JOIN product_details d ON o.productId = d.id INNER JOIN products p ON d.productsId = p.id  WHERE o.orderId=? GROUP BY o.id',[req.params.id],function(err, results, fields) {
                 console.log('Query returned4 ' + JSON.stringify(results));
 
@@ -458,13 +503,10 @@ router.get('/dashboard/order/:id', function(req, res, next) {
             }
             else {
                 res.render('dashboard/order', {
-                    // errorMessage: msg,
                     access: req.session.user,
                     orders: true,
-                    // userId: userId
                     orderDetails: orderDetails,
                     productDetails: productDetails
-                    // orderData: orderData,
                 });
             }
         });
