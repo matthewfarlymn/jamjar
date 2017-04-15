@@ -26,18 +26,17 @@ block content
                     if owner
                         div.col-xs-12.col-md-8
                             div.row.middle-xs.grey
-                                div.col-sm-4.image
-                                    img(src='/img/blueberry.jpg')
-                                div.col-xs-9.col-sm-6
-                                    h3 #{orderDetails.firstName} #{orderDetails.lastName}
+                                div.col-xs-12.col-sm-6
+                                    h3 #{orderDetails[0].firstName} #{orderDetails[0].lastName}
+                                div.col-xs-12.col-sm-6
                                     ul
                                         li
                                             strong Email:
-                                            span #{orderDetails.email}
-                                        if orderDetails.phoneNumber !== ''
+                                            span #{orderDetails[0].email}
+                                        if orderDetails.phoneNumber
                                             li
                                                 strong Phone Number:
-                                                span #{orderDetails.phoneNumber}
+                                                span #{orderDetails[0].phoneNumber}
                     div.col-xs-12.col-md-8
                         each product in productDetails
                             div.row.middle-xs.grey
