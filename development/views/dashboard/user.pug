@@ -4,14 +4,14 @@ block content
     main
         section.dashboard
             include ../modules/dashboard-nav
-            div.profile
+            div.user
                 if errorMessage
                     div.row.center-xs.container
                         div.col-xs-12.col-sm-12.col-md-8.error
                             span #{errorMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        form(action=owner ? '/admin/update-profile' : '/user/update-profile' method='post')
+                        form(action='/admin/update-user' method='post')
                             span.row.grey
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Personal Details
@@ -23,6 +23,10 @@ block content
                                     input(type='email' name='email' placeholder='Email' value=email required)
                                     label(for='phoneNumber') Phone Number
                                     input(type='tel' name='phoneNumber' placeholder='0123456789' value=phoneNumber)
+                                    label(for='avatar') Avatar
+                                    select(name='userType')
+                                        option(value='customer' selected=user[0].userType === 'customer') Customer
+                                        option(value='admin' selected=user[0].userType === 'admin') Admin
                                     label(for='avatar') Avatar
                                     span(style=avatar ? 'background-image: url(/img/' + userId + '/' + avatar + ');' : '').user
                                         input(type='file' name='avatar')
@@ -53,4 +57,3 @@ block content
                             span.flex.between
                                     button(type='reset').button.brown Cancel
                                     button(type='submit').button.pink Update
-                                

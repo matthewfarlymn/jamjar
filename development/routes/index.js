@@ -4,7 +4,6 @@ var connect = require('../database/connect');
 
 // var session = '';
 
-
 router.get('/', function(req, res, next) {
 
     // if (!session) {
