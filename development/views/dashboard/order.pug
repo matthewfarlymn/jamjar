@@ -16,46 +16,47 @@ block content
                                 div.row.middle-xs
                                     div.col-xs-12.col-sm-4.details
                                         strong ID:
-                                        span 6
+                                        span #{orderDetails[0].id}
                                     div.col-xs-12.col-sm-4.details
                                         strong Date:
-                                        span 02/13/2017
+                                        span #{orderDetails[0].date}
                                     div.col-xs-12.col-sm-4.details
                                         strong Total:
-                                        span $28.99
+                                        span $#{orderDetails[0].total}
                     div.col-xs-12.col-md-8
-                        div.row.middle-xs.grey
-                            div.col-sm-4.image
-                                img(src='/img/blueberry.jpg')
-                            div.col-xs-12.col-sm-8
-                                div.row
-                                    div.col-xs-7.col-sm-12
-                                        h3 Blueberry
-                                        p Excerpt ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo...
-                                    div.col-xs-5.col-sm-12.product-details
-                                        div.row
-                                            div.col-xs-12.col-sm-4.details
-                                                strong Price:
-                                                span $29.99
-                                            div.col-xs-12.col-sm-4.details
-                                                strong Quantity:
-                                                span 1
-                                            div.col-xs-12.col-sm-4.details
-                                                strong Total:
-                                                span $29.99
+                        each product in productDetails
+                            div.row.middle-xs.grey
+                                div.col-sm-4.image
+                                    img(src=product.image)
+                                div.col-xs-12.col-sm-8
+                                    div.row
+                                        div.col-xs-7.col-sm-12
+                                            h3 #{product.title}
+                                            p #{product.excerpt}
+                                        div.col-xs-5.col-sm-12.product-details
+                                            div.row
+                                                div.col-xs-12.col-sm-4.details
+                                                    strong Price:
+                                                    span #{product.price}
+                                                div.col-xs-12.col-sm-4.details
+                                                    strong Quantity:
+                                                    span #{product.quantity}
+                                                div.col-xs-12.col-sm-4.details
+                                                    strong Total:
+                                                    span #{product.total}
                     div.col-xs-12.col-md-8
                         div.row.middle-xs.grey
                             div.col-xs-12
                                 div.row.middle-xs
                                     div.col-xs-12.col-sm-3.details
                                         strong Sub-total:
-                                        span $29.99
+                                        span $#{order.subtotal}
                                     div.col-xs-12.col-sm-3.details
                                         strong Tax:
-                                        span $8.06
+                                        span $#{order.tax}
                                     div.col-xs-12.col-sm-3.details
                                         strong Shipping:
-                                        span $10.00
+                                        span $#{order.shipping}
                                     div.col-xs-12.col-sm-3.details
                                         strong Total:
-                                        span $48.05
+                                        span $#{order.total}
