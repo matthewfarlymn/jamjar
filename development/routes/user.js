@@ -304,17 +304,15 @@ router.post('/update-profile', function(req, res, next) {
 
 router.get('/dashboard/orders', function(req, res, next) {
 
-    var msg = req.session.msg ? req.session.msg : "";
-    var orderId = req.session.orderId ? req.session.orderId : "";
-    var date = req.session.date ? req.session.date : "";
-    var total = req.session.total ? req.session.total : "";
-    var orderData = req.session.orderData ? req.session.orderData : "";
+    // var msg = req.session.msg ? req.session.msg : "";
+    // var orderDetails = req.session.orderDetails ? req.session.orderDetails : "";
+    // var orderData = req.session.orderData ? req.session.orderData : "";
 
-    req.session.msg = "";
-    req.session.orderId = "";
-    req.session.date = "";
-    req.session.total = "";
-    req.session.orderData = "";
+    var orderDetails = {};
+
+    // req.session.msg = "";
+    // req.session.orderDetails = "";
+    // req.session.orderData = "";
 
     connect(function(err, connection) {
         if (err) {
@@ -338,16 +336,18 @@ router.get('/dashboard/orders', function(req, res, next) {
                 }
                 // user found
                 else {
-                    console.log("Orders found for user found");
+                    console.log("Orders found for user");
                     orderData = true;
 
                     for (var i=0; i<results.length; i++) {
 
-                        orderId = req.session.orderId = results[i].id;
-                        date = req.session.date = results[i].date;
-                        total = req.session.total = results[i].SubTotal + results[i].tax + results[i].shipping;
+                        // orderId = req.session.orderId = results[i].id;
+                        // date = req.session.date = results[i].date;
+                        // total = req.session.total = results[i].SubTotal + results[i].tax + results[i].shipping;
 
-                        var d = date;
+                        var total = results[i].SubTotal + results[i].tax + results[i].shipping;
+
+                        var d = results[i].date;
                         var curr_date = d.getDate();
                         var curr_month = d.getMonth() + 1;
                         var curr_year = d.getFullYear();
@@ -359,13 +359,13 @@ router.get('/dashboard/orders', function(req, res, next) {
                             curr_month = '0' + curr_month
                         }
 
-                        date = curr_date + "/" + curr_month + "/" + curr_year;
+                        orderDetails.orderId = results[i].id;
+                        orderDetails.date = curr_date + "/" + curr_month + "/" + curr_year;
+                        orderDetails.total = total.toFixed(2);
 
-                        total = total.toFixed(2);
-
-                        console.log("orderid: " + orderId);
-                        console.log("date: " + date);
-                        console.log("total: " + total);
+                        console.log("orderid: " + orderDetails.orderId);
+                        console.log("date: " + orderDetails.date);
+                        console.log("total: " + orderDetails.total);
                         console.log("orderData: " + orderData);
 
                     }
@@ -382,13 +382,11 @@ router.get('/dashboard/orders', function(req, res, next) {
             }
             else {
                 res.render('dashboard/orders', {
-                    errorMessage: msg,
+                    // errorMessage: msg,
                     access: req.session.user,
                     orders: true,
                     userId: userId,
-                    orderId: orderId,
-                    date: date,
-                    total: total,
+                    orderDetails: orderDetails,
                     orderData: orderData,
                 });
             }
