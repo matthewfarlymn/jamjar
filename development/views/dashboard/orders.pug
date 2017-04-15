@@ -11,17 +11,18 @@ block content
                             span #{errorMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        div.row.middle-xs.grey
-                            div.col-xs-8.col-sm-10
-                                div.row.middle-xs
-                                    div.col-xs-12.col-sm-3.details
-                                        strong ID:
-                                        span 123
-                                    div.col-xs-12.col-sm-5.details
-                                        strong Date:
-                                        span 02/22/2017
-                                    div.col-xs-12.col-sm-4.details
-                                        strong Total:
-                                        span $80.03
-                            div.col-xs-4.col-sm-2.right
-                                a(href=owner ? '/admin/dashboard/order/' + orderId : '/user/dashboard/order/' + orderId) Details
+                        each order as orderDetails
+                            div.row.middle-xs.grey
+                                div.col-xs-8.col-sm-10
+                                    div.row.middle-xs
+                                        div.col-xs-12.col-sm-3.details
+                                            strong ID:
+                                            span #{order.id}
+                                        div.col-xs-12.col-sm-5.details
+                                            strong Date:
+                                            span #{order.date}
+                                        div.col-xs-12.col-sm-4.details
+                                            strong Total:
+                                            span $#{order.totla}
+                                div.col-xs-4.col-sm-2.right
+                                    a(href=owner ? '/admin/dashboard/order/' + order.id : '/user/dashboard/order/' + order.id) Details
