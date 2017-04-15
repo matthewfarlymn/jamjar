@@ -27,7 +27,7 @@ block content
                         each product in productDetails
                             div.row.middle-xs.grey
                                 div.col-sm-4.image
-                                    img(src=product.image)
+                                    img(src='/img/' + product.image)
                                 div.col-xs-12.col-sm-8
                                     div.row
                                         div.col-xs-7.col-sm-12
@@ -37,26 +37,26 @@ block content
                                             div.row
                                                 div.col-xs-12.col-sm-4.details
                                                     strong Price:
-                                                    span #{product.price}
+                                                    span $#{product.price}
                                                 div.col-xs-12.col-sm-4.details
                                                     strong Quantity:
                                                     span #{product.quantity}
                                                 div.col-xs-12.col-sm-4.details
                                                     strong Total:
-                                                    span #{product.total}
+                                                    span $#{product.subtotal}
                     div.col-xs-12.col-md-8
                         div.row.middle-xs.grey
                             div.col-xs-12
                                 div.row.middle-xs
                                     div.col-xs-12.col-sm-3.details
                                         strong Sub-total:
-                                        span $#{order.subtotal}
+                                        span $#{orderDetails.subtotal}
                                     div.col-xs-12.col-sm-3.details
                                         strong Tax:
-                                        span $#{order.tax}
+                                        span $#{orderDetails.tax}
                                     div.col-xs-12.col-sm-3.details
                                         strong Shipping:
-                                        span $#{order.shipping}
+                                        span $#{orderDetails.shipping}
                                     div.col-xs-12.col-sm-3.details
                                         strong Total:
-                                        span $#{order.total}
+                                        span $#{orderDetails.total}
