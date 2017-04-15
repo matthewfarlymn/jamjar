@@ -379,7 +379,7 @@ router.get('/dashboard/orders', function(req, res, next) {
                     orders: true,
                     userId: userId,
                     orderDetails: orderDetails,
-                    orderData: orderData,
+                    orderData: orderData
                 });
             }
         });
@@ -401,7 +401,8 @@ router.get('/dashboard/order/:id', function(req, res, next) {
             console.log("Connected to the DB");
             console.log('req.session.id: ' + req.session.userId);
 
-            connection.query('SELECT * FROM orders o INNER JOIN product_details d ON o.productId = d.id INNER JOIN products p ON d.productsId = p.id  WHERE o.orderId=? GROUP BY o.id',[req.params.id],function(err, results, fields) {
+            // connection.query('SELECT * FROM orders o INNER JOIN product_details d ON o.productId = d.id INNER JOIN products p ON d.productsId = p.id  WHERE o.orderId=? GROUP BY o.id',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT o.id, o.orderId, o.price, o.quantity, p.title, p.description, p.image1 FROM orders o INNER JOIN product_details d ON o.productId = d.id INNER JOIN products p ON d.productsId = p.id  WHERE o.orderId=? GROUP BY o.id',[req.params.id],function(err, results, fields) {
                 console.log('Query returned4 ' + JSON.stringify(results));
 
                 if(err) {
