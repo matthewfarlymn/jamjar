@@ -29,15 +29,15 @@ block content
                                 div.col-sm-4.image
                                     img(src='/img/blueberry.jpg')
                                 div.col-xs-9.col-sm-6
-                                    h3 #{user.firstName} #{user.lastName}
+                                    h3 #{orderDetails.firstName} #{orderDetails.lastName}
                                     ul
                                         li
                                             strong Email:
-                                            span #{user.email}
+                                            span #{orderDetails.email}
                                         if user.phoneNumber !== ''
                                             li
                                                 strong Phone Number:
-                                                span #{user.phoneNumber}
+                                                span #{orderDetails.phoneNumber}
                     div.col-xs-12.col-md-8
                         each product in productDetails
                             div.row.middle-xs.grey
