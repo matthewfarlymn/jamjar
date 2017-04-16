@@ -143,6 +143,28 @@ form {
     }
 }
 
+.error, .success {
+    text-align: center;
+    span {
+        display: block;
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+}
+
+.error {
+    span {
+        background: #ffcccc;
+    }
+}
+
+.success {
+    span {
+        background: #dff0d8;
+    }
+}
+
 header, footer {
     color: #ffffff;
     padding: 20px 0;
@@ -260,9 +282,6 @@ section {
     max-width: 1200px;
     margin: 0 auto;
     text-align: left;
-    &.error {
-        text-align: center;
-    }
     ul {
         padding: 0 20px;
     }
@@ -348,16 +367,6 @@ section {
                     }
                 }
             }
-        }
-    }
-
-    &.error {
-        span {
-            background: #ffcccc;
-            display: block;
-            text-align: center;
-            padding: 20px;
-            margin-bottom: 40px;
         }
     }
 

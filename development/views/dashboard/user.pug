@@ -9,15 +9,20 @@ block content
                     div.row.center-xs.container
                         div.col-xs-12.col-sm-12.col-md-8.error
                             span #{errorMessage}
+                if successMessage
+                    div.row.center-xs.container
+                        div.col-xs-12.col-sm-12.col-md-8.success
+                            span #{successMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
                         form(action=add ? '/admin/dashboard/save-user' : '/admin/dashboard/update-user/' + userId + '/' + email method='post')
                             span.row
-                                span.col-xs-12
+                                span.col-xs
                                     if add
                                         button(type='submit').button.pink Save
                                     else
                                         button(type='submit').button.pink Update
+                                span.col-xs.right
                                     button(type='reset').button.brown Reset
                             span.row.grey
                                 span.col-xs-12.col-sm-6.fieldset
@@ -60,9 +65,10 @@ block content
                                     label(for='password2') Re-enter Password
                                     input(type='password' name='password2' placeholder='********')
                             span.row
-                                span.col-xs-12
+                                span.col-xs
                                     if add
                                         button(type='submit').button.pink Save
                                     else
                                         button(type='submit').button.pink Update
+                                span.col-xs.right
                                     button(type='reset').button.brown Reset
