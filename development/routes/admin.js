@@ -661,37 +661,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                 else {
                     console.log("Product found");
 
-                    prodId = results[0].id;
-                    title = req.session.prodtitle = results[0].title;
-                    description = req.session.proddesc = results[0].description;
-                    image1 = req.session.image1 = results[0].image1;
-                    image2 = req.session.image2 = results[0].image2;
-                    image3 = req.session.image3 = results[0].image3;
-                    image4 = req.session.image4 = results[0].image4;
-                    image5 = req.session.image5 = results[0].image5;
-                    prodstatus = req.session.prodstatus = results[0].prodstatus;
-
-                    for (var i = 0; i < results.length; i++) {
-
-                        var detail = {};
-
-                        // detailId[i] = req.session.detailId[i] = results[i].detailId;
-                        // size[i] = req.session.size[i] = results[i].size;
-                        // color[i] = req.session.color[i] = results[i].color;
-                        // stock[i] = req.session.stock[i] = results[i].stock;
-                        // price[i] = req.session.price[i] = results[i].price;
-                        // detailstatus[i] = req.session.prodstatus[i] = results[i].prodstatus;
-
-                        detail.id[i] = results[i].detailId;
-                        detail.size[i] = results[i].size;
-                        detail.color[i] = results[i].color;
-                        detail.stock[i] = results[i].stock;
-                        detail.price[i] = results[i].price;
-                        detail.status[i] = results[i].prodstatus;
-
-                        details.push(detail);
-
-                    }
+                    details = results;
                 }
             });
         }
@@ -711,15 +681,15 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                     owner: req.session.admin,
                     products: true,
                     // add: false,
-                    prodId: prodId,
-                    title: title,
-                    description: description,
-                    image1: image1,
-                    image2: image2,
-                    image3: image3,
-                    image4: image4,
-                    image5: image5,
-                    prodstatus: prodstatus,
+                    // prodId: prodId,
+                    // title: title,
+                    // description: description,
+                    // image1: image1,
+                    // image2: image2,
+                    // image3: image3,
+                    // image4: image4,
+                    // image5: image5,
+                    // prodstatus: prodstatus,
                     details: details
                 });
             }
