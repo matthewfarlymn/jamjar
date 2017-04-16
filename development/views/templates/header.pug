@@ -15,19 +15,19 @@ header.brown
             ul.row.end-xs.middle-xs.secondary-nav
                 li.search
                     span.fa.fa-search
-                li.cart
-                    a(href='/shopping-cart')
-                        span.fa.fa-shopping-cart
                 if access
                     li(style=avatar ? 'background-image: url(/img/' + userId + '/' + avatar + ');' : '').user
                         a(href=owner ? '/admin/dashboard/profile' : '/user/dashboard/profile')
                             if !avatar
                                 span.fa.fa-user
                 if access
-                    li.sign-in
-                        a(href='/sign-out').button.pink Sign-Out
-                else
                     li.sign-out
+                        a(href='/sign-out').button.pink Sign-Out
+                    li.cart
+                        a(href='/shopping-cart')
+                            span.fa.fa-shopping-cart
+                else
+                    li.sign-in
                         a(href='/sign-in').button.pink Sign-In
                 li.options
                     span.fa.fa-ellipsis-v

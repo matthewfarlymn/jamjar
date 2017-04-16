@@ -219,7 +219,7 @@ header, footer {
             display: inline-block;
             margin-right: 20px;
             text-transform: capitalize;
-            &.sign-in, &.sign-out, &.options, &:last-of-type {
+            &.sign-in, &.cart, &.options, &:last-of-type {
                 margin: 0;
             }
             a {
