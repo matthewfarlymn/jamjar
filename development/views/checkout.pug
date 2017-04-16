@@ -2,16 +2,46 @@ extends templates/layout
 
 block content
     main
-        section.shopping-cart
+        section.checkout
             if errorMessage
                 div.row.center-xs.container
                     div.col-xs-12.col-sm-12.col-md-8.error
                         span #{errorMessage}
             header.row.center-xs.container
                 div.col-xs-12.col-md-8
-                    h1 Shopping Cart
-            form(action='/user/update-shopping-cart' method='post')
+                    h1 Checkout
+            form(action='/user/checkout' method='post')
                 span.row.center-xs.container
+                    span.col-xs-12.col-md-8
+                        span.row.grey
+                            span.col-xs-12.col-sm-6.fieldset
+                                h2 Billing Details
+                                label(for='address1') Address 1
+                                input(type='text' name='address1' placeholder='Address' value=address1)
+                                label(for='address2') Address 2
+                                input(type='text' name='address2' placeholder='Address' value=address2)
+                                label(for='city') Town/City
+                                input(type='text' name='city' placeholder='Town/City' value=city)
+                                label(for='province') Province/State/County
+                                input(type='text' name='province' placeholder='Province/State/County' value=province)
+                                label(for='postalcode') Postalcode/Zipcode/Postcode
+                                input(type='text' name='postalcode' placeholder='Postalcode/Zipcode/Postcode' value=postalcode)
+                                label(for='country') Country
+                                input(type='text' name='country' placeholder='Country' value=country)
+                            span.col-xs-12.col-sm-6.fieldset
+                                h2 Shipping Details
+                                label(for='address1') Address 1
+                                input(type='text' name='address1' placeholder='Address' value=address1)
+                                label(for='address2') Address 2
+                                input(type='text' name='address2' placeholder='Address' value=address2)
+                                label(for='city') Town/City
+                                input(type='text' name='city' placeholder='Town/City' value=city)
+                                label(for='province') Province/State/County
+                                input(type='text' name='province' placeholder='Province/State/County' value=province)
+                                label(for='postalcode') Postalcode/Zipcode/Postcode
+                                input(type='text' name='postalcode' placeholder='Postalcode/Zipcode/Postcode' value=postalcode)
+                                label(for='country') Country
+                                input(type='text' name='country' placeholder='Country' value=country)
                     span.col-xs-12.col-md-8
                         //- each product in productDetails
                         span.row.middle-xs.grey
@@ -41,7 +71,7 @@ block content
                                                     span.flex
                                                         strong Quantity:
                                                         //- span #{product.quantity}
-                                                        input(type='number' name='quantity' min='1' placeholder='0' value='3')
+                                                        span 3
                                                 span.col-xs-12.col-sm-4.detail
                                                     strong Total:
                                                     //- span $#{product.subtotal}
@@ -66,11 +96,28 @@ block content
                                         strong Total:
                                         //- span $#{orderDetails[0].total}
                                         span $66.00
+                    span.col-xs-12.col-md-8
+                        span.row.grey
+                            span.col-xs-12
+                                h2 Payment Details
+                            span.col-xs-12.col-sm-6
+                                label(for='creditCard') Credit Card
+                                input(type='text' name='creditCard' placeholder='0000 - 0000 - 0000 - 0000' required)
+                            span.col-xs-12.col-sm-2
+                                label(for='cvv') CVV
+                                input(type='text' name='cvv' placeholder='123' required)
+                            span.col-xs-12.col-sm-6
+                                label(for='fullName') Full Name
+                                input(type='text' name='fullName' placeholder='Full Name' required)
+                            span.col-xs-12.col-sm-3
+                                label(for='expiration') Expiration
+                                span.flex
+                                    input(type='text' name='month' placeholder='MM' required)
+                                    input(type='text' name='year' placeholder='YY' required)
                 span.row.center-xs.container
                     span.col-xs-12.col-md-8
                         span.row.middle-xs
                             span.col-xs
-                                button(type='submit').button.gold Update
-                                a(href='/user/checkout').button.pink Continue
+                                button(type='submit').button.pink Check-Out
                             span.col-xs.right
                                 button(type='reset').button.brown Reset

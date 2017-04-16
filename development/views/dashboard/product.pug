@@ -33,9 +33,10 @@ block content
                                             input(type='text' name='title' placeholder='Title' value=title required)
                                         span.col-xs-12.col-sm-3
                                             label(for='status') Status
-                                            select()
-                                                option() Active
-                                                option() Inactive
+                                            select(name='status')
+                                                option(disabled='true') -- Select --
+                                                option(value='active') Active
+                                                option(value='inactive') Inactive
                                         span.col-xs-12
                                             label(for='title') Description
                                             textarea(placeholder='Description') #{description}

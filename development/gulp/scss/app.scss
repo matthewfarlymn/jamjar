@@ -504,7 +504,7 @@ section {
         }
     }
 
-    &.cart {
+    &.shopping-cart, &.checkout {
         form {
             margin: 0;
             .grey {
@@ -558,6 +558,9 @@ section {
                     &.fa {
                         margin-right: 10px;
                     }
+                }
+                h2 {
+                    margin-bottom: 15px;
                 }
                 p {
                     margin: 5px 0 0 0;
