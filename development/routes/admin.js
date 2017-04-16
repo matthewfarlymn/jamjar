@@ -655,6 +655,14 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                 else {
                     console.log("Product found");
 
+                    title = results[i].title;
+                    description = results[i].description;
+                    image1 = results[i].image1;
+                    image2 = results[i].image2;
+                    image3 = results[i].image3;
+                    image4 = results[i].image4;
+                    image5 = results[i].image5;
+
                     for (var i=0; i<results.length; i++) {
 
                         var detail = {};
@@ -697,6 +705,13 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                     owner: req.session.admin,
                     products: true,
                     hide: hide,
+                    title: title;
+                    description: description;
+                    image1: image1;
+                    image2: image2;
+                    image3: image3;
+                    image4: image4;
+                    image5: image5;
                     details: details
                 });
             }
@@ -877,13 +892,35 @@ router.get('/dashboard/add-product', function(req, res, next) {
     var image5 = req.session.image5 ? req.session.image5 : "";
     var status = req.session.prodstatus ? req.session.prodstatus : "";
 
-    var detailId = [];
-    var size = [];
-    var color = [];
-    var stock = [];
-    var price = [];
-    var detailstatus = [];
+    var size1 = req.session.size1 ? req.session.size1 : "";
+    var color1 = req.session.color1 ? req.session.color1 : "";
+    var stock1 = req.session.stock1 ? req.session.stock1 : "";
+    var price1 = req.session.price1 ? req.session.price1 : "";
+    var detailstatus1 = req.session.detailstatus1 ? req.session.detailstatus5 : "";
 
+    var size2 = req.session.size2 ? req.session.size2 : "";
+    var color2 = req.session.color2 ? req.session.color2 : "";
+    var stock2 = req.session.stock2 ? req.session.stock2 : "";
+    var price2 = req.session.price2 ? req.session.price2 : "";
+    var detailstatus2 = req.session.detailstatus2 ? req.session.detailstatus2 : "";
+
+    var size3 = req.session.size3 ? req.session.size3 : "";
+    var color3 = req.session.color3 ? req.session.color3 : "";
+    var stock3 = req.session.stock3 ? req.session.stock3 : "";
+    var price3 = req.session.price3 ? req.session.price3 : "";
+    var detailstatus3 = req.session.detailstatus3 ? req.session.detailstatus3 : "";
+
+    var size4 = req.session.size4 ? req.session.size4 : "";
+    var color4 = req.session.color4 ? req.session.color4 : "";
+    var stock4 = req.session.stock4 ? req.session.stock4 : "";
+    var price4 = req.session.price4 ? req.session.price4 : "";
+    var detailstatus4 = req.session.detailstatus4 ? req.session.detailstatus4 : "";
+
+    var size5 = req.session.size5 ? req.session.size5 : "";
+    var color5 = req.session.color5 ? req.session.color5 : "";
+    var stock5 = req.session.stock5 ? req.session.stock5 : "";
+    var price5 = req.session.price5 ? req.session.price5 : "";
+    var detailstatus5 = req.session.detailstatus5 ? req.session.detailstatus5 : "";
 
     req.session.msg = "";
     req.session.successMsg = "";
@@ -897,6 +934,35 @@ router.get('/dashboard/add-product', function(req, res, next) {
     req.session.image5 = "";
     req.session.prodstatus = "";
 
+    req.session.size1 = "";
+    req.session.color1 = "";
+    req.session.stock1 = "";
+    req.session.price1 = "";
+    req.session.detailstatus1 = "";
+
+    req.session.size2 = "";
+    req.session.color2 = "";
+    req.session.stock2 = "";
+    req.session.price2 = "";
+    req.session.detailstatus2 = "";
+
+    req.session.size3 = "";
+    req.session.color3 = "";
+    req.session.stock3 = "";
+    req.session.price3 = "";
+    req.session.detailstatus3 = "";
+
+    req.session.size4 = "";
+    req.session.color4 = "";
+    req.session.stock4 = "";
+    req.session.price4 = "";
+    req.session.detailstatus4 = "";
+
+    req.session.size5 = "";
+    req.session.color5 = "";
+    req.session.stock5 = "";
+    req.session.price5 = "";
+    req.session.detailstatus5 = "";
 
     res.render('dashboard/product', {
         errorMessage: msg,
@@ -904,6 +970,7 @@ router.get('/dashboard/add-product', function(req, res, next) {
         owner: req.session.admin,
         productData: productData,
         products: true,
+        details: details,
         // add: true,
         title: title,
         description: description,
@@ -913,11 +980,31 @@ router.get('/dashboard/add-product', function(req, res, next) {
         image4: image4,
         image5: image5,
         status: status,
-        size: size,
-        color: color,
-        stock: stock,
-        price: price,
-        detailstatus: detailstatus
+        size1: size1,
+        color1: color1,
+        stock1: stock1,
+        price1: price1,
+        detailstatus1: detailstatus1,
+        size2: size2,
+        color2: color2,
+        stock2: stock2,
+        price2: price2,
+        detailstatus2: detailstatus2,
+        size3: size3,
+        color3: color3,
+        stock3: stock3,
+        price3: price3,
+        detailstatus3: detailstatus3,
+        size4: size4,
+        color4: color4,
+        stock4: stock4,
+        price4: price4,
+        detailstatus4: detailstatus4,
+        size5: size5,
+        color5: color5,
+        stock5: stock5,
+        price5: price5,
+        detailstatus5: detailstatus5
     });
 });
 
@@ -933,12 +1020,40 @@ router.post('/dashboard/save-product', function(req, res, next) {
     var image5 = req.body.image5;
     var prodstatus = req.body.prodstatus;
 
-    var detailId;
-    var size = req.body.size;
-    var color = req.body.color;
-    var stock = req.body.stock;
-    var price = req.body.price;
-    var detailstatus = req.body.detailstatus;
+    var detailId1 = '';
+    var size1 = req.body.size1;
+    var color1 = req.body.color1;
+    var stock1 = req.body.stock1;
+    var price1 = req.body.price1;
+    var detailstatus = req.body.detailstatus1;
+
+    var detailId2 = '';
+    var size2 = req.body.size2;
+    var color2 = req.body.color2;
+    var stock2 = req.body.stock2;
+    var price2 = req.body.price2;
+    var detailstatus = req.body.detailstatus2;
+
+    var detailId3 = '';
+    var size3 = req.body.size3;
+    var color3 = req.body.color3;
+    var stock3 = req.body.stock3;
+    var price3 = req.body.price3;
+    var detailstatus = req.body.detailstatus3;
+
+    var detailId4 = '';
+    var size4 = req.body.size4;
+    var color4 = req.body.color4;
+    var stock4 = req.body.stock4;
+    var price4 = req.body.price4;
+    var detailstatus = req.body.detailstatus4;
+
+    var detailId5 = '';
+    var size5 = req.body.size5;
+    var color5 = req.body.color5;
+    var stock5 = req.body.stock5;
+    var price5 = req.body.price5;
+    var detailstatus5 = req.body.detailstatus5;
 
     connect(function(err, connection) {
         if (err) {
@@ -958,11 +1073,37 @@ router.post('/dashboard/save-product', function(req, res, next) {
                 req.session.image4 = image4;
                 req.session.image5 = image5;
                 req.session.status = status;
-                req.session.size = size;
-                req.session.color = color;
-                req.session.stock = stock;
-                req.session.price = price;
-                req.session.detailstatus = detailstatus;
+
+                req.session.size1 = size1;
+                req.session.color1 = color1;
+                req.session.stock1 = stock1;
+                req.session.price1 = prcie1;
+                req.session.detailstatus1 = detailstatus1;
+
+                req.session.size2 = size2;
+                req.session.color2 = color2;
+                req.session.stock2 = stock2;
+                req.session.price2 = price2;
+                req.session.detailstatus2 = detailstatus2;
+
+                req.session.size3 = size3;
+                req.session.color3 = color3;
+                req.session.stock3 = stock3;
+                req.session.price3 = price3;
+                req.session.detailstatus3 = detailstatus3;
+
+                req.session.size4 = size4;
+                req.session.color4 = color4;
+                req.session.stock4 = stock4;
+                req.session.price4 = price4;
+                req.session.detailstatus4 = detailstatus4;
+
+                req.session.size5 = size5;
+                req.session.color5 = color5;
+                req.session.stock5 = stock5;
+                req.session.price5 = price5;
+                req.session.detailstatus5 = detailstatus5;
+
                 res.redirect('/admin/dashboard/add-user');
             }
             else {
@@ -983,11 +1124,37 @@ router.post('/dashboard/save-product', function(req, res, next) {
                         req.session.image4 = image4;
                         req.session.image5 = image5;
                         req.session.status = status;
-                        req.session.size = size;
-                        req.session.color = color;
-                        req.session.stock = stock;
-                        req.session.price = price;
-                        req.session.detailstatus = detailstatus;
+
+                        req.session.size1 = size1;
+                        req.session.color1 = color1;
+                        req.session.stock1 = stock1;
+                        req.session.price1 = prcie1;
+                        req.session.detailstatus1 = detailstatus1;
+
+                        req.session.size2 = size2;
+                        req.session.color2 = color2;
+                        req.session.stock2 = stock2;
+                        req.session.price2 = price2;
+                        req.session.detailstatus2 = detailstatus2;
+
+                        req.session.size3 = size3;
+                        req.session.color3 = color3;
+                        req.session.stock3 = stock3;
+                        req.session.price3 = price3;
+                        req.session.detailstatus3 = detailstatus3;
+
+                        req.session.size4 = size4;
+                        req.session.color4 = color4;
+                        req.session.stock4 = stock4;
+                        req.session.price4 = price4;
+                        req.session.detailstatus4 = detailstatus4;
+
+                        req.session.size5 = size5;
+                        req.session.color5 = color5;
+                        req.session.stock5 = stock5;
+                        req.session.price5 = price5;
+                        req.session.detailstatus5 = detailstatus5;
+
                         res.redirect('/admin/dashboard/add-product');
                     }
                     // error - description not entered
@@ -1001,12 +1168,37 @@ router.post('/dashboard/save-product', function(req, res, next) {
                         req.session.image3 = image3;
                         req.session.image4 = image4;
                         req.session.image5 = image5;
-                        req.session.status = status;
-                        req.session.size = size;
-                        req.session.color = color;
-                        req.session.stock = stock;
-                        req.session.price = price;
-                        req.session.detailstatus = detailstatus;
+
+                        req.session.size1 = size1;
+                        req.session.color1 = color1;
+                        req.session.stock1 = stock1;
+                        req.session.price1 = prcie1;
+                        req.session.detailstatus1 = detailstatus1;
+
+                        req.session.size2 = size2;
+                        req.session.color2 = color2;
+                        req.session.stock2 = stock2;
+                        req.session.price2 = price2;
+                        req.session.detailstatus2 = detailstatus2;
+
+                        req.session.size3 = size3;
+                        req.session.color3 = color3;
+                        req.session.stock3 = stock3;
+                        req.session.price3 = price3;
+                        req.session.detailstatus3 = detailstatus3;
+
+                        req.session.size4 = size4;
+                        req.session.color4 = color4;
+                        req.session.stock4 = stock4;
+                        req.session.price4 = price4;
+                        req.session.detailstatus4 = detailstatus4;
+
+                        req.session.size5 = size5;
+                        req.session.color5 = color5;
+                        req.session.stock5 = stock5;
+                        req.session.price5 = price5;
+                        req.session.detailstatus5 = detailstatus5;
+
                         res.redirect('/admin/dashboard/add-product');
                     }
                     else {
