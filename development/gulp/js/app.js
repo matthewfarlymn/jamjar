@@ -47,23 +47,22 @@ jQuery(document).ready(function($) {
                     <span class="col-xs-12">\
                         <label>Item '+ data +'</label>\
                     </span>\
-                    <span class="col-xs-12 col-sm">\
+                    <span class="col-xs-6 col-sm">\
                         <input type="text" name="size' + data + '" placeholder="Size">\
                     </span>\
-                    <span class="col-xs-12 col-sm">\
+                    <span class="col-xs-6 col-sm">\
                         <input type="text" name="color' + data + '" placeholder="Color">\
                     </span>\
-                    <span class="col-xs-12 col-sm">\
+                    <span class="col-xs-6 col-sm">\
                         <input type="number" name="stock' + data + '" placeholder="100">\
                     </span>\
-                    <span class="col-xs-12 col-sm">\
+                    <span class="col-xs-6 col-sm">\
                         <input type="number" name="price' + data + '" placeholder="0.00" required>\
                     </span>\
                     <span class="col-xs-12 col-sm-3">\
                     <select name="action">\
-                        <option>Enable</option>\
-                        <option>Disable</option>\
-                        <option>Delete</option>\
+                        <option>Active</option>\
+                        <option>Inactive</option>\
                     </select>\
                 </span>'
             );

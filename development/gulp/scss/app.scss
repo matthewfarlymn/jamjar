@@ -538,6 +538,7 @@ section {
                         margin-bottom: 10px;
                     }
                     h2 {
+                        margin-top: -5px;
                         margin-bottom: 20px;
                     }
                     .user, .image {
@@ -602,29 +603,35 @@ section {
                 }
                 .product-details {
                     h2 {
+                        margin-top: -5px;
                         margin-bottom: 15px;
                     }
                     .grey {
                         background-color: #f6f6f6;
                         padding: 20px 4px;
                         border-bottom: 4px solid #ffffff;
-                        margin: 0;
+                        margin: 0 -21px;
                         border-radius: 0;
                         &:first-of-type {
                             border-top-left-radius: 5px;
                             border-top-right-radius: 5px;
-                            margin-top: 15px;
+                            padding-top: 0;
                         }
                         &:last-of-type {
                             border-bottom-left-radius: 5px;
                             border-bottom-right-radius: 5px;
                             border-bottom: none;
-                            margin-bottom: 15px;
+                            padding-bottom: 10px;
                         }
                         input, select {
                             margin-bottom: 0;
                             @include breakpoint(xs) {
                                 margin-bottom: 15px;
+                            }
+                        }
+                        select {
+                            @include breakpoint(xs) {
+                                margin-bottom: 0;
                             }
                         }
                     }
@@ -633,16 +640,6 @@ section {
         }
 
         .orders, .products, .users {
-            form {
-                &.product-details {
-                    h2 {
-                        margin-bottom: 20px;
-                    }
-                    input, select {
-                        margin-bottom: 0;
-                    }
-                }
-            }
             .grey {
                 background-color: #f6f6f6;
                 padding: 20px 4px;
