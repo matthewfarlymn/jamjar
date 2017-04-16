@@ -552,31 +552,7 @@ router.get('/dashboard/products', function(req, res, next) {
                     console.log("Products found");
                     productData = true;
 
-                    // productDetails = results;
-
-                    for (var i=0; i<results.length; i++) {
-
-                        var product = {};
-
-                        var excerptLength = 75;
-                        var description = results[i].description;
-                        var excerpt = "";
-
-                        if (description.length > excerptLength) {
-                            excerpt = description.substring(0,excerptLength).trim() + '...';
-                        }
-                        else {
-                            excerpt = description;
-                        }
-
-                        product.id = results[i].id;
-                        product.image = results[i].image1;
-                        product.title = results[i].title;
-                        product.excerpt = excerpt;
-
-                        console.log(product);
-                        productDetails.push(product);
-                    }
+                    productDetails = results;
 
                     console.log(productDetails);
                 }
@@ -649,8 +625,6 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
             connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.id],function(err, results, fields) {
                 console.log('Query returned*' + JSON.stringify(results));
 
-// *** IM HERE
-
                 if(err) {
                     throw err;
                 }
@@ -721,7 +695,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
     })
 });
 
-router.get('/dashboard/add-product/:id', function(req, res, next) {
+router.post('/dashboard/update-product/:id/:title', function(req, res, next) {
 
     res.render('dashboard/products', {
         access: req.session.user,
@@ -730,6 +704,40 @@ router.get('/dashboard/add-product/:id', function(req, res, next) {
         products: true
     });
 });
+
+
+router.get('/dashboard/add-new-user', function(req, res, next) {
+
+
+    res.render('dashboard/products', {
+        access: req.session.user,
+        owner: req.session.admin,
+        productData: productData,
+        products: true
+    });
+});
+
+router.get('/dashboard/add-product', function(req, res, next) {
+
+    res.render('dashboard/products', {
+        access: req.session.user,
+        owner: req.session.admin,
+        productData: productData,
+        products: true
+    });
+});
+
+router.post('/dashboard/save-product', function(req, res, next) {
+
+    res.render('dashboard/products', {
+        access: req.session.user,
+        owner: req.session.admin,
+        productData: productData,
+        products: true
+    });
+});
+
+
 
 
 router.get('/dashboard/users', function(req, res, next) {
@@ -894,8 +902,6 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
 
 
 router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
-
-    console.log("** update-user");
 
     var userId = req.params.id;
     var firstName = req.body.firstName;
@@ -1220,7 +1226,6 @@ router.get('/dashboard/add-user', function(req, res, next) {
         userType: userType
     });
 });
-
 
 router.post('/dashboard/save-user', function(req, res, next) {
 
