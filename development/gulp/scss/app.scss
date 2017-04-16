@@ -514,14 +514,14 @@ section {
             }
         }
 
-        .profile {
+        .profile, .user {
             form {
                 margin: 0;
                 .grey {
                     background-color: #f6f6f6;
                     border-radius: 5px;
                     padding: 20px 5px 0 5px;
-                    margin: 0 0 15px 0;
+                    margin: 15px 0 15px 0;
                 }
                 .fieldset {
                     margin-bottom: 20px;
@@ -590,7 +590,7 @@ section {
             }
         }
 
-        .orders, .products, .product, .users, .user {
+        .orders, .products, .product, .users {
             form {
                 &.product-details {
                     h2 {
@@ -609,6 +609,7 @@ section {
                 &:first-of-type {
                     border-top-left-radius: 5px;
                     border-top-right-radius: 5px;
+                    margin-top: 15px;
                 }
                 &:last-of-type {
                     border-bottom-left-radius: 5px;

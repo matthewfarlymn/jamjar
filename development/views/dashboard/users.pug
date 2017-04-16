@@ -11,6 +11,8 @@ block content
                             span #{errorMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
+                        a(href='/admin/dashboard/add-new-user').button.pink Add
+                    div.col-xs-12.col-md-8
                         each user in userDetails
                             div.row.middle-xs.grey
                                 div.col-sm-4.image
@@ -27,5 +29,4 @@ block content
                                 div.col-xs-3.col-sm-2
                                     a(href='/admin/dashboard/edit-user/' + user.id + '/' + user.email) Edit
                     div.col-xs-12.col-md-8
-                        span.flex.end
-                                a(href='/admin/dashboard/add-new-user').button.pink Add
+                        a(href='/admin/dashboard/add-new-user').button.pink Add
