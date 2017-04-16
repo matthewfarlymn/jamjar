@@ -697,7 +697,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                 });
             }
             else {
-                res.render('dashboard/prod', {
+                res.render('dashboard/product', {
                     errorMessage: msg,
                     successMessage: successMsg,
                     access: req.session.user,
@@ -721,7 +721,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
 
 router.post('/dashboard/update-product/:id/:title', function(req, res, next) {
 
-    res.render('dashboard/products', {
+    res.render('dashboard/product', {
         access: req.session.user,
         owner: req.session.admin,
         productData: productData,
@@ -733,7 +733,7 @@ router.post('/dashboard/update-product/:id/:title', function(req, res, next) {
 router.get('/dashboard/add-new-user', function(req, res, next) {
 
 
-    res.render('dashboard/products', {
+    res.render('dashboard/product', {
         access: req.session.user,
         owner: req.session.admin,
         productData: productData,
