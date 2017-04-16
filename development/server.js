@@ -70,7 +70,8 @@ app.use(function(err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error', {
-        access: req.session.user
+        access: req.session.user,
+        owner: req.session.admin
     });
 });
 

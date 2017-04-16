@@ -667,13 +667,6 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
 
                         var detail = {};
 
-                        detail.title = results[i].title;
-                        detail.description = results[i].description;
-                        detail.image1 = results[i].image1;
-                        detail.image2 = results[i].image2;
-                        detail.image3 = results[i].image3;
-                        detail.image4 = results[i].image4;
-                        detail.image5 = results[i].image5;
                         detail.size = results[i].size;
                         detail.color = results[i].color;
                         detail.stock = results[i].stock;
@@ -705,6 +698,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                     owner: req.session.admin,
                     products: true,
                     hide: hide,
+                    add: false,
                     title: title,
                     description: description,
                     image1: image1,
@@ -729,7 +723,7 @@ router.post('/dashboard/update-product/:id/:title', function(req, res, next) {
     var image3 = req.body.image3;
     var image4 = req.body.image4;
     var image5 = req.body.image5;
-    var prodstatus = req.body.prodstatus;
+    var status = req.body.prodstatus;
 
     var detailId;
     var size = req.body.size;
@@ -966,8 +960,6 @@ router.get('/dashboard/add-product', function(req, res, next) {
     req.session.price5 = "";
     req.session.detailstatus5 = "";
 
-
-
     res.render('dashboard/product', {
         errorMessage: msg,
         access: req.session.user,
@@ -975,7 +967,7 @@ router.get('/dashboard/add-product', function(req, res, next) {
         productData: productData,
         products: true,
         details: details,
-        // add: true,
+        add: true,
         title: title,
         description: description,
         image1: image1,
@@ -1022,7 +1014,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
     var image3 = req.body.image3;
     var image4 = req.body.image4;
     var image5 = req.body.image5;
-    var prodstatus = req.body.prodstatus;
+    var status = req.body.status;
 
     var detailId1 = '';
     var size1 = req.body.size1;
@@ -1112,7 +1104,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
             }
             else {
                 console.log("Connected to the DB");
-                connection.query('SELECT * FROM product WHERE title=? AND status="enabled"' ,[email],function(err, results, fields) {
+                connection.query('SELECT * FROM products WHERE title=? AND status="enabled"' ,[title],function(err, results, fields) {
                     console.log('Query returned11 ' + JSON.stringify(results));
 
                     if(err) {
@@ -1161,50 +1153,6 @@ router.post('/dashboard/save-product', function(req, res, next) {
 
                         res.redirect('/admin/dashboard/add-product');
                     }
-                    // error - description not entered
-                    else if (description.trim().length === 0) {
-                        console.log("description field empty.");
-                        req.session.msg = "Please enter description.";
-                        req.session.title = title;
-                        req.session.description = description;
-                        req.session.image1 = image1;
-                        req.session.image2 = image2;
-                        req.session.image3 = image3;
-                        req.session.image4 = image4;
-                        req.session.image5 = image5;
-
-                        req.session.size1 = size1;
-                        req.session.color1 = color1;
-                        req.session.stock1 = stock1;
-                        req.session.price1 = prcie1;
-                        req.session.detailstatus1 = detailstatus1;
-
-                        req.session.size2 = size2;
-                        req.session.color2 = color2;
-                        req.session.stock2 = stock2;
-                        req.session.price2 = price2;
-                        req.session.detailstatus2 = detailstatus2;
-
-                        req.session.size3 = size3;
-                        req.session.color3 = color3;
-                        req.session.stock3 = stock3;
-                        req.session.price3 = price3;
-                        req.session.detailstatus3 = detailstatus3;
-
-                        req.session.size4 = size4;
-                        req.session.color4 = color4;
-                        req.session.stock4 = stock4;
-                        req.session.price4 = price4;
-                        req.session.detailstatus4 = detailstatus4;
-
-                        req.session.size5 = size5;
-                        req.session.color5 = color5;
-                        req.session.stock5 = stock5;
-                        req.session.price5 = price5;
-                        req.session.detailstatus5 = detailstatus5;
-
-                        res.redirect('/admin/dashboard/add-product');
-                    }
                     else {
                         connect(function(err, connection) {
                             if (err) {
@@ -1214,7 +1162,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
                             else {
                                 console.log("Connected to the DB");
 
-                                connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar, userType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password1, avatar, userType], function(err, results, fields) {
+                                connection.query('INSERT INTO products (title, description, image1, image2, image3, image4, image5, status) VALUES (?,?,?,?,?,?,?,?)',[title, description, image1, image2, image3, image4, image5, status], function(err, results, fields) {
 
                                     if (err) {
                                         console.log("Error connecting to the database - add");
@@ -1230,7 +1178,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                             else {
                                                 console.log("Connected to the DB");
 
-                                                connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
+                                                connection.query('SELECT * FROM products WHERE title=?',[title],function(err, results, fields) {
                                                     // connection.release();
                                                     console.log('Query returned12 ' + JSON.stringify(results));
 
@@ -1239,15 +1187,49 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                     }
                                                     // no user found
                                                     else if (results.length === 0) {
-                                                        console.log("User not found");
+                                                        console.log("Product not found");
                                                     }
                                                     // user found
                                                     else {
-                                                        userId = results[0].id;
-                                                        email = results[0].email;
-                                                        req.session.successMsg = "Successfully added user " + email;
-                                                        console.log("User inserted successful. " + userId + " " + email);
-                                                        res.redirect('/admin/dashboard/edit-product/' + userId + '/' + email);
+                                                        prodId = results[0].id;
+                                                        title = results[0].title;
+
+                                                        connect(function(err, connection) {
+                                                            if (err) {
+                                                                console.log("Error connecting to the database");
+                                                                throw err;
+                                                            }
+                                                            else {
+                                                                console.log("Connected to the DB");
+
+                                                                // connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?)',[prodId, size, color, stock, price, status], function(err, results, fields) {
+                                                                connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',[prodId, size1, color1, stock1, price1, status1, prodId, size2, color2, stock2, price2, status2, prodId, size3, color3, stock3, price3, status3, prodId, size4, color4, stock4, price4, status4, prodId, size5, color5, stock5, price5, status5], function(err, results, fields) {
+                                                                    // connection.release();
+                                                                    console.log('Query returned12 ' + JSON.stringify(results));
+
+                                                                    if(err) {
+                                                                        throw err;
+                                                                    }
+                                                                    // no user found
+                                                                    else if (results.length === 0) {
+                                                                        console.log("Product not found");
+                                                                    }
+                                                                    // user found
+                                                                    else {
+                                                                        prodId = results[0].id;
+                                                                        title = results[0].title;
+
+                                                                        req.session.successMsg = "Successfully added products ";
+                                                                        console.log("Products inserted successful. ");
+                                                                        res.redirect('/admin/dashboard/edit-product/' + prodId + '/' + title);
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+
+                                                        // req.session.successMsg = "Successfully added user " + email;
+                                                        // console.log("User inserted successful. " + userId + " " + email);
+                                                        // res.redirect('/admin/dashboard/edit-product/' + userId + '/' + email);
                                                     }
                                                 });
                                             }
