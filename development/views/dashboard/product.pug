@@ -30,7 +30,7 @@ block content
                                     span.row
                                         span.col-xs-12.col-sm-9
                                             label(for='title') Title
-                                            input(type='text' name='title' placeholder='Title' value=details[0].title required)
+                                            input(type='text' name='title' placeholder='Title' value=title required)
                                         span.col-xs-12.col-sm-3
                                             label(for='status') Status
                                             select()
@@ -38,7 +38,7 @@ block content
                                                 option() Inactive
                                         span.col-xs-12
                                             label(for='title') Description
-                                            textarea(placeholder='Description') #{details[0].description}
+                                            textarea(placeholder='Description') #{description}
                                 span.col-xs-12.fieldset
                                     h2 Images
                                     span.row.middle-xs
@@ -47,46 +47,63 @@ block content
                                         span.col-xs-12.col-sm-6
                                             span.image
                                                 input(type='file' name='image1')
-                                                if !details[0].image1
+                                                if !image1
                                                     img(src='/img/product.jpg')
                                                 else
-                                                    img(src='/img/' + details[0].image1)
+                                                    img(src='/img/' + image1)
                                         span.col-xs-12.col-sm-6
                                             span.row
                                                 span.col-xs-6
                                                     span.image
                                                         input(type='file' name='image2')
-                                                        if !details[0].image2
+                                                        if !image2
                                                             img(src='/img/product.jpg')
                                                         else
-                                                            img(src='/img/' + details[0].image2)
+                                                            img(src='/img/' + image2)
                                                 span.col-xs-6
                                                     span.image
                                                         input(type='file' name='image3')
-                                                        if !details[0].image3
+                                                        if !image3
                                                             img(src='/img/product.jpg')
                                                         else
-                                                            img(src='/img/' + details[0].image3)
+                                                            img(src='/img/' + image3)
                                                 span.col-xs-6
                                                     span.image
                                                         input(type='file' name='image4')
-                                                        if !details[0].image4
+                                                        if !image4
                                                             img(src='/img/product.jpg')
                                                         else
-                                                            img(src='/img/' + details[0].image4)
+                                                            img(src='/img/' + image4)
                                                 span.col-xs-6
                                                     span.image
                                                         input(type='file' name='image5')
-                                                        if !details[0].image5
+                                                        if !image5
                                                             img(src='/img/product.jpg')
                                                         else
-                                                            img(src='/img/' + details[0].image5)
+                                                            img(src='/img/' + image5)
                                 span.col-xs-12.fieldset.product-details
                                     h2 Item Attributes
-                                    each detail, index in details
-                                        span(data-row=(index + 1)).row.middle-xs.grey
+                                    if details
+                                        each detail, index in details
+                                            span(data-row=(index + 1)).row.middle-xs.grey
+                                                span.col-xs-12
+                                                    label= 'Item ' + (index + 1)
+                                                span.col-xs-6.col-sm
+                                                    input(type='text' name='size1' placeholder='Size' value=detail.size)
+                                                span.col-xs-6.col-sm
+                                                    input(type='text' name='color1' placeholder='Color' value=detail.color)
+                                                span.col-xs-6.col-sm
+                                                    input(type='number' name='stock1' placeholder='100' value=detail.stock)
+                                                span.col-xs-6.col-sm
+                                                    input(type='number' name='price1' placeholder='0.00' value=detail.price required)
+                                                span.col-xs-12.col-sm-3
+                                                    select()
+                                                        option() Active
+                                                        option() Inactive
+                                    else
+                                        span(data-row=1).row.middle-xs.grey
                                             span.col-xs-12
-                                                label= 'Item ' + (index + 1)
+                                                label= 'Item 1'
                                             span.col-xs-6.col-sm
                                                 input(type='text' name='size1' placeholder='Size' value=detail.size)
                                             span.col-xs-6.col-sm
