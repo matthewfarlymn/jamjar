@@ -880,6 +880,8 @@ router.get('/dashboard/add-new-product', function(req, res, next) {
 
 router.get('/dashboard/add-product', function(req, res, next) {
 
+    var details = "";
+
     var msg = req.session.msg ? req.session.msg : "";
     var successMsg = req.session.successMsg ? req.session.successMsg : "";
     // var productId = req.session.productId ? req.session.productId : "";
@@ -963,6 +965,8 @@ router.get('/dashboard/add-product', function(req, res, next) {
     req.session.stock5 = "";
     req.session.price5 = "";
     req.session.detailstatus5 = "";
+
+
 
     res.render('dashboard/product', {
         errorMessage: msg,
