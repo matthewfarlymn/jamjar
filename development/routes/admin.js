@@ -625,7 +625,6 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
     var price = [];
     var detailstatus = [];
 
-
     req.session.msg = "";
     req.session.successMsg = "";
     // req.session.productId = "";
@@ -638,6 +637,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
     req.session.image5 = "";
     req.session.prodstatus = "";
 
+    var details = [];
 
     connect(function(err, connection) {
         if (err) {
@@ -672,6 +672,9 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                     prodstatus = req.session.prodstatus = results[0].prodstatus;
 
                     for (var i = 0; i < results.length; i++) {
+
+                        var detail = {};
+
                         // detailId[i] = req.session.detailId[i] = results[i].detailId;
                         // size[i] = req.session.size[i] = results[i].size;
                         // color[i] = req.session.color[i] = results[i].color;
@@ -679,12 +682,15 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                         // price[i] = req.session.price[i] = results[i].price;
                         // detailstatus[i] = req.session.prodstatus[i] = results[i].prodstatus;
 
-                        detailId[i] = results[i].detailId;
-                        size[i] = results[i].size;
-                        color[i] = results[i].color;
-                        stock[i] = results[i].stock;
-                        price[i] = results[i].price;
-                        detailstatus[i] = results[i].prodstatus;
+                        detail.id[i] = results[i].detailId;
+                        detail.size[i] = results[i].size;
+                        detail.color[i] = results[i].color;
+                        detail.stock[i] = results[i].stock;
+                        detail.price[i] = results[i].price;
+                        detail.status[i] = results[i].prodstatus;
+
+                        details.push(detail);
+
                     }
                 }
             });
@@ -714,6 +720,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                     image4: image4,
                     image5: image5,
                     prodstatus: prodstatus,
+                    details: details
                 });
             }
         });
