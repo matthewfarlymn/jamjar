@@ -60,7 +60,7 @@ jQuery(document).ready(function($) {
                         <input type="number" name="price' + data + '" min="0" placeholder="0.00">\
                     </span>\
                     <span class="col-xs-12 col-sm-3">\
-                    <select name="action' + data + '">\
+                    <select name="status' + data + '">\
                         <option>Active</option>\
                         <option>Inactive</option>\
                     </select>\
