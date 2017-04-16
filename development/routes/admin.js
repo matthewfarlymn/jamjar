@@ -610,7 +610,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
     var successMsg = req.session.successMsg ? req.session.successMsg : "";
     // var productId = req.session.productId ? req.session.productId : "";
     var title = req.session.title ? req.session.title : "";
-    var description = req.session.descr ? req.session.desc : "";
+    var description = req.session.desc ? req.session.desc : "";
     var image1 = req.session.image1 ? req.session.image1 : "";
     var image2 = req.session.image2 ? req.session.image2 : "";
     var image3 = req.session.image3 ? req.session.image3 : "";
@@ -621,8 +621,8 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
     req.session.msg = "";
     req.session.successMsg = "";
     // req.session.productId = "";
-    req.session.prodtitle = "";
-    req.session.proddesc = "";
+    req.session.title = "";
+    req.session.desc = "";
     req.session.image1 = "";
     req.session.image2 = "";
     req.session.image3 = "";
@@ -655,13 +655,13 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                 else {
                     console.log("Product found");
 
-                    title = results[i].title;
-                    description = results[i].description;
-                    image1 = results[i].image1;
-                    image2 = results[i].image2;
-                    image3 = results[i].image3;
-                    image4 = results[i].image4;
-                    image5 = results[i].image5;
+                    title = results[0].title;
+                    description = results[0].description;
+                    image1 = results[0].image1;
+                    image2 = results[0].image2;
+                    image3 = results[0].image3;
+                    image4 = results[0].image4;
+                    image5 = results[0].image5;
 
                     for (var i=0; i<results.length; i++) {
 
@@ -670,7 +670,13 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                         detail.size = results[i].size;
                         detail.color = results[i].color;
                         detail.stock = results[i].stock;
-                        detail.price = results[i].price.toFixed(2);
+
+                        if (results[i].price !== null) {
+                            detail.price = results[i].price.toFixed(2);
+                        }
+                        else {
+                            detail.price = results[i].price;
+                        }
 
                         console.log(detail);
                         details.push(detail);
@@ -730,7 +736,7 @@ router.post('/dashboard/update-product/:id/:title', function(req, res, next) {
     var color = req.body.color;
     var stock = req.body.stock;
     var price = req.body.price;
-    var detailstatus = req.body.detailstatus;
+    var status = req.body.status;
 
     connect(function(err, connection) {
         if (err) {
@@ -786,7 +792,7 @@ router.post('/dashboard/update-product/:id/:title', function(req, res, next) {
                                     console.log("Product update successful. " + title);
 
                                     // update product_details
-                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=?, WHERE id=? AND productsId=?',[size, color, stock, price, status, detailstatus, detailsId, req.params.id], function(err, results, fields) {
+                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=?, WHERE id=? AND productsId=?',[size, color, stock, price, status, detailsId, req.params.id], function(err, results, fields) {
                                         connection.release();
 
                                         if (err) {
@@ -825,7 +831,7 @@ router.get('/dashboard/add-new-product', function(req, res, next) {
 
     var msg = req.session.msg = "";
     var title = req.session.title = "";
-    var description = req.session.description = "";
+    var description = req.session.desc = "";
     var image1 = req.session.image1 = "";
     var image2 = req.session.image2 = "";
     var image3 = req.session.image3 = "";
@@ -837,37 +843,37 @@ router.get('/dashboard/add-new-product', function(req, res, next) {
     var color1 = req.session.color1 = "";
     var stock1 = req.session.stock1 = "";
     var price1 = req.session.price1 = "";
-    var detailstatus1 = req.session.detailstatus1 = "";
+    var status1 = req.session.status1 = "";
 
     var size1 = req.session.size1 = "";
     var color1 = req.session.color1 = "";
     var stock1 = req.session.stock1 = "";
     var price1 = req.session.price1 = "";
-    var detailstatus1 = req.session.detailstatus1 = "";
+    var status1 = req.session.status1 = "";
 
     var size2 = req.session.size2 = "";
     var color2 = req.session.color2 = "";
     var stock2 = req.session.stock2 = "";
     var price2 = req.session.price2 = "";
-    var detailstatus2 = req.session.detailstatus2 = "";
+    var status2 = req.session.status2 = "";
 
     var size3 = req.session.size3 = "";
     var color3 = req.session.color3 = "";
     var stock3 = req.session.stock3 = "";
     var price3 = req.session.price3 = "";
-    var detailstatus3 = req.session.detailstatus3 = "";
+    var status3 = req.session.status3 = "";
 
     var size4 = req.session.size4 = "";
     var color4 = req.session.color4 = "";
     var stock4 = req.session.stock4 = "";
     var price4 = req.session.price4 = "";
-    var detailstatus4 = req.session.detailstatus4 = "";
+    var status4 = req.session.status4 = "";
 
     var size5 = req.session.size5 = "";
     var color5 = req.session.color5 = "";
     var stock5 = req.session.stock5 = "";
     var price5 = req.session.price5 = "";
-    var detailstatus5 = req.session.detailstatus5 = "";
+    var status5 = req.session.status5 = "";
 
     res.redirect('/admin/dashboard/add-product');
 });
@@ -892,31 +898,31 @@ router.get('/dashboard/add-product', function(req, res, next) {
     var color1 = req.session.color1 ? req.session.color1 : "";
     var stock1 = req.session.stock1 ? req.session.stock1 : "";
     var price1 = req.session.price1 ? req.session.price1 : "";
-    var detailstatus1 = req.session.detailstatus1 ? req.session.detailstatus5 : "";
+    var status1 = req.session.status1 ? req.session.status5 : "";
 
     var size2 = req.session.size2 ? req.session.size2 : "";
     var color2 = req.session.color2 ? req.session.color2 : "";
     var stock2 = req.session.stock2 ? req.session.stock2 : "";
     var price2 = req.session.price2 ? req.session.price2 : "";
-    var detailstatus2 = req.session.detailstatus2 ? req.session.detailstatus2 : "";
+    var status2 = req.session.status2 ? req.session.status2 : "";
 
     var size3 = req.session.size3 ? req.session.size3 : "";
     var color3 = req.session.color3 ? req.session.color3 : "";
     var stock3 = req.session.stock3 ? req.session.stock3 : "";
     var price3 = req.session.price3 ? req.session.price3 : "";
-    var detailstatus3 = req.session.detailstatus3 ? req.session.detailstatus3 : "";
+    var status3 = req.session.status3 ? req.session.status3 : "";
 
     var size4 = req.session.size4 ? req.session.size4 : "";
     var color4 = req.session.color4 ? req.session.color4 : "";
     var stock4 = req.session.stock4 ? req.session.stock4 : "";
     var price4 = req.session.price4 ? req.session.price4 : "";
-    var detailstatus4 = req.session.detailstatus4 ? req.session.detailstatus4 : "";
+    var status4 = req.session.status4 ? req.session.status4 : "";
 
     var size5 = req.session.size5 ? req.session.size5 : "";
     var color5 = req.session.color5 ? req.session.color5 : "";
     var stock5 = req.session.stock5 ? req.session.stock5 : "";
     var price5 = req.session.price5 ? req.session.price5 : "";
-    var detailstatus5 = req.session.detailstatus5 ? req.session.detailstatus5 : "";
+    var status5 = req.session.status5 ? req.session.status5 : "";
 
     req.session.msg = "";
     req.session.successMsg = "";
@@ -934,31 +940,31 @@ router.get('/dashboard/add-product', function(req, res, next) {
     req.session.color1 = "";
     req.session.stock1 = "";
     req.session.price1 = "";
-    req.session.detailstatus1 = "";
+    req.session.status1 = "";
 
     req.session.size2 = "";
     req.session.color2 = "";
     req.session.stock2 = "";
     req.session.price2 = "";
-    req.session.detailstatus2 = "";
+    req.session.status2 = "";
 
     req.session.size3 = "";
     req.session.color3 = "";
     req.session.stock3 = "";
     req.session.price3 = "";
-    req.session.detailstatus3 = "";
+    req.session.status3 = "";
 
     req.session.size4 = "";
     req.session.color4 = "";
     req.session.stock4 = "";
     req.session.price4 = "";
-    req.session.detailstatus4 = "";
+    req.session.status4 = "";
 
     req.session.size5 = "";
     req.session.color5 = "";
     req.session.stock5 = "";
     req.session.price5 = "";
-    req.session.detailstatus5 = "";
+    req.session.status5 = "";
 
     res.render('dashboard/product', {
         errorMessage: msg,
@@ -980,27 +986,27 @@ router.get('/dashboard/add-product', function(req, res, next) {
         color1: color1,
         stock1: stock1,
         price1: price1,
-        detailstatus1: detailstatus1,
+        status1: status1,
         size2: size2,
         color2: color2,
         stock2: stock2,
         price2: price2,
-        detailstatus2: detailstatus2,
+        status2: status2,
         size3: size3,
         color3: color3,
         stock3: stock3,
         price3: price3,
-        detailstatus3: detailstatus3,
+        status3: status3,
         size4: size4,
         color4: color4,
         stock4: stock4,
         price4: price4,
-        detailstatus4: detailstatus4,
+        status4: status4,
         size5: size5,
         color5: color5,
         stock5: stock5,
         price5: price5,
-        detailstatus5: detailstatus5
+        status5: status5
     });
 });
 
@@ -1021,35 +1027,35 @@ router.post('/dashboard/save-product', function(req, res, next) {
     var color1 = req.body.color1;
     var stock1 = req.body.stock1;
     var price1 = req.body.price1;
-    var detailstatus = req.body.detailstatus1;
+    var status1 = req.body.status1;
 
     var detailId2 = '';
     var size2 = req.body.size2;
     var color2 = req.body.color2;
     var stock2 = req.body.stock2;
     var price2 = req.body.price2;
-    var detailstatus = req.body.detailstatus2;
+    var status2 = req.body.status2;
 
     var detailId3 = '';
     var size3 = req.body.size3;
     var color3 = req.body.color3;
     var stock3 = req.body.stock3;
     var price3 = req.body.price3;
-    var detailstatus = req.body.detailstatus3;
+    var status3 = req.body.status3;
 
     var detailId4 = '';
     var size4 = req.body.size4;
     var color4 = req.body.color4;
     var stock4 = req.body.stock4;
     var price4 = req.body.price4;
-    var detailstatus = req.body.detailstatus4;
+    var status4 = req.body.status4;
 
     var detailId5 = '';
     var size5 = req.body.size5;
     var color5 = req.body.color5;
     var stock5 = req.body.stock5;
     var price5 = req.body.price5;
-    var detailstatus5 = req.body.detailstatus5;
+    var status5 = req.body.status5;
 
     connect(function(err, connection) {
         if (err) {
@@ -1062,7 +1068,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
                 console.log("title field empty.");
                 req.session.msg = "Please enter title.";
                 // req.session.title = title;
-                req.session.description = description;
+                req.session.desc = description;
                 req.session.image1 = image1;
                 req.session.image2 = image2;
                 req.session.image3 = image3;
@@ -1074,37 +1080,37 @@ router.post('/dashboard/save-product', function(req, res, next) {
                 req.session.color1 = color1;
                 req.session.stock1 = stock1;
                 req.session.price1 = prcie1;
-                req.session.detailstatus1 = detailstatus1;
+                req.session.status1 = status1;
 
                 req.session.size2 = size2;
                 req.session.color2 = color2;
                 req.session.stock2 = stock2;
                 req.session.price2 = price2;
-                req.session.detailstatus2 = detailstatus2;
+                req.session.status2 = status2;
 
                 req.session.size3 = size3;
                 req.session.color3 = color3;
                 req.session.stock3 = stock3;
                 req.session.price3 = price3;
-                req.session.detailstatus3 = detailstatus3;
+                req.session.status3 = status3;
 
                 req.session.size4 = size4;
                 req.session.color4 = color4;
                 req.session.stock4 = stock4;
                 req.session.price4 = price4;
-                req.session.detailstatus4 = detailstatus4;
+                req.session.status4 = status4;
 
                 req.session.size5 = size5;
                 req.session.color5 = color5;
                 req.session.stock5 = stock5;
                 req.session.price5 = price5;
-                req.session.detailstatus5 = detailstatus5;
+                req.session.status5 = status5;
 
                 res.redirect('/admin/dashboard/add-user');
             }
             else {
                 console.log("Connected to the DB");
-                connection.query('SELECT * FROM products WHERE title=? AND status="enabled"' ,[title],function(err, results, fields) {
+                connection.query('SELECT * FROM products WHERE title=? AND status="active"' ,[title],function(err, results, fields) {
                     console.log('Query returned9 ' + JSON.stringify(results));
 
                     if(err) {
@@ -1113,7 +1119,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
                     else if (results.length !== 0) {
                         console.log("Title in use - save");
                         req.session.msg = "Unable to add project. Title already in use.";
-                        req.session.description = description;
+                        req.session.desc = description;
                         req.session.image1 = image1;
                         req.session.image2 = image2;
                         req.session.image3 = image3;
@@ -1125,31 +1131,31 @@ router.post('/dashboard/save-product', function(req, res, next) {
                         req.session.color1 = color1;
                         req.session.stock1 = stock1;
                         req.session.price1 = prcie1;
-                        req.session.detailstatus1 = detailstatus1;
+                        req.session.status1 = status1;
 
                         req.session.size2 = size2;
                         req.session.color2 = color2;
                         req.session.stock2 = stock2;
                         req.session.price2 = price2;
-                        req.session.detailstatus2 = detailstatus2;
+                        req.session.status2 = status2;
 
                         req.session.size3 = size3;
                         req.session.color3 = color3;
                         req.session.stock3 = stock3;
                         req.session.price3 = price3;
-                        req.session.detailstatus3 = detailstatus3;
+                        req.session.status3 = status3;
 
                         req.session.size4 = size4;
                         req.session.color4 = color4;
                         req.session.stock4 = stock4;
                         req.session.price4 = price4;
-                        req.session.detailstatus4 = detailstatus4;
+                        req.session.status4 = status4;
 
                         req.session.size5 = size5;
                         req.session.color5 = color5;
                         req.session.stock5 = stock5;
                         req.session.price5 = price5;
-                        req.session.detailstatus5 = detailstatus5;
+                        req.session.status5 = status5;
 
                         res.redirect('/admin/dashboard/add-product');
                     }
@@ -1194,6 +1200,22 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                         prodId = results[0].id;
                                                         title = results[0].title;
 
+                                                        if (!status1) {
+                                                            status1 = 'inactive';
+                                                        }
+                                                        if (!status2 ){
+                                                            status2 = 'inactive';
+                                                        }
+                                                        if (!status3) {
+                                                            status3 = 'inactive';
+                                                        }
+                                                        if (!status4) {
+                                                            status4 = 'inactive';
+                                                        }
+                                                        if (!status5) {
+                                                            status5 = 'inactive';
+                                                        }
+
                                                         connect(function(err, connection) {
                                                             if (err) {
                                                                 console.log("Error connecting to the database");
@@ -1203,9 +1225,9 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                                 console.log("Connected to the DB");
 
                                                                 // connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?)',[prodId, size, color, stock, price, status], function(err, results, fields) {
-                                                                connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',[prodId, size1, color1, stock1, price1, status1, prodId, size2, color2, stock2, price2, status2, prodId, size3, color3, stock3, price3, status3, prodId, size4, color4, stock4, price4, status4, prodId, size5, color5, stock5, price5, status5], function(err, results, fields) {
+                                                                connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',
+                                                                    [prodId, size1, color1, stock1, price1, status1, prodId, size2, color2, stock2, price2, status2, prodId, size3, color3, stock3, price3, status3, prodId, size4, color4, stock4, price4, status4, prodId, size5, color5, stock5, price5, status5], function(err, results, fields) {
                                                                     // connection.release();
-                                                                    console.log('Query returned11 ' + JSON.stringify(results));
 
                                                                     if(err) {
                                                                         throw err;
@@ -1216,9 +1238,6 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                                     }
                                                                     // user found
                                                                     else {
-                                                                        prodId = results[0].id;
-                                                                        title = results[0].title;
-
                                                                         req.session.successMsg = "Successfully added products ";
                                                                         console.log("Products inserted successful. ");
                                                                         res.redirect('/admin/dashboard/edit-product/' + prodId + '/' + title);
