@@ -11,7 +11,7 @@ block content
                             span #{errorMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        form(action=add ? '/admin/dashboard/add-user' : '/admin/dashboard/update-user' method='post')
+                        form(action=add ? '/admin/dashboard/add-user' : '/admin/dashboard/update-user/' + userId + '/' + email method='post')
                             span.row.grey
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Personal Details
@@ -23,10 +23,10 @@ block content
                                     input(type='email' name='email' placeholder='Email' value=email required)
                                     label(for='phoneNumber') Phone Number
                                     input(type='tel' name='phoneNumber' placeholder='0123456789' value=phoneNumber)
-                                    label(for='avatar') Avatar
+                                    label(for='userType') User Type
                                     select(name='userType')
-                                        option(value='customer' selected=user[0].userType === 'customer') Customer
-                                        option(value='admin' selected=user[0].userType === 'admin') Admin
+                                        option(value='customer' selected=userType === 'customer') Customer
+                                        option(value='admin' selected=userType === 'admin') Admin
                                     label(for='avatar') Avatar
                                     span(style=avatar ? 'background-image: url(/img/' + userId + '/' + avatar + ');' : '').user
                                         input(type='file' name='avatar')
@@ -48,15 +48,13 @@ block content
                                     input(type='text' name='country' placeholder='Country' value=country)
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Password
-                                    label(for='password1') Current Password
+                                    label(for='password1') Password
                                     input(type='password' name='password1' placeholder='********')
-                                    label(for='password2') New Password
+                                    label(for='password2') Re-enter Password
                                     input(type='password' name='password2' placeholder='********')
-                                    label(for='password3') Re-enter New Password
-                                    input(type='password' name='password3' placeholder='********')
                             span.flex.between
-                                    button(type='reset').button.brown Cancel
+                                    button(type='reset').button.brown Reset
                                     if add
-                                        button(type='submit').button.pink Add
+                                        button(type='submit').button.pink Save
                                     else
                                         button(type='submit').button.pink Update

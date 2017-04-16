@@ -39,4 +39,33 @@ jQuery(document).ready(function($) {
         $('span.price').html('$' + $(this).find(':selected').data('price'));
     });
 
+    $('#add-details').click(function() {
+        var data = $('form.product-details').find('.row').last().data('row') + 1;
+        $('form.product-details').append(
+            '<span class="row middle-xs grey" data-row="' + data +'">\
+                <span class="col-xs-12">\
+                    <label>Item '+ data +'</label>\
+                </span>\
+                <span class="col-xs-12 col-sm">\
+                    <input type="text" name="size' + data + '" placeholder="Size">\
+                </span>\
+                <span class="col-xs-12 col-sm">\
+                    <input type="text" name="color' + data + '" placeholder="Color">\
+                </span>\
+                <span class="col-xs-12 col-sm">\
+                    <input type="number" name="stock' + data + '" placeholder="100">\
+                </span>\
+                <span class="col-xs-12 col-sm">\
+                    <input type="number" name="price' + data + '" placeholder="0.00" required>\
+                </span>\
+                <span class="col-xs-12 col-sm-3">\
+                <select name="action">\
+                    <option>Enable</option>\
+                    <option>Disable</option>\
+                    <option>Delete</option>\
+                </select>\
+            </span>'
+        );
+    });
+
 });

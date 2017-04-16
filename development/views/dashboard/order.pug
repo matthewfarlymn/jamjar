@@ -14,13 +14,13 @@ block content
                         div.row.middle-xs.grey
                             div.col-xs-12
                                 div.row.middle-xs
-                                    div.col-xs-12.col-sm-4.details
+                                    div.col-xs-12.col-sm-4.detail
                                         strong ID:
                                         span #{orderDetails[0].id}
-                                    div.col-xs-12.col-sm-4.details
+                                    div.col-xs-12.col-sm-4.detail
                                         strong Date:
                                         span #{orderDetails[0].date}
-                                    div.col-xs-12.col-sm-4.details
+                                    div.col-xs-12.col-sm-4.detail
                                         strong Total:
                                         span $#{orderDetails[0].total}
                     if owner
@@ -49,31 +49,31 @@ block content
                                             h3 #{product.title}
                                             p #{product.excerpt}
                                         div.col-xs-12
-                                            div.product-details
+                                            div.details
                                                 div.row.middle-xs
-                                                    div.col-xs-12.col-sm-4.details
+                                                    div.col-xs-12.col-sm-4.detail
                                                         strong Price:
                                                         span $#{product.price}
-                                                    div.col-xs-12.col-sm-4.details
+                                                    div.col-xs-12.col-sm-4.detail
                                                         span.flex
                                                             strong Quantity:
                                                             span #{product.quantity}
-                                                    div.col-xs-12.col-sm-4.details
+                                                    div.col-xs-12.col-sm-4.detail
                                                         strong Total:
                                                         span $#{product.subtotal}
                     div.col-xs-12.col-md-8
                         div.row.middle-xs.grey
                             div.col-xs-12
                                 div.row.middle-xs
-                                    div.col-xs-12.col-sm-3.details
+                                    div.col-xs-12.col-sm-3.detail
                                         strong Sub-total:
                                         span $#{orderDetails[0].subtotal}
-                                    div.col-xs-12.col-sm-3.details
+                                    div.col-xs-12.col-sm-3.detail
                                         strong Tax:
                                         span $#{orderDetails[0].tax}
-                                    div.col-xs-12.col-sm-3.details
+                                    div.col-xs-12.col-sm-3.detail
                                         strong Shipping:
                                         span $#{orderDetails[0].shipping}
-                                    div.col-xs-12.col-sm-3.details
+                                    div.col-xs-12.col-sm-3.detail
                                         strong Total:
                                         span $#{orderDetails[0].total}

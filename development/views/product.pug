@@ -27,16 +27,10 @@ block content
                     h2 Price:
                         span.price $#{details[0].price}
                     form(action='/add-to-cart' method='post')
-                        if sizes
-                            select(id='size' name='size' required)
-                                option(disabled='true') -- Select Size --
+                        if sizes || colors
+                            select(id='attributes' name='attributes' required)
                                 each detail in details
-                                    option(value=detail.size data-price=detail.price) #{detail.size}
-                        if colors
-                            select(id='name' name='color' required)
-                                option(disabled='true') -- Select Color --
-                                each detail in details
-                                    option(value=detail.color) #{detail.color}
+                                    option(value=detail.id data-price=detail.price) #{detail.size} #{detail.color}
                         label(for='quantity') Qty:
                         input(type='number' name='quantity' min='1' placeholder='0' value='1' required)
                         button(type='submit').button.pink Add to Cart   

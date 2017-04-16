@@ -53,4 +53,81 @@ block content
                             span.flex.between
                                     button(type='reset').button.brown Cancel
                                     button(type='submit').button.pink Update
-                                
+            div.product
+                if errorMessage
+                    div.row.center-xs.container
+                        div.col-xs-12.col-sm-12.col-md-8.error
+                            span #{errorMessage}
+                span.row.center-xs.container
+                    span.col-xs-12.col-md-8
+                        form(action=owner ? '/admin/update-profile' : '/user/update-profile' method='post').product-details
+                            span(data-row='1').row.middle-xs.grey
+                                span.col-xs-12
+                                    h2 Details
+                                span.col-xs-12
+                                    label Item 1
+                                span.col-xs-12.col-sm
+                                    input(type='text' name='size1' placeholder='Size')
+                                span.col-xs-12.col-sm
+                                    input(type='text' name='color1' placeholder='Color')
+                                span.col-xs-12.col-sm
+                                    input(type='number' name='stock1' placeholder='100')
+                                span.col-xs-12.col-sm
+                                    input(type='number' name='price1' placeholder='0.00')
+                                span.col-xs-12.col-sm-3
+                                    select()
+                                        option() Enable
+                                        option() Disable
+                                        option() Delete
+                            span(data-row='1').row.middle-xs.grey
+                                span.col-xs-12
+                                    label Item 2
+                                span.col-xs-12.col-sm
+                                    input(type='text' name='size1' placeholder='Size')
+                                span.col-xs-12.col-sm
+                                    input(type='text' name='color1' placeholder='Color')
+                                span.col-xs-12.col-sm
+                                    input(type='number' name='stock1' placeholder='100')
+                                span.col-xs-12.col-sm
+                                    input(type='number' name='price1' placeholder='0.00')
+                                span.col-xs-12.col-sm-3
+                                    select()
+                                        option() Enable
+                                        option() Disable
+                                        option() Delete
+                                    
+                        //- span.row.grey
+                        //-     span.col-xs-12.details.grey
+                        //-         //- span(data-row='0').row
+                        //-         //-     span.col-xs-2.col-sm-3
+                        //-         //-         label Size
+                        //-         //-     span.col-xs-2.col-sm-3
+                        //-         //-         label Color
+                        //-         //-     span.col-xs-2.col-sm-3
+                        //-         //-         label Stock
+                        //-         //-     span.col-xs-2.col-sm-3
+                        //-         //-         label Price
+                        //-         span(data-row='1').row
+                        //-             span.col-xs-12.col-sm-2
+                        //-                 label Size
+                        //-                 input(type='text' name='size1' placeholder='Size')
+                        //-             span.col-xs-12.col-sm-2
+                        //-                 label Color
+                        //-                 input(type='text' name='color1' placeholder='Color')
+                        //-             span.col-xs-12.col-sm-2
+                        //-                 label Stock
+                        //-                 input(type='number' name='stock1' placeholder='100')
+                        //-             span.col-xs-12.col-sm-2
+                        //-                 label Price
+                        //-                 input(type='number' name='price1' placeholder='0.00')
+                        //-     span.col-xs-12.details.grey
+                        //-         span(data-row='1').row
+                        //-             span.col-xs-12.col-sm-2
+                        //-                 input(type='text' name='size1' placeholder='Size')
+                        //-             span.col-xs-12.col-sm-2
+                        //-                 input(type='text' name='color1' placeholder='Color')
+                        //-             span.col-xs-12.col-sm-2
+                        //-                 input(type='number' name='stock1' placeholder='100')
+                        //-             span.col-xs-12.col-sm-2
+                        //-                 input(type='number' name='price1' placeholder='0.00')
+                        a(id="add-details").button.pink Add
