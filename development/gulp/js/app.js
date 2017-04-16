@@ -54,13 +54,13 @@ jQuery(document).ready(function($) {
                         <input type="text" name="color' + data + '" placeholder="Color">\
                     </span>\
                     <span class="col-xs-6 col-sm">\
-                        <input type="number" name="stock' + data + '" placeholder="100">\
+                        <input type="number" name="stock' + data + '" min="0" placeholder="100">\
                     </span>\
                     <span class="col-xs-6 col-sm">\
-                        <input type="number" name="price' + data + '" placeholder="0.00" step="0.01" required>\
+                        <input type="number" name="price' + data + '" min="0" placeholder="0.00">\
                     </span>\
                     <span class="col-xs-12 col-sm-3">\
-                    <select name="action">\
+                    <select name="action' + data + '">\
                         <option>Active</option>\
                         <option>Inactive</option>\
                     </select>\

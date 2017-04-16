@@ -96,7 +96,7 @@ block content
                                                 span.col-xs-6.col-sm
                                                     input(type='number' name='stock1' min='0' placeholder='100' value=detail.stock)
                                                 span.col-xs-6.col-sm
-                                                    input(type='number' name='price1' min='1' placeholder='0.00' value=detail.price required)
+                                                    input(type='number' name='price1' min='0' placeholder='0.00' value=detail.price)
                                                 span.col-xs-12.col-sm-3
                                                     select(name='status' + (index + 1))
                                                         option(disabled='true') -- Select --
@@ -113,7 +113,7 @@ block content
                                             span.col-xs-6.col-sm
                                                 input(type='number' name='stock1' min='0' placeholder='100' value=stock1)
                                             span.col-xs-6.col-sm
-                                                input(type='number' name='price1' min='1' placeholder='0.00' step='0.01' value=price1 required)
+                                                input(type='number' name='price1' min='0' placeholder='0.00' value=price1)
                                             span.col-xs-12.col-sm-3
                                                 select(name='status1')
                                                     option(disabled='true') -- Select --
