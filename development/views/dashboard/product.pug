@@ -83,24 +83,24 @@ block content
                                                         else
                                                             img(src='/img/' + image5)
                             span.product-details
-                                span(data-row='1').row.middle-xs.grey
-                                    span.col-xs-12
-                                        h2 Attributes
-                                    span.col-xs-12
-                                        label Item 1
-                                    span.col-xs-12.col-sm
-                                        input(type='text' name='size1' placeholder='Size')
-                                    span.col-xs-12.col-sm
-                                        input(type='text' name='color1' placeholder='Color')
-                                    span.col-xs-12.col-sm
-                                        input(type='number' name='stock1' placeholder='100')
-                                    span.col-xs-12.col-sm
-                                        input(type='number' name='price1' placeholder='0.00')
-                                    span.col-xs-12.col-sm-3
-                                        select()
-                                            option() Enable
-                                            option() Disable
-                                            option() Delete
+                                h2 Attributes
+                                each detail, index in details
+                                    span(data-row=index).row.middle-xs.grey
+                                        span.col-xs-12
+                                            label= 'Item' + index
+                                        span.col-xs-12.col-sm
+                                            input(type='text' name='size1' placeholder='Size' value=detail.size)
+                                        span.col-xs-12.col-sm
+                                            input(type='text' name='color1' placeholder='Color' value=detail.color)
+                                        span.col-xs-12.col-sm
+                                            input(type='number' name='stock1' placeholder='100' value=detail.stock)
+                                        span.col-xs-12.col-sm
+                                            input(type='number' name='price1' placeholder='0.00' value=detail.price required)
+                                        span.col-xs-12.col-sm-3
+                                            select()
+                                                option() Enable
+                                                option() Disable
+                                                option() Delete
                             span.row
                                 span.col-xs
                                     a(id="add-details").button.gold Add
