@@ -552,7 +552,30 @@ router.get('/dashboard/products', function(req, res, next) {
                     console.log("Products found");
                     productData = true;
 
-                    productDetails = results;
+                    // productDetails = results;
+
+                    for (var i=0; i<results.length; i++) {
+
+                        var product = {};
+
+                        var excerptLength = 75;
+                        var description = results[i].description;
+                        var excerpt = "";
+
+                        if (description.length > excerptLength) {
+                            excerpt = description.substring(0,excerptLength).trim() + '...';
+                        }
+                        else {
+                            excerpt = description;
+                        }
+
+                        product.image = results[i].image1;
+                        product.title = results[i].title;
+                        product.excerpt = excerpt;
+
+                        console.log(product);
+                        productDetails.push(product);
+                    }
 
                     console.log(productDetails);
                 }
