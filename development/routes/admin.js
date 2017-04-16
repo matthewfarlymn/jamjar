@@ -705,13 +705,13 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                     owner: req.session.admin,
                     products: true,
                     hide: hide,
-                    title: title;
-                    description: description;
-                    image1: image1;
-                    image2: image2;
-                    image3: image3;
-                    image4: image4;
-                    image5: image5;
+                    title: title,
+                    description: description,
+                    image1: image1,
+                    image2: image2,
+                    image3: image3,
+                    image4: image4,
+                    image5: image5,
                     details: details
                 });
             }
