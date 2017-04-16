@@ -522,6 +522,9 @@ section {
                     border-bottom: none;
                     margin-bottom: 15px;
                 }
+                select {
+                    margin-bottom: 0;
+                }
                 .details{
                     display: block;
                     padding: 10px;
@@ -530,7 +533,6 @@ section {
                     input {
                         width: 50px;
                         display: inline-block;
-                        margin: 0;
                         height: 40px;
                         &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
                            opacity: 1;
@@ -558,6 +560,9 @@ section {
                 }
                 p {
                     margin: 5px 0 0 0;
+                    @include breakpoint(xs) {
+                        margin-bottom: 20px;
+                    }
                 }
                 ul {
                     padding: 0;
