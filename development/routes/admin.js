@@ -526,7 +526,7 @@ router.get('/dashboard/order/:id', function(req, res, next) {
 
 router.get('/dashboard/products', function(req, res, next) {
 
-    var productSets = [];
+    var productDetails = [];
 
     connect(function(err, connection) {
         if (err) {
@@ -552,15 +552,9 @@ router.get('/dashboard/products', function(req, res, next) {
                     console.log("Products found");
                     productData = true;
 
-                    for (var i=0; i<results.length; i++) {
+                    productDetails = results;
 
-                        var productSet = {};
-
-                        productSet = results[i];
-
-                        console.log(productSet);
-                        productSets.push(productSet);
-                    }
+                    console.log(productDetails);
                 }
             });
         }
@@ -578,7 +572,7 @@ router.get('/dashboard/products', function(req, res, next) {
                     owner: req.session.admin,
                     productData: productData,
                     products: true,
-                    productSets:productSets
+                    productDetails: productDetails
                 });
             }
         });
@@ -766,6 +760,7 @@ router.get('/dashboard/users', function(req, res, next) {
 router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
+    var successMsg = req.session.successMsg ? req.session.successMsg : "";
     // var userId = req.session.userId ? req.session.userId : "";
     var firstName = req.session.firstName ? req.session.firstName : "";
     var lastName = req.session.lastName ? req.session.lastName : "";
@@ -781,6 +776,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
     var userType = req.session.userType ? req.session.userType : "";
 
     req.session.msg = "";
+    req.session.successMsg = "";
     // req.session.userId = "";
     req.session.firstName = "";
     req.session.lastName = "";
@@ -803,7 +799,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT * FROM users WHERE id=? AND email=?',[req.params.id, req.params.email],function(err, results, fields) {
                 console.log('Query returned9 ' + JSON.stringify(results));
 
                 if(err) {
@@ -844,6 +840,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
             else {
                 res.render('dashboard/user', {
                     errorMessage: msg,
+                    successMessage: successMsg,
                     access: req.session.user,
                     owner: req.session.admin,
                     users: true,
@@ -897,7 +894,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT * FROM users WHERE id=? AND email=?',[req.params.id, req.params.email],function(err, results, fields) {
                 console.log('Query returned10 ' + JSON.stringify(results));
 
                 if(err) {
@@ -913,10 +910,10 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                     res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                 }
                 // error - email already registered
-                else if ((results.length !== 0) && (req.params.id !== results[0].id)) {
+                else if ((results.length !== 0) && (email !== results[0].email)) {
                     console.log("Email already registered");
                     req.session.msg = "Unable to update. Email address already registered.";
-                    // req.session.user = email;
+                    req.params.email = email;
                     // req.session.firstName = firstName;
                     // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
@@ -986,7 +983,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                     }
                                     else {
                                         console.log("User update successful. " + email);
-                                        req.session.msg = "User successfully updated.";
+                                        req.session.successMsg = "User successfully updated.";
                                         res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                                     }
                                 });
@@ -1016,8 +1013,8 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                 }
                                 else {
                                     console.log("User update successful - no password change. " + email);
-                                    req.session.msg = "User successfully updated.";
-                                    res.redirect('/admin/dashboard/users');
+                                    req.session.successMsg = "User successfully updated.";
+                                    res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                                 }
                             });
                         }
@@ -1145,9 +1142,17 @@ router.post('/dashboard/save-user', function(req, res, next) {
                     else if (results.length !== 0) {
                         console.log("Email already registered");
                         req.session.msg = "Unable to insert. Email address already registered.";
-                        // req.session.email = email;
                         req.session.firstName = firstName;
                         req.session.lastName = lastName;
+                        req.session.address1 = address1;
+                        req.session.address2 = address2;
+                        req.session.city = city;
+                        req.session.province = province;
+                        req.session.postalcode = postalcode;
+                        req.session.country = country;
+                        req.session.phoneNumber = phoneNumber;
+                        req.session.avatar = avatar;
+                        req.session.userType = userType;
                         res.redirect('/admin/dashboard/add-user');
                     }
                     else {
@@ -1155,35 +1160,70 @@ router.post('/dashboard/save-user', function(req, res, next) {
                         if (firstName.trim().length === 0) {
                             console.log("firstName field empty.");
                             req.session.msg = "Please enter Firstname.";
-                            req.session.email = email;
-                            // req.session.firstName = firstName;
                             req.session.lastName = lastName;
+                            req.session.address1 = address1;
+                            req.session.address2 = address2;
+                            req.session.city = city;
+                            req.session.province = province;
+                            req.session.postalcode = postalcode;
+                            req.session.country = country;
+                            req.session.email = email;
+                            req.session.phoneNumber = phoneNumber;
+                            req.session.avatar = avatar;
+                            req.session.userType = userType;
                             res.redirect('/admin/dashboard/add-user');
                         }
                         // error - lastname not entered
                         else if (lastName.trim().length === 0) {
                             console.log("lastName field empty.");
                             req.session.msg = "Please enter Lastname.";
+                            req.session.firstName = firstName;
+                            req.session.address1 = address1;
+                            req.session.address2 = address2;
+                            req.session.city = city;
+                            req.session.province = province;
+                            req.session.postalcode = postalcode;
+                            req.session.country = country;
                             req.session.email = email;
-                            req.session.fistname = firstName;
+                            req.session.phoneNumber = phoneNumber;
+                            req.session.avatar = avatar;
+                            req.session.userType = userType;
                             res.redirect('/admin/dashboard/add-user');
                         }
                         // error - new password empty
                         else if ((password1.trim().length === 0) && (password2.trim().length !== 0)) {
                             console.log("new password field empty.");
                             req.session.msg = "New password missing. Please re-enter all password fields.";
-                            req.session.email = email;
                             req.session.firstName = firstName;
                             req.session.lastName = lastName;
+                            req.session.address1 = address1;
+                            req.session.address2 = address2;
+                            req.session.city = city;
+                            req.session.province = province;
+                            req.session.postalcode = postalcode;
+                            req.session.country = country;
+                            req.session.email = email;
+                            req.session.phoneNumber = phoneNumber;
+                            req.session.avatar = avatar;
+                            req.session.userType = userType;
                             res.redirect('/admin/dashboard/add-user');
                         }
                         // error - confirm password empty
                         else if ((password1.trim().length !== 0) && (password2.trim().length === 0)) {
                             console.log("re-enter password field empty.");
                             req.session.msg = "Confirm password missing. Please re-enter all password fields.";
-                            req.session.email = email;
                             req.session.firstName = firstName;
                             req.session.lastName = lastName;
+                            req.session.address1 = address1;
+                            req.session.address2 = address2;
+                            req.session.city = city;
+                            req.session.province = province;
+                            req.session.postalcode = postalcode;
+                            req.session.country = country;
+                            req.session.email = email;
+                            req.session.phoneNumber = phoneNumber;
+                            req.session.avatar = avatar;
+                            req.session.userType = userType;
                             res.redirect('/admin/dashboard/add-user');
                         }
                         // okay - all password filds entered
@@ -1192,9 +1232,18 @@ router.post('/dashboard/save-user', function(req, res, next) {
                             if (password1.trim() !== password2.trim()) {
                                 console.log("new and confirm passwords does not match.");
                                 req.session.msg = "New and confrim passwords do not match.  Please re-enter all password fields.";
-                                req.session.email = email;
                                 req.session.firstName = firstName;
                                 req.session.lastName = lastName;
+                                req.session.address1 = address1;
+                                req.session.address2 = address2;
+                                req.session.city = city;
+                                req.session.province = province;
+                                req.session.postalcode = postalcode;
+                                req.session.country = country;
+                                req.session.email = email;
+                                req.session.phoneNumber = phoneNumber;
+                                req.session.avatar = avatar;
+                                req.session.userType = userType;
                                 res.redirect('/admin/dashboard/add-user');
                             }
                             else {
@@ -1238,8 +1287,8 @@ router.post('/dashboard/save-user', function(req, res, next) {
                                                             else {
                                                                 userId = results[0].id;
                                                                 email = results[0].email;
-
-                                                                console.log("User inserted successful. " + userId + " " +email);
+                                                                req.session.successMsg = "Successfully added user " + email;
+                                                                console.log("User inserted successful. " + userId + " " + email);
                                                                 res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                                                             }
                                                         });
