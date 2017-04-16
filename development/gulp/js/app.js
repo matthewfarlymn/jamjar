@@ -57,7 +57,7 @@ jQuery(document).ready(function($) {
                         <input type="number" name="stock' + data + '" placeholder="100">\
                     </span>\
                     <span class="col-xs-6 col-sm">\
-                        <input type="number" name="price' + data + '" placeholder="0.00" required>\
+                        <input type="number" name="price' + data + '" placeholder="0.00" step="0.01" required>\
                     </span>\
                     <span class="col-xs-12 col-sm-3">\
                     <select name="action">\

@@ -97,9 +97,9 @@ block content
                                                 span.col-xs-6.col-sm
                                                     input(type='number' name='price1' placeholder='0.00' value=detail.price required)
                                                 span.col-xs-12.col-sm-3
-                                                    select()
-                                                        option() Active
-                                                        option() Inactive
+                                                    select(name='status')
+                                                        option(value='active') Active
+                                                        option(value='inactive') Inactive
                                     else
                                         span(data-row=1).row.middle-xs.grey
                                             span.col-xs-12
@@ -111,11 +111,11 @@ block content
                                             span.col-xs-6.col-sm
                                                 input(type='number' name='stock1' placeholder='100' value=stock1)
                                             span.col-xs-6.col-sm
-                                                input(type='number' name='price1' placeholder='0.00' value=price1 required)
+                                                input(type='number' name='price1' placeholder='0.00' step='0.01' value=price1 required)
                                             span.col-xs-12.col-sm-3
-                                                select()
-                                                    option() Active
-                                                    option() Inactive
+                                                select(name='status')
+                                                    option(value='active') Active
+                                                    option(value='inactive') Inactive
                             span.row
                                 span.col-xs
                                     if !hide

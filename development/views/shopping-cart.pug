@@ -1,0 +1,62 @@
+extends templates/layout
+
+block content
+    main
+        section.cart
+            if errorMessage
+                div.row.center-xs.container
+                    div.col-xs-12.col-sm-12.col-md-8.error
+                        span #{errorMessage}
+            header.row.container
+                div.col-xs-12
+                    h1 Shopping Cart
+            div.row.center-xs.container
+                div.col-xs-12.col-md-8
+                    //- each product in productDetails
+                    div.row.middle-xs.grey
+                        div.col-sm-4.image
+                            //- img(src='/img/' + product.image)
+                            img(src='/img/blueberry.jpg')
+                        div.col-xs-12.col-sm-8
+                            div.row
+                                div.col-xs-12
+                                    //- h3 #{product.title}
+                                    //- p #{product.excerpt}
+                                    h3 Blueberry
+                                    p Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris ju...
+                                div.col-xs-12
+                                    div.details
+                                        div.row.middle-xs
+                                            div.col-xs-12.col-sm-4.detail
+                                                strong Price:
+                                                //- span $#{product.price}
+                                                span $16.00
+                                            div.col-xs-12.col-sm-4.detail
+                                                span.flex
+                                                    strong Quantity:
+                                                    //- span #{product.quantity}
+                                                    input(name='quantity' placeholder='0' value='3')
+                                            div.col-xs-12.col-sm-4.detail
+                                                strong Total:
+                                                //- span $#{product.subtotal}
+                                                span $48.00
+                div.col-xs-12.col-md-8
+                    div.row.middle-xs.grey
+                        div.col-xs-12
+                            div.row.middle-xs
+                                div.col-xs-12.col-sm-3.detail
+                                    strong Sub-total:
+                                    //- span $#{orderDetails[0].subtotal}
+                                    span $48.00
+                                div.col-xs-12.col-sm-3.detail
+                                    strong Tax:
+                                    //- span $#{orderDetails[0].tax}
+                                    span $8.00
+                                div.col-xs-12.col-sm-3.detail
+                                    strong Shipping:
+                                    //- span $#{orderDetails[0].shipping}
+                                    span $10.00
+                                div.col-xs-12.col-sm-3.detail
+                                    strong Total:
+                                    //- span $#{orderDetails[0].total}
+                                    span $66.00
