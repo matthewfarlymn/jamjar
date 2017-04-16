@@ -11,14 +11,16 @@ block content
                             span #{errorMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        div.row.middle-xs.grey
-                            div.col-sm-4.image
-                                img(src='/img/blueberry.jpg')
-                            div.col-xs-9.col-sm-6
-                                h3 Blueberry
-                                p Excerpt ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo...
-                            div.col-xs-3.col-sm-2
-                                a(href='/admin/dashboard/edit-product/' + product.id + '/' + product.title) Edit
+                        a(href='/admin/dashboard/add-new-product').button.pink Add
                     div.col-xs-12.col-md-8
-                        span.flex.end
-                                a(href='/admin/dashboard/add-product').button.pink Add
+                        each product in productDetails
+                            div.row.middle-xs.grey
+                                div.col-sm-4.image
+                                    img(src='/img/blueberry.jpg')
+                                div.col-xs-9.col-sm-6
+                                    h3 #{product.title}
+                                    p #{product.excerpt}
+                                div.col-xs-3.col-sm-2
+                                    a(href='/admin/dashboard/edit-product/' + product.id + '/' + product.title) Edit
+                    div.col-xs-12.col-md-8
+                        a(href='/admin/dashboard/add-new-product').button.pink Add
