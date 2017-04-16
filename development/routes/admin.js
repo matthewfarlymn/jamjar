@@ -661,7 +661,27 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                 else {
                     console.log("Product found");
 
-                    details = results;
+                    for (var i=0; i<results.length; i++) {
+
+                        var detail = {};
+
+                        detail.title = results[i].title;
+                        detail.description = results[i].description;
+                        detail.image1 = results[i].image1;
+                        detail.image2 = results[i].image2;
+                        detail.image3 = results[i].image3;
+                        detail.image4 = results[i].image4;
+                        detail.image5 = results[i].image5;
+                        detail.size = results[i].size;
+                        detail.color = results[i].color;
+                        detail.stock = results[i].stock;
+                        detail.price = results[i].price.toFixed(2);
+
+                        console.log(detail);
+                        details.push(detail);
+                    }
+
+                    // details = results;
                 }
             });
         }
