@@ -144,7 +144,7 @@ router.post('/update-profile', function(req, res, next) {
                 }
                 // error - email already registered
                 else if ((results.length !== 0) && (email !== req.session.user)) {
-                    console.log("Email already registered");
+                    console.log("Email already registered - update profile");
                     req.session.msg = "Unable to update. Email address already registered.";
                     // req.session.user = email;
                     // req.session.firstName = firstName;
@@ -822,7 +822,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM users WHERE id=? AND email=?',[req.params.id, req.params.email],function(err, results, fields) {
+            connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
                 console.log('Query returned9 ' + JSON.stringify(results));
 
                 if(err) {
@@ -888,8 +888,6 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
 });
 
 
-
-
 router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
 
     console.log("** update-user");
@@ -917,7 +915,8 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM users WHERE id=? AND email=?',[req.params.id, req.params.email],function(err, results, fields) {
+            // connection.query('SELECT * FROM users WHERE id=? AND email=?',[req.params.id, req.params.email],function(err, results, fields) {
+            connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
                 console.log('Query returned10 ' + JSON.stringify(results));
 
                 if(err) {
@@ -930,16 +929,38 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                     // req.session.user = email;
                     // req.session.firstName = firstName;
                     // req.session.lastName = lastName;
-                    res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
+                    res.redirect('/admin/dashboard/edit-user/' + userId + '/' + req.params.email);
                 }
                 // error - email already registered
-                else if ((results.length !== 0) && (email !== results[0].email)) {
-                    console.log("Email already registered");
-                    req.session.msg = "Unable to update. Email address already registered.";
-                    req.params.email = email;
-                    // req.session.firstName = firstName;
-                    // req.session.lastName = lastName;
-                    res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
+                else if ((results.length !== 0) && (email.trim() !== req.params.email)) {
+                    console.log("email: " + email + " results: " + results[0].email + " params: " + req.params.email);
+
+                    connect(function(err, connection) {
+                        if (err) {
+                            console.log("Error connecting to the database");
+                            throw err;
+                        }
+                        else {
+                            connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
+                                console.log('Query returned10b ' + JSON.stringify(results));
+
+                                if(err) {
+                                    throw err;
+                                }
+                                else if (results.length !== 0) {
+                                    console.log("Email already registered - update user");
+                                    req.session.msg = "Unable to update. Email address already registered.";
+                                    // req.params.email = email;
+                                    // req.session.firstName = firstName;
+                                    // req.session.lastName = lastName;
+                                    res.redirect('/admin/dashboard/edit-user/' + userId + '/' + req.params.email);
+                                }
+                                // else { **** Jill ****
+                                //     console.log("*** email not in use");
+                                // }
+                            });
+                        }
+                    });
                 }
                 // error - firstname not entered
                 else if (firstName.trim().length === 0) {
@@ -1041,6 +1062,14 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                 }
                             });
                         }
+                    });
+                }
+            });
+            connection.commit(function(err) {
+                connection.release();
+                if (err) {
+                    connection.rollback(function() {
+                        throw err;
                     });
                 }
             });
@@ -1163,7 +1192,7 @@ router.post('/dashboard/save-user', function(req, res, next) {
                         throw err;
                     }
                     else if (results.length !== 0) {
-                        console.log("Email already registered");
+                        console.log("Email already registered - save");
                         req.session.msg = "Unable to insert. Email address already registered.";
                         req.session.firstName = firstName;
                         req.session.lastName = lastName;
