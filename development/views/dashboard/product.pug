@@ -4,7 +4,7 @@ block content
     main
         section.dashboard
             include ../modules/dashboard-nav
-            div.profile
+            div.product
                 if errorMessage
                     div.row.center-xs.container
                         div.col-xs-12.col-sm-12.col-md-8.error
@@ -22,76 +22,91 @@ block content
                                         button(type='submit').button.pink Save
                                     else
                                         button(type='submit').button.pink Update
-                                    a(id="add-details").button.pink Add
-                                span.col-xs.right
-                                    button(type='reset').button.brown Reset
-                            span.row
-                                span.col-xs
-                                    button(type='submit').button.pink Update
                                 span.col-xs.right
                                     button(type='reset').button.brown Reset
                             span.row.grey
-                                span.col-xs-12.col-sm-6.fieldset
-                                    h2 Personal Details
-                                    label(for='firstName') First Name
-                                    input(type='text' name='firstName' placeholder='First Name' value=firstName required)
-                                    label(for='lastName') Last Name
-                                    input(type='text' name='lastName' placeholder='Last Name' value=lastName required)
-                                    label(for='email') Email
-                                    input(type='email' name='email' placeholder='Email' value=email required)
-                                    label(for='phoneNumber') Phone Number
-                                    input(type='tel' name='phoneNumber' placeholder='0123456789' value=phoneNumber)
-                                    label(for='avatar') Avatar
-                                    span(style=avatar ? 'background-image: url(/img/' + userId + '/' + avatar + ');' : '').user
-                                        input(type='file' name='avatar')
-                                        if !avatar
-                                            span.fa.fa-user
-                                span.col-xs-12.col-sm-6.fieldset
-                                    h2 Billing Details
-                                    label(for='address1') Address 1
-                                    input(type='text' name='address1' placeholder='Address' value=address1)
-                                    label(for='address2') Address 2
-                                    input(type='text' name='address2' placeholder='Address' value=address2)
-                                    label(for='city') Town/City
-                                    input(type='text' name='city' placeholder='Town/City' value=city)
-                                    label(for='province') Province/State/County
-                                    input(type='text' name='province' placeholder='Province/State/County' value=province)
-                                    label(for='postalcode') Postalcode/Zipcode/Postcode
-                                    input(type='text' name='postalcode' placeholder='Postalcode/Zipcode/Postcode' value=postalcode)
-                                    label(for='country') Country
-                                    input(type='text' name='country' placeholder='Country' value=country)
-                                span.col-xs-12.col-sm-6.fieldset
-                                    h2 Password
-                                    label(for='password1') Current Password
-                                    input(type='password' name='password1' placeholder='********')
-                                    label(for='password2') New Password
-                                    input(type='password' name='password2' placeholder='********')
-                                    label(for='password3') Re-enter New Password
-                                    input(type='password' name='password3' placeholder='********')
-                            span(data-row='1').row.middle-xs.grey
-                                span.col-xs-12
-                                    h2 Details
-                                span.col-xs-12
-                                    label Item 1
-                                span.col-xs-12.col-sm
-                                    input(type='text' name='size1' placeholder='Size')
-                                span.col-xs-12.col-sm
-                                    input(type='text' name='color1' placeholder='Color')
-                                span.col-xs-12.col-sm
-                                    input(type='number' name='stock1' placeholder='100')
-                                span.col-xs-12.col-sm
-                                    input(type='number' name='price1' placeholder='0.00')
-                                span.col-xs-12.col-sm-3
-                                    select()
-                                        option() Enable
-                                        option() Disable
-                                        option() Delete
+                                span.col-xs-12.fieldset
+                                    h2 Product Details
+                                    span.row
+                                        span.col-xs-12.col-sm-9
+                                            label(for='title') Title
+                                            input(type='text' name='title' placeholder='Title' value=title required)
+                                        span.col-xs-12.col-sm-3
+                                            label(for='status') Status
+                                            select()
+                                                option() Enable
+                                                option() Disable
+                                                option() Delete
+                                        span.col-xs-12
+                                            label(for='title') Description
+                                            textarea(placeholder='Description') #{description}
+                                span.col-xs-12.fieldset
+                                    h2 Images
+                                    span.row.middle-xs
+                                        span.col-xs-12
+                                            label Upload Size (900 x 600)
+                                        span.col-xs-12.col-sm-6
+                                            span.image
+                                                input(type='file' name='image1')
+                                                if !image1
+                                                    img(src='/img/product.jpg')
+                                                else
+                                                    img(src='/img/' + image1)
+                                        span.col-xs-12.col-sm-6
+                                            span.row
+                                                span.col-xs-6
+                                                    span.image
+                                                        input(type='file' name='image2')
+                                                        if !image2
+                                                            img(src='/img/product.jpg')
+                                                        else
+                                                            img(src='/img/' + image2)
+                                                span.col-xs-6
+                                                    span.image
+                                                        input(type='file' name='image3')
+                                                        if !image3
+                                                            img(src='/img/product.jpg')
+                                                        else
+                                                            img(src='/img/' + image3)
+                                                span.col-xs-6
+                                                    span.image
+                                                        input(type='file' name='image4')
+                                                        if !image4
+                                                            img(src='/img/product.jpg')
+                                                        else
+                                                            img(src='/img/' + image4)
+                                                span.col-xs-6
+                                                    span.image
+                                                        input(type='file' name='image5')
+                                                        if !image5
+                                                            img(src='/img/product.jpg')
+                                                        else
+                                                            img(src='/img/' + image5)
+                            span.product-details
+                                span(data-row='1').row.middle-xs.grey
+                                    span.col-xs-12
+                                        h2 Attributes
+                                    span.col-xs-12
+                                        label Item 1
+                                    span.col-xs-12.col-sm
+                                        input(type='text' name='size1' placeholder='Size')
+                                    span.col-xs-12.col-sm
+                                        input(type='text' name='color1' placeholder='Color')
+                                    span.col-xs-12.col-sm
+                                        input(type='number' name='stock1' placeholder='100')
+                                    span.col-xs-12.col-sm
+                                        input(type='number' name='price1' placeholder='0.00')
+                                    span.col-xs-12.col-sm-3
+                                        select()
+                                            option() Enable
+                                            option() Disable
+                                            option() Delete
                             span.row
                                 span.col-xs
+                                    a(id="add-details").button.gold Add
                                     if add
                                         button(type='submit').button.pink Save
                                     else
                                         button(type='submit').button.pink Update
-                                    a(id="add-details").button.pink Add
                                 span.col-xs.right
                                     button(type='reset').button.brown Reset

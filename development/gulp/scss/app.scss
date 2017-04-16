@@ -523,7 +523,7 @@ section {
             }
         }
 
-        .profile, .user {
+        .profile, .product, .user {
             form {
                 margin: 0;
                 .grey {
@@ -540,7 +540,7 @@ section {
                     h2 {
                         margin-bottom: 20px;
                     }
-                    .user {
+                    .user, .image {
                         position: relative;
                         background-color: #cccccc;
                         width: 200px;
@@ -590,16 +590,49 @@ section {
                             }
                         }
                     }
+                    .image {
+                        width: 100%;
+                        height: auto;
+                    }
                 }
-                .button {
+                button {
                     &:last-of-type {
                         margin: 0;
+                    }
+                }
+                .product-details {
+                    h2 {
+                        margin-bottom: 15px;
+                    }
+                    .grey {
+                        background-color: #f6f6f6;
+                        padding: 20px 4px;
+                        border-bottom: 4px solid #ffffff;
+                        margin: 0;
+                        border-radius: 0;
+                        &:first-of-type {
+                            border-top-left-radius: 5px;
+                            border-top-right-radius: 5px;
+                            margin-top: 15px;
+                        }
+                        &:last-of-type {
+                            border-bottom-left-radius: 5px;
+                            border-bottom-right-radius: 5px;
+                            border-bottom: none;
+                            margin-bottom: 15px;
+                        }
+                        input, select {
+                            margin-bottom: 0;
+                            @include breakpoint(xs) {
+                                margin-bottom: 15px;
+                            }
+                        }
                     }
                 }
             }
         }
 
-        .orders, .products, .product, .users {
+        .orders, .products, .users {
             form {
                 &.product-details {
                     h2 {
@@ -661,7 +694,7 @@ section {
                     }
                 }
             }
-            .button {
+            button {
                 margin: 0;
             }
         }

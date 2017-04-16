@@ -40,8 +40,8 @@ jQuery(document).ready(function($) {
     });
 
     $('#add-details').click(function() {
-        var data = $('form.product-details').find('.row').last().data('row') + 1;
-        $('form.product-details').append(
+        var data = $('span.product-details').find('.row').last().data('row') + 1;
+        $('span.product-details').append(
             '<span class="row middle-xs grey" data-row="' + data +'">\
                 <span class="col-xs-12">\
                     <label>Item '+ data +'</label>\
