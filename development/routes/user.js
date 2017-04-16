@@ -5,10 +5,23 @@ var connect = require('../database/connect');
 router.get('/shopping-cart', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
-    
+
     req.session.msg = "";
 
     res.render('shopping-cart', {
+        errorMessage: msg,
+        access: req.session.user
+    });
+
+});
+
+router.get('/checkout', function(req, res, next) {
+
+    var msg = req.session.msg ? req.session.msg : "";
+
+    req.session.msg = "";
+
+    res.render('checkout', {
         errorMessage: msg,
         access: req.session.user
     });
