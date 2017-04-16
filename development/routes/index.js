@@ -233,8 +233,8 @@ router.get('/product/:id/:title', function(req, res, next) {
             }
 
 
-            connection.query('SELECT * FROM product_details WHERE productsId=? AND status="Active" ORDER BY price',[req.params.id],function(err, results, fields) {
-            // connection.query('SELECT id, productsId, size, color, stock, CONCAT(price), salePrice, status, date FROM product_details WHERE productsId=? AND status="Active" ORDER BY price',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT * FROM product_details WHERE productsId=? AND status="active" ORDER BY price',[req.params.id],function(err, results, fields) {
+            // connection.query('SELECT id, productsId, size, color, stock, CONCAT(price), salePrice, status, date FROM product_details WHERE productsId=? AND status="active" ORDER BY price',[req.params.id],function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {

@@ -642,7 +642,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.id],function(err, results, fields) {
-                console.log('Query returned*' + JSON.stringify(results));
+                console.log('Query returned7' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -741,7 +741,7 @@ router.post('/dashboard/update-product/:id/:title', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.id],function(err, results, fields) {
-                console.log('Query returned10 ' + JSON.stringify(results));
+                console.log('Query returned8 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -1105,7 +1105,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
             else {
                 console.log("Connected to the DB");
                 connection.query('SELECT * FROM products WHERE title=? AND status="enabled"' ,[title],function(err, results, fields) {
-                    console.log('Query returned11 ' + JSON.stringify(results));
+                    console.log('Query returned9 ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
@@ -1180,7 +1180,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
 
                                                 connection.query('SELECT * FROM products WHERE title=?',[title],function(err, results, fields) {
                                                     // connection.release();
-                                                    console.log('Query returned12 ' + JSON.stringify(results));
+                                                    console.log('Query returned10 ' + JSON.stringify(results));
 
                                                     if(err) {
                                                         throw err;
@@ -1205,7 +1205,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                                 // connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?)',[prodId, size, color, stock, price, status], function(err, results, fields) {
                                                                 connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',[prodId, size1, color1, stock1, price1, status1, prodId, size2, color2, stock2, price2, status2, prodId, size3, color3, stock3, price3, status3, prodId, size4, color4, stock4, price4, status4, prodId, size5, color5, stock5, price5, status5], function(err, results, fields) {
                                                                     // connection.release();
-                                                                    console.log('Query returned12 ' + JSON.stringify(results));
+                                                                    console.log('Query returned11 ' + JSON.stringify(results));
 
                                                                     if(err) {
                                                                         throw err;
@@ -1271,7 +1271,7 @@ router.get('/dashboard/users', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM users ORDER BY id',[],function(err, results, fields) {
-                console.log('Query returned8 ' + JSON.stringify(results));
+                console.log('Query returned12 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -1354,7 +1354,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
-                console.log('Query returned9 ' + JSON.stringify(results));
+                console.log('Query returned13 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -1446,7 +1446,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
 
             // connection.query('SELECT * FROM users WHERE id=? AND email=?',[req.params.id, req.params.email],function(err, results, fields) {
             connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
-                console.log('Query returned10 ' + JSON.stringify(results));
+                console.log('Query returned14 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -1505,7 +1505,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                         }
                         else {
                             connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
-                                console.log('Query returned10b ' + JSON.stringify(results));
+                                console.log('Query returned15 ' + JSON.stringify(results));
 
                                 if(err) {
                                     throw err;
@@ -1782,7 +1782,7 @@ router.post('/dashboard/save-user', function(req, res, next) {
                 console.log("Connected to the DB");
 
                 connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
-                    console.log('Query returned11 ' + JSON.stringify(results));
+                    console.log('Query returned16 ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
@@ -1922,7 +1922,7 @@ router.post('/dashboard/save-user', function(req, res, next) {
 
                                                         connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
                                                             // connection.release();
-                                                            console.log('Query returned12 ' + JSON.stringify(results));
+                                                            console.log('Query returned17 ' + JSON.stringify(results));
 
                                                             if(err) {
                                                                 throw err;
