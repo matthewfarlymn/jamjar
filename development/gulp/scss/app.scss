@@ -505,68 +505,73 @@ section {
     }
 
     &.cart {
-        padding-bottom: 25px;
-        .grey {
-            background-color: #f6f6f6;
-            padding: 20px 4px;
-            border-bottom: 4px solid #ffffff;
+        form {
             margin: 0;
-            &:first-of-type {
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-            }
-            &:last-of-type {
-                border-bottom-left-radius: 5px;
-                border-bottom-right-radius: 5px;
-                border-bottom: none;
-                margin-bottom: 15px;
-            }
-            .details{
-                padding: 10px;
-                margin-top: 20px;
-                background-color: #eeeeee;
-                input {
-                    width: 50px;
-                    display: inline-block;
-                    // margin: 0 10px;
-                    height: 40px;
-                    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
-                       opacity: 1;
+            .grey {
+                background-color: #f6f6f6;
+                padding: 20px 4px;
+                border-bottom: 4px solid #ffffff;
+                margin: 0;
+                &:first-of-type {
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                }
+                &:last-of-type {
+                    border-bottom-left-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    border-bottom: none;
+                    margin-bottom: 15px;
+                }
+                .details{
+                    display: block;
+                    padding: 10px;
+                    margin-top: 20px;
+                    background-color: #eeeeee;
+                    input {
+                        width: 50px;
+                        display: inline-block;
+                        margin: 0;
+                        height: 40px;
+                        &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+                           opacity: 1;
+                        }
+                    }
+                }
+                @include breakpoint(xs) {
+                    .image {
+                        display: none;
+                    }
+                    .detail {
+                        padding-bottom: 5px;
+                        &:last-of-type {
+                            padding-bottom: 0;
+                        }
+                    }
+                }
+                strong {
+                    margin-right: 5px;
+                }
+                span {
+                    &.fa {
+                        margin-right: 10px;
+                    }
+                }
+                p {
+                    margin: 5px 0 0 0;
+                }
+                ul {
+                    padding: 0;
+                    li {
+                        list-style: none;
+                        margin-top: 5px;
                     }
                 }
             }
-            @include breakpoint(xs) {
-                .image {
-                    display: none;
-                }
-                .detail {
-                    padding-bottom: 5px;
-                    &:last-of-type {
-                        padding-bottom: 0;
-                    }
+            button {
+                &.brown {
+                    margin: 0;
                 }
             }
-            strong {
-                margin-right: 5px;
-            }
-            span {
-                &.fa {
-                    margin-right: 10px;
-                }
-            }
-            p {
-                margin: 5px 0 0 0;
-            }
-            ul {
-                padding: 0;
-                li {
-                    list-style: none;
-                    margin-top: 5px;
-                }
-            }
-        }
-        button {
-            margin: 0;
         }
     }
 
@@ -722,6 +727,9 @@ section {
                     border-bottom: none;
                     margin-bottom: 15px;
                 }
+                &.dark {
+                    background-color: #eeeeee;
+                }
                 .details{
                     padding: 10px;
                     margin-top: 20px;
@@ -763,7 +771,15 @@ section {
         }
 
         .orders, .order {
-            margin: -15px 0;
+            margin-bottom: -15px;
+            .grey {
+                &:first-of-type {
+                    margin-top: 0;
+                }
+                &:last-of-type {
+                    margin-bottom: 15px;
+                }
+            }
         }
 
     }
