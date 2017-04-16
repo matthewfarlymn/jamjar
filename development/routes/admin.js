@@ -618,13 +618,6 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
     var image5 = req.session.image5 ? req.session.image5 : "";
     var status = req.session.prodstatus ? req.session.prodstatus : "";
 
-    var detailId = [];
-    var size = [];
-    var color = [];
-    var stock = [];
-    var price = [];
-    var detailstatus = [];
-
     req.session.msg = "";
     req.session.successMsg = "";
     // req.session.productId = "";
@@ -637,6 +630,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
     req.session.image5 = "";
     req.session.prodstatus = "";
 
+    var hide = false;
     var details = [];
 
     connect(function(err, connection) {
@@ -661,7 +655,29 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                 else {
                     console.log("Product found");
 
-                    details = results;
+                    for (var i=0; i<results.length; i++) {
+
+                        var detail = {};
+
+                        detail.title = results[i].title;
+                        detail.description = results[i].description;
+                        detail.image1 = results[i].image1;
+                        detail.image2 = results[i].image2;
+                        detail.image3 = results[i].image3;
+                        detail.image4 = results[i].image4;
+                        detail.image5 = results[i].image5;
+                        detail.size = results[i].size;
+                        detail.color = results[i].color;
+                        detail.stock = results[i].stock;
+                        detail.price = results[i].price.toFixed(2);
+
+                        console.log(detail);
+                        details.push(detail);
+                    }
+
+                    if (results.length = 5) {
+                        hide = true;
+                    }
                 }
             });
         }
@@ -680,16 +696,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                     access: req.session.user,
                     owner: req.session.admin,
                     products: true,
-                    // add: false,
-                    // prodId: prodId,
-                    // title: title,
-                    // description: description,
-                    // image1: image1,
-                    // image2: image2,
-                    // image3: image3,
-                    // image4: image4,
-                    // image5: image5,
-                    // prodstatus: prodstatus,
+                    hide: hide,
                     details: details
                 });
             }
@@ -817,11 +824,41 @@ router.get('/dashboard/add-new-product', function(req, res, next) {
     var image5 = req.session.image5 = "";
     var status = req.session.prodstatus = "";
 
-    var size = req.session.size = "";
-    var color = req.session.color = "";
-    var stock = req.session.stock = "";
-    var price = req.session.price = "";
-    var detailstatus = req.session.detailstatus = "";
+    var size1 = req.session.size1 = "";
+    var color1 = req.session.color1 = "";
+    var stock1 = req.session.stock1 = "";
+    var price1 = req.session.price1 = "";
+    var detailstatus1 = req.session.detailstatus1 = "";
+
+    var size1 = req.session.size1 = "";
+    var color1 = req.session.color1 = "";
+    var stock1 = req.session.stock1 = "";
+    var price1 = req.session.price1 = "";
+    var detailstatus1 = req.session.detailstatus1 = "";
+
+    var size2 = req.session.size2 = "";
+    var color2 = req.session.color2 = "";
+    var stock2 = req.session.stock2 = "";
+    var price2 = req.session.price2 = "";
+    var detailstatus2 = req.session.detailstatus2 = "";
+
+    var size3 = req.session.size3 = "";
+    var color3 = req.session.color3 = "";
+    var stock3 = req.session.stock3 = "";
+    var price3 = req.session.price3 = "";
+    var detailstatus3 = req.session.detailstatus3 = "";
+
+    var size4 = req.session.size4 = "";
+    var color4 = req.session.color4 = "";
+    var stock4 = req.session.stock4 = "";
+    var price4 = req.session.price4 = "";
+    var detailstatus4 = req.session.detailstatus4 = "";
+
+    var size5 = req.session.size5 = "";
+    var color5 = req.session.color5 = "";
+    var stock5 = req.session.stock5 = "";
+    var price5 = req.session.price5 = "";
+    var detailstatus5 = req.session.detailstatus5 = "";
 
     res.redirect('/admin/dashboard/add-product');
 });
