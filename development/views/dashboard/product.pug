@@ -33,7 +33,7 @@ block content
                                             input(type='text' name='title' placeholder='Title' value=title required)
                                         span.col-xs-12.col-sm-3
                                             label(for='status') Status
-                                            select(name='status')
+                                            select(class='status' name='status')
                                                 option(disabled='true') -- Select --
                                                 option(value='active') Active
                                                 option(value='inactive') Inactive
@@ -82,44 +82,45 @@ block content
                                                             img(src='/img/product.jpg')
                                                         else
                                                             img(src='/img/' + image5)
-                                span.col-xs-12.fieldset.product-details
+                                span.col-xs-12.fieldset.item-attributes
                                     h2 Item Attributes
                                     if details
                                         each detail, index in details
-                                            if (status + (index + 1)) === 'active'
-                                                span(data-row=(index + 1)).row.middle-xs.grey
-                                                    span.col-xs-12
-                                                        label= 'Item ' + (index + 1)
-                                                    span.col-xs-6.col-sm
-                                                        input(type='text' name='size1' placeholder='Size' value=detail.size)
-                                                    span.col-xs-6.col-sm
-                                                        input(type='text' name='color1' placeholder='Color' value=detail.color)
-                                                    span.col-xs-6.col-sm
-                                                        input(type='number' name='stock1' min='0' placeholder='100' value=detail.stock)
-                                                    span.col-xs-6.col-sm
-                                                        input(type='number' name='price1' min='0' placeholder='0.00' value=detail.price)
-                                                    span.col-xs-12.col-sm-3
-                                                        select(name='status' + (index + 1))
-                                                            option(disabled='true') -- Select --
-                                                            option(value='active') Active
-                                                            option(value='inactive') Inactive
+                                            span(data-row=(index + 1)).row.middle-xs.grey
+                                                span.col-xs-12
+                                                    label= 'Item ' + (index + 1)
+                                                span.col-xs-6.col-sm
+                                                    input(type='text' name='size1' placeholder='Size' value=detail.size)
+                                                span.col-xs-6.col-sm
+                                                    input(type='text' name='color1' placeholder='Color' value=detail.color)
+                                                span.col-xs-6.col-sm
+                                                    input(type='number' name='stock1' min='0' placeholder='100' value=detail.stock)
+                                                span.col-xs-6.col-sm
+                                                    input(type='number' name='price1' min='0' placeholder='0.00' value=detail.price)
+                                                span.col-xs-12.col-sm-3
+                                                    select(class='status' name='status' + (index + 1))
+                                                        option(disabled='true') -- Select --
+                                                        option(value='active' selected=detail.status === 'active') Active
+                                                        option(value='inactive' selected=detail.status === 'inactive') Inactive
                                     else
-                                        span(data-row=1).row.middle-xs.grey
-                                            span.col-xs-12
-                                                label= 'Item 1'
-                                            span.col-xs-6.col-sm
-                                                input(type='text' name='size1' placeholder='Size' value=size1)
-                                            span.col-xs-6.col-sm
-                                                input(type='text' name='color1' placeholder='Color' value=color1)
-                                            span.col-xs-6.col-sm
-                                                input(type='number' name='stock1' min='0' placeholder='100' value=stock1)
-                                            span.col-xs-6.col-sm
-                                                input(type='number' name='price1' min='0' placeholder='0.00' value=price1)
-                                            span.col-xs-12.col-sm-3
-                                                select(name='status1')
-                                                    option(disabled='true') -- Select --
-                                                    option(value='active') Active
-                                                    option(value='inactive') Inactive
+                                        - var i = 0;
+                                        while i++ <= 5
+                                            span(class=i !== 1 ? 'inactive' : '' data-row=i).row.middle-xs.grey
+                                                span.col-xs-12
+                                                    label='Item' + i
+                                                span.col-xs-6.col-sm
+                                                    input(type='text' name='size' + i placeholder='Size')
+                                                span.col-xs-6.col-sm
+                                                    input(type='text' name='color' + i placeholder='Color')
+                                                span.col-xs-6.col-sm
+                                                    input(type='number' name='stock' + i min='0' placeholder='100')
+                                                span.col-xs-6.col-sm
+                                                    input(type='number' name='price' + i min='0' placeholder='0.00')
+                                                span.col-xs-12.col-sm-3
+                                                    select(class='status' name='status' + i)
+                                                        option(disabled='true') -- Select --
+                                                        option(value='active' selected=i === 1) Active
+                                                        option(value='inactive' selected=i !== 1) Inactive
                             span.row
                                 span.col-xs
                                     if !hide

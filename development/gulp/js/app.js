@@ -39,37 +39,55 @@ jQuery(document).ready(function($) {
         $('span.price').html('$' + $(this).find(':selected').data('price'));
     });
 
-    $('#add-details').click(function() {
-        var data = $('span.product-details').find('.row').last().data('row') + 1;
-        if (data <= 5) {
-            $('span.product-details').append(
-                '<span class="row middle-xs grey" data-row="' + data +'">\
-                    <span class="col-xs-12">\
-                        <label>Item '+ data +'</label>\
-                    </span>\
-                    <span class="col-xs-6 col-sm">\
-                        <input type="text" name="size' + data + '" placeholder="Size">\
-                    </span>\
-                    <span class="col-xs-6 col-sm">\
-                        <input type="text" name="color' + data + '" placeholder="Color">\
-                    </span>\
-                    <span class="col-xs-6 col-sm">\
-                        <input type="number" name="stock' + data + '" min="0" placeholder="100">\
-                    </span>\
-                    <span class="col-xs-6 col-sm">\
-                        <input type="number" name="price' + data + '" min="0" placeholder="0.00">\
-                    </span>\
-                    <span class="col-xs-12 col-sm-3">\
-                    <select name="status' + data + '">\
-                        <option>Active</option>\
-                        <option>Inactive</option>\
-                    </select>\
-                </span>'
-            );
-            if (data === 5) {
-                $(this).remove();
-            }
+    $('.status').change(function() {
+        if($(this).val() === 'inactive') {
+            $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true).find('.status').prop('selectedIndex', 2);
+        } else {
+            $(this).closest('.grey').removeClass('inactive').find('input, textarea').attr('disabled', false).find('.status').prop('selectedIndex', 1);
         }
     });
+
+    $(':reset').click(function(e) {
+        e.preventDefault();
+        $(this).closest('form').get(0).reset();
+        if($('.status').val() === 'inactive') {
+            $('.status').closest('.grey').addClass('inactive').find('input').attr('disabled', true);
+        } else {
+            $('.status').closest('.grey').removeClass('inactive').find('input').attr('disabled', false);
+        }
+    });
+
+    // $('#add-details').click(function() {
+    //     var data = $('span.product-details').find('.row').last().data('row') + 1;
+    //     if (data <= 5) {
+    //         $('span.product-details').append(
+    //             '<span class="row middle-xs grey" data-row="' + data +'">\
+    //                 <span class="col-xs-12">\
+    //                     <label>Item '+ data +'</label>\
+    //                 </span>\
+    //                 <span class="col-xs-6 col-sm">\
+    //                     <input type="text" name="size' + data + '" placeholder="Size">\
+    //                 </span>\
+    //                 <span class="col-xs-6 col-sm">\
+    //                     <input type="text" name="color' + data + '" placeholder="Color">\
+    //                 </span>\
+    //                 <span class="col-xs-6 col-sm">\
+    //                     <input type="number" name="stock' + data + '" min="0" placeholder="100">\
+    //                 </span>\
+    //                 <span class="col-xs-6 col-sm">\
+    //                     <input type="number" name="price' + data + '" min="0" placeholder="0.00">\
+    //                 </span>\
+    //                 <span class="col-xs-12 col-sm-3">\
+    //                 <select name="status' + data + '">\
+    //                     <option>Active</option>\
+    //                     <option>Inactive</option>\
+    //                 </select>\
+    //             </span>'
+    //         );
+    //         if (data === 5) {
+    //             $(this).remove();
+    //         }
+    //     }
+    // });
 
 });

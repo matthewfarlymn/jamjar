@@ -165,6 +165,13 @@ form {
     }
 }
 
+.inactive {
+    input, textarea {
+        background-color: #eeeeee;
+        color: #cccccc;
+    }
+}
+
 header, footer {
     color: #ffffff;
     padding: 20px 0;
@@ -681,7 +688,7 @@ section {
                         margin: 0;
                     }
                 }
-                .product-details {
+                .item-attributes {
                     h2 {
                         margin-top: -5px;
                         margin-bottom: 15px;
