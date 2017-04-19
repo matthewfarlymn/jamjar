@@ -39,21 +39,31 @@ jQuery(document).ready(function($) {
         $('span.price').html('$' + $(this).find(':selected').data('price'));
     });
 
-    $('.status').change(function() {
+    $('.status-product').change(function() {
         if($(this).val() === 'inactive') {
-            $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true).find('.status').prop('selectedIndex', 2);
+            $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
+            $('.item-attributes').find('.status-attributes').attr('disabled', true).prop('selectedIndex', 2);
         } else {
-            $(this).closest('.grey').removeClass('inactive').find('input, textarea').attr('disabled', false).find('.status').prop('selectedIndex', 1);
+            $(this).closest('.grey').removeClass('inactive').find('input, textarea').attr('disabled', false);
+            $('.item-attributes').find('.status-attributes').attr('disabled', false).prop('selectedIndex', 1);
+        }
+    });
+
+    $('.status-attributes').change(function() {
+        if($(this).val() === 'inactive') {
+            $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
+        } else {
+            $(this).closest('.grey').removeClass('inactive').find('input, textarea').attr('disabled', false);
         }
     });
 
     $(':reset').click(function(e) {
         e.preventDefault();
         $(this).closest('form').get(0).reset();
-        if($('.status').val() === 'inactive') {
-            $('.status').closest('.grey').addClass('inactive').find('input').attr('disabled', true);
+        if($('.status-product, .status-attributes').val() === 'inactive') {
+            $('.status-product, .status-attributes').closest('.grey').addClass('inactive').find('input').attr('disabled', true);
         } else {
-            $('.status').closest('.grey').removeClass('inactive').find('input').attr('disabled', false);
+            $('.status-product, .status-attributes').closest('.grey').removeClass('inactive').find('input').attr('disabled', false);
         }
     });
 
