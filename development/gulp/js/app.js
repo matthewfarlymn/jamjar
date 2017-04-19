@@ -35,7 +35,7 @@ jQuery(document).ready(function($) {
         nextArrow: null,
     });
 
-    $('#size').change(function() {
+    $('#attributes').change(function() {
         $('span.price').html('$' + $(this).find(':selected').data('price'));
     });
 
