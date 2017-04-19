@@ -505,7 +505,7 @@ section {
         }
     }
 
-    &.sign-in {
+    .sign-in {
         @include breakpoint(xs) {
             margin-bottom: 40px;
         }
@@ -549,7 +549,8 @@ section {
                 }
                 @include breakpoint(xs) {
                     .image {
-                        display: none;
+                        // display: none;
+                        padding: 0 16px 10px 16px;
                     }
                     .detail {
                         padding-bottom: 5px;
@@ -586,6 +587,11 @@ section {
             button {
                 &.brown {
                     margin: 0;
+                }
+                &.gold {
+                    @include breakpoint(xs) {
+                        margin-bottom: 10px;
+                    }
                 }
             }
         }
@@ -753,7 +759,8 @@ section {
                 }
                 @include breakpoint(xs) {
                     .image {
-                        display: none;
+                        // display: none;
+                        padding: 0 16px 10px 16px;
                     }
                     .detail {
                         padding-bottom: 5px;
