@@ -96,7 +96,7 @@ block content
                                                 span.col-xs-6.col-sm
                                                     input(type='number' name='stock1' min='0' placeholder='100' value=detail.stock)
                                                 span.col-xs-6.col-sm
-                                                    input(type='number' name='price1' min='0' placeholder='0.00' value=detail.price)
+                                                    input(type='text' name='price1' min='1' placeholder='0.00' value=detail.price required)
                                                 span.col-xs-12.col-sm-3
                                                     select(class='status-attributes' name='status' + (index + 1))
                                                         option(disabled='true') -- Select --
@@ -104,18 +104,18 @@ block content
                                                         option(value='inactive' selected=detail.status === 'inactive') Inactive
                                     else
                                         - var i = 0;
-                                        while i++ <= 5
+                                        while i++ <= 4
                                             span(class=i !== 1 ? 'inactive' : '' data-row=i).row.middle-xs.grey
                                                 span.col-xs-12
                                                     label='Item' + i
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='size' + i placeholder='Size')
+                                                    input(type='text' name='size' + i placeholder='Size' disabled=i !== 1)
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='color' + i placeholder='Color')
+                                                    input(type='text' name='color' + i placeholder='Color' disabled=i !== 1)
                                                 span.col-xs-6.col-sm
-                                                    input(type='number' name='stock' + i min='0' placeholder='100')
+                                                    input(type='number' name='stock' + i min='0' placeholder='100' disabled=i !== 1)
                                                 span.col-xs-6.col-sm
-                                                    input(type='number' name='price' + i min='0' placeholder='0.00')
+                                                    input(type='text' name='price' + i min='1' placeholder='0.00' required disabled=i !== 1)
                                                 span.col-xs-12.col-sm-3
                                                     select(class='status' name='status' + i)
                                                         option(disabled='true') -- Select --
