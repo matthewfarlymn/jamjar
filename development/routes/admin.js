@@ -670,6 +670,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                         detail.size = results[i].size;
                         detail.color = results[i].color;
                         detail.stock = results[i].stock;
+                        detail.status = results[i].status;
 
                         if (results[i].price !== null) {
                             detail.price = results[i].price.toFixed(2);
@@ -1200,6 +1201,22 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                         prodId = results[0].id;
                                                         title = results[0].title;
 
+                                                        if (!stock1) {
+                                                            stock1 = null;
+                                                        }
+                                                        if (!stock2 ){
+                                                            stock2 = null;
+                                                        }
+                                                        if (!stock3) {
+                                                            stock3 = null;
+                                                        }
+                                                        if (!stock4) {
+                                                            stock4 = null;
+                                                        }
+                                                        if (!stock5) {
+                                                            stock5 = null;
+                                                        }
+
                                                         if (!status1) {
                                                             status1 = 'inactive';
                                                         }
@@ -1252,7 +1269,6 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                     }
                                                 });
                                             }
-
                                         });
                                     }
                                 });
@@ -1271,7 +1287,6 @@ router.post('/dashboard/save-product', function(req, res, next) {
             }
         }
     });
-
 });
 
 
