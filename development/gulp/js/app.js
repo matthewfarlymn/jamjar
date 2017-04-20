@@ -42,10 +42,10 @@ jQuery(document).ready(function($) {
     $('.status-product').change(function() {
         if($(this).val() === 'inactive') {
             $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
-            $('.item-attributes').find('.status-attributes').attr('disabled', true).prop('selectedIndex', 2);
+            $('.item-attributes').find('.status-attributes').attr('disabled', true);
         } else {
             $(this).closest('.grey').removeClass('inactive').find('input, textarea').attr('disabled', false);
-            $('.item-attributes').find('.status-attributes').attr('disabled', false).prop('selectedIndex', 1);
+            $('.item-attributes').find('.status-attributes').attr('disabled', false);
         }
     });
 
@@ -62,8 +62,10 @@ jQuery(document).ready(function($) {
         $(this).closest('form').get(0).reset();
         if($('.status-product, .status-attributes').val() === 'inactive') {
             $('.status-product, .status-attributes').closest('.grey').addClass('inactive').find('input').attr('disabled', true);
+            $('.item-attributes').find('.status-attributes').attr('disabled', true);
         } else {
             $('.status-product, .status-attributes').closest('.grey').removeClass('inactive').find('input').attr('disabled', false);
+            $('.item-attributes').find('.status-attributes').attr('disabled', false);
         }
     });
 
