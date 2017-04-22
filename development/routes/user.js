@@ -80,6 +80,83 @@ router.post('/add-to-cart', function(req, res, next) {
     }
 });
 
+
+router.get('/shopping-cart', function(req, res, next) {
+
+    var msg = req.session.msg ? req.session.msg : "";
+    var email = req.session.user;
+    var cart = '';
+
+    req.session.msg = "";
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+            // connection.query('SELECT * FROM shopping_cart WHERE email=?',[email], function(err, results, fields) {
+            connection.query('SELECT * FROM shopping_cart s INNER JOIN product_details d ON s.detailId = d.id INNER JOIN products p ON d.productsId = p.id WHERE s.email=?',[email], function(err, results, fields) {
+                // console.log('Query returned ' + JSON.stringify(results));
+
+                if(err) {
+                  throw err;
+                }
+                // no items in cart found
+                else if (results.length === 0) {
+                  console.log("no items in cart");
+                }
+                // items in cart found
+                else {
+                    console.log("items in cart found for" + email);
+
+                    for (var i=0; i<results.length; i++) {
+                        var excerptLength = 75;
+                        var description = results[i].description;
+                        var excerpt = "";
+
+                        if (description.length > excerptLength) {
+                          excerpt = description.substring(0,excerptLength).trim() + '...';
+                        }
+                        else {
+                          excerpt = description;
+                        }
+
+                        results[i].excerpt = excerpt;
+                    }
+
+                    cart = results;
+                    console.log('Query returned ' + JSON.stringify(cart));
+
+                }
+            });
+        }
+
+        connection.commit(function(err) {
+            connection.release();
+            if (err) {
+                connection.rollback(function() {
+                    throw err;
+                });
+            }
+            else {
+                res.render('shopping-cart', {
+                    errorMessage: msg,
+                    access: req.session.user,
+                    owner: req.session.admin,
+                    // userId: req.session.userId,
+                    // avatar: req.session.avatar,
+                    cart: cart
+                });
+            }
+        });
+    });
+});
+
+
+
+
 // router.post('/update-shopping-cart', function(req, res, next) {
 //
 //     var firstName = req.body.firstName;
@@ -279,18 +356,6 @@ router.post('/add-to-cart', function(req, res, next) {
 //     });
 // });
 
-router.get('/shopping-cart', function(req, res, next) {
-
-    var msg = req.session.msg ? req.session.msg : "";
-
-    req.session.msg = "";
-
-    res.render('shopping-cart', {
-        errorMessage: msg,
-        access: req.session.user
-    });
-
-});
 
 router.get('/checkout', function(req, res, next) {
 
