@@ -202,6 +202,8 @@ router.get('/product/:id/:title', function(req, res, next) {
     var colors = true;
     var sizes = true;
     var popularProducts = '';
+    var prodId = req.session.prodId = req.params.id;
+    var title = req.session.title = req.params.title;
 
     if (req.params.id) {
 
@@ -328,6 +330,8 @@ router.get('/product/:id/:title', function(req, res, next) {
                         details: details,
                         colors: colors,
                         sizes: sizes,
+                        prodId: req.session.prodId,
+                        title: req.session.title,
                         popularProducts: popularProducts
                     });
                 }
