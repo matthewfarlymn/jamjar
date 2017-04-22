@@ -132,6 +132,16 @@ router.get('/about', function(req, res, next) {
     });
 });
 
+router.get('/confirmation', function(req, res, next) {
+    res.render('confirmation', {
+        access: req.session.user,
+        owner: req.session.admin,
+        userId: req.session.userId,
+        avatar: req.session.avatar
+    });
+});
+
+
 
 router.get('/products', function(req, res, next) {
 

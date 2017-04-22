@@ -514,7 +514,7 @@ router.post('/checkout', function(req, res, next) {
                                 else {
                                     console.log("Order_details insert successful.");
 
-                                    var orderId = results[0].id;
+                                    var orderId = req.session.orderId = results[0].id;
 
                                     // req.session.user = email;
 
@@ -528,10 +528,37 @@ router.post('/checkout', function(req, res, next) {
                                             }
                                         });
                                     }
-                                    connection.release();
-                                    console.log("Order items insert successful.");
-                                    // req.session.user = email;
-                                    res.redirect('/user/confirmation');
+
+                                    connection.query('SELECT * FROM order_details WHERE userId=? ORDER BY id DESC',[userId], function(err, results, fields) {
+                                        console.log('Query returned1 ' + JSON.stringify(results));
+
+                                        if (err) {
+                                            console.log("Error connecting to the database - select");
+                                            throw err;
+                                        }
+                                        else {
+                                            console.log("Order_details insert successful.");
+
+                                            var orderId = req.session.orderId = results[0].id;
+
+                                            // req.session.user = email;
+
+                                            connection.query('DELETE FROM shopping_cart WHERE email=?',[req.session.user], function(err, results, fields) {
+                                                if (err) {
+                                                    console.log("Error connecting to the database - insert");
+                                                    throw err;
+                                                }
+                                                else {
+                                                    console.log("shopping cart emptied for " + req.session.user);
+
+                                                    connection.release();
+                                                    console.log("Order items insert successful.");
+                                                    // req.session.user = email;
+                                                    res.redirect('/user/confirmation');
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -542,6 +569,16 @@ router.post('/checkout', function(req, res, next) {
     });
 });
 
+router.get('/confirmation', function(req, res, next) {
+
+    res.render('confirmation', {
+        access: req.session.user,
+        owner: req.session.admin,
+        userId: req.session.userId,
+        avatar: req.session.avatar,
+        orderId: req.session.orderId
+    });
+});
 
 
 router.get('/dashboard/profile', function(req, res, next) {
