@@ -35,6 +35,12 @@ jQuery(document).ready(function($) {
         nextArrow: null,
     });
 
+    tinymce.init({
+        selector: 'textarea.tinymce',
+        menubar: false,
+        toolbar: ''
+    });
+
     $('#attributes').change(function() {
         $('span.price').html('$' + $(this).find(':selected').data('price'));
     });

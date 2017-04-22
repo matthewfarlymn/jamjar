@@ -4,6 +4,10 @@ var connect = require('../database/connect');
 
 // var session = '';
 
+router.get('/settings', function(req, res, next) {
+    res.render('dashboard/settings');
+});
+
 router.get('/', function(req, res, next) {
 
     // if (!session) {
