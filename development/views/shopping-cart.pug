@@ -18,15 +18,21 @@ block content
                                 span.col-sm-4.image
                                     img(src='/img/' + product.image1)
                                 span.col-xs-12.col-sm-8
-                                    span.row
-                                        span.col-xs-12.col-sm-8
+                                    span.row.middle-xs
+                                        span.col-xs-8.col-sm-9
                                             h3 #{product.title}
                                             p #{product.excerpt}
-                                        span.col-xs-12.col-sm-4
-                                            label Action
-                                            select(name='action')
-                                                option(selected='true' disabled='true') -- Select --
-                                                option(value='remove') Remove
+                                            ul
+                                                if product.size
+                                                    li
+                                                        strong Size:
+                                                        span #{product.size}
+                                                if product.color
+                                                    li
+                                                        strong Color:
+                                                        span #{product.color}
+                                        span.col-xs-4.col-sm-3.right
+                                            a(href='/user/remove-from-cart/' + product.detailId) Remove
                                         span.col-xs-12
                                             span.details
                                                 span.row.middle-xs
@@ -60,7 +66,6 @@ block content
                     span.col-xs-12.col-md-8
                         span.row
                             span.col-xs
-                                button(type='submit').button.gold Update
-                                a(href='/user/checkout').button.pink Continue
+                                button(type='submit').button.pink Continue
                             span.col-xs.right
                                 button(type='reset').button.brown Reset
