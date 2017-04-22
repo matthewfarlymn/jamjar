@@ -10,42 +10,45 @@ block content
             header.row.center-xs.container
                 div.col-xs-12.col-md-8
                     h1 Shopping Cart
-            form(action='/user/update-shopping-cart' method='post')
+            form(action='/user/checkout' method='post')
                 span.row.center-xs.container
                     span.col-xs-12.col-md-8
                         each product in cart
                             span.row.middle-xs.grey
-                                span.col-sm-4.image
-                                    img(src='/img/' + product.image1)
-                                span.col-xs-12.col-sm-8
+                                span.col-xs-12
                                     span.row.middle-xs
-                                        span.col-xs-8.col-sm-9
-                                            h3 #{product.title}
-                                            p #{product.excerpt}
-                                            ul
-                                                if product.size
-                                                    li
-                                                        strong Size:
-                                                        span #{product.size}
-                                                if product.color
-                                                    li
-                                                        strong Color:
-                                                        span #{product.color}
-                                        span.col-xs-4.col-sm-3.right
-                                            a(href='/user/remove-from-cart/' + product.detailId) Remove
-                                        span.col-xs-12
-                                            span.details
-                                                span.row.middle-xs
-                                                    span.col-xs-12.col-sm-4.detail
-                                                        strong Price:
-                                                        span $#{product.price}
-                                                    span.col-xs-12.col-sm-4.detail
-                                                        span.flex
-                                                            strong Quantity:
-                                                            input(type='number' name='quantity' min='1' placeholder='0' value=product.quantity)
-                                                    span.col-xs-12.col-sm-4.detail
-                                                        strong Total:
-                                                        span $#{product.subtotal}
+                                        span.col-xs-12.col-sm-4.image
+                                            img(src='/img/' + product.image1)
+                                        span.col-xs-12.col-sm-8
+                                            span.row.middle-xs
+                                                span.col-xs-8.col-sm-9
+                                                    h3 #{product.title}
+                                                    p #{product.excerpt}
+                                                    ul
+                                                        if product.size
+                                                            li
+                                                                strong Size:
+                                                                span #{product.size}
+                                                        if product.color
+                                                            li
+                                                                strong Color:
+                                                                span #{product.color}
+                                                span.col-xs-4.col-sm-3.right
+                                                    a(href='/user/remove-from-cart/' + product.id) Remove
+                                span.col-xs-12
+                                    span.details
+                                        span.row.middle-xs
+                                            span.col-xs-12.col-sm-4.detail
+                                                strong Price:
+                                                span $#{product.price}
+                                            span.col-xs-12.col-sm-4.detail
+                                                span.flex
+                                                    strong Quantity:
+                                                    input(type='number' name='quantity' min='1' placeholder='0' value=product.quantity)
+                                                    a(href='/user/update-cart/' + product.id).fa.fa-refresh
+                                            span.col-xs-12.col-sm-4.detail
+                                                strong Total:
+                                                span $#{product.subtotal}
                     span.col-xs-12.col-md-8
                         span.row.middle-xs.grey
                             span.col-xs-12

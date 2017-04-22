@@ -547,6 +547,11 @@ section {
                            opacity: 1;
                         }
                     }
+                    a {
+                        &.fa-refresh {
+                            margin-left: 10px;
+                        }
+                    }
                 }
                 @include breakpoint(xs) {
                     .image {
