@@ -13,7 +13,7 @@ block content
             form(action='/user/checkout' method='post')
                 span.row.center-xs.container
                     span.col-xs-12.col-md-8
-                        each product in cart
+                        each product, index in cart
                             span.row.middle-xs.grey
                                 span.col-xs-12
                                     span.row.middle-xs
@@ -44,8 +44,8 @@ block content
                                             span.col-xs-12.col-sm-4.detail
                                                 span.flex
                                                     strong Quantity:
-                                                    input(type='number' name='quantity' min='1' placeholder='0' value=product.quantity)
-                                                    a(href='/user/update-cart/' + product.id).fa.fa-refresh
+                                                    input(type='number' name='quantity' + index min='1' placeholder='0' value=product.quantity)
+                                                    a(href='/user/update-cart/' + product.id + '/' + index)fa.fa-refresh
                                             span.col-xs-12.col-sm-4.detail
                                                 strong Total:
                                                 span $#{product.subtotal}
