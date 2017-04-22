@@ -1,7 +1,22 @@
 var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
+var multer = require('multer');
 
+var avatarStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './assets/uploads/users/');
+    },
+    filename: function (req, file, cb) {
+        var filename = file.originalname;
+        var fileExtension = filename.split(".")[1];
+        cb(null, req.session.userId + "." + fileExtension);
+    }
+});
+
+var avatarUpload = multer({
+    storage: avatarStorage
+});
 
 router.post('/add-to-cart', function(req, res, next) {
 
@@ -810,7 +825,7 @@ router.get('/dashboard/profile', function(req, res, next) {
 });
 
 
-router.post('/update-profile', function(req, res, next) {
+router.post('/update-profile', avatarUpload.single('avatar'), function(req, res, next) {
 
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -825,7 +840,7 @@ router.post('/update-profile', function(req, res, next) {
     var password1 = req.body.password1;
     var password2 = req.body.password2;
     var password3 = req.body.password3;
-    var avatar = req.body.avatar;
+    var avatar = req.file.filename;
 
     connect(function(err, connection) {
         if (err) {
