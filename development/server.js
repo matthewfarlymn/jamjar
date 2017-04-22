@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var mysql = require('mysql');
+var multer = require('multer');
 
 var index = require('./routes/index');
 var user = require('./routes/user');
@@ -39,6 +40,17 @@ app.use(function (req, res, next) {
         owner: req.session.admin
     };
     next();
+});
+
+var userStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/users');
+    },
+    filename: function (req, file, cb) {
+        var filename = file.originalname;
+        var fileExtension = filename.split(".")[1];
+        cb(null, Date.now() + "." + fileExtension);
+    }
 });
 
 var access = function(req, res, next) {

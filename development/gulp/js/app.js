@@ -49,6 +49,11 @@ jQuery(document).ready(function($) {
         $('span.price').html('$' + $(this).find(':selected').data('price'));
     });
 
+    $('.details input').change(function() {
+        $('input').attr('name', 'quantity');
+        $(this).attr('name', 'quantityUpdate');
+    });
+
     $('.billing-details :checkbox').change(function() {
         if($(this).is(':checked')) {
             $('.shipping-details').closest('.fieldset').addClass('inactive').find('input').attr('disabled', true);
