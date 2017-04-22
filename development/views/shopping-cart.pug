@@ -10,7 +10,7 @@ block content
             header.row.center-xs.container
                 div.col-xs-12.col-md-8
                     h1 Shopping Cart
-            form(action='/user/checkout' method='post')
+            form(action='/user/update-cart' method='post')
                 span.row.center-xs.container
                     span.col-xs-12.col-md-8
                         each product in cart
@@ -45,7 +45,7 @@ block content
                                                 span.flex
                                                     strong Quantity:
                                                     input(type='number' name='quantity' min='1' placeholder='0' value=product.quantity)
-                                                    button(type='submit').fa.fa-refresh
+                                                    button(type='submit' name='refresh' value=product.id).fa.fa-refresh
                                             span.col-xs-12.col-sm-4.detail
                                                 strong Total:
                                                 span $#{product.subtotal}
