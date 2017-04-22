@@ -1,0 +1,113 @@
+extends ../templates/layout
+
+block content
+    main
+        section.dashboard
+            include ../modules/dashboard-nav
+            div.settings
+                if errorMessage
+                    div.row.center-xs.container
+                        div.col-xs-12.col-sm-12.col-md-8.error
+                            span #{errorMessage}
+                if successMessage
+                    div.row.center-xs.container
+                        div.col-xs-12.col-sm-12.col-md-8.success
+                            span #{successMessage}
+                div.row.center-xs.container
+                    div.col-xs-12.col-md-8
+                        form(action='/admin/dashboard/update-settings' method='post')
+                            span.row
+                                span.col-xs
+                                    button(type='submit').button.pink Update
+                                span.col-xs.right
+                                    button(type='reset').button.brown Reset
+                            span.row.grey
+                                span.col-xs-12.fieldset
+                                    h2 Theme
+                                    span.row
+                                        span.col-xs-12.col-sm-6
+                                            label(for='title') Logo
+                                            span.image
+                                                input(type='file' name='sliderImage' + i)
+                                                if !(image + i)
+                                                    img(src='/img/product.jpg')
+                                                else
+                                                    img(src='/img/' + image1)
+                                        span.col-xs-12.col-sm-6
+                                            span.row            
+                                                span.col-xs-12
+                                                    label(for='title') Colors
+                                                    input(type='text' name='title' placeholder='Title' value=title required)
+                                                span.col-xs-12
+                                                    input(type='text' name='title' placeholder='Title' value=title required)
+                                                span.col-xs-12
+                                                    input(type='text' name='title' placeholder='Title' value=title required)
+                            span.row.grey
+                                span.col-xs-12.fieldset.settings
+                                    h2 Sliders
+                                    - var i = 0;
+                                    while i++ <= 2
+                                        span.row.grey
+                                            span.col-xs-12.col-sm-12
+                                                label= 'Slider ' + i
+                                            span.col-xs-12.col-sm-6
+                                                span.row
+                                                    span.col-xs-12.col-sm-12
+                                                        input(type='text' name='sliderTitle' + i placeholder='Title' value=sliderTitle required)
+                                                    span.col-xs-12
+                                                        textarea(name='sliderDescription' + i placeholder='Description') #{sliderDescription}
+                                                    span.col-xs-12.col-sm-12
+                                                        input(type='url' name='sliderUrl' + i placeholder='Url' value=sliderUrl required)
+                                            span.col-xs-12.col-sm-6
+                                                span.image
+                                                    input(type='file' name='sliderImage' + i)
+                                                    if !(image + i)
+                                                        img(src='/img/product.jpg')
+                                                    else
+                                                        img(src='/img/' + image1)
+                            span.row.grey
+                                span.col-xs-12.fieldset.settings
+                                    h2 CTA's
+                                    - var j = 0;
+                                    while j++ <= 2
+                                        span.row.grey
+                                            span.col-xs-12.col-sm-12
+                                                if j === 1
+                                                    label Register
+                                                else if j === 2
+                                                    label Contact
+                                                else
+                                                    label Error
+                                            span.col-xs-12.col-sm-12
+                                                span.row
+                                                    span.col-xs-12.col-sm-6
+                                                        input(type='text' name='ctaTitle' + j placeholder='Title' value=title required)
+                                                    span.col-xs-12.col-sm-6
+                                                        input(type='text' name='ctaSubtitle' + j placeholder='Subtitle' value=title required)
+                                                    span.col-xs-12
+                                                        textarea(name='ctaDescription' + j placeholder='Description') #{description}
+                            span.row.grey
+                                span.col-xs-12.fieldset
+                                    h2 Contact Information
+                                    span.row
+                                        span.col-xs-12.col-sm-6
+                                            label(for='name') Name
+                                            input(type='text' name='name' placeholder='Name' value=name required)
+                                        span.col-xs-12.col-sm-6
+                                            label(for='email') Email
+                                            input(type='email' name='email' placeholder='Email' value=email required)
+                            span.row.grey
+                                span.col-xs-12.fieldset
+                                    h2 Social Media
+                                    span.row
+                                        span.col-xs-12.col-sm-6
+                                            label(for='facebook') Facebook
+                                            input(type='url' name='facebook' placeholder='http://facebook.com' value=facebook required)
+                                        span.col-xs-12.col-sm-6
+                                            label(for='twitter') Twitter
+                                            input(type='url' name='facebook' placeholder='http://twitter.com' value=twitter required)
+                            span.row
+                                span.col-xs
+                                    button(type='submit').button.pink Update
+                                span.col-xs.right
+                                    button(type='reset').button.brown Reset

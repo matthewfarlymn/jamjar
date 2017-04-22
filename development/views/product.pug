@@ -3,6 +3,14 @@ extends templates/layout
 block content
     main
         section.product
+            if errorMessage
+                div.row.center-xs.container
+                    div.col-xs-12.col-sm-12.col-md-8.error
+                        span #{errorMessage}
+            if successMessage
+                div.row.center-xs.container
+                    div.col-xs-12.col-sm-12.col-md-8.success
+                        span #{successMessage}
             div.row.reverse.middle-xs.container
                 div.col-xs-12.col-sm-6
                     div.product-slider
@@ -26,7 +34,7 @@ block content
                     p #{product[0].description}
                     h2 Price:
                         span.price $#{details[0].price}
-                    form(action='/add-to-cart' method='post')
+                    form(action='/user/add-to-cart' method='post')
                         if sizes || colors
                             select(id='attributes' name='attributes' required)
                                 each detail in details

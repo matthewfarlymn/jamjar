@@ -33,6 +33,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'assets')));
 
+app.use(function (req, res, next) {
+    res.locals = {
+        access: req.session.user,
+        owner: req.session.admin
+    };
+    next();
+});
+
 var access = function(req, res, next) {
     if (!req.session.user) {
         res.redirect('/sign-in');

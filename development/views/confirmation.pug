@@ -1,0 +1,15 @@
+extends templates/layout
+
+block content
+    main
+        section
+            div.row.center-xs.container
+                div.col-xs-12.col-md-8.success
+                    if contact
+                        h1 Thank you for contacing us
+                        h2 Ticket ID is 12345678
+                    else
+                        h1 Thank you for your order
+                        h2 Order ID is 12345678
+                    p You will receive a confirmation email shortly from jamjar@email.com.
+        include modules/contact-cta

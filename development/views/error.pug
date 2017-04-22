@@ -3,8 +3,8 @@ extends templates/layout
 block content
     main
         section
-            div.row.center-xs.container.error
-                div.col-xs-12.col-md-8
+            div.row.center-xs.container
+                div.col-xs-12.col-md-8.error
                     h1 #{error.status}: #{message}
                     h2 We can't find the page you're' looking for!
                     p The best thing to do now would be to check the url for errors, start again from #[a(href='/') home] or contact us and let us know something is broken!

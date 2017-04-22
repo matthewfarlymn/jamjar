@@ -617,7 +617,7 @@ section {
             }
         }
 
-        .profile, .product, .user {
+        .profile, .product, .user, .settings {
             form {
                 margin: 0;
                 .grey {
@@ -695,7 +695,7 @@ section {
                         margin: 0;
                     }
                 }
-                .item-attributes {
+                .item-attributes, .settings {
                     h2 {
                         margin-top: -5px;
                         margin-bottom: 15px;
@@ -727,6 +727,13 @@ section {
                             @include breakpoint(xs) {
                                 margin-bottom: 0;
                             }
+                        }
+                    }
+                }
+                .settings {
+                    .grey {
+                        input {
+                            margin-bottom: 15px;
                         }
                     }
                 }
