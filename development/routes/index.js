@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-                connection.query('SELECT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
+                connection.query('SELECT DISTINCT(d.productsId), d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
@@ -202,6 +202,8 @@ router.get('/product/:id/:title', function(req, res, next) {
     var colors = true;
     var sizes = true;
     var popularProducts = '';
+    var prodId = req.session.prodId = req.params.id;
+    var title = req.session.title = req.params.title;
 
     if (req.params.id) {
 
@@ -328,6 +330,8 @@ router.get('/product/:id/:title', function(req, res, next) {
                         details: details,
                         colors: colors,
                         sizes: sizes,
+                        prodId: req.session.prodId,
+                        title: req.session.title,
                         popularProducts: popularProducts
                     });
                 }
