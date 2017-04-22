@@ -13,59 +13,49 @@ block content
             form(action='/user/update-shopping-cart' method='post')
                 span.row.center-xs.container
                     span.col-xs-12.col-md-8
-                        //- each product in productDetails
-                        span.row.middle-xs.grey
-                            span.col-sm-4.image
-                                //- img(src='/img/' + product.image)
-                                img(src='/img/blueberry.jpg')
-                            span.col-xs-12.col-sm-8
-                                span.row
-                                    span.col-xs-12.col-sm-8
-                                        //- h3 #{product.title}
-                                        //- p #{product.excerpt}
-                                        h3 Blueberry
-                                        p Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris ju...
-                                    span.col-xs-12.col-sm-4
-                                        label Action
-                                        select(name='action')
-                                            option(selected='true' disabled='true') -- Select --
-                                            option(value='remove') Remove
-                                    span.col-xs-12
-                                        span.details
-                                            span.row.middle-xs
-                                                span.col-xs-12.col-sm-4.detail
-                                                    strong Price:
-                                                    //- span $#{product.price}
-                                                    span $16.00
-                                                span.col-xs-12.col-sm-4.detail
-                                                    span.flex
-                                                        strong Quantity:
-                                                        //- span #{product.quantity}
-                                                        input(type='number' name='quantity' min='1' placeholder='0' value='3')
-                                                span.col-xs-12.col-sm-4.detail
-                                                    strong Total:
-                                                    //- span $#{product.subtotal}
-                                                    span $48.00
-                    span.col-xs-12.col-md-8
-                        span.row.middle-xs.grey
-                            span.col-xs-12
-                                span.row.middle-xs
-                                    span.col-xs-12.col-sm-3.detail
-                                        strong Sub-total:
-                                        //- span $#{orderDetails[0].subtotal}
-                                        span $48.00
-                                    span.col-xs-12.col-sm-3.detail
-                                        strong Tax:
-                                        //- span $#{orderDetails[0].tax}
-                                        span $8.00
-                                    span.col-xs-12.col-sm-3.detail
-                                        strong Shipping:
-                                        //- span $#{orderDetails[0].shipping}
-                                        span $10.00
-                                    span.col-xs-12.col-sm-3.detail
-                                        strong Total:
-                                        //- span $#{orderDetails[0].total}
-                                        span $66.00
+                        each product in cart
+                            span.row.middle-xs.grey
+                                span.col-sm-4.image
+                                    img(src='/img/' + product.image1)
+                                span.col-xs-12.col-sm-8
+                                    span.row
+                                        span.col-xs-12.col-sm-8
+                                            h3 #{product.title}
+                                            p #{product.excerpt}
+                                        span.col-xs-12.col-sm-4
+                                            label Action
+                                            select(name='action')
+                                                option(selected='true' disabled='true') -- Select --
+                                                option(value='remove') Remove
+                                        span.col-xs-12
+                                            span.details
+                                                span.row.middle-xs
+                                                    span.col-xs-12.col-sm-4.detail
+                                                        strong Price:
+                                                        span $#{product.price}
+                                                    span.col-xs-12.col-sm-4.detail
+                                                        span.flex
+                                                            strong Quantity:
+                                                            input(type='number' name='quantity' min='1' placeholder='0' value=product.quantity)
+                                                    span.col-xs-12.col-sm-4.detail
+                                                        strong Total:
+                                                        span $#{product.subtotal}
+                    //- span.col-xs-12.col-md-8
+                    //-     span.row.middle-xs.grey
+                    //-         span.col-xs-12
+                    //-             span.row.middle-xs
+                    //-                 span.col-xs-12.col-sm-3.detail
+                    //-                     strong Sub-total:
+                    //-                     span $#{orderDetails[0].subtotal}
+                    //-                 span.col-xs-12.col-sm-3.detail
+                    //-                     strong Tax:
+                    //-                     span $#{orderDetails[0].tax}
+                    //-                 span.col-xs-12.col-sm-3.detail
+                    //-                     strong Shipping:
+                    //-                     span $#{orderDetails[0].shipping}
+                    //-                 span.col-xs-12.col-sm-3.detail
+                    //-                     strong Total:
+                    //-                     span $#{orderDetails[0].total}
                 span.row.center-xs.container
                     span.col-xs-12.col-md-8
                         span.row

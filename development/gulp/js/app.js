@@ -37,6 +37,7 @@ jQuery(document).ready(function($) {
 
     tinymce.init({
         selector: 'textarea.tinymce',
+        height: 300,
         menubar: false,
         toolbar: ''
     });
