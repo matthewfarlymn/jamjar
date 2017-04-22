@@ -94,8 +94,11 @@ router.get('/shopping-cart', function(req, res, next) {
     var msg = req.session.msg ? req.session.msg : "";
     var email = req.session.user;
     var cart = '';
+    var cartDetail = {};
 
     req.session.msg = "";
+
+    // var cartDetails = [];
 
     connect(function(err, connection) {
         if (err) {
@@ -119,11 +122,19 @@ router.get('/shopping-cart', function(req, res, next) {
                 else {
                     console.log("items in cart found for" + email);
 
+                    // var cartDetail = {};
+
+                    var taxrate = .135;
+                    var shipping = 10;
+                    var subtotal = 0;
+                    var tax = 0;
+                    var total = 0;
+
                     for (var i=0; i<results.length; i++) {
                         var excerptLength = 75;
                         var description = results[i].description;
                         var excerpt = "";
-                        var total = 0;
+                        var linetotal = 0;
 
                         if (description.length > excerptLength) {
                           excerpt = description.substring(0,excerptLength).trim() + '...';
@@ -136,13 +147,26 @@ router.get('/shopping-cart', function(req, res, next) {
 
                         results[i].price = results[i].price.toFixed(2);
 
+                        linetotal = results[i].price * results[i].quantity;
 
+                        results[i].subtotal = linetotal.toFixed(2);
 
+                        subtotal = subtotal + linetotal;
                     }
 
                     cart = results;
-                    console.log('Query returned ' + JSON.stringify(cart));
+                    console.log('cart ' + JSON.stringify(cart));
 
+                    tax = subtotal * taxrate;
+                    total = subtotal + tax + shipping;
+
+                    cartDetail.tax = tax.toFixed(2);
+                    cartDetail.shipping = shipping.toFixed(2);
+                    cartDetail.subtotal = subtotal.toFixed(2);
+                    cartDetail.total = total.toFixed(2);
+
+                    // cartDetails.push(cartDetail);
+                    console.log('cartDetail ' + JSON.stringify(cartDetail));
                 }
             });
         }
@@ -161,7 +185,8 @@ router.get('/shopping-cart', function(req, res, next) {
                     owner: req.session.admin,
                     // userId: req.session.userId,
                     // avatar: req.session.avatar,
-                    cart: cart
+                    cart: cart,
+                    cartDetail: cartDetail
                 });
             }
         });
