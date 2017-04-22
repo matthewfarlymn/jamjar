@@ -201,6 +201,8 @@ router.get('/products', function(req, res, next) {
 
 router.get('/product/:id/:title', function(req, res, next) {
 
+    var msg = req.session.msg ? req.session.msg : "";
+    var successMsg = req.session.successMsg ? req.session.successMsg : "";
     var product = '';
     var details = '';
     var colors = true;
@@ -326,6 +328,8 @@ router.get('/product/:id/:title', function(req, res, next) {
               }
                 else {
                     res.render('product', {
+                        errorMessage: msg,
+                        successMessage: successMsg,
                         access: req.session.user,
                         owner: req.session.admin,
                         userId: req.session.userId,

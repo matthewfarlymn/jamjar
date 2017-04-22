@@ -11,6 +11,13 @@ router.post('/add-to-cart', function(req, res, next) {
     var prodId = req.session.prodId;
     var title = req.session.title;
 
+    var msg = req.session.msg ? req.session.msg : "";
+    var successMsg = req.session.successMsg ? req.session.successMsg : "";
+
+    req.session.msg = "";
+    req.session.successMsg = "";
+
+
     console.log('prodId ' + prodId);
 
     if (!email) {
@@ -67,6 +74,7 @@ router.post('/add-to-cart', function(req, res, next) {
                                     }
                                     else {
                                         console.log("Product successfully inserted into cart for " + email);
+                                        req.session.successMsg = "Product(s) successfully added to cart.";
                                         req.session.user = email;
                                         res.redirect('/product/' + prodId + '/' + title);
                                     }
@@ -115,6 +123,7 @@ router.get('/shopping-cart', function(req, res, next) {
                         var excerptLength = 75;
                         var description = results[i].description;
                         var excerpt = "";
+                        var total = 0;
 
                         if (description.length > excerptLength) {
                           excerpt = description.substring(0,excerptLength).trim() + '...';
@@ -124,6 +133,11 @@ router.get('/shopping-cart', function(req, res, next) {
                         }
 
                         results[i].excerpt = excerpt;
+
+                        results[i].price = results[i].price.toFixed(2);
+
+
+
                     }
 
                     cart = results;
