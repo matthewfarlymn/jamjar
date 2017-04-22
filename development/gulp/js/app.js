@@ -37,9 +37,12 @@ jQuery(document).ready(function($) {
 
     tinymce.init({
         selector: 'textarea.tinymce',
+        themes: 'inlite',
         height: 300,
+        resize: false,
         menubar: false,
-        toolbar: ''
+        plugins: ['lists advlist link'],
+        toolbar: 'undo redo | formatselect | bold bullist link',
     });
 
     $('#attributes').change(function() {
