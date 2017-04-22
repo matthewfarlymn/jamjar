@@ -16,10 +16,12 @@ header.brown
                 li.search
                     span.fa.fa-search
                 if access
-                    li(style=avatar ? 'background-image: url(/img/' + userId + '/' + avatar + ');' : '').user
+                    li.user
                         a(href=owner ? '/admin/dashboard/profile' : '/user/dashboard/profile')
                             if !avatar
                                 span.fa.fa-user
+                            else
+                                img(src='/uploads/users/' + avatar)
                 if access
                     li.sign-out
                         a(href='/sign-out').button.pink Sign-Out

@@ -547,9 +547,13 @@ section {
                            opacity: 1;
                         }
                     }
-                    a {
+                    button {
                         &.fa-refresh {
+                            background: transparent;
+                            border: none;
+                            padding: 0;
                             margin-left: 10px;
+                            cursor: pointer;
                         }
                     }
                 }
@@ -639,7 +643,6 @@ section {
                     }
                     .user, .image {
                         position: relative;
-                        background-color: #cccccc;
                         width: 200px;
                         height: 200px;
                         overflow: hidden;
@@ -680,11 +683,6 @@ section {
                             width: 100%;
                             opacity: 0;
                             cursor: pointer;
-                        }
-                        span {
-                            &.fa-user {
-                                font-size: 150px;
-                            }
                         }
                     }
                     .image {
@@ -777,6 +775,21 @@ section {
                         &:last-of-type {
                             padding-bottom: 0;
                         }
+                    }
+                }
+                .user {
+                    position: relative;
+                    max-width: 200px;
+                    height: 200px;
+                    overflow: hidden;
+                    margin: 5px 0 10px 0;
+                    background-size: cover;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: #ffffff;
+                    @include breakpoint(xs) {
+                        display: none;
                     }
                 }
                 strong {

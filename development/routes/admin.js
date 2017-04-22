@@ -1,7 +1,37 @@
 var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
+var multer = require('multer');
 
+var avatarStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './assets/uploads/users/');
+    },
+    filename: function (req, file, cb) {
+        var filename = file.originalname;
+        var fileExtension = filename.split(".")[1];
+        cb(null, req.session.userId + "." + fileExtension);
+    }
+});
+
+var avatarUpload = multer({
+    storage: avatarStorage
+});
+
+var productImageStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './assets/uploads/products/');
+    },
+    filename: function (req, file, cb) {
+        var filename = file.originalname;
+        var fileExtension = filename.split(".")[1];
+        cb(null, Date.now() + "." + fileExtension);
+    }
+});
+
+var productImageUpload = multer({
+    storage: avatarStorage
+});
 
 router.get('/dashboard/profile', function(req, res, next) {
 
@@ -101,8 +131,7 @@ router.get('/dashboard/profile', function(req, res, next) {
     })
 });
 
-
-router.post('/update-profile', function(req, res, next) {
+router.post('/update-profile', avatarUpload.single('avatar'), function(req, res, next) {
 
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -117,7 +146,7 @@ router.post('/update-profile', function(req, res, next) {
     var password1 = req.body.password1;
     var password2 = req.body.password2;
     var password3 = req.body.password3;
-    var avatar = req.body.avatar;
+    var avatar = req.file.filename;
 
     connect(function(err, connection) {
         if (err) {
@@ -720,16 +749,17 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
     })
 });
 
-router.post('/dashboard/update-product/:id/:title', function(req, res, next) {
+router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), function(req, res, next) {
 
     var prodId = req.params.id;
     var title = req.body.title;
     var description = req.body.description;
-    var image1 = req.body.image1;
-    var image2 = req.body.image2;
-    var image3 = req.body.image3;
-    var image4 = req.body.image4;
-    var image5 = req.body.image5;
+    // var image1 = req.files.image1;
+    // var image2 = req.files.image2;
+    // var image3 = req.files.image3;
+    // var image4 = req.files.image4;
+    // var image5 = req.files.image5;
+    var images = req.files;
     var status = req.body.prodstatus;
 
     var detailId;
@@ -746,6 +776,7 @@ router.post('/dashboard/update-product/:id/:title', function(req, res, next) {
         }
         else {
             console.log("Connected to the DB");
+            console.log(images);
 
             connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.id],function(err, results, fields) {
                 console.log('Query returned8 ' + JSON.stringify(results));
@@ -1453,7 +1484,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
 });
 
 
-router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
+router.post('/dashboard/update-user/:id/:email', avatarUpload.single('avatar'), function(req, res, next) {
 
     var userId = req.params.id;
     var firstName = req.body.firstName;
@@ -1468,7 +1499,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
     var phoneNumber = req.body.phoneNumber;
     var password1 = req.body.password1;
     var password2 = req.body.password2;
-    var avatar = req.body.avatar;
+    var avatar = req.file.filename;
 
     connect(function(err, connection) {
         if (err) {
@@ -1779,7 +1810,7 @@ router.get('/dashboard/add-user', function(req, res, next) {
     });
 });
 
-router.post('/dashboard/save-user', function(req, res, next) {
+router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req, res, next) {
 
     var userId = "";
     var firstName = req.body.firstName;
@@ -1794,7 +1825,7 @@ router.post('/dashboard/save-user', function(req, res, next) {
     var phoneNumber = req.body.phoneNumber;
     var password1 = req.body.password1;
     var password2 = req.body.password2;
-    var avatar = req.body.avatar;
+    var avatar = req.file.filename;
     var userType = req.body.userType;
 
     connect(function(err, connection) {

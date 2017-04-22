@@ -15,7 +15,7 @@ block content
                             span #{successMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        form(action=add ? '/admin/dashboard/save-user' : '/admin/dashboard/update-user/' + userId + '/' + email method='post')
+                        form(action=add ? '/admin/dashboard/save-user' : '/admin/dashboard/update-user/' + userId + '/' + email enctype='multipart/form-data' method='post')
                             span.row
                                 span.col-xs
                                     if add
@@ -40,10 +40,12 @@ block content
                                         option(value='customer' selected=userType === 'customer') Customer
                                         option(value='admin' selected=userType === 'admin') Admin
                                     label(for='avatar') Avatar
-                                    span(style=avatar ? 'background-image: url(/img/' + userId + '/' + avatar + ');' : '').user
+                                    span.user
                                         input(type='file' name='avatar')
                                         if !avatar
-                                            span.fa.fa-user
+                                            img(src='/img/avatar.jpg')
+                                        else
+                                            img(src='/uploads/users/' + avatar)
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Billing Details
                                     label(for='address1') Address 1

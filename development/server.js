@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var mysql = require('mysql');
-var multer = require('multer');
 
 var index = require('./routes/index');
 var user = require('./routes/user');
@@ -42,16 +41,24 @@ app.use(function (req, res, next) {
     next();
 });
 
-var userStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/users');
-    },
-    filename: function (req, file, cb) {
-        var filename = file.originalname;
-        var fileExtension = filename.split(".")[1];
-        cb(null, Date.now() + "." + fileExtension);
-    }
-});
+// var userStorage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, './uploads/users');
+//     },
+//     filename: function (req, file, cb) {
+//         var filename = file.originalname;
+//         var fileExtension = filename.split(".")[1];
+//         cb(null, Date.now() + "." + fileExtension);
+//     }
+// });
+// //
+// var userUpload = multer({
+//     storage: userStorage
+// });
+//
+// app.post('/user/update-profile', userUpload.single('avatar'), function(req,res) {
+//     res.status(204).end();
+// });
 
 var access = function(req, res, next) {
     if (!req.session.user) {

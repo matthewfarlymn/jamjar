@@ -15,7 +15,7 @@ block content
                             span #{successMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        form(action=owner ? '/admin/update-profile' : '/user/update-profile' method='post')
+                        form(action=owner ? '/admin/update-profile' : '/user/update-profile' enctype='multipart/form-data' method='post')
                             span.row
                                 span.col-xs
                                     button(type='submit').button.pink Update
@@ -38,7 +38,7 @@ block content
                                         if !avatar
                                             img(src='/img/avatar.jpg')
                                         else
-                                            img(src='/img/' + avatar)
+                                            img(src='/uploads/users/' + avatar)
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Billing Details
                                     label(for='address1') Address 1

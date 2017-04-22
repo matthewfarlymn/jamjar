@@ -67,6 +67,10 @@ jQuery(document).ready(function($) {
         }
     });
 
+    $(':file').change(function() {
+        $('form').submit();
+    });
+
     $('.status-product').change(function() {
         if($(this).val() === 'inactive') {
             $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
