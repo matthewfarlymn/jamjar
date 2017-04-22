@@ -92,6 +92,7 @@ router.post('/add-to-cart', function(req, res, next) {
 router.get('/shopping-cart', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
+    var successMsg = req.session.successMsg ? req.session.successMsg : "";
     var email = req.session.user;
     var cart = '';
     var cartDetail = {};
@@ -108,7 +109,8 @@ router.get('/shopping-cart', function(req, res, next) {
         else {
             console.log("Connected to the DB");
             // connection.query('SELECT * FROM shopping_cart WHERE email=?',[email], function(err, results, fields) {
-            connection.query('SELECT * FROM shopping_cart s INNER JOIN product_details d ON s.detailId = d.id INNER JOIN products p ON d.productsId = p.id WHERE s.email=?',[email], function(err, results, fields) {
+            // connection.query('SELECT * FROM shopping_cart s INNER JOIN product_details d ON s.detailId = d.id INNER JOIN products p ON d.productsId = p.id WHERE s.email=?',[email], function(err, results, fields) {
+            connection.query('SELECT s.id, s.email, s.detailId, s.quantity, d.productsId, d.size, d.color, d.price, p.title, p.description, p.image1 FROM shopping_cart s INNER JOIN product_details d ON s.detailId = d.id INNER JOIN products p ON d.productsId = p.id WHERE s.email=?',[email], function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
@@ -121,8 +123,6 @@ router.get('/shopping-cart', function(req, res, next) {
                 // items in cart found
                 else {
                     console.log("items in cart found for" + email);
-
-                    // var cartDetail = {};
 
                     var taxrate = .135;
                     var shipping = 10;
@@ -181,6 +181,7 @@ router.get('/shopping-cart', function(req, res, next) {
             else {
                 res.render('shopping-cart', {
                     errorMessage: msg,
+                    successMessage: successMsg,
                     access: req.session.user,
                     owner: req.session.admin,
                     // userId: req.session.userId,
@@ -196,7 +197,271 @@ router.get('/shopping-cart', function(req, res, next) {
 
 
 
-// router.post('/update-shopping-cart', function(req, res, next) {
+router.post('/update-shopping-cart', function(req, res, next) {
+
+
+    var email = req.body.email;
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
+                console.log('Query returned2 ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // error - email not entered
+                else if (email.trim().length === 0) {
+                    console.log("email field empty.");
+                    req.session.msg = "Please enter email.";
+                    // req.session.user = email;
+                    // req.session.firstName = firstName;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // error - email already registered
+                else if ((results.length !== 0) && (email !== req.session.user)) {
+                    console.log("Email already registered - update profile");
+                    req.session.msg = "Unable to update. Email address already registered.";
+                    // req.session.user = email;
+                    // req.session.firstName = firstName;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // error - firstname not entered
+                else if (firstName.trim().length === 0) {
+                    console.log("firstName field empty.");
+                    req.session.msg = "Please enter Firstname.";
+                    req.session.user = email;
+                    // req.session.firstName = firstName;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // error - lastname not entered
+                else if (lastName.trim().length === 0) {
+                    console.log("lastname field empty.");
+                    req.session.msg = "Please enter Lastname.";
+                    req.session.user = email;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // error - current password empty
+                else if ((password1.trim().length === 0) && (password2.trim().length !== 0) && (password3.trim().length !== 0)) {
+                    console.log("current password field empty.");
+                    req.session.msg = "Current password missing. Please re-enter all password fields.";
+                    req.session.user = email;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // error - new password empty
+                else if ((password1.trim().length !== 0) && (password2.trim().length === 0) && (password3.trim().length !== 0)) {
+                    console.log("new password field empty.");
+                    req.session.msg = "New password missing. Please re-enter all password fields.";
+                    req.session.user = email;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // error - confirm password empty
+                else if ((password1.trim().length !== 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
+                    console.log("new re-enter password field empty.");
+                    req.session.msg = "Re-enter password missing. Please re-enter all password fields.";
+                    // req.session.user = email;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // error - new and confirm empty
+                else if ((password1.trim().length !== 0) && (password2.trim().length === 0) && (password3.trim().length === 0)) {
+                    console.log("only current password entered.");
+                    req.session.msg = "Enter all password fields to change password.";
+                    req.session.user = email;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // error - current and confirm empty
+                else if ((password1.trim().length === 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
+                    console.log("only new password entered.");
+                    req.session.msg = "Enter all password fields to change password.";
+                    // req.session.user = email;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // error - current and new empty
+                else if ((password1.trim().length === 0) && (password2.trim().length === 0) && (password3.trim().length !== 0)) {
+                    console.log("only re-enter password entered.");
+                    req.session.msg = "Enter all password fields to change password.";
+                    req.session.user = email;
+                    // req.session.lastName = lastName;
+                    res.redirect('/admin/dashboard/profile');
+                }
+                // okay - all password filds entered
+                else if ((password1.trim().length !== 0) && (password2.trim().length !== 0) && (password3.trim().length !== 0)) {
+                    // error - current does not match
+                    if (password1.trim() !== results[0].password) {
+                        console.log("current password does not match table.");
+                        req.session.msg = "Current password is incorrect.  Please re-enter all password fields.";
+                        req.session.user = email;
+                        // req.session.lastName = lastName;
+                        res.redirect('/admin/dashboard/profile');
+                    }
+                    // error - current and new do not match
+                    else if (password2.trim() !== password3.trim()) {
+                        console.log("new and confirm passwords does not match.");
+                        req.session.msg = "New and confrim passwords do not match.  Please re-enter all password fields.";
+                        // req.session.user = email;
+                        // req.session.lastName = lastName;
+                        res.redirect('/admin/dashboard/profile');
+                    }
+
+                    else {
+
+                        connect(function(err, connection) {
+                            if (err) {
+                                console.log("Error connecting to the database");
+                                throw err;
+                            }
+                            else {
+                                console.log("Connected to the DB");
+
+                                // update replaces password
+                                // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
+                                connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
+                                    connection.release();
+
+                                    if (err) {
+                                        console.log("Error connecting to the database - update1");
+                                        throw err;
+                                    }
+                                    else {
+                                        console.log("User update successful. " + email);
+                                        req.session.user = email;
+                                        res.redirect('/admin/dashboard/profile');
+                                        // res.redirect('/admin-session');
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+
+                // okay - no password filds entered
+                else {
+                    connect(function(err, connection) {
+                        if (err) {
+                            console.log("Error connecting to the database");
+                            throw err;
+                        }
+                        else {
+                            console.log("Connected to the DB");
+                            console.log("email: " + email);
+                            console.log("req.session.user: " + req.session.user);
+
+                            // update does not replace password
+                            // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
+                            connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, avatar, req.session.user], function(err, results, fields) {
+                                connection.release();
+
+                                if (err) {
+                                    console.log("Error connecting to the database - update2");
+                                    throw err;
+                                }
+                                else {
+                                    console.log("User update successful - no password change. " + email);
+                                    req.session.user = email;
+                                    res.redirect('/admin/dashboard/profile');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
+//GET delete item from shopping cart
+router.get('/remove-from-cart/:itemid', function(req,res, next) {
+
+    var itemid = req.params.itemid;
+
+    console.log(req.params.itemid);
+
+    connect(function(err, connection) {
+        if (req.params.itemid) {
+            if (err) {
+                console.log("Error connecting to the database");
+                throw err;
+            }
+            else {
+                console.log("Connected to the DB");
+
+                connection.query('DELETE FROM shopping_cart WHERE id=?',[req.params.itemid], function(err, results, fields) {
+                    connection.release();
+
+                    console.log('Item deleted ' + req.params.itemid);
+
+                    res.redirect('/user/shopping-cart');
+                });
+            }
+        }
+    });
+});
+
+
+//GET update item from shopping cart
+router.post('/update-cart', function(req,res, next) {
+
+    // var itemid = req.params.itemid;
+    // var line = req.params.line;
+
+    var itemId = req.body.refreshUpdate;
+    var quantity = req.body.quantityUpdate;
+
+    // var qty = stringify(req.body.quantity+line);
+
+    // var quantity = req.body.quantity+line;
+    // var quantity = qty;
+
+    console.log('itemId ' + itemId);
+    console.log('quantity ' + quantity);
+
+    connect(function(err, connection) {
+        if (itemId) {
+            if (err) {
+                console.log("Error connecting to the database");
+                throw err;
+            }
+            else {
+                console.log("Connected to the DB");
+
+                // connection.query('DELETE FROM shopping_cart WHERE id=?',[req.params.itemid], function(err, results, fields) {
+                connection.query('UPDATE shopping_cart SET quantity=? WHERE id=?',[quantity, itemId], function(err, results, fields) {
+
+                    connection.release();
+
+                    // console.log('Item updated ' + req.params.itemid);
+
+                    res.redirect('/user/shopping-cart');
+
+                });
+            }
+        }
+    });
+});
+
+
+
+// router.get('/checkout', function(req, res, next) {
+//
+//     var msg = req.session.msg ? req.session.msg : "";
+//     var email = req.session.user;
+//     var cart = '';
+//     var cartDetail = {};
 //
 //     var firstName = req.body.firstName;
 //     var lastName = req.body.lastName;
@@ -206,12 +471,10 @@ router.get('/shopping-cart', function(req, res, next) {
 //     var province = req.body.province;
 //     var postalcode = req.body.postalcode;
 //     var country = req.body.country;
-//     var email = req.body.email;
-//     var phoneNumber = req.body.phoneNumber;
-//     var password1 = req.body.password1;
-//     var password2 = req.body.password2;
-//     var password3 = req.body.password3;
-//     var avatar = req.body.avatar;
+//     // var email = req.body.email;
+//     // var phoneNumber = req.body.phoneNumber;
+//
+//     req.session.msg = "";
 //
 //     connect(function(err, connection) {
 //         if (err) {
@@ -221,193 +484,233 @@ router.get('/shopping-cart', function(req, res, next) {
 //         else {
 //             console.log("Connected to the DB");
 //
-//             connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
-//                 console.log('Query returned2 ' + JSON.stringify(results));
+//             connection.query('SELECT * FROM users WHERE email=?',[email], function(err, results, fields) {
+//                 // console.log('Query returned ' + JSON.stringify(results));
 //
 //                 if(err) {
-//                     throw err;
+//                   throw err;
 //                 }
-//                 // error - email not entered
-//                 else if (email.trim().length === 0) {
-//                     console.log("email field empty.");
-//                     req.session.msg = "Please enter email.";
-//                     // req.session.user = email;
-//                     // req.session.firstName = firstName;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // error - email already registered
-//                 else if ((results.length !== 0) && (email !== req.session.user)) {
-//                     console.log("Email already registered - update profile");
-//                     req.session.msg = "Unable to update. Email address already registered.";
-//                     // req.session.user = email;
-//                     // req.session.firstName = firstName;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // error - firstname not entered
-//                 else if (firstName.trim().length === 0) {
-//                     console.log("firstName field empty.");
-//                     req.session.msg = "Please enter Firstname.";
-//                     req.session.user = email;
-//                     // req.session.firstName = firstName;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // error - lastname not entered
-//                 else if (lastName.trim().length === 0) {
-//                     console.log("lastname field empty.");
-//                     req.session.msg = "Please enter Lastname.";
-//                     req.session.user = email;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // error - current password empty
-//                 else if ((password1.trim().length === 0) && (password2.trim().length !== 0) && (password3.trim().length !== 0)) {
-//                     console.log("current password field empty.");
-//                     req.session.msg = "Current password missing. Please re-enter all password fields.";
-//                     req.session.user = email;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // error - new password empty
-//                 else if ((password1.trim().length !== 0) && (password2.trim().length === 0) && (password3.trim().length !== 0)) {
-//                     console.log("new password field empty.");
-//                     req.session.msg = "New password missing. Please re-enter all password fields.";
-//                     req.session.user = email;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // error - confirm password empty
-//                 else if ((password1.trim().length !== 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
-//                     console.log("new re-enter password field empty.");
-//                     req.session.msg = "Re-enter password missing. Please re-enter all password fields.";
-//                     // req.session.user = email;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // error - new and confirm empty
-//                 else if ((password1.trim().length !== 0) && (password2.trim().length === 0) && (password3.trim().length === 0)) {
-//                     console.log("only current password entered.");
-//                     req.session.msg = "Enter all password fields to change password.";
-//                     req.session.user = email;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // error - current and confirm empty
-//                 else if ((password1.trim().length === 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
-//                     console.log("only new password entered.");
-//                     req.session.msg = "Enter all password fields to change password.";
-//                     // req.session.user = email;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // error - current and new empty
-//                 else if ((password1.trim().length === 0) && (password2.trim().length === 0) && (password3.trim().length !== 0)) {
-//                     console.log("only re-enter password entered.");
-//                     req.session.msg = "Enter all password fields to change password.";
-//                     req.session.user = email;
-//                     // req.session.lastName = lastName;
-//                     res.redirect('/admin/dashboard/profile');
-//                 }
-//                 // okay - all password filds entered
-//                 else if ((password1.trim().length !== 0) && (password2.trim().length !== 0) && (password3.trim().length !== 0)) {
-//                     // error - current does not match
-//                     if (password1.trim() !== results[0].password) {
-//                         console.log("current password does not match table.");
-//                         req.session.msg = "Current password is incorrect.  Please re-enter all password fields.";
-//                         req.session.user = email;
-//                         // req.session.lastName = lastName;
-//                         res.redirect('/admin/dashboard/profile');
-//                     }
-//                     // error - current and new do not match
-//                     else if (password2.trim() !== password3.trim()) {
-//                         console.log("new and confirm passwords does not match.");
-//                         req.session.msg = "New and confrim passwords do not match.  Please re-enter all password fields.";
-//                         // req.session.user = email;
-//                         // req.session.lastName = lastName;
-//                         res.redirect('/admin/dashboard/profile');
-//                     }
+//                 // address found for user
+//                 else if (results.address1.length !== 0) {
+//                   console.log("address found for user " + email);
 //
-//                     else {
+//                 //   req.body.firstName = results[0].firstName;
+//                 //   req.body.lastName = results[0].lastName;
+//                   req.body.address1 = results[0].address1;
+//                   req.body.address2 = results[0].address2;
+//                   req.body.city = results[0].city;
+//                   req.body.province = results[0].province;
+//                   req.body.postalcode = results[0].postalcode;
+//                   req.body.country = results[0].country;
+//                 //   req.body.phoneNumber = results[0].phoneNumber;
 //
-//                         connect(function(err, connection) {
-//                             if (err) {
-//                                 console.log("Error connecting to the database");
-//                                 throw err;
-//                             }
-//                             else {
-//                                 console.log("Connected to the DB");
-//
-//                                 // update replaces password
-//                                 // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
-//                                 connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
-//                                     connection.release();
-//
-//                                     if (err) {
-//                                         console.log("Error connecting to the database - update1");
-//                                         throw err;
-//                                     }
-//                                     else {
-//                                         console.log("User update successful. " + email);
-//                                         req.session.user = email;
-//                                         res.redirect('/admin/dashboard/profile');
-//                                         // res.redirect('/admin-session');
-//                                     }
-//                                 });
-//                             }
-//                         });
-//                     }
 //                 }
-//
-//                 // okay - no password filds entered
+//                 // address not found for user
 //                 else {
+//                     console.log("address not found for user " + email);
+//
+//                     // firstName = req.body.firstName;
+//                     // lastName = req.body.lastName;
+//                     address1 = req.body.address1;
+//                     address2 = req.body.address2;
+//                     city = req.body.city;
+//                     province = req.body.province;
+//                     postalcode = req.body.postalcode;
+//                     country = req.body.country;
+//                     // var email = req.body.email;
+//                     // var phoneNumber = req.body.phoneNumber;
+//
 //                     connect(function(err, connection) {
 //                         if (err) {
 //                             console.log("Error connecting to the database");
 //                             throw err;
 //                         }
 //                         else {
-//                             console.log("Connected to the DB");
-//                             console.log("email: " + email);
-//                             console.log("req.session.user: " + req.session.user);
-//
-//                             // update does not replace password
-//                             // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
-//                             connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, avatar, req.session.user], function(err, results, fields) {
-//                                 connection.release();
-//
+//                             connect(function(err, connection) {
 //                                 if (err) {
-//                                     console.log("Error connecting to the database - update2");
+//                                     console.log("Error connecting to the database");
 //                                     throw err;
 //                                 }
 //                                 else {
-//                                     console.log("User update successful - no password change. " + email);
-//                                     req.session.user = email;
-//                                     res.redirect('/admin/dashboard/profile');
+//                                     console.log("Connected to the DB");
+//                                     console.log("email: " + email);
+//                                     console.log("req.session.user: " + req.session.user);
+//
+//                                     // update does not replace password
+//                                     // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
+//                                     // connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, avatar, req.session.user], function(err, results, fields) {
+//                                     connection.query('UPDATE users SET address1=?, address2=?, city=?, province=?, postalcode=?, country=? WHERE email=?',[address1, address2, city, province, postalcode, country, email, req.session.user], function(err, results, fields) {
+//                                         connection.release();
+//
+//                                         if (err) {
+//                                             console.log("Error connecting to the database - update2");
+//                                             throw err;
+//                                         }
+//                                         else {
+//                                             console.log("User address update successful. " + email);
+//                                             req.session.user = email;
+//                                             res.redirect('/checkout');
+//                                         }
+//                                     });
 //                                 }
 //                             });
 //                         }
 //                     });
 //                 }
+//
+//
+//
+//                     var
+//
+//
+//                     // var cartDetail = {};
+//
+//                     var taxrate = .135;
+//                     var shipping = 10;
+//                     var subtotal = 0;
+//                     var tax = 0;
+//                     var total = 0;
+//
+//                     for (var i=0; i<results.length; i++) {
+//                         var excerptLength = 75;
+//                         var description = results[i].description;
+//                         var excerpt = "";
+//                         var linetotal = 0;
+//
+//                         if (description.length > excerptLength) {
+//                           excerpt = description.substring(0,excerptLength).trim() + '...';
+//                         }
+//                         else {
+//                           excerpt = description;
+//                         }
+//
+//                         results[i].excerpt = excerpt;
+//
+//                         results[i].price = results[i].price.toFixed(2);
+//
+//                         linetotal = results[i].price * results[i].quantity;
+//
+//                         results[i].subtotal = linetotal.toFixed(2);
+//
+//                         subtotal = subtotal + linetotal;
+//                     }
+//
+//                     cart = results;
+//                     console.log('cart ' + JSON.stringify(cart));
+//
+//                     tax = subtotal * taxrate;
+//                     total = subtotal + tax + shipping;
+//
+//                     cartDetail.tax = tax.toFixed(2);
+//                     cartDetail.shipping = shipping.toFixed(2);
+//                     cartDetail.subtotal = subtotal.toFixed(2);
+//                     cartDetail.total = total.toFixed(2);
+//
+//                     // cartDetails.push(cartDetail);
+//                     console.log('cartDetail ' + JSON.stringify(cartDetail));
+//                 }
+//             });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//             // connection.query('SELECT * FROM shopping_cart WHERE email=?',[email], function(err, results, fields) {
+//             connection.query('SELECT * FROM shopping_cart s INNER JOIN product_details d ON s.detailId = d.id INNER JOIN products p ON d.productsId = p.id WHERE s.email=?',[email], function(err, results, fields) {
+//                 // console.log('Query returned ' + JSON.stringify(results));
+//
+//                 if(err) {
+//                   throw err;
+//                 }
+//                 // no items in cart found
+//                 else if (results.length === 0) {
+//                   console.log("no items in cart");
+//                 }
+//                 // items in cart found
+//                 else {
+//                     console.log("items in cart found for" + email);
+//
+//                     // var cartDetail = {};
+//
+//                     var taxrate = .135;
+//                     var shipping = 10;
+//                     var subtotal = 0;
+//                     var tax = 0;
+//                     var total = 0;
+//
+//                     for (var i=0; i<results.length; i++) {
+//                         var excerptLength = 75;
+//                         var description = results[i].description;
+//                         var excerpt = "";
+//                         var linetotal = 0;
+//
+//                         if (description.length > excerptLength) {
+//                           excerpt = description.substring(0,excerptLength).trim() + '...';
+//                         }
+//                         else {
+//                           excerpt = description;
+//                         }
+//
+//                         results[i].excerpt = excerpt;
+//
+//                         results[i].price = results[i].price.toFixed(2);
+//
+//                         linetotal = results[i].price * results[i].quantity;
+//
+//                         results[i].subtotal = linetotal.toFixed(2);
+//
+//                         subtotal = subtotal + linetotal;
+//                     }
+//
+//                     cart = results;
+//                     console.log('cart ' + JSON.stringify(cart));
+//
+//                     tax = subtotal * taxrate;
+//                     total = subtotal + tax + shipping;
+//
+//                     cartDetail.tax = tax.toFixed(2);
+//                     cartDetail.shipping = shipping.toFixed(2);
+//                     cartDetail.subtotal = subtotal.toFixed(2);
+//                     cartDetail.total = total.toFixed(2);
+//
+//                     // cartDetails.push(cartDetail);
+//                     console.log('cartDetail ' + JSON.stringify(cartDetail));
+//                 }
 //             });
 //         }
+//
+//         connection.commit(function(err) {
+//             connection.release();
+//             if (err) {
+//                 connection.rollback(function() {
+//                     throw err;
+//                 });
+//             }
+//             else {
+//                 res.render('checkout', {
+//                     errorMessage: msg,
+//                     successMessage: successMsg,
+//                     access: req.session.user,
+//                     owner: req.session.admin,
+//                     // userId: req.session.userId,
+//                     // avatar: req.session.avatar,
+//                     cart: cart,
+//                     cartDetail: cartDetail
+//                 });
+//             }
+//         });
 //     });
+//
+//
 // });
-
-
-router.get('/checkout', function(req, res, next) {
-
-    var msg = req.session.msg ? req.session.msg : "";
-
-    req.session.msg = "";
-
-    res.render('checkout', {
-        errorMessage: msg,
-        access: req.session.user
-    });
-
-});
 
 router.get('/dashboard/profile', function(req, res, next) {
 
