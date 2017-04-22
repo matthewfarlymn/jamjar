@@ -14,7 +14,7 @@ block content
                 span.row.center-xs.container
                     span.col-xs-12.col-md-8
                         span.row.grey
-                            span.col-xs-12.col-sm-6.fieldset
+                            span.col-xs-12.col-sm-6.fieldset.billing-details
                                 h2 Billing Details
                                 label(for='address1') Address 1
                                 input(type='text' name='address1' placeholder='Address' value=address1)
@@ -28,7 +28,9 @@ block content
                                 input(type='text' name='postalcode' placeholder='Postalcode/Zipcode/Postcode' value=postalcode)
                                 label(for='country') Country
                                 input(type='text' name='country' placeholder='Country' value=country)
-                            span.col-xs-12.col-sm-6.fieldset
+                                input(type='checkbox' name='shippingDetails' value=shippingDetails)
+                                label(for='shippinDetails') Use billing details for shipping?
+                            span.col-xs-12.col-sm-6.fieldset.shipping-details
                                 h2 Shipping Details
                                 label(for='address1') Address 1
                                 input(type='text' name='address1' placeholder='Address' value=address1)

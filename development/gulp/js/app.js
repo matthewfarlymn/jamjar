@@ -39,6 +39,14 @@ jQuery(document).ready(function($) {
         $('span.price').html('$' + $(this).find(':selected').data('price'));
     });
 
+    $('.billing-details :checkbox').change(function() {
+        if($(this).is(':checked')) {
+            $('.shipping-details').closest('.fieldset').addClass('inactive').find('input').attr('disabled', true);
+        } else {
+            $('.shipping-details').closest('.fieldset').removeClass('inactive').find('input').attr('disabled', false);
+        }
+    });
+
     $('.status-product').change(function() {
         if($(this).val() === 'inactive') {
             $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
