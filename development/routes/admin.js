@@ -682,7 +682,8 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
+            // connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
+            connection.query('SELECT p.id AS prodId, p.title, p.description, p.image1, p.image2, p.image3, p.image4, p.image5, p.status AS prodStatus, d.id, d.size, d.color, d.stock, d.price, d.status FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
                 console.log('Query returned7' + JSON.stringify(results));
 
                 if(err) {
@@ -703,6 +704,9 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
                     image3 = results[0].image3;
                     image4 = results[0].image4;
                     image5 = results[0].image5;
+                    status = results[0].prodStatus;
+
+
 
                     for (var i=0; i<results.length; i++) {
 
@@ -756,6 +760,7 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
                     image3: image3,
                     image4: image4,
                     image5: image5,
+                    status: status,
                     details: details
                 });
             }
@@ -807,180 +812,239 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
     var price5 = req.body.price5;
     var status5 = req.body.status5;
 
-    connect(function(err, connection) {
-        if (err) {
-            console.log("Error connecting to the database");
-            throw err;
-        }
-        else {
-            console.log("Connected to the DB");
-            console.log(images);
+    if (status === 'active') {
+        connect(function(err, connection) {
+            if (err) {
+                console.log("Error connecting to the database");
+                throw err;
+            }
+            else {
+                console.log("Connected to the DB");
+                console.log(images);
 
-            connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
-                console.log('Query returned8 ' + JSON.stringify(results));
+                connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
+                    console.log('Query returned8 ' + JSON.stringify(results));
 
-                if(err) {
-                    throw err;
-                }
-                // error - title not entered
-                if (title.trim().length === 0) {
-                    console.log("title field empty.");
-                    req.session.msg = "Please enter product title.";
-                    // req.session.user = email;
-                    // req.session.firstName = firstName;
-                    // req.session.lastName = lastName;
-                    res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
-                }
-                // error - description not entered
-                else if (description.trim().length === 0) {
-                    console.log("description field empty.");
-                    req.session.msg = "Please enter product description.";
-                    // req.session.user = email;
-                    // req.session.firstName = firstName;
-                    // req.session.lastName = lastName;
-                    res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
-                }
-                else {
+                    if(err) {
+                        throw err;
+                    }
+                    // error - title not entered
+                    else if (title.trim().length === 0) {
+                        console.log("title field empty.");
+                        req.session.msg = "Please enter product title.";
+                        // req.session.user = email;
+                        // req.session.firstName = firstName;
+                        // req.session.lastName = lastName;
+                        res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                    }
+                    // error - description not entered
+                    else if (description.trim().length === 0) {
+                        console.log("description field empty.");
+                        req.session.msg = "Please enter product description.";
+                        // req.session.user = email;
+                        // req.session.firstName = firstName;
+                        // req.session.lastName = lastName;
+                        res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                    }
+                    else {
 
-                    connect(function(err, connection) {
-                        if (err) {
-                            console.log("Error connecting to the database");
-                            throw err;
-                        }
-                        else {
-                            console.log("Connected to the DB");
+                        connect(function(err, connection) {
+                            if (err) {
+                                console.log("Error connecting to the database");
+                                throw err;
+                            }
+                            else {
+                                console.log("Connected to the DB");
 
-                            var image1 = results[0].image1;
-                            var image2 = results[0].image2;
-                            var image3 = results[0].image3;
-                            var image4 = results[0].image4;
-                            var image5 = results[0].image5;
+                                var image1 = results[0].image1;
+                                var image2 = results[0].image2;
+                                var image3 = results[0].image3;
+                                var image4 = results[0].image4;
+                                var image5 = results[0].image5;
 
-                            if (req.files[0]) {
-                                for (var i=0; i<req.files.length;i++) {
-                                    if (req.files[i].fieldname === 'image1') {
-                                        image1 = req.files[i].filename;
-                                        console.log(image1);
-                                    } else if (req.files[i].fieldname === 'image2') {
-                                        image2 = req.files[i].filename;
-                                        console.log(image2);
-                                    } else if (req.files[i].fieldname === 'image3') {
-                                        image3 = req.files[i].filename;
-                                        console.log(image3);
-                                    } else if (req.files[i].fieldname === 'image4') {
-                                        image4 = req.files[i].filename;
-                                        console.log(image4);
-                                    } else {
-                                        image5 = req.files[i].filename;
-                                        console.log(image5);
+                                if (req.files[0]) {
+                                    for (var i=0; i<req.files.length;i++) {
+                                        if (req.files[i].fieldname === 'image1') {
+                                            image1 = req.files[i].filename;
+                                            console.log(image1);
+                                        } else if (req.files[i].fieldname === 'image2') {
+                                            image2 = req.files[i].filename;
+                                            console.log(image2);
+                                        } else if (req.files[i].fieldname === 'image3') {
+                                            image3 = req.files[i].filename;
+                                            console.log(image3);
+                                        } else if (req.files[i].fieldname === 'image4') {
+                                            image4 = req.files[i].filename;
+                                            console.log(image4);
+                                        } else {
+                                            image5 = req.files[i].filename;
+                                            console.log(image5);
+                                        }
                                     }
                                 }
-                            }
 
-                            // update products
-                            connection.query('UPDATE products SET title=?, description=?, image1=?, image2=?, image3=?, image4=?, image5=?, status=? WHERE id=?',[title, description, image1, image2, image3, image4, image5, status, req.params.productId], function(err, results, fields) {
+                                // update products
+                                connection.query('UPDATE products SET title=?, description=?, image1=?, image2=?, image3=?, image4=?, image5=?, status=? WHERE id=?',[title, description, image1, image2, image3, image4, image5, status, req.params.productId], function(err, results, fields) {
 
-                                if (err) {
-                                    console.log("Error connecting to the database - update1");
-                                    throw err;
-                                }
-                                else {
-                                    console.log("Product update successful. " + title);
-
-                                    // update product_details - line1
-                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size1, color1, stock1, price1, status1, detailId1, req.params.productId], function(err, results, fields) {
-                                        // connection.release();
-
-                                        if (err) {
-                                            console.log("Error connecting to the database - update4a");
-                                            throw err;
-                                        }
-                                        else {
-                                            console.log("Product detail1 update successful.");
-                                            // req.session.successMsg = "Product successfully updated.";
-                                            // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
-                                        }
-                                    });
-
-                                    // update product_details - line2
-                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size2, color2, stock2, price2, status2, detailId2, req.params.productId], function(err, results, fields) {
-                                        // connection.release();
-
-                                        if (err) {
-                                            console.log("Error connecting to the database - update4b");
-                                            throw err;
-                                        }
-                                        else {
-                                            console.log("Product detail2 update successful. ");
-                                            // req.session.successMsg = "Product successfully updated.";
-                                            // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
-                                        }
-                                    });
-
-                                    // update product_details - line3
-                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size3, color3, stock3, price3, status3, detailId3, req.params.productId], function(err, results, fields) {
-                                        // connection.release();
-
-                                        if (err) {
-                                            console.log("Error connecting to the database - update4c");
-                                            throw err;
-                                        }
-                                        else {
-                                            console.log("Product detail3 update successful. ");
-                                            // req.session.successMsg = "Product successfully updated.";
-                                            // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
-                                        }
-                                    });
-
-                                    // update product_details - line4
-                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size4, color4, stock4, price4, status4, detailId4, req.params.productId], function(err, results, fields) {
-                                        // connection.release();
-
-                                        if (err) {
-                                            console.log("Error connecting to the database - update4d");
-                                            throw err;
-                                        }
-                                        else {
-                                            console.log("Product detail4 update successful. ");
-                                            // req.session.successMsg = "Product successfully updated.";
-                                            // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
-                                        }
-                                    });
-
-                                    // update product_details - line5
-                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size5, color5, stock5, price5, status5, detailId5, req.params.productId], function(err, results, fields) {
-                                        // connection.release();
-
-                                        if (err) {
-                                            console.log("Error connecting to the database - update4e");
-                                            throw err;
-                                        }
-                                        else {
-                                            console.log("Product detail5 update successful. ");
-                                        }
-                                    });
-                                }
-                            });
-                            connection.commit(function(err) {
-                                connection.release();
-                                if (err) {
-                                    connection.rollback(function() {
+                                    if (err) {
+                                        console.log("Error connecting to the database - update1");
                                         throw err;
-                                    });
-                                }
-                                else{
-                                    req.session.successMsg = "Product successfully updated.";
-                                    res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
-                                }
-                            });
+                                    }
+                                    else {
+                                        console.log("Product update successful. " + title);
 
-                        }
-                    });
-                }
+                                        // update product_details - line1
+                                        connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size1, color1, stock1, price1, status1, detailId1, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
 
-            });
-        }
-    });
+                                            if (err) {
+                                                console.log("Error connecting to the database - update4a");
+                                                throw err;
+                                            }
+                                            else {
+                                                console.log("Product detail1 update successful.");
+                                                // req.session.successMsg = "Product successfully updated.";
+                                                // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                            }
+                                        });
+
+                                        // update product_details - line2
+                                        connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size2, color2, stock2, price2, status2, detailId2, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
+
+                                            if (err) {
+                                                console.log("Error connecting to the database - update4b");
+                                                throw err;
+                                            }
+                                            else {
+                                                console.log("Product detail2 update successful. ");
+                                                // req.session.successMsg = "Product successfully updated.";
+                                                // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                            }
+                                        });
+
+                                        // update product_details - line3
+                                        connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size3, color3, stock3, price3, status3, detailId3, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
+
+                                            if (err) {
+                                                console.log("Error connecting to the database - update4c");
+                                                throw err;
+                                            }
+                                            else {
+                                                console.log("Product detail3 update successful. ");
+                                                // req.session.successMsg = "Product successfully updated.";
+                                                // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                            }
+                                        });
+
+                                        // update product_details - line4
+                                        connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size4, color4, stock4, price4, status4, detailId4, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
+
+                                            if (err) {
+                                                console.log("Error connecting to the database - update4d");
+                                                throw err;
+                                            }
+                                            else {
+                                                console.log("Product detail4 update successful. ");
+                                                // req.session.successMsg = "Product successfully updated.";
+                                                // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                            }
+                                        });
+
+                                        // update product_details - line5
+                                        connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size5, color5, stock5, price5, status5, detailId5, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
+
+                                            if (err) {
+                                                console.log("Error connecting to the database - update4e");
+                                                throw err;
+                                            }
+                                            else {
+                                                console.log("Product detail5 update successful. ");
+                                            }
+                                        });
+                                    }
+                                });
+                                connection.commit(function(err) {
+                                    connection.release();
+                                    if (err) {
+                                        connection.rollback(function() {
+                                            throw err;
+                                        });
+                                    }
+                                    else{
+                                        req.session.successMsg = "Product successfully updated.";
+                                        res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                    }
+                                });
+
+                            }
+                        });
+                    }
+
+                });
+            }
+        });
+    }
+    else {
+        connect(function(err, connection) {
+            if (err) {
+                console.log("Error connecting to the database");
+                throw err;
+            }
+            else {
+                console.log("Connected to the DB");
+                console.log(images);
+
+                connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
+                    console.log('Query returned9 ' + JSON.stringify(results));
+
+                    if(err) {
+                        throw err;
+                    }
+                    else {
+                        connect(function(err, connection) {
+                            if (err) {
+                                console.log("Error connecting to the database");
+                                throw err;
+                            }
+                            else {
+                                console.log("Connected to the DB");
+
+                                // update products
+                                connection.query('UPDATE products SET status=? WHERE id=?',[status, req.params.productId], function(err, results, fields) {
+
+                                    if (err) {
+                                        console.log("Error connecting to the database - update1");
+                                        throw err;
+                                    }
+                                    else {
+                                        console.log("Product update successful. " + title);
+                                    }
+                                });
+                                connection.commit(function(err) {
+                                    connection.release();
+                                    if (err) {
+                                        connection.rollback(function() {
+                                            throw err;
+                                        });
+                                    }
+                                    else{
+                                        req.session.successMsg = "Product successfully updated.";
+                                        res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                    }
+                                });
+
+                            }
+                        });
+                    }
+
+                });
+            }
+        });
+    }
 });
 
 router.get('/dashboard/add-new-product', function(req, res, next) {
@@ -1171,11 +1235,12 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
     var productId = req.params.id;
     var title = req.body.title;
     var description = req.body.description;
-    var image1 = req.body.image1;
-    var image2 = req.body.image2;
-    var image3 = req.body.image3;
-    var image4 = req.body.image4;
-    var image5 = req.body.image5;
+    var images;
+    var image1;
+    var image2;
+    var image3;
+    var image4;
+    var image5;
     var status = req.body.status;
 
     var detailId1 = '';
@@ -1267,7 +1332,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
             else {
                 console.log("Connected to the DB");
                 connection.query('SELECT * FROM products WHERE title=? AND status="active"' ,[title],function(err, results, fields) {
-                    console.log('Query returned9 ' + JSON.stringify(results));
+                    console.log('Query returned10 ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
@@ -1324,6 +1389,27 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                             else {
                                 console.log("Connected to the DB");
 
+                                if (req.files[0]) {
+                                    for (var i=0; i<req.files.length;i++) {
+                                        if (req.files[i].fieldname === 'image1') {
+                                            image1 = req.files[i].filename;
+                                            console.log(image1);
+                                        } else if (req.files[i].fieldname === 'image2') {
+                                            image2 = req.files[i].filename;
+                                            console.log(image2);
+                                        } else if (req.files[i].fieldname === 'image3') {
+                                            image3 = req.files[i].filename;
+                                            console.log(image3);
+                                        } else if (req.files[i].fieldname === 'image4') {
+                                            image4 = req.files[i].filename;
+                                            console.log(image4);
+                                        } else {
+                                            image5 = req.files[i].filename;
+                                            console.log(image5);
+                                        }
+                                    }
+                                }
+
                                 connection.query('INSERT INTO products (title, description, image1, image2, image3, image4, image5, status) VALUES (?,?,?,?,?,?,?,?)',[title, description, image1, image2, image3, image4, image5, status], function(err, results, fields) {
 
                                     if (err) {
@@ -1342,7 +1428,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
 
                                                 connection.query('SELECT * FROM products WHERE title=?',[title],function(err, results, fields) {
                                                     // connection.release();
-                                                    console.log('Query returned10 ' + JSON.stringify(results));
+                                                    console.log('Query returned11 ' + JSON.stringify(results));
 
                                                     if(err) {
                                                         throw err;
