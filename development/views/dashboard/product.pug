@@ -30,7 +30,7 @@ block content
                                     span.row
                                         span.col-xs-12.col-sm-9
                                             label(for='title') Title
-                                            input(type='text' name='title' placeholder='Title' value=title required)
+                                            input(type='text' name='title' placeholder='Title' value=title disabled=status === 'inactive' required)
                                         span.col-xs-12.col-sm-3
                                             label(for='status') Status
                                             select(class='status-product' name='status')
@@ -39,7 +39,7 @@ block content
                                                 option(value='inactive' selected=status === 'inactive') Inactive
                                         span.col-xs-12
                                             label(for='description') Description
-                                            textarea(name='description' placeholder='Description') #{description}
+                                            textarea(name='description' placeholder='Description' disabled=status === 'inactive') #{description}
                                 span.col-xs-12.fieldset
                                     h2 Images
                                     span.row.middle-xs

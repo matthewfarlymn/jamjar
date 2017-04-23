@@ -98,8 +98,8 @@ jQuery(document).ready(function($) {
             $('.item-attributes').find('.status-attributes').attr('disabled', true);
         } else {
             $(this).closest('.grey').removeClass('inactive').find('input, textarea').attr('disabled', false);
-            if($('.item-attributes').val() === 'active') {
-                $('.item-attributes').find('.status-attributes').attr('disabled', false);
+            if($('.item-attributes').val() === 'inactive') {
+                $('.item-attributes').find('.status-attributes').attr('disabled', true);
             }
         }
     });
