@@ -41,7 +41,8 @@ block content
                                         option(value='admin' selected=userType === 'admin') Admin
                                     label(for='avatar') Avatar
                                     span.user
-                                        input(type='file' name='avatar')
+                                        if admin
+                                            input(type='file' name='avatar')
                                         if !avatar
                                             img(src='/img/avatar.jpg')
                                         else
