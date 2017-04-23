@@ -708,6 +708,7 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
 
                         var detail = {};
 
+                        detail.id = results[i].id;
                         detail.size = results[i].size;
                         detail.color = results[i].color;
                         detail.stock = results[i].stock;
@@ -769,14 +770,42 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
     var title = req.body.title;
     var description = req.body.description;
     var images;
-    var status = req.body.prodstatus;
-
-    var detailsId;
-    var size = req.body.size;
-    var color = req.body.color;
-    var stock = req.body.stock;
-    var price = req.body.price;
     var status = req.body.status;
+
+    var detailId1 = req.body.detailId1;
+    var size1 = req.body.size1;
+    var color1 = req.body.color1;
+    var stock1 = req.body.stock1;
+    var price1 = req.body.price1;
+    var status1 = req.body.status1;
+
+    var detailId2 = req.body.detailId2;
+    var size2 = req.body.size2;
+    var color2 = req.body.color2;
+    var stock2 = req.body.stock2;
+    var price2 = req.body.price2;
+    var status2 = req.body.status2;
+
+    var detailId3 = req.body.detailId3;
+    var size3 = req.body.size3;
+    var color3 = req.body.color3;
+    var stock3 = req.body.stock3;
+    var price3 = req.body.price3;
+    var status3 = req.body.status3;
+
+    var detailId4 = req.body.detailId4;
+    var size4 = req.body.size4;
+    var color4 = req.body.color4;
+    var stock4 = req.body.stock4;
+    var price4 = req.body.price4;
+    var status4 = req.body.status4;
+
+    var detailId5 = req.body.detailId5;
+    var size5 = req.body.size5;
+    var color5 = req.body.color5;
+    var stock5 = req.body.stock5;
+    var price5 = req.body.price5;
+    var status5 = req.body.status5;
 
     connect(function(err, connection) {
         if (err) {
@@ -828,8 +857,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                             var image5 = results[0].image5;
 
                             if (req.files[0]) {
-                                var i = 0;
-                                while (i++ <= 5) {
+                                for (var i=0; i<req.files.length;i++) {
                                     if (req.files[i].fieldname === 'image1') {
                                         image1 = req.files[i].filename;
                                         console.log(image1);
@@ -843,7 +871,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                         image4 = req.files[i].filename;
                                         console.log(image4);
                                     } else {
-                                        image5 = req.files[i].fieldname;
+                                        image5 = req.files[i].filename;
                                         console.log(image5);
                                     }
                                 }
@@ -859,37 +887,97 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                 else {
                                     console.log("Product update successful. " + title);
 
-                                    // update product_details
-                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size, color, stock, price, status, detailsId, req.params.productId], function(err, results, fields) {
-                                        connection.release();
+                                    // update product_details - line1
+                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size1, color1, stock1, price1, status1, detailId1, req.params.productId], function(err, results, fields) {
+                                        // connection.release();
 
                                         if (err) {
-                                            console.log("Error connecting to the database - update1");
+                                            console.log("Error connecting to the database - update4a");
                                             throw err;
                                         }
                                         else {
-                                            console.log("Product detail update successful. " + detailsId);
-                                            req.session.successMsg = "Product successfully updated.";
-                                            res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                            console.log("Product detail1 update successful.");
+                                            // req.session.successMsg = "Product successfully updated.";
+                                            // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                                         }
                                     });
 
-                                    // req.session.successMsg = "Product successfully updated.";
-                                    // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                    // update product_details - line2
+                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size2, color2, stock2, price2, status2, detailId2, req.params.productId], function(err, results, fields) {
+                                        // connection.release();
+
+                                        if (err) {
+                                            console.log("Error connecting to the database - update4b");
+                                            throw err;
+                                        }
+                                        else {
+                                            console.log("Product detail2 update successful. ");
+                                            // req.session.successMsg = "Product successfully updated.";
+                                            // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                        }
+                                    });
+
+                                    // update product_details - line3
+                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size3, color3, stock3, price3, status3, detailId3, req.params.productId], function(err, results, fields) {
+                                        // connection.release();
+
+                                        if (err) {
+                                            console.log("Error connecting to the database - update4c");
+                                            throw err;
+                                        }
+                                        else {
+                                            console.log("Product detail3 update successful. ");
+                                            // req.session.successMsg = "Product successfully updated.";
+                                            // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                        }
+                                    });
+
+                                    // update product_details - line4
+                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size4, color4, stock4, price4, status4, detailId4, req.params.productId], function(err, results, fields) {
+                                        // connection.release();
+
+                                        if (err) {
+                                            console.log("Error connecting to the database - update4d");
+                                            throw err;
+                                        }
+                                        else {
+                                            console.log("Product detail4 update successful. ");
+                                            // req.session.successMsg = "Product successfully updated.";
+                                            // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                        }
+                                    });
+
+                                    // update product_details - line5
+                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size5, color5, stock5, price5, status5, detailId5, req.params.productId], function(err, results, fields) {
+                                        // connection.release();
+
+                                        if (err) {
+                                            console.log("Error connecting to the database - update4e");
+                                            throw err;
+                                        }
+                                        else {
+                                            console.log("Product detail5 update successful. ");
+                                        }
+                                    });
                                 }
                             });
+                            connection.commit(function(err) {
+                                connection.release();
+                                if (err) {
+                                    connection.rollback(function() {
+                                        throw err;
+                                    });
+                                }
+                                else{
+                                    req.session.successMsg = "Product successfully updated.";
+                                    res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
+                                }
+                            });
+
                         }
                     });
                 }
 
-                connection.commit(function(err) {
-                    connection.release();
-                    if (err) {
-                        connection.rollback(function() {
-                            throw err;
-                        });
-                    }
-                });
             });
         }
     });
