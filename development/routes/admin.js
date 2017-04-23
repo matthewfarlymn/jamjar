@@ -883,6 +883,38 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                     }
                                 }
 
+                                if (!stock1) {
+                                    stock1 = null;
+                                }
+                                if (!stock2 ){
+                                    stock2 = null;
+                                }
+                                if (!stock3) {
+                                    stock3 = null;
+                                }
+                                if (!stock4) {
+                                    stock4 = null;
+                                }
+                                if (!stock5) {
+                                    stock5 = null;
+                                }
+
+                                if (!status1) {
+                                    status1 = 'inactive';
+                                }
+                                if (!status2 ){
+                                    status2 = 'inactive';
+                                }
+                                if (!status3) {
+                                    status3 = 'inactive';
+                                }
+                                if (!status4) {
+                                    status4 = 'inactive';
+                                }
+                                if (!status5) {
+                                    status5 = 'inactive';
+                                }
+
                                 // update products
                                 connection.query('UPDATE products SET title=?, description=?, image1=?, image2=?, image3=?, image4=?, image5=?, status=? WHERE id=?',[title, description, image1, image2, image3, image4, image5, status, req.params.productId], function(err, results, fields) {
 
@@ -2238,6 +2270,307 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
         }
     });
 
+});
+
+
+router.get('/dashboard/settings', function(req, res, next) {
+
+    var msg = req.session.msg ? req.session.msg : "";
+    var successMsg = req.session.successMsg ? req.session.successMsg : "";
+
+    var logo = req.session.logo ? req.session.logo : "";
+    var color1 = req.session.color1 ? req.session.color1 : "";
+    var color2 = req.session.color2 ? req.session.color2 : "";
+    var color3 = req.session.color3 ? req.session.color3 : "";
+
+    var sliderTitle1 = req.session.sliderTitle1 ? req.session.sliderTitle1 : "";
+    var sliderDescription1 = req.session.sliderDescription1 ? req.session.sliderDescription1 : "";
+    var sliderUrl1 = req.session.sliderUrl1 ? req.session.sliderUrl1 : "";
+    var sliderImage1 = req.session.sliderImage1 ? req.session.sliderImage1 : "";
+
+    var sliderTitle2 = req.session.sliderTitle2 ? req.session.sliderTitle2 : "";
+    var sliderDescription2 = req.session.sliderDescription2 ? req.session.sliderDescription2 : "";
+    var sliderUrl2 = req.session.sliderUrl2 ? req.session.sliderUrl2 : "";
+    var sliderImage2 = req.session.sliderImage2 ? req.session.sliderImage2 : "";
+
+    var sliderTitle3 = req.session.sliderTitle3 ? req.session.sliderTitle3 : "";
+    var sliderDescription3 = req.session.sliderDescription3 ? req.session.sliderDescription3 : "";
+    var sliderUrl3 = req.session.sliderUrl3 ? req.session.sliderUrl3 : "";
+    var sliderImage3 = req.session.sliderImage3 ? req.session.sliderImage3 : "";
+
+    var ctaTitle1 = req.session.ctaTitle1 ? req.session.ctaTitle1 : "";
+    var ctaSubtitle1 = req.session.ctaSubtitle1 ? req.session.ctaSubtitle1 : "";
+    var ctaDescription1 = req.session.ctaDescription1 ? req.session.ctaDescription1 : "";
+
+    var ctaTitle2 = req.session.ctaTitle2 ? req.session.ctaTitle2 : "";
+    var ctaSubtitle2 = req.session.ctaSubtitle2 ? req.session.ctaSubtitle2 : "";
+    var ctaDescription2 = req.session.ctaDescription2 ? req.session.ctaDescription2 : "";
+
+    var ctaTitle3 = req.session.ctaTitle3 ? req.session.ctaTitle3 : "";
+    var ctaSubtitle3 = req.session.ctaSubtitle3 ? req.session.ctaSubtitle3 : "";
+    var ctaDescription3 = req.session.ctaDescription3 ? req.session.ctaDescription3 : "";
+
+    var aboutDescription = req.session.aboutDescription ? req.session.aboutDescription : "";
+    var contactName = req.session.contactName ? req.session.contactName : "";
+    var contactEmail = req.session.contactEmail ? req.session.contactEmail : "";
+    var facebook = req.session.facebook ? req.session.facebook : "";
+    var twitter = req.session.twitter ? req.session.twitter : "";
+
+
+    req.session.msg = "";
+    req.session.successMsg = "";
+
+    req.session.logo = "";
+    req.session.color1 = "";
+    req.session.color2 = "";
+    req.session.color3 = "";
+
+    req.session.sliderTitle1 = "";
+    req.session.sliderDescription1 = "";
+    req.session.sliderUrl1 = "";
+    req.session.sliderImage1 = "";
+
+    req.session.sliderTitle2 = "";
+    req.session.sliderDescription2 = "";
+    req.session.sliderUrl2 = "";
+    req.session.sliderImage2 = "";
+
+    req.session.sliderTitle3 = "";
+    req.session.sliderDescription3 = "";
+    req.session.sliderUrl3 = "";
+    req.session.sliderImage3 = "";
+
+    req.session.ctaTitle1 = "";
+    req.session.ctaSubtitle1 = "";
+    req.session.ctaDescription1 = "";
+
+    req.session.ctaTitle2 = "";
+    req.session.ctaSubtitle2 = "";
+    req.session.ctaDescription2 = "";
+
+    req.session.ctaTitle3 = "";
+    req.session.ctaSubtitle3 = "";
+    req.session.ctaDescription3 = "";
+
+    req.session.aboutDescription = "";
+    req.session.contactName = "";
+    req.session.contactEmail = "";
+    req.session.facebook = "";
+    req.session.twitter = "";
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
+                console.log('Query returned1 ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no settings found
+                else if (results.length === 0) {
+                    console.log("Settings not found");
+                }
+                // settings found
+                else {
+                    console.log("Settings found");
+
+                    // logo = req.session.logo = req.file.filename-logo;
+                    color1 = req.session.color1 = results[0].color1;
+                    color2 = req.session.color2 = results[0].color2;
+                    color3 = req.session.color3 = results[0].color3;
+
+                    sliderTitle1 = req.session.sliderTitle1 = results[0].sliderTitle1;
+                    sliderDescription1 = req.session.sliderDescription1 = results[0].sliderDescription1;
+                    sliderUrl1 = req.session.sliderUrl1 = results[0].sliderUrl1;
+                    // sliderImage1 = req.session.filename1 = req.file.filename1;
+
+                    sliderTitle2 = req.session.sliderTitle2 = results[0].sliderTitle2;
+                    sliderDescription2 = req.session.sliderDescription2 = results[0].sliderDescription2;
+                    sliderUrl2 = req.session.sliderUrl2 = results[0].sliderUrl2;
+                    // sliderImage2 = req.session.filename2 = req.file.filename2;
+
+                    sliderTitle3 = req.session.sliderTitle3 = results[0].sliderTitle3;
+                    sliderDescription3 = req.session.sliderDescription3 = results[0].sliderDescription3;
+                    sliderUrl3 = req.session.sliderUrl3 = results[0].sliderUrl3;
+                    // sliderImage3 = req.session.filename3 = req.file.filename3;
+
+                    ctaTitle1 = req.session.ctaTitle1 = results[0].ctaTitle1;
+                    ctaSubtitle1 = req.session.ctaSubtitle1 = results[0].ctaSubtitle1;
+                    ctaDescription1 = req.session.ctaDescription1 = results[0].ctaDescription1;
+
+                    ctaTitle2 = req.session.ctaTitle2 = results[0].ctaTitle2;
+                    ctaSubtitle2 = req.session.ctaSubtitle2 = results[0].ctaSubtitle2;
+                    ctaDescription2 = req.session.ctaDescription2 = results[0].ctaDescription2;
+
+                    ctaTitle3 = req.session.ctaTitle3 = results[0].ctaTitle3;
+                    ctaSubtitle3 = req.session.ctaSubtitle3 = results[0].ctaSubtitle3;
+                    ctaDescription3 = req.session.ctaDescription3 = results[0].ctaDescription3;
+
+                    aboutDescription = req.session.aboutDescription = results[0].aboutDescription;
+
+                    contactName = req.session.contactName = results[0].contactName;
+                    contactEmail = req.session.contactEmail = results[0].contactEmail;
+
+                    facebook = req.session.facebook = results[0].facebook;
+                    twitter = req.session.twitter = results[0].twitter;
+
+                }
+            });
+        }
+
+        connection.commit(function(err) {
+            connection.release();
+            if (err) {
+                connection.rollback(function() {
+                    throw err;
+                });
+            }
+            else {
+                res.render('dashboard/settings', {
+                    errorMessage: msg,
+                    access: req.session.user,
+                    owner: req.session.admin,
+                    eSettings: true,
+                    userId: userId,
+                    logo: logo,
+                    color1: color1,
+                    color2: color2,
+                    color3: color3,
+                    sliderTitle1: sliderTitle1,
+                    sliderDescription1: sliderDescription1,
+                    sliderUrl1: sliderUrl1,
+                    // sliderImage1: filename1,
+                    sliderTitle2: sliderTitle2,
+                    sliderDescription2: sliderDescription2,
+                    sliderUrl2: sliderUrl2,
+                    // sliderImage2: filename2,
+                    sliderTitle3: sliderTitle3,
+                    sliderDescription3: sliderDescription3,
+                    sliderUrl3: sliderUrl3,
+                    // sliderImage3: filename3,
+                    ctaTitle1: ctaTitle1,
+                    ctaSubtitle1: ctaSubtitle1,
+                    ctaDescription1: ctaDescription1,
+                    ctaTitle2: ctaTitle2,
+                    ctaSubtitle2: ctaSubtitle2,
+                    ctaDescription2: ctaDescription2,
+                    ctaTitle3: ctaTitle3,
+                    ctaSubtitle3: ctaSubtitle3,
+                    ctaDescription3: ctaDescription3,
+                    aboutDescription: aboutDescription,
+                    contactName: contactName,
+                    contactEmail: contactEmail,
+                    facebook: facebook,
+                    twitter: twitter
+                });
+            }
+        });
+    })
+});
+
+
+router.post('/dashboard/update-settings', avatarUpload.single('avatar'), function(req, res, next) {
+
+    var logo = req.file.filename-logo;
+    var color1 = req.body.color1;
+    var color2 = req.body.color2;
+    var color3 = req.body.color3;
+
+    var sliderTitle1 = req.body.sliderTitle1;
+    var sliderDescription1 = req.body.sliderDescription1;
+    var sliderUrl1 = req.body.sliderUrl1;
+    var sliderImage1 = req.file.filename1;
+
+    var sliderTitle2 = req.body.sliderTitle2;
+    var sliderDescription2 = req.body.sliderDescription2;
+    var sliderUrl2 = req.body.sliderUrl2;
+    var sliderImage2 = req.file.filename2;
+
+    var sliderTitle3 = req.body.sliderTitle3;
+    var sliderDescription3 = req.body.sliderDescription3;
+    var sliderUrl3 = req.body.sliderUrl3;
+    var sliderImage3 = req.file.filename3;
+
+    var ctaTitle1 = req.body.ctaTitle1;
+    var ctaSubtitle1 = req.body.ctaSubtitle1;
+    var ctaDescription1 = req.body.ctaDescription1;
+
+    var ctaTitle2 = req.body.ctaTitle2;
+    var ctaSubtitle2 = req.body.ctaSubtitle2;
+    var ctaDescription2 = req.body.ctaDescription2;
+
+    var ctaTitle3 = req.body.ctaTitle3;
+    var ctaSubtitle3 = req.body.ctaSubtitle3;
+    var ctaDescription3 = req.body.ctaDescription3;
+
+    var aboutDescription = req.body.aboutDescription;
+
+    var contactName = req.body.contactName;
+    var contactEmail = req.body.contactEmail;
+
+    var facebook = req.body.facebook;
+    var twitter = req.body.twitter;
+
+    // error - email not entered
+    if (email.trim().length === 0) {
+        console.log("email field empty.");
+        req.session.msg = "Please enter email.";
+        // req.session.user = email;
+        // req.session.firstName = firstName;
+        // req.session.lastName = lastName;
+        res.redirect('/admin/dashboard/profile');
+    }
+    // error - email already registered
+    else if ((results.length !== 0) && (email !== req.session.user)) {
+        console.log("Email already registered - update profile");
+        req.session.msg = "Unable to update. Email address already registered.";
+        // req.session.user = email;
+        // req.session.firstName = firstName;
+        // req.session.lastName = lastName;
+        res.redirect('/admin/dashboard/profile');
+    }
+    else {
+        connect(function(err, connection) {
+            if (err) {
+                console.log("Error connecting to the database");
+                throw err;
+            }
+            else {
+                connect(function(err, connection) {
+                    if (err) {
+                        console.log("Error connecting to the database");
+                        throw err;
+                    }
+                    else {
+                        console.log("Connected to the DB");
+
+                        // update replaces password
+                        connection.query('INSERT INTO settings (user, logo, color1, color2, color3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[user, logo, color1, color2, color3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter], function(err, results, fields) {
+                        // connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
+                            connection.release();
+
+                            if (err) {
+                                console.log("Error connecting to the database - update1");
+                                throw err;
+                            }
+                            else {
+                                console.log("User update successful. " + email);
+                                req.session.user = email;
+                                res.redirect('/admin/dashboard/profile');
+                                // res.redirect('/admin-session');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
 });
 
 
