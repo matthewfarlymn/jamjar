@@ -33,7 +33,7 @@ block content
                                             input(type='text' name='title' placeholder='Title' value=title required)
                                         span.col-xs-12.col-sm-3
                                             label(for='status') Status
-                                            select(class='status-product' name='status' disabled=status === 'inactive')
+                                            select(class='status-product' name='status')
                                                 option(disabled='true') -- Select --
                                                 option(value=status === 'active') Active
                                                 option(value=status === 'inactive') Inactive
@@ -99,7 +99,7 @@ block content
                                                 span.col-xs-6.col-sm
                                                     input(type='text' name='price' + (index + 1) min='1' placeholder='0.00' value=detail.price disabled=detail.status === 'inactive' required)
                                                 span.col-xs-12.col-sm-3
-                                                    select(class='status-attributes' name='status' + (index + 1))
+                                                    select(class='status-attributes' name='status' + (index + 1) disabled=status === 'inactive')
                                                         option(disabled='true') -- Select --
                                                         option(value='active' selected=detail.status === 'active') Active
                                                         option(value='inactive' selected=detail.status === 'inactive') Inactive
