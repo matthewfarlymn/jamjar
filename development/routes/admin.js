@@ -40,7 +40,8 @@ var settingsImageStorage = multer.diskStorage({
     filename: function (req, file, cb) {
         var filename = file.originalname;
         var fileExtension = filename.split(".")[1];
-        cb(null, Date.now() + "-" + req.session.settingsId + "." + fileExtension);
+        // cb(null, Date.now() + "-" + req.session.settingsId + "." + fileExtension);
+        cb(null, Date.now() + "." + fileExtension);
     }
 });
 
@@ -2472,6 +2473,7 @@ router.get('/dashboard/settings', function(req, res, next) {
                 });
             }
             else {
+
                 res.render('dashboard/settings', {
                     errorMessage: msg,
                     access: req.session.user,
@@ -2566,11 +2568,6 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                 }
                 else {
                     console.log("Connected to the DB");
-
-                    // var logo = results[0].logo;
-                    // var sliderImage1 = results[0].sliderImage1;
-                    // var sliderImage2 = results[0].sliderImage2;
-                    // var sliderImage3 = results[0].sliderImage3;
 
                     var logo = req.session.logo;
                     var sliderImage1 = req.session.sliderImage1;
