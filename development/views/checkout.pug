@@ -29,70 +29,70 @@ block content
                                 label(for='country') Country
                                 input(type='text' name='country' placeholder='Country' value=country)
                                 input(type='checkbox' name='shippingDetails' value=shippingDetails)
-                                label(for='shippinDetails') Use billing details for shipping?
+                                label(for='shippingDetails') Use billing details for shipping?
                             span.col-xs-12.col-sm-6.fieldset.shipping-details
                                 h2 Shipping Details
-                                label(for='address1') Address 1
-                                input(type='text' name='address1' placeholder='Address' value=address1)
-                                label(for='address2') Address 2
-                                input(type='text' name='address2' placeholder='Address' value=address2)
-                                label(for='city') Town/City
-                                input(type='text' name='city' placeholder='Town/City' value=city)
-                                label(for='province') Province/State/County
-                                input(type='text' name='province' placeholder='Province/State/County' value=province)
-                                label(for='postalcode') Postalcode/Zipcode/Postcode
-                                input(type='text' name='postalcode' placeholder='Postalcode/Zipcode/Postcode' value=postalcode)
-                                label(for='country') Country
-                                input(type='text' name='country' placeholder='Country' value=country)
+                                label(for='shipaddress1') Address 1
+                                input(type='text' name='shipaddress1' placeholder='Address' value=shipaddress1)
+                                label(for='shipaddress2') Address 2
+                                input(type='text' name='shipaddress2' placeholder='Address' value=shipaddress2)
+                                label(for='shipcity') Town/City
+                                input(type='text' name='shipcity' placeholder='Town/City' value=shipcity)
+                                label(for='shipprovince') Province/State/County
+                                input(type='text' name='shipprovince' placeholder='Province/State/County' value=shipprovince)
+                                label(for='shippostalcode') Postalcode/Zipcode/Postcode
+                                input(type='text' name='shippostalcode' placeholder='Postalcode/Zipcode/Postcode' value=shippostalcode)
+                                label(for='shipcountry') Country
+                                input(type='text' name='shipcountry' placeholder='Country' value=shipcountry)
                     span.col-xs-12.col-md-8
-                        //- each product in productDetails
-                        span.row.middle-xs.grey
-                            span.col-sm-4.image
-                                //- img(src='/img/' + product.image)
-                                img(src='/img/blueberry.jpg')
-                            span.col-xs-12.col-sm-8
-                                span.row
-                                    span.col-xs-12
-                                        //- h3 #{product.title}
-                                        //- p #{product.excerpt}
-                                        h3 Blueberry
-                                        p Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris ju...
-                                    span.col-xs-12
-                                        span.details
-                                            span.row.middle-xs
-                                                span.col-xs-12.col-sm-4.detail
-                                                    strong Price:
-                                                    //- span $#{product.price}
-                                                    span $16.00
-                                                span.col-xs-12.col-sm-4.detail
-                                                    span.flex
-                                                        strong Quantity:
-                                                        //- span #{product.quantity}
-                                                        span 3
-                                                span.col-xs-12.col-sm-4.detail
-                                                    strong Total:
-                                                    //- span $#{product.subtotal}
-                                                    span $48.00
+                        each product in cart
+                            span.row.middle-xs.grey
+                                span.col-sm-4.image
+                                    img(src='/img/' + product.image1)
+                                    //- img(src='/img/blueberry.jpg')
+                                span.col-xs-12.col-sm-8
+                                    span.row
+                                        span.col-xs-12
+                                            h3 #{product.title}
+                                            p #{product.excerpt}
+                                            //- h3 Blueberry
+                                            //- p Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris ju...
+                                        span.col-xs-12
+                                            span.details
+                                                span.row.middle-xs
+                                                    span.col-xs-12.col-sm-4.detail
+                                                        strong Price:
+                                                        span $#{product.price}
+                                                        //- span $16.00
+                                                    span.col-xs-12.col-sm-4.detail
+                                                        span.flex
+                                                            strong Quantity:
+                                                            span #{product.quantity}
+                                                            //- span 3
+                                                    span.col-xs-12.col-sm-4.detail
+                                                        strong Total:
+                                                        span $#{product.subtotal}
+                                                        //- span $48.00
                     span.col-xs-12.col-md-8
                         span.row.middle-xs.grey
                             span.col-xs-12
                                 span.row.middle-xs
                                     span.col-xs-12.col-sm-3.detail
                                         strong Sub-total:
-                                        //- span $#{orderDetails[0].subtotal}
-                                        span $48.00
+                                        span $#{cartDetail.subtotal}
+                                        //- span $48.00
                                     span.col-xs-12.col-sm-3.detail
                                         strong Tax:
-                                        //- span $#{orderDetails[0].tax}
-                                        span $8.00
+                                        span $#{cartDetail.tax}
+                                        //- span $8.00
                                     span.col-xs-12.col-sm-3.detail
                                         strong Shipping:
-                                        //- span $#{orderDetails[0].shipping}
-                                        span $10.00
+                                        span $#{cartDetail.shipping}
+                                        //- span $10.00
                                     span.col-xs-12.col-sm-3.detail
                                         strong Total:
-                                        //- span $#{orderDetails[0].total}
-                                        span $66.00
+                                        span $#{cartDetail.total}
+                                        //- span $66.00
                     span.col-xs-12.col-md-8
                         span.row.grey
                             span.col-xs-12
