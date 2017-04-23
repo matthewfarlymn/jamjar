@@ -23,7 +23,7 @@ router.post('/add-to-cart', function(req, res, next) {
     var email = req.session.user;
     var detailId = req.body.attributes;
     var quantity = req.body.quantity;
-    var prodId = req.session.prodId;
+    var productId = req.session.productId;
     var title = req.session.title;
 
     var msg = req.session.msg ? req.session.msg : "";
@@ -33,7 +33,7 @@ router.post('/add-to-cart', function(req, res, next) {
     req.session.successMsg = "";
 
 
-    console.log('prodId ' + prodId);
+    console.log('productId ' + productId);
 
     if (!email) {
         console.log("login needed");
@@ -66,7 +66,7 @@ router.post('/add-to-cart', function(req, res, next) {
                         req.session.user = email;
                         // req.session.firstName = firstName;
                         // req.session.lastName = lastName;
-                        res.redirect('/product/' + prodId + '/' + title);
+                        res.redirect('/product/' + productId + '/' + title);
                     }
 
                     else {
@@ -91,7 +91,7 @@ router.post('/add-to-cart', function(req, res, next) {
                                         console.log("Product successfully inserted into cart for " + email);
                                         req.session.successMsg = "Product(s) successfully added to cart.";
                                         req.session.user = email;
-                                        res.redirect('/product/' + prodId + '/' + title);
+                                        res.redirect('/product/' + productId + '/' + title);
                                     }
                                 });
                             }
