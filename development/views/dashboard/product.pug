@@ -89,6 +89,7 @@ block content
                                             span(class=detail.status === 'inactive' ? 'inactive' : '' data-row=(index + 1)).row.middle-xs.grey
                                                 span.col-xs-12
                                                     label= 'Item ' + (index + 1)
+                                                    input(type='hidden' name='detailId' + (index + 1) value=detail.id)
                                                 span.col-xs-6.col-sm
                                                     input(type='text' name='size' + (index + 1) placeholder='Size' value=detail.size)
                                                 span.col-xs-6.col-sm
