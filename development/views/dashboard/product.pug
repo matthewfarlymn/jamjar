@@ -15,7 +15,7 @@ block content
                             span #{successMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        form(action=add ? '/admin/dashboard/save-product' : '/admin/dashboard/update-product/' + productId + '/' + title method='post')
+                        form(action=add ? '/admin/dashboard/save-product' : '/admin/dashboard/update-product/' + productId + '/' + title enctype='multipart/form-data' method='post')
                             span.row
                                 span.col-xs
                                     if add

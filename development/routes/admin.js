@@ -30,7 +30,7 @@ var productImageStorage = multer.diskStorage({
 });
 
 var productImageUpload = multer({
-    storage: avatarStorage
+    storage: productImageStorage
 });
 
 router.get('/dashboard/profile', function(req, res, next) {
@@ -754,12 +754,12 @@ router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), fu
     var prodId = req.params.id;
     var title = req.body.title;
     var description = req.body.description;
-    // var image1 = req.files.image1;
-    // var image2 = req.files.image2;
-    // var image3 = req.files.image3;
-    // var image4 = req.files.image4;
-    // var image5 = req.files.image5;
-    var images = req.files;
+    var images = req.files[0];
+    var image1 = req.body.image1;
+    var image2 = req.body.image2;
+    var image3 = req.body.image3;
+    var image4 = req.body.image4;
+    var image5 = req.body.image5;
     var status = req.body.prodstatus;
 
     var detailId;
@@ -811,6 +811,23 @@ router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), fu
                         }
                         else {
                             console.log("Connected to the DB");
+
+                            if (images.fieldname === 'image1') {
+                                image1 = images.filename;
+                                console.log(image1);
+                            } else if (images.fieldname === 'image2') {
+                                image2 = images.filename;
+                                console.log(image2);
+                            } else if (images.fieldname === 'image3') {
+                                image3 = images.filename;
+                                console.log(image3);
+                            } else if (images.fieldname === 'image4') {
+                                image4 = images.filename;
+                                console.log(image4);
+                            } else {
+                                image5 = images.filename;
+                                console.log(image5);
+                            }
 
                             // update products
                             connection.query('UPDATE products SET title=?, description=?, image1=?, image2=?, image3=?, image4=?, image5=?, status=?, WHERE id=?',[title, description, image1, image2, image3, image4, image5, status, req.params.id], function(err, results, fields) {
