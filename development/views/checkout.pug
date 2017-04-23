@@ -48,25 +48,34 @@ block content
                         each product in cart
                             span.row.middle-xs.grey
                                 span.col-sm-4.image
-                                    img(src='/img/' + product.image1)
+                                    img(src='/uploads/products/' + product.image1)
                                 span.col-xs-12.col-sm-8
                                     span.row
                                         span.col-xs-12
                                             h3 #{product.title}
                                             p #{product.excerpt}
-                                        span.col-xs-12
-                                            span.details
-                                                span.row.middle-xs
-                                                    span.col-xs-12.col-sm-4.detail
-                                                        strong Price:
-                                                        span $#{product.price}
-                                                    span.col-xs-12.col-sm-4.detail
-                                                        span.flex
-                                                            strong Quantity:
-                                                            span #{product.quantity}
-                                                    span.col-xs-12.col-sm-4.detail
-                                                        strong Total:
-                                                        span $#{product.subtotal}
+                                            ul
+                                                if product.size
+                                                    li
+                                                        strong Size:
+                                                        span #{product.size}
+                                                if product.color
+                                                    li
+                                                        strong Color:
+                                                        span #{product.color}
+                                span.col-xs-12
+                                    span.details
+                                        span.row.middle-xs
+                                            span.col-xs-12.col-sm-4.detail
+                                                strong Price:
+                                                span $#{product.price}
+                                            span.col-xs-12.col-sm-4.detail
+                                                span.flex
+                                                    strong Quantity:
+                                                    span #{product.quantity}
+                                            span.col-xs-12.col-sm-4.detail
+                                                strong Total:
+                                                span $#{product.subtotal}
                     span.col-xs-12.col-md-8
                         span.row.middle-xs.grey
                             span.col-xs-12
