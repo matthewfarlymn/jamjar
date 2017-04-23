@@ -94,15 +94,12 @@ jQuery(document).ready(function($) {
 
     $('.status-product').change(function() {
         if($(this).val() === 'inactive') {
-            $('input .product-title, textarea .product-description').attr('disabled', false);
+            $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
             $('.status-attributes').attr('disabled', true);
-            $('.status-attributes').closest('.grey').find('input').attr('disabled', true);
         } else {
-            $('input .product-title, textarea .product-description').attr('disabled', false);
+            $(this).closest('.grey').removeClass('inactive').find('input, textarea').attr('disabled', false);
             $('.status-attributes').attr('disabled', false);
-            if($('.status-attributes').val() === 'active') {
-                $('.status-attributes').closest('.grey').find('input').attr('disabled', false);
-            }
+            $('.status-attributes').closest('.inactive').find('input').attr('disabled', true);
         }
     });
 
