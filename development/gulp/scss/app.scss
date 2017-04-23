@@ -533,6 +533,11 @@ section {
                 select {
                     margin-bottom: 0;
                 }
+                .billing-details {
+                    @include breakpoint(xs) {
+                        margin-bottom: 40px;
+                    }
+                }
                 .details{
                     display: block;
                     padding: 10px;
@@ -576,8 +581,19 @@ section {
                     &.fa {
                         margin-right: 10px;
                     }
+                    &.expiry {
+                        input {
+                            &:first-of-type {
+                                margin-right: 5px;
+                            }
+                            &:last-of-type {
+                                margin-left: 5px;
+                            }
+                        }
+                    }
                 }
                 h2 {
+                    margin-top: -5px;
                     margin-bottom: 15px;
                 }
                 p {
