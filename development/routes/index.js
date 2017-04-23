@@ -367,6 +367,44 @@ router.get('/contact', function(req, res, next) {
     });
 });
 
+router.post('/search', function(req, res, next) {
+
+    var search = req.body.search;
+    console.log(search);
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            connection.query('SELECT * FROM products WHERE title LIKE "%' + search + '%" ORDER BY title',[], function(err, results, fields) {
+                connection.release();
+                console.log(results);
+
+                req.session.searchResults = results;
+
+                if(err) {
+                    throw err;
+                } else {
+                    res.redirect('/search-results');
+                }
+            });
+        }
+    });
+});
+
+router.get('/search-results', function(req, res, next) {
+    var searchResults = req.session.searchResults;
+
+    res.render('search', {
+        searchResults: searchResults
+    });
+
+});
+
 router.get('/sign-out', function(req, res, next) {
     req.session.destroy();
     res.redirect('/');

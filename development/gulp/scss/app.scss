@@ -491,6 +491,10 @@ section {
             }
         }
         .product-slider {
+            display: none;
+            &.slick-initialized {
+                display: block;
+            }
             @include breakpoint(xs) {
                 margin-bottom: 20px;
             }
