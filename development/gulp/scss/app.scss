@@ -475,6 +475,12 @@ section {
                    opacity: 1;
                 }
             }
+            select {
+                width: 50%;
+                @include breakpoint(xs) {
+                    width: 100%;
+                }
+            }
         }
         .product-slider {
             @include breakpoint(xs) {
