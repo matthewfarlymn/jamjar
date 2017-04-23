@@ -99,7 +99,7 @@ jQuery(document).ready(function($) {
         } else {
             $(this).closest('.grey').removeClass('inactive').find('input, textarea').attr('disabled', false);
             $('.item-attributes').find('.status-attributes').attr('disabled', false);
-            if($('.status-attributes').val() === 'inactive') {
+            if($('.status-attributes :selected').text() === 'inactive') {
                 $(this).closest('.grey').find('input').attr('disabled', true);
             }
         }
