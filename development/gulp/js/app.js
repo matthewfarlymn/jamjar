@@ -92,6 +92,11 @@ jQuery(document).ready(function($) {
         }
     });
 
+    if($('.status-products').val() === 'inactive') {
+        $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
+        $('.item-attributes').find('.status-attributes').attr('disabled', true);
+    }
+
     $('.status-product').change(function() {
         if($(this).val() === 'inactive') {
             $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
@@ -101,6 +106,10 @@ jQuery(document).ready(function($) {
             $('.item-attributes').find('.status-attributes').attr('disabled', false);
         }
     });
+
+    if($('.status-attributes').val() === 'inactive') {
+        $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
+    }
 
     $('.status-attributes').change(function() {
         if($(this).val() === 'inactive') {
