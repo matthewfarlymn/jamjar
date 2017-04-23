@@ -33,6 +33,21 @@ var productImageUpload = multer({
     storage: productImageStorage
 });
 
+var settingsImageStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './assets/uploads/settings/');
+    },
+    filename: function (req, file, cb) {
+        var filename = file.originalname;
+        var fileExtension = filename.split(".")[1];
+        cb(null, Date.now() + "-" + req.session.settingsId + "." + fileExtension);
+    }
+});
+
+var settingsImageUpload = multer({
+    storage: settingsImageStorage
+});
+
 router.get('/dashboard/profile', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
@@ -774,7 +789,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
     var productId = req.params.productId;
     var title = req.body.title;
     var description = req.body.description;
-    var images;
     var status = req.body.status;
 
     var detailId1 = req.body.detailId1;
@@ -862,7 +876,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                 var image4 = results[0].image4;
                                 var image5 = results[0].image5;
 
-                                if (req.files[0]) {
+                                if (req.files) {
                                     for (var i=0; i<req.files.length;i++) {
                                         if (req.files[i].fieldname === 'image1') {
                                             image1 = req.files[i].filename;
@@ -1267,7 +1281,6 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
     var productId = req.params.id;
     var title = req.body.title;
     var description = req.body.description;
-    var images;
     var image1;
     var image2;
     var image3;
@@ -1421,7 +1434,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                             else {
                                 console.log("Connected to the DB");
 
-                                if (req.files[0]) {
+                                if (req.files) {
                                     for (var i=0; i<req.files.length;i++) {
                                         if (req.files[i].fieldname === 'image1') {
                                             image1 = req.files[i].filename;
@@ -2499,9 +2512,8 @@ router.get('/dashboard/settings', function(req, res, next) {
 });
 
 
-router.post('/dashboard/update-settings', avatarUpload.single('avatar'), function(req, res, next) {
+router.post('/dashboard/update-settings', settingsImageUpload.any(), function(req, res, next) {
 
-    var logo = req.file.filename-logo;
     var color1 = req.body.color1;
     var color2 = req.body.color2;
     var color3 = req.body.color3;
@@ -2509,17 +2521,14 @@ router.post('/dashboard/update-settings', avatarUpload.single('avatar'), functio
     var sliderTitle1 = req.body.sliderTitle1;
     var sliderDescription1 = req.body.sliderDescription1;
     var sliderUrl1 = req.body.sliderUrl1;
-    var sliderImage1 = req.file.filename1;
 
     var sliderTitle2 = req.body.sliderTitle2;
     var sliderDescription2 = req.body.sliderDescription2;
     var sliderUrl2 = req.body.sliderUrl2;
-    var sliderImage2 = req.file.filename2;
 
     var sliderTitle3 = req.body.sliderTitle3;
     var sliderDescription3 = req.body.sliderDescription3;
     var sliderUrl3 = req.body.sliderUrl3;
-    var sliderImage3 = req.file.filename3;
 
     var ctaTitle1 = req.body.ctaTitle1;
     var ctaSubtitle1 = req.body.ctaSubtitle1;
@@ -2574,6 +2583,25 @@ router.post('/dashboard/update-settings', avatarUpload.single('avatar'), functio
                     else {
                         console.log("Connected to the DB");
 
+                        var logo = results[0].logo;
+                        var sliderImage1 = results[0].sliderImage1;
+                        var sliderImage2 = results[0].sliderImage2;
+                        var sliderImage3 = results[0].sliderImage3;
+
+                        if (req.files) {
+                            for (var i=0; i<req.files.length;i++) {
+                                if (req.files[i].fieldname === 'logo') {
+                                    logo = req.files[i].filename;
+                                } else if (req.files[i].fieldname === 'sliderImage1') {
+                                    sliderImage1 = req.files[i].filename;
+                                } else if (req.files[i].fieldname === 'sliderImage2') {
+                                    sliderImage2 = req.files[i].filename;
+                                } else {
+                                    sliderImage3 = req.files[i].filename;
+                                }
+                            }
+                        }
+
                         // update replaces password
                         connection.query('INSERT INTO settings (user, logo, color1, color2, color3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[user, logo, color1, color2, color3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter], function(err, results, fields) {
                         // connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
@@ -2584,9 +2612,9 @@ router.post('/dashboard/update-settings', avatarUpload.single('avatar'), functio
                                 throw err;
                             }
                             else {
-                                console.log("User update successful. " + email);
-                                req.session.user = email;
-                                res.redirect('/admin/dashboard/profile');
+                                console.log("User update successful. ");
+                                // req.session.user = email;
+                                res.redirect('/admin/dashboard/settings');
                                 // res.redirect('/admin-session');
                             }
                         });
