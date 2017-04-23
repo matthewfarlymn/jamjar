@@ -36,29 +36,11 @@ app.use(express.static(path.join(__dirname, 'assets')));
 app.use(function (req, res, next) {
     res.locals = {
         access: req.session.user,
-        owner: req.session.admin
+        owner: req.session.admin,
+        avatar: req.session.avatar
     };
     next();
 });
-
-// var userStorage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, './uploads/users');
-//     },
-//     filename: function (req, file, cb) {
-//         var filename = file.originalname;
-//         var fileExtension = filename.split(".")[1];
-//         cb(null, Date.now() + "." + fileExtension);
-//     }
-// });
-// //
-// var userUpload = multer({
-//     storage: userStorage
-// });
-//
-// app.post('/user/update-profile', userUpload.single('avatar'), function(req,res) {
-//     res.status(204).end();
-// });
 
 var access = function(req, res, next) {
     if (!req.session.user) {

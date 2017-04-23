@@ -67,9 +67,9 @@ jQuery(document).ready(function($) {
         }
     });
 
-    $(':file').change(function() {
-        $('form').submit();
-    });
+    // $(':file').change(function() {
+    //     $('form').submit();
+    // });
 
     $('.status-product').change(function() {
         if($(this).val() === 'inactive') {

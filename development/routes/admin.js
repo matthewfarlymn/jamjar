@@ -758,11 +758,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
     var title = req.body.title;
     var description = req.body.description;
     var images = req.files[0];
-    var image1 = req.body.image1;
-    var image2 = req.body.image2;
-    var image3 = req.body.image3;
-    var image4 = req.body.image4;
-    var image5 = req.body.image5;
     var status = req.body.prodstatus;
 
     var detailsId;
@@ -815,6 +810,12 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                         else {
                             console.log("Connected to the DB");
 
+                            var image1 = results[0].image1;
+                            var image2 = results[0].image2;
+                            var image3 = results[0].image3;
+                            var image4 = results[0].image4;
+                            var image5 = results[0].image5;
+
                             if (images) {
                                 if (images.fieldname === 'image1') {
                                     image1 = images.filename;
@@ -855,12 +856,12 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                         else {
                                             console.log("Product detail update successful. " + detailsId);
                                             req.session.successMsg = "Product successfully updated.";
-                                            res.redirect('/admin/dashboard/edit-product/' + userId + '/' + title);
+                                            res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                                         }
                                     });
 
                                     // req.session.successMsg = "Product successfully updated.";
-                                    // res.redirect('/admin/dashboard/edit-product/' + userId + '/' + title);
+                                    // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                                 }
                             });
                         }
