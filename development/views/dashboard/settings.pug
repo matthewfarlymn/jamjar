@@ -26,11 +26,11 @@ block content
                                     h2 Theme
                                     span.row
                                         span.col-xs-12.col-sm-6
-                                            label(for='title') Logo
-                                            span.image
+                                            label Logo Size (400 x 400)
+                                            span.user
                                                 input(type='file' name='logo')
                                                 if !(logo)
-                                                    img(src='/img/product.jpg')
+                                                    img(src='/img/logo.jpg')
                                                 else
                                                     //- img(src='/img/' + logo)
                                                     img(src='/uploads/settings/' + logo)
@@ -38,18 +38,23 @@ block content
                                             span.row            
                                                 span.col-xs-12
                                                     label Colors
-                                                    input(type='text' name='color1' placeholder='Color 1' value=color1 required)
+                                                    span.flex
+                                                        input(type='text' name='color1' placeholder='Color 1' value=color1 style='display:width:50%;' required)
+                                                        span(style='margin-top: -10px;width:50%; height:40px; background-color:' + color1 + ';')
                                                 span.col-xs-12
-                                                    input(type='text' name='color2' placeholder='Color 2' value=color2 required)
+                                                    span.flex
+                                                        input(type='text' name='color1' placeholder='Color 1' value=color2 style='display:width:50%;' required)
+                                                        span(style='margin-top: -10px;width:50%; height:40px; background-color:' + color2 + ';')
                                                 span.col-xs-12
-                                                    input(type='text' name='color3' placeholder='Color 3' value=color3 required)
+                                                    span.flex
+                                                        input(type='text' name='color1' placeholder='Color 1' value=color3 style='display:width:50%;' required)
+                                                        span(style='margin-top: -10px;width:50%; height:40px; background-color:' + color3 + ';')
                             span.row.grey
                                 span.col-xs-12.fieldset.settings
                                     h2 Sliders
                                     span.row.grey
-                                        span.col-xs-12.col-sm-12
-                                            label= 'Slider 1'
                                         span.col-xs-12.col-sm-6
+                                            label= 'Slider 1'
                                             span.row
                                                 span.col-xs-12.col-sm-12
                                                     input(type='text' name='sliderTitle1' placeholder='Title' value=sliderTitle1 required)
@@ -58,6 +63,7 @@ block content
                                                 span.col-xs-12.col-sm-12
                                                     input(type='url' name='sliderUrl1' placeholder='Url' value=sliderUrl1 required)
                                         span.col-xs-12.col-sm-6
+                                            label Image Size (900 x 600)
                                             span.image
                                                 input(type='file' name='sliderImage1')
                                                 if !(sliderImage1)
@@ -65,9 +71,8 @@ block content
                                                 else
                                                     img(src='/uploads/settings/' + sliderImage1)
                                     span.row.grey
-                                        span.col-xs-12.col-sm-12
-                                            label= 'Slider 2'
                                         span.col-xs-12.col-sm-6
+                                            label= 'Slider 2'
                                             span.row
                                                 span.col-xs-12.col-sm-12
                                                     input(type='text' name='sliderTitle2' placeholder='Title' value=sliderTitle2 required)
@@ -76,16 +81,16 @@ block content
                                                 span.col-xs-12.col-sm-12
                                                     input(type='url' name='sliderUrl2' placeholder='Url' value=sliderUrl2 required)
                                         span.col-xs-12.col-sm-6
+                                            label Image Size (900 x 600)
                                             span.image
                                                 input(type='file' name='sliderImage2')
                                                 if !(sliderImage2)
                                                     img(src='/img/product.jpg')
                                                 else
                                                     img(src='/uploads/settings/' + sliderImage2)
-                                    span.row.grey
-                                        span.col-xs-12.col-sm-12
-                                            label= 'Slider 3'
+                                    span.row.grey    
                                         span.col-xs-12.col-sm-6
+                                            label= 'Slider 3'
                                             span.row
                                                 span.col-xs-12.col-sm-12
                                                     input(type='text' name='sliderTitle3' placeholder='Title' value=sliderTitle3 required)
@@ -94,6 +99,7 @@ block content
                                                 span.col-xs-12.col-sm-12
                                                     input(type='url' name='sliderUrl3' placeholder='Url' value=sliderUrl3 required)
                                         span.col-xs-12.col-sm-6
+                                            label Image Size (900 x 600)
                                             span.image
                                                 input(type='file' name='sliderImage3')
                                                 if !(sliderImage3)

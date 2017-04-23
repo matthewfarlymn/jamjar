@@ -8,67 +8,76 @@ block content
                     div.col-xs-12.col-sm-12.col-md-8.error
                         span #{errorMessage}
             header.row.center-xs.container
-                div.col-xs-12.col-md-8
+                div(class=!cart ? 'error' : '').col-xs-12.col-md-8
                     h1 Shopping Cart
-            form(action='/user/update-cart' method='post')
-                span.row.center-xs.container
-                    span.col-xs-12.col-md-8
-                        each product in cart
+                    if !cart
+                        h2 Looks like your cart is currently empty
+                        p Why not look through our selection of #[a(href='/products') products] and purchase something!
+            if cart
+                form(action='/user/update-cart' method='post')
+                    span.row.center-xs.container
+                        span.col-xs-12.col-md-8
+                            each product in cart
+                                span.row.middle-xs.grey
+                                    span.col-xs-12
+                                        span.row.middle-xs
+                                            span.col-xs-12.col-sm-4.image
+                                                if !product.image1
+                                                    img(src='/img/product.jpg')
+                                                else
+                                                    img(src='/uploads/products/' + product.image1)
+                                            span.col-xs-12.col-sm-8
+                                                span.row.middle-xs
+                                                    span.col-xs-8.col-sm-9
+                                                        h3 #{product.title}
+                                                        p #{product.excerpt}
+                                                        ul
+                                                            if product.size
+                                                                li
+                                                                    strong Size:
+                                                                    span #{product.size}
+                                                            if product.color
+                                                                li
+                                                                    strong Color:
+                                                                    span #{product.color}
+                                                    span.col-xs-4.col-sm-3.right
+                                                        a(href='/user/remove-from-cart/' + product.id) Remove
+                                    span.col-xs-12
+                                        span.details
+                                            span.row.middle-xs
+                                                span.col-xs-12.col-sm-4.detail
+                                                    strong Price:
+                                                    span $#{product.price}
+                                                span.col-xs-12.col-sm-4.detail
+                                                    span.flex
+                                                        strong Quantity:
+                                                        input(type='number' name='quantity' min='1' placeholder='0' value=product.quantity)
+                                                        button(type='submit' name='refresh' value=product.id).fa.fa-refresh
+                                                span.col-xs-12.col-sm-4.detail
+                                                    strong Total:
+                                                    span $#{product.subtotal}
+                        span.col-xs-12.col-md-8
                             span.row.middle-xs.grey
                                 span.col-xs-12
                                     span.row.middle-xs
-                                        span.col-xs-12.col-sm-4.image
-                                            img(src='/uploads/products/' + product.image1)
-                                        span.col-xs-12.col-sm-8
-                                            span.row.middle-xs
-                                                span.col-xs-8.col-sm-9
-                                                    h3 #{product.title}
-                                                    p #{product.excerpt}
-                                                    ul
-                                                        if product.size
-                                                            li
-                                                                strong Size:
-                                                                span #{product.size}
-                                                        if product.color
-                                                            li
-                                                                strong Color:
-                                                                span #{product.color}
-                                                span.col-xs-4.col-sm-3.right
-                                                    a(href='/user/remove-from-cart/' + product.id) Remove
-                                span.col-xs-12
-                                    span.details
-                                        span.row.middle-xs
-                                            span.col-xs-12.col-sm-4.detail
-                                                strong Price:
-                                                span $#{product.price}
-                                            span.col-xs-12.col-sm-4.detail
-                                                span.flex
-                                                    strong Quantity:
-                                                    input(type='number' name='quantity' min='1' placeholder='0' value=product.quantity)
-                                                    button(type='submit' name='refresh' value=product.id).fa.fa-refresh
-                                            span.col-xs-12.col-sm-4.detail
-                                                strong Total:
-                                                span $#{product.subtotal}
-                    span.col-xs-12.col-md-8
-                        span.row.middle-xs.grey
-                            span.col-xs-12
-                                span.row.middle-xs
-                                    span.col-xs-12.col-sm-3.detail
-                                        strong Sub-total:
-                                        span $#{cartDetail.subtotal}
-                                    span.col-xs-12.col-sm-3.detail
-                                        strong Tax:
-                                        span $#{cartDetail.tax}
-                                    span.col-xs-12.col-sm-3.detail
-                                        strong Shipping:
-                                        span $#{cartDetail.shipping}
-                                    span.col-xs-12.col-sm-3.detail
-                                        strong Total:
-                                        span $#{cartDetail.total}
-                span.row.center-xs.container
-                    span.col-xs-12.col-md-8
-                        span.row
-                            span.col-xs
-                                a(href='/user/checkout').button.pink Continue
-                            span.col-xs.right
-                                button(type='reset').button.brown Reset
+                                        span.col-xs-12.col-sm-3.detail
+                                            strong Sub-total:
+                                            span $#{cartDetail.subtotal}
+                                        span.col-xs-12.col-sm-3.detail
+                                            strong Tax:
+                                            span $#{cartDetail.tax}
+                                        span.col-xs-12.col-sm-3.detail
+                                            strong Shipping:
+                                            span $#{cartDetail.shipping}
+                                        span.col-xs-12.col-sm-3.detail
+                                            strong Total:
+                                            span $#{cartDetail.total}
+                    span.row.center-xs.container
+                        span.col-xs-12.col-md-8
+                            span.row
+                                span.col-xs
+                                    a(href='/user/checkout').button.pink Continue
+                                span.col-xs.right
+                                    button(type='reset').button.brown Reset
+            else
+                include modules/contact-cta

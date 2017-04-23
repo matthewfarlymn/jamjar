@@ -14,7 +14,9 @@ block content
             div.row.reverse.middle-xs.container
                 div.col-xs-12.col-sm-6
                     div.product-slider
-                        if product[0].image1 !== null
+                        if !product[0].image1
+                            img(src='/img/product.jpg')
+                        else
                             div(data-thumb='/uploads/products/' + product[0].image1)
                                 img(src='/uploads/products/' + product[0].image1)
                         if product[0].image2 !== null

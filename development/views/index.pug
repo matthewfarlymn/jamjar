@@ -6,8 +6,10 @@ block content
             if themeSettings.sliderTitle1
                 div.slide
                     div.row.reverse.middle-xs.container
-                        div.col-xs-12.col-sm
-                            if themeSettings.sliderImage1
+                        div.col-xs-12.col-sm-6
+                            if !themeSettings.sliderImage1
+                                img(src='/img/product.jpg')   
+                            else 
                                 img(src='/img/' + themeSettings.sliderImage1)
                         div.col-xs-12.col-sm-6
                             if themeSettings.sliderTitle1
@@ -20,10 +22,12 @@ block content
             if themeSettings.sliderTitle2
                 div.slide
                     div.row.reverse.middle-xs.container
-                        div.col-xs-12.col-sm
-                            if themeSettings.sliderImage2
+                        div.col-xs-12.col-sm-6
+                            if !themeSettings.sliderImage2
+                                img(src='/img/product.jpg')   
+                            else 
                                 img(src='/img/' + themeSettings.sliderImage2)
-                        div(class=themeSettings.sliderImage2 ? 'col-sm-6' : '').col-xs-12
+                        div.col-xs-12.col-sm-6
                             if themeSettings.sliderTitle2
                                 h1 #{themeSettings.sliderTitle2}
                             if themeSettings.sliderDescription2
@@ -34,10 +38,12 @@ block content
             if themeSettings.sliderTitle3
                 div.slide
                     div.row.reverse.middle-xs.container
-                        div.col-xs-12.col-sm
-                            if themeSettings.sliderImage3
+                        div.col-xs-12.col-sm-6
+                            if !themeSettings.sliderImage3
+                                img(src='/img/product.jpg')   
+                            else 
                                 img(src='/img/' + themeSettings.sliderImage3)
-                        div(class=themeSettings.sliderImage3 ? 'col-sm-6' : '').col-xs-12
+                        div.col-xs-12.col-sm-6
                             if themeSettings.sliderTitle3
                                 h1 #{themeSettings.sliderTitle3}
                             if themeSettings.sliderDescription3

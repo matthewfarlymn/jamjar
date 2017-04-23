@@ -40,9 +40,7 @@ block content
                                         option(value='customer' selected=userType === 'customer') Customer
                                         option(value='admin' selected=userType === 'admin') Admin
                                     label(for='avatar') Avatar
-                                    span.user
-                                        if admin
-                                            input(type='file' name='avatar')
+                                    span.adminUser
                                         if !avatar
                                             img(src='/img/avatar.jpg')
                                         else

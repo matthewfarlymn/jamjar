@@ -632,6 +632,9 @@ section {
                 }
             }
         }
+        .cta {
+            margin-bottom: -40px;
+        }
     }
 
     &.dashboard {
@@ -714,6 +717,18 @@ section {
                             opacity: 0;
                             cursor: pointer;
                         }
+                    }
+                    .adminUser {
+                        position: relative;
+                        width: 200px;
+                        height: 200px;
+                        overflow: hidden;
+                        margin: 5px 0 10px 0;
+                        background-size: cover;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        color: #ffffff;
                     }
                     .image {
                         width: 100%;

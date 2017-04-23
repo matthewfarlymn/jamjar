@@ -42,7 +42,10 @@ block content
                         each product in productDetails
                             div.row.middle-xs.grey
                                 div.col-sm-4.image
-                                    img(src='/img/' + product.image)
+                                    if !product.image
+                                        img(src='/img/product.jpg')   
+                                    else 
+                                        img(src='/img/' + product.image)
                                 div.col-xs-12.col-sm-8
                                     div.row
                                         div.col-xs-12
