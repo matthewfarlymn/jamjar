@@ -8,11 +8,11 @@ html
         script(type='text/javascript' src='/js/vendor.min.js')
         script(type='text/javascript' src='/js/tinymce/tinymce.min.js')
         script(type='text/javascript' src='/js/app.min.js')
-        //- style.
-            .pink {background-color: red !important;}
-            .gold {background-color: yellow !important; color: black !important;}
-            .brown {background-color: blue !important;}
-            a {color: yellow;}
+        style.
+            .pink {background-color: #{themeSettings.color1} !important;}
+            .gold {background-color: #{themeSettings.color2} !important;}
+            .brown {background-color: #{themeSettings.color3} !important;}
+            a {color: #{themeSettings.color2};}
     body.brown
         include header
         block content

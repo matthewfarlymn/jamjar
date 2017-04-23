@@ -1,7 +1,10 @@
 section.cta.contact.pink
     div.row.center-xs.container
         div.col-xs-12.col-md-8
-            h1 Special Occassion?
-            h2 We're always here to help
-            p Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi mattis pariatur aliquam pharetra eget.
+            if themeSettings.ctaTitle2
+                h1 #{themeSettings.ctaTitle2}
+            if themeSettings.ctaDescription2
+                h2 #{themeSettings.ctaDescription2}
+            if themeSettings.ctaDescription2
+                p #{themeSettings.ctaDescription2}
             a(href="/contact").button.brown Contact Us

@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var mysql = require('mysql');
+var connect = require('./database/connect');
 
 var index = require('./routes/index');
 var user = require('./routes/user');
@@ -33,11 +34,43 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'assets')));
 
+var themeSettings;
+
+connect(function(err, connection) {
+    if (err) {
+        console.log("Error connecting to the database");
+        throw err;
+    }
+    else {
+        console.log("Connected to the DB");
+
+        connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
+            console.log('Query returned1 ' + JSON.stringify(results[0]));
+
+            if(err) {
+                throw err;
+            }
+            // no settings found
+            else if (results.length === 0) {
+                console.log("Settings not found");
+            }
+            // settings found
+            else {
+                console.log("Settings found");
+
+                themeSettings = results[0];
+
+            }
+        });
+    }
+});
+
 app.use(function (req, res, next) {
     res.locals = {
         access: req.session.user,
         owner: req.session.admin,
-        avatar: req.session.avatar
+        avatar: req.session.avatar,
+        themeSettings: themeSettings
     };
     next();
 });

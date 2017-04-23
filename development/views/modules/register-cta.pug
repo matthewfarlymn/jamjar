@@ -1,7 +1,10 @@
 section.cta.register.gold
     div.row.center-xs.container
         div.col-xs-12.col-md-8
-            h1 Join Today!
-            h2 Sweet rewards are just around the corner
-            p Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi. Nulla wisi laoreet suspendisse integer vivamus elit eu mauris hendrerit facilisi, mi mattis pariatur aliquam pharetra eget.
+            if themeSettings.ctaTitle1
+                h1 #{themeSettings.ctaTitle1}
+            if themeSettings.ctaDescription1
+                h2 #{themeSettings.ctaDescription1}
+            if themeSettings.ctaDescription1
+                p #{themeSettings.ctaDescription1}
             a(href="/sign-in").button.brown Register

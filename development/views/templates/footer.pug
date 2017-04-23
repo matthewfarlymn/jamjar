@@ -7,12 +7,11 @@ footer.brown
                     span #[a(href='/') Jam Jar] 2017. Powered by #[a(href='/') Jam Jar]
         div.col-xs-6
             ul.row.end-xs.middle-xs
+                if themeSettings.facebook
                 li
-                    a(href='http://facebook.com' target='_blank')
+                    a(href=themeSettings.facebook target='_blank')
                         span.fa.fa-facebook-official
+                if themeSettings.twitter
                 li
-                    a(href='http://linkedin.com' target='_blank')
-                        span.fa.fa-linkedin
-                li
-                    a(href='http://twitter.com' target='_blank')
+                    a(href=themeSettings.twitter target='_blank')
                         span.fa.fa-twitter

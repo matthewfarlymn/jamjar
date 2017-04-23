@@ -2,11 +2,13 @@ header.brown
     div.row.middle-xs.container
         nav.col-xs-4.col-sm-6
             div.row.middle-xs
-                a(href='/')
-                    img(src='/img/logo.png' alt='Logo').logo
+                if themeSettings.logo
+                    a(href='/')
+                        img(src='/img/' + themeSettings.logo alt='Logo').logo
                 ul.primary-nav
-                    li
-                        a(href='/about') About
+                    if themeSettings.aboutDescription
+                        li
+                            a(href='/about') About
                     li    
                         a(href='/products') Products
                     li    
