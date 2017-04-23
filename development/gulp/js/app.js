@@ -97,7 +97,7 @@ jQuery(document).ready(function($) {
             $(this).closest('.grey').addClass('inactive').find('input, textarea').attr('disabled', true);
             $('.item-attributes').find('.status-attributes').attr('disabled', true);
         } else {
-            $(this).closest('.grey').removeClass('inactive').find('.product-attributes input, .product-attributes textarea').attr('disabled', false);
+            $(this).closest('.fieldset').removeClass('inactive').find('.product-attributes input, .product-attributes textarea').attr('disabled', false);
             $('.item-attributes').find('.status-attributes').attr('disabled', false);
             if($('.status-attributes').val() === 'active') {
                 $('.status-attributes').closest('.grey').find('input').attr('disabled', false);
