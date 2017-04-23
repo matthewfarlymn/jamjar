@@ -90,13 +90,13 @@ block content
                                                 span.col-xs-12
                                                     label= 'Item ' + (index + 1)
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='size1' placeholder='Size' value=detail.size)
+                                                    input(type='text' name='size' + (index + 1) placeholder='Size' value=detail.size)
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='color1' placeholder='Color' value=detail.color)
+                                                    input(type='text' name='color' + (index + 1) placeholder='Color' value=detail.color)
                                                 span.col-xs-6.col-sm
-                                                    input(type='number' name='stock1' min='0' placeholder='100' value=detail.stock)
+                                                    input(type='number' name='stock' + (index + 1) min='0' placeholder='100' value=detail.stock)
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='price1' min='1' placeholder='0.00' value=detail.price required)
+                                                    input(type='text' name='price' + (index + 1) min='1' placeholder='0.00' value=detail.price required)
                                                 span.col-xs-12.col-sm-3
                                                     select(class='status-attributes' name='status' + (index + 1))
                                                         option(disabled='true') -- Select --

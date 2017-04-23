@@ -828,21 +828,24 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                             var image5 = results[0].image5;
 
                             if (req.files[0]) {
-                                if (req.files[0].fieldname === 'image1') {
-                                    image1 = req.files[0].filename;
-                                    console.log(image1);
-                                } else if (req.files[0].fieldname === 'image2') {
-                                    image2 = req.files[0].filename;
-                                    console.log(image2);
-                                } else if (req.files[0].fieldname === 'image3') {
-                                    image3 = req.files[0].filename;
-                                    console.log(image3);
-                                } else if (req.files[0].fieldname === 'image4') {
-                                    image4 = req.files[0].filename;
-                                    console.log(image4);
-                                } else {
-                                    image5 = req.files[0].fieldname;
-                                    console.log(image5);
+                                var i = 0;
+                                while (i++ <= 5) {
+                                    if (req.files[i].fieldname === 'image1') {
+                                        image1 = req.files[i].filename;
+                                        console.log(image1);
+                                    } else if (req.files[i].fieldname === 'image2') {
+                                        image2 = req.files[i].filename;
+                                        console.log(image2);
+                                    } else if (req.files[i].fieldname === 'image3') {
+                                        image3 = req.files[i].filename;
+                                        console.log(image3);
+                                    } else if (req.files[i].fieldname === 'image4') {
+                                        image4 = req.files[i].filename;
+                                        console.log(image4);
+                                    } else {
+                                        image5 = req.files[i].fieldname;
+                                        console.log(image5);
+                                    }
                                 }
                             }
 
