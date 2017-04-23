@@ -812,26 +812,27 @@ router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), fu
                         else {
                             console.log("Connected to the DB");
 
-                            if (images.fieldname === 'image1') {
-                                image1 = images.filename;
-                                console.log(image1);
-                            } else if (images.fieldname === 'image2') {
-                                image2 = images.filename;
-                                console.log(image2);
-                            } else if (images.fieldname === 'image3') {
-                                image3 = images.filename;
-                                console.log(image3);
-                            } else if (images.fieldname === 'image4') {
-                                image4 = images.filename;
-                                console.log(image4);
-                            } else {
-                                image5 = images.filename;
-                                console.log(image5);
+                            if (images) {
+                                if (images.fieldname === 'image1') {
+                                    image1 = images.filename;
+                                    console.log(image1);
+                                } else if (images.fieldname === 'image2') {
+                                    image2 = images.filename;
+                                    console.log(image2);
+                                } else if (images.fieldname === 'image3') {
+                                    image3 = images.filename;
+                                    console.log(image3);
+                                } else if (images.fieldname === 'image4') {
+                                    image4 = images.filename;
+                                    console.log(image4);
+                                } else {
+                                    image5 = images.filename;
+                                    console.log(image5);
+                                }
                             }
 
                             // update products
                             connection.query('UPDATE products SET title=?, description=?, image1=?, image2=?, image3=?, image4=?, image5=?, status=?, WHERE id=?',[title, description, image1, image2, image3, image4, image5, status, req.params.id], function(err, results, fields) {
-                                connection.release();
 
                                 if (err) {
                                     console.log("Error connecting to the database - update1");
