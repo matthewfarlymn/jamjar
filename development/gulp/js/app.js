@@ -94,10 +94,11 @@ jQuery(document).ready(function($) {
 
     $('.status-product').change(function() {
         if($(this).val() === 'inactive') {
-            $(this).closest('.product-attributes').find('input, textarea').attr('disabled', false);
+            $('input .product-title, textarea .product-description').attr('disabled', false);
             $('.status-attributes').attr('disabled', true);
+            $('.status-attributes').closest('.grey').find('input').attr('disabled', true);
         } else {
-            $(this).closest('.product-attributes').find('input, textarea').attr('disabled', false);
+            $('input .product-title, textarea .product-description').attr('disabled', false);
             $('.status-attributes').attr('disabled', false);
             if($('.status-attributes').val() === 'active') {
                 $('.status-attributes').closest('.grey').find('input').attr('disabled', false);
