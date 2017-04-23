@@ -29,10 +29,11 @@ block content
                                             label(for='title') Logo
                                             span.image
                                                 input(type='file' name='logo')
-                                                if !(image + i)
+                                                if !(logo)
                                                     img(src='/img/product.jpg')
                                                 else
-                                                    img(src='/img/' + image1)
+                                                    //- img(src='/img/' + logo)
+                                                    img(src='/uploads/settings/' + logo)
                                         span.col-xs-12.col-sm-6
                                             span.row            
                                                 span.col-xs-12
@@ -51,18 +52,18 @@ block content
                                         span.col-xs-12.col-sm-6
                                             span.row
                                                 span.col-xs-12.col-sm-12
-                                                    input(type='text' name='sliderTitle11' placeholder='Title' value=sliderTitle1 required)
+                                                    input(type='text' name='sliderTitle1' placeholder='Title' value=sliderTitle1 required)
                                                 span.col-xs-12
-                                                    textarea(name='sliderDescription' placeholder='Description') #{sliderDescription1}
+                                                    textarea(name='sliderDescription1' placeholder='Description') #{sliderDescription1}
                                                 span.col-xs-12.col-sm-12
                                                     input(type='url' name='sliderUrl1' placeholder='Url' value=sliderUrl1 required)
                                         span.col-xs-12.col-sm-6
                                             span.image
                                                 input(type='file' name='sliderImage1')
-                                                if !(image1)
+                                                if !(sliderImage1)
                                                     img(src='/img/product.jpg')
                                                 else
-                                                    img(src='/img/' + sliderImage1)
+                                                    img(src='/uploads/settings/' + sliderImage1)
                                     span.row.grey
                                         span.col-xs-12.col-sm-12
                                             label= 'Slider 2'
@@ -77,10 +78,10 @@ block content
                                         span.col-xs-12.col-sm-6
                                             span.image
                                                 input(type='file' name='sliderImage2')
-                                                if !(image2)
+                                                if !(sliderImage2)
                                                     img(src='/img/product.jpg')
                                                 else
-                                                    img(src='/img/' + sliderImage2)
+                                                    img(src='/uploads/settings/' + sliderImage2)
                                     span.row.grey
                                         span.col-xs-12.col-sm-12
                                             label= 'Slider 3'
@@ -95,10 +96,10 @@ block content
                                         span.col-xs-12.col-sm-6
                                             span.image
                                                 input(type='file' name='sliderImage3')
-                                                if !(image3)
+                                                if !(sliderImage3)
                                                     img(src='/img/product.jpg')
                                                 else
-                                                    img(src='/img/' + sliderImage3)                                
+                                                    img(src='/uploads/settings/' + sliderImage3)                                
                             span.row.grey
                                 span.col-xs-12.fieldset.settings
                                     h2 CTA's
@@ -141,17 +142,17 @@ block content
                                     h2 About
                                     span.row
                                         span.col-xs-12
-                                            textarea(name=aboutDescription placeholder='Description').tinymce #{aboutDescription}
+                                            textarea(name='aboutDescription' placeholder='Description').tinymce #{aboutDescription}
                             span.row.grey
                                 span.col-xs-12.fieldset
                                     h2 Contact Information
                                     span.row
                                         span.col-xs-12.col-sm-6
                                             label(for='name') Name
-                                            input(type='text' name='name' placeholder='Name' value=contactName required)
+                                            input(type='text' name='contactName' placeholder='Name' value=contactName required)
                                         span.col-xs-12.col-sm-6
                                             label(for='email') Email
-                                            input(type='email' name='email' placeholder='Email' value=contactEmail required)
+                                            input(type='email' name='contactEmail' placeholder='Email' value=contactEmail required)
                             span.row.grey
                                 span.col-xs-12.fieldset
                                     h2 Social Media

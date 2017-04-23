@@ -165,7 +165,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
 
     connect(function(err, connection) {
         if (err) {
-            console.log("Error connecting to the database");
+            console.log("Error connecting to the database - 2");
             throw err;
         }
         else {
@@ -283,7 +283,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
 
                         connect(function(err, connection) {
                             if (err) {
-                                console.log("Error connecting to the database");
+                                console.log("Error connecting to the database - 3");
                                 throw err;
                             }
                             else {
@@ -301,7 +301,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                     connection.release();
 
                                     if (err) {
-                                        console.log("Error connecting to the database - update1");
+                                        console.log("Error connecting to the database - update4");
                                         throw err;
                                     }
                                     else {
@@ -320,7 +320,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                 else {
                     connect(function(err, connection) {
                         if (err) {
-                            console.log("Error connecting to the database");
+                            console.log("Error connecting to the database - 5");
                             throw err;
                         }
                         else {
@@ -340,7 +340,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                 connection.release();
 
                                 if (err) {
-                                    console.log("Error connecting to the database - update2");
+                                    console.log("Error connecting to the database - update6");
                                     throw err;
                                 }
                                 else {
@@ -366,7 +366,7 @@ router.get('/dashboard/orders', function(req, res, next) {
 
     connect(function(err, connection) {
         if (err) {
-            console.log("Error connecting to the database");
+            console.log("Error connecting to the database - 7");
             throw err;
         }
         else {
@@ -2417,7 +2417,7 @@ router.get('/dashboard/settings', function(req, res, next) {
                 else {
                     console.log("Settings found");
 
-                    // logo = req.session.logo = req.file.filename-logo;
+                    logo = req.session.logo = results[0].logo;
                     color1 = req.session.color1 = results[0].color1;
                     color2 = req.session.color2 = results[0].color2;
                     color3 = req.session.color3 = results[0].color3;
@@ -2425,16 +2425,19 @@ router.get('/dashboard/settings', function(req, res, next) {
                     sliderTitle1 = req.session.sliderTitle1 = results[0].sliderTitle1;
                     sliderDescription1 = req.session.sliderDescription1 = results[0].sliderDescription1;
                     sliderUrl1 = req.session.sliderUrl1 = results[0].sliderUrl1;
+                    sliderImage1 = req.session.sliderImage1 = results[0].sliderImage1;
                     // sliderImage1 = req.session.filename1 = req.file.filename1;
 
                     sliderTitle2 = req.session.sliderTitle2 = results[0].sliderTitle2;
                     sliderDescription2 = req.session.sliderDescription2 = results[0].sliderDescription2;
                     sliderUrl2 = req.session.sliderUrl2 = results[0].sliderUrl2;
+                    sliderImage2 = req.session.sliderImage2 = results[0].sliderImage2;
                     // sliderImage2 = req.session.filename2 = req.file.filename2;
 
                     sliderTitle3 = req.session.sliderTitle3 = results[0].sliderTitle3;
                     sliderDescription3 = req.session.sliderDescription3 = results[0].sliderDescription3;
                     sliderUrl3 = req.session.sliderUrl3 = results[0].sliderUrl3;
+                    sliderImage3 = req.session.sliderImage3 = results[0].sliderImage3;
                     // sliderImage3 = req.session.filename3 = req.file.filename3;
 
                     ctaTitle1 = req.session.ctaTitle1 = results[0].ctaTitle1;
@@ -2482,15 +2485,15 @@ router.get('/dashboard/settings', function(req, res, next) {
                     sliderTitle1: sliderTitle1,
                     sliderDescription1: sliderDescription1,
                     sliderUrl1: sliderUrl1,
-                    // sliderImage1: filename1,
+                    sliderImage1: sliderImage1,
                     sliderTitle2: sliderTitle2,
                     sliderDescription2: sliderDescription2,
                     sliderUrl2: sliderUrl2,
-                    // sliderImage2: filename2,
+                    sliderImage2: sliderImage2,
                     sliderTitle3: sliderTitle3,
                     sliderDescription3: sliderDescription3,
                     sliderUrl3: sliderUrl3,
-                    // sliderImage3: filename3,
+                    sliderImage3: sliderImage3,
                     ctaTitle1: ctaTitle1,
                     ctaSubtitle1: ctaSubtitle1,
                     ctaDescription1: ctaDescription1,
@@ -2550,79 +2553,73 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
     var facebook = req.body.facebook;
     var twitter = req.body.twitter;
 
-    // error - email not entered
-    if (email.trim().length === 0) {
-        console.log("email field empty.");
-        req.session.msg = "Please enter email.";
-        // req.session.user = email;
-        // req.session.firstName = firstName;
-        // req.session.lastName = lastName;
-        res.redirect('/admin/dashboard/profile');
-    }
-    // error - email already registered
-    else if ((results.length !== 0) && (email !== req.session.user)) {
-        console.log("Email already registered - update profile");
-        req.session.msg = "Unable to update. Email address already registered.";
-        // req.session.user = email;
-        // req.session.firstName = firstName;
-        // req.session.lastName = lastName;
-        res.redirect('/admin/dashboard/profile');
-    }
-    else {
-        connect(function(err, connection) {
-            if (err) {
-                console.log("Error connecting to the database");
-                throw err;
-            }
-            else {
-                connect(function(err, connection) {
-                    if (err) {
-                        console.log("Error connecting to the database");
-                        throw err;
-                    }
-                    else {
-                        console.log("Connected to the DB");
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            connect(function(err, connection) {
+                if (err) {
+                    console.log("Error connecting to the database");
+                    throw err;
+                }
+                else {
+                    console.log("Connected to the DB");
 
-                        var logo = results[0].logo;
-                        var sliderImage1 = results[0].sliderImage1;
-                        var sliderImage2 = results[0].sliderImage2;
-                        var sliderImage3 = results[0].sliderImage3;
+                    // var logo = results[0].logo;
+                    // var sliderImage1 = results[0].sliderImage1;
+                    // var sliderImage2 = results[0].sliderImage2;
+                    // var sliderImage3 = results[0].sliderImage3;
 
-                        if (req.files) {
-                            for (var i=0; i<req.files.length;i++) {
-                                if (req.files[i].fieldname === 'logo') {
-                                    logo = req.files[i].filename;
-                                } else if (req.files[i].fieldname === 'sliderImage1') {
-                                    sliderImage1 = req.files[i].filename;
-                                } else if (req.files[i].fieldname === 'sliderImage2') {
-                                    sliderImage2 = req.files[i].filename;
-                                } else {
-                                    sliderImage3 = req.files[i].filename;
-                                }
+                    var logo = req.session.logo;
+                    var sliderImage1 = req.session.sliderImage1;
+                    var sliderImage2 = req.session.sliderImage2;
+                    var sliderImage3 = req.session.sliderImage3;
+
+                    if (req.files) {
+                        for (var i=0; i<req.files.length;i++) {
+                            if (req.files[i].fieldname === 'logo') {
+                                logo = req.files[i].filename;
+                            } else if (req.files[i].fieldname === 'sliderImage1') {
+                                sliderImage1 = req.files[i].filename;
+                            } else if (req.files[i].fieldname === 'sliderImage2') {
+                                sliderImage2 = req.files[i].filename;
+                            } else {
+                                sliderImage3 = req.files[i].filename;
                             }
                         }
-
-                        // update replaces password
-                        connection.query('INSERT INTO settings (user, logo, color1, color2, color3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[user, logo, color1, color2, color3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter], function(err, results, fields) {
-                        // connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
-                            connection.release();
-
-                            if (err) {
-                                console.log("Error connecting to the database - update1");
-                                throw err;
-                            }
-                            else {
-                                console.log("User update successful. ");
-                                // req.session.user = email;
-                                res.redirect('/admin/dashboard/settings');
-                                // res.redirect('/admin-session');
-                            }
-                        });
                     }
-                });
-            }
-        });
-    }
+
+                    var sql = 'INSERT INTO settings (logo, color1, color2, color3, ' +
+                        'sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, ' +
+                        'sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, ' +
+                        'sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ' +
+                        'ctaTitle1, ctaSubtitle1, ctaDescription1, ' +
+                        'ctaTitle2, ctaSubtitle2, ctaDescription2, ' +
+                        'ctaTitle3, ctaSubtitle3, ctaDescription3, ' +
+                        'aboutDescription, contactName, contactEmail, ' +
+                        'facebook, twitter) ' +
+                        'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+                    connection.query(sql, [logo, color1, color2, color3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter], function(err, results, fields) {
+                        connection.release();
+
+                        if (err) {
+                            console.log("Error connecting to the database - insert46");
+                            throw err;
+                        }
+                        else {
+                            console.log("User update successful. ");
+                            // req.session.user = email;
+                            res.redirect('/admin/dashboard/settings');
+                            // res.redirect('/admin-session');
+                        }
+                    });
+                }
+            });
+        }
+    });
 });
 
 
