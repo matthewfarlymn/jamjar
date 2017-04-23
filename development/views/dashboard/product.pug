@@ -24,7 +24,7 @@ block content
                                         button(type='submit').button.pink Update
                                 span.col-xs.right
                                     button(type='reset').button.brown Reset
-                            span.row.grey
+                            span(class=status === 'inactive' ? 'inactive' : '').row.grey
                                 span.col-xs-12.fieldset
                                     h2 Details
                                     span.row
@@ -33,10 +33,10 @@ block content
                                             input(type='text' name='title' placeholder='Title' value=title required)
                                         span.col-xs-12.col-sm-3
                                             label(for='status') Status
-                                            select(class=status === 'inactive' ? 'inactive' : '' class='status-product' name='status')
+                                            select(class='status-product' name='status' disabled=status === 'inactive')
                                                 option(disabled='true') -- Select --
-                                                option(value='active') Active
-                                                option(value='inactive') Inactive
+                                                option(value=status === 'active') Active
+                                                option(value=status === 'inactive') Inactive
                                         span.col-xs-12
                                             label(for='description') Description
                                             textarea(name='description' placeholder='Description') #{description}
@@ -91,13 +91,13 @@ block content
                                                     label= 'Item ' + (index + 1)
                                                     input(type='hidden' name='detailId' + (index + 1) value=detail.id)
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='size' + (index + 1) placeholder='Size' value=detail.size)
+                                                    input(type='text' name='size' + (index + 1) placeholder='Size' value=detail.size disabled=detail.status === 'inactive')
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='color' + (index + 1) placeholder='Color' value=detail.color)
+                                                    input(type='text' name='color' + (index + 1) placeholder='Color' value=detail.color disabled=detail.status === 'inactive')
                                                 span.col-xs-6.col-sm
-                                                    input(type='number' name='stock' + (index + 1) min='0' placeholder='100' value=detail.stock)
+                                                    input(type='number' name='stock' + (index + 1) min='0' placeholder='100' value=detail.stock disabled=detail.status === 'inactive')
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='price' + (index + 1) min='1' placeholder='0.00' value=detail.price required)
+                                                    input(type='text' name='price' + (index + 1) min='1' placeholder='0.00' value=detail.price disabled=detail.status === 'inactive' required)
                                                 span.col-xs-12.col-sm-3
                                                     select(class='status-attributes' name='status' + (index + 1))
                                                         option(disabled='true') -- Select --
