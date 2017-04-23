@@ -36,36 +36,15 @@ block content
                                         span.col-xs-12.col-sm-6
                                             span.row            
                                                 span.col-xs-12
-                                                    label(for='title') Colors
-                                                    input(type='text' name='title' placeholder='Title' value=color1 required)
+                                                    label Colors
+                                                    input(type='text' name='color1' placeholder='Color 1' value=color1 required)
                                                 span.col-xs-12
-                                                    input(type='text' name='title' placeholder='Title' value=color2 required)
+                                                    input(type='text' name='color2' placeholder='Color 2' value=color2 required)
                                                 span.col-xs-12
-                                                    input(type='text' name='title' placeholder='Title' value=color3 required)
+                                                    input(type='text' name='color3' placeholder='Color 3' value=color3 required)
                             span.row.grey
                                 span.col-xs-12.fieldset.settings
                                     h2 Sliders
-                                    //- - var i = 0;
-                                    //- while i++ <= 2
-                                    //-     span.row.grey
-                                    //-         span.col-xs-12.col-sm-12
-                                    //-             label= 'Slider ' + i
-                                    //-         span.col-xs-12.col-sm-6
-                                    //-             span.row
-                                    //-                 span.col-xs-12.col-sm-12
-                                    //-                     input(type='text' name='sliderTitle' + i placeholder='Title' value=sliderTitle required)
-                                    //-                 span.col-xs-12
-                                    //-                     textarea(name='sliderDescription' + i placeholder='Description') #{sliderDescription}
-                                    //-                 span.col-xs-12.col-sm-12
-                                    //-                     input(type='url' name='sliderUrl' + i placeholder='Url' value=sliderUrl required)
-                                    //-         span.col-xs-12.col-sm-6
-                                    //-             span.image
-                                    //-                 input(type='file' name='sliderImage' + i)
-                                    //-                 if !(image + i)
-                                    //-                     img(src='/img/product.jpg')
-                                    //-                 else
-                                    //-                     img(src='/img/' + image1)
-                                                            
                                     span.row.grey
                                         span.col-xs-12.col-sm-12
                                             label= 'Slider 1'
@@ -83,9 +62,7 @@ block content
                                                 if !(image1)
                                                     img(src='/img/product.jpg')
                                                 else
-                                                    img(src='/img/' + image1)
-                                                            
-                                    
+                                                    img(src='/img/' + sliderImage1)
                                     span.row.grey
                                         span.col-xs-12.col-sm-12
                                             label= 'Slider 2'
@@ -103,8 +80,7 @@ block content
                                                 if !(image2)
                                                     img(src='/img/product.jpg')
                                                 else
-                                                    img(src='/img/' + image1)
-                                    
+                                                    img(src='/img/' + sliderImage2)
                                     span.row.grey
                                         span.col-xs-12.col-sm-12
                                             label= 'Slider 3'
@@ -122,29 +98,10 @@ block content
                                                 if !(image3)
                                                     img(src='/img/product.jpg')
                                                 else
-                                                    img(src='/img/' + image1)
-                                                            
+                                                    img(src='/img/' + sliderImage3)                                
                             span.row.grey
                                 span.col-xs-12.fieldset.settings
                                     h2 CTA's
-                                    //- - var j = 0;
-                                    //- while j++ <= 2
-                                    //-     span.row.grey
-                                    //-         span.col-xs-12.col-sm-12
-                                    //-             if j === 1
-                                    //-                 label Register
-                                    //-             else if j === 2
-                                    //-                 label Contact
-                                    //-             else
-                                    //-                 label Error
-                                    //-         span.col-xs-12.col-sm-12
-                                    //-             span.row
-                                    //-                 span.col-xs-12.col-sm-6
-                                    //-                     input(type='text' name='ctaTitle' + j placeholder='Title' value=ctaTitle1 required)
-                                    //-                 span.col-xs-12.col-sm-6
-                                    //-                     input(type='text' name='ctaSubtitle' + j placeholder='Subtitle' value=ctaSubtitle1 required)
-                                    //-                 span.col-xs-12
-                                    //-                     textarea(name='ctaDescription' + j placeholder='Description') #{ctaDescription1}
                                     span.row.grey
                                         span.col-xs-12.col-sm-12
                                             label Register
@@ -184,7 +141,7 @@ block content
                                     h2 About
                                     span.row
                                         span.col-xs-12
-                                            textarea(name=aboutDescription placeholder='Description').tinymce #{description}
+                                            textarea(name=aboutDescription placeholder='Description').tinymce #{aboutDescription}
                             span.row.grey
                                 span.col-xs-12.fieldset
                                     h2 Contact Information
