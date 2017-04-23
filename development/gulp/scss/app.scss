@@ -39,13 +39,16 @@ p {
 
 img {
     max-width: 100%;
-    &.logo {
-        max-height: 60px;
-        background-color: #ffffff;
-        border-radius: 50%;
-        padding: 5px;
-        margin-left: 20px;
-    }
+}
+
+.logo {
+    height: 60px;
+    width: 60px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin-left: 20px;
+    background-size: cover;
+    border: 5px solid #ffffff;
 }
 
 .pink {
@@ -201,6 +204,11 @@ header, footer {
                     span {
                         margin-top: 2px;
                         font-size: 40px;
+                    }
+                    .avatar {
+                        width: 35px;
+                        height: 35px;
+                        background-size: cover;
                     }
                 }
                 &.options {
