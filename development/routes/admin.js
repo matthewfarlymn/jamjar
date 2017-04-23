@@ -633,7 +633,7 @@ router.get('/dashboard/products', function(req, res, next) {
     });
 });
 
-router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
+router.get('/dashboard/edit-product/:productId/:title', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
     var successMsg = req.session.successMsg ? req.session.successMsg : "";
@@ -670,7 +670,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
                 console.log('Query returned7' + JSON.stringify(results));
 
                 if(err) {
@@ -735,6 +735,7 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
                     products: true,
                     hide: hide,
                     add: false,
+                    productId: req.params.productId,
                     title: title,
                     description: description,
                     image1: image1,
@@ -749,9 +750,11 @@ router.get('/dashboard/edit-product/:id/:title', function(req, res, next) {
     })
 });
 
-router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), function(req, res, next) {
+router.post('/dashboard/update-product/:productId/:title', productImageUpload.any(), function(req, res, next) {
+// router.post('/dashboard/update-product/:productId/:title', function(req, res, next) {
 
-    var prodId = req.params.id;
+    console.log("productId " + req.params.productId);
+    var productId = req.params.productId;
     var title = req.body.title;
     var description = req.body.description;
     var images = req.files[0];
@@ -762,7 +765,7 @@ router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), fu
     var image5 = req.body.image5;
     var status = req.body.prodstatus;
 
-    var detailId;
+    var detailsId;
     var size = req.body.size;
     var color = req.body.color;
     var stock = req.body.stock;
@@ -778,7 +781,7 @@ router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), fu
             console.log("Connected to the DB");
             console.log(images);
 
-            connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
                 console.log('Query returned8 ' + JSON.stringify(results));
 
                 if(err) {
@@ -791,7 +794,7 @@ router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), fu
                     // req.session.user = email;
                     // req.session.firstName = firstName;
                     // req.session.lastName = lastName;
-                    res.redirect('/admin/dashboard/edit-product/' + prodId + '/' + title);
+                    res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                 }
                 // error - description not entered
                 else if (description.trim().length === 0) {
@@ -800,7 +803,7 @@ router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), fu
                     // req.session.user = email;
                     // req.session.firstName = firstName;
                     // req.session.lastName = lastName;
-                    res.redirect('/admin/dashboard/edit-product/' + prodId + '/' + title);
+                    res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                 }
                 else {
 
@@ -832,7 +835,7 @@ router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), fu
                             }
 
                             // update products
-                            connection.query('UPDATE products SET title=?, description=?, image1=?, image2=?, image3=?, image4=?, image5=?, status=?, WHERE id=?',[title, description, image1, image2, image3, image4, image5, status, req.params.id], function(err, results, fields) {
+                            connection.query('UPDATE products SET title=?, description=?, image1=?, image2=?, image3=?, image4=?, image5=?, status=? WHERE id=?',[title, description, image1, image2, image3, image4, image5, status, req.params.productId], function(err, results, fields) {
 
                                 if (err) {
                                     console.log("Error connecting to the database - update1");
@@ -842,7 +845,7 @@ router.post('/dashboard/update-product/:id/:title', productImageUpload.any(), fu
                                     console.log("Product update successful. " + title);
 
                                     // update product_details
-                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=?, WHERE id=? AND productsId=?',[size, color, stock, price, status, detailsId, req.params.id], function(err, results, fields) {
+                                    connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size, color, stock, price, status, detailsId, req.params.productId], function(err, results, fields) {
                                         connection.release();
 
                                         if (err) {
@@ -1060,9 +1063,9 @@ router.get('/dashboard/add-product', function(req, res, next) {
     });
 });
 
-router.post('/dashboard/save-product', function(req, res, next) {
+router.post('/dashboard/save-product', productImageUpload.any(), function(req, res, next) {
 
-    var prodId = req.params.id;
+    var productId = req.params.id;
     var title = req.body.title;
     var description = req.body.description;
     var image1 = req.body.image1;
@@ -1247,7 +1250,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                     }
                                                     // user found
                                                     else {
-                                                        prodId = results[0].id;
+                                                        productId = results[0].id;
                                                         title = results[0].title;
 
                                                         if (!stock1) {
@@ -1290,9 +1293,9 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                             else {
                                                                 console.log("Connected to the DB");
 
-                                                                // connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?)',[prodId, size, color, stock, price, status], function(err, results, fields) {
+                                                                // connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?)',[productId, size, color, stock, price, status], function(err, results, fields) {
                                                                 connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',
-                                                                    [prodId, size1, color1, stock1, price1, status1, prodId, size2, color2, stock2, price2, status2, prodId, size3, color3, stock3, price3, status3, prodId, size4, color4, stock4, price4, status4, prodId, size5, color5, stock5, price5, status5], function(err, results, fields) {
+                                                                    [productId, size1, color1, stock1, price1, status1, productId, size2, color2, stock2, price2, status2, productId, size3, color3, stock3, price3, status3, productId, size4, color4, stock4, price4, status4, productId, size5, color5, stock5, price5, status5], function(err, results, fields) {
                                                                     // connection.release();
 
                                                                     if(err) {
@@ -1306,7 +1309,7 @@ router.post('/dashboard/save-product', function(req, res, next) {
                                                                     else {
                                                                         req.session.successMsg = "Successfully added products ";
                                                                         console.log("Products inserted successful. ");
-                                                                        res.redirect('/admin/dashboard/edit-product/' + prodId + '/' + title);
+                                                                        res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                                                                     }
                                                                 });
                                                             }
