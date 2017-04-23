@@ -35,8 +35,8 @@ block content
                                             label(for='status') Status
                                             select(class='status-product' name='status')
                                                 option(disabled='true') -- Select --
-                                                option(value=status === 'active') Active
-                                                option(value=status === 'inactive') Inactive
+                                                option(value='active' selected=status === 'active') Active
+                                                option(value='inactive' selected=status === 'inactive') Inactive
                                         span.col-xs-12
                                             label(for='description') Description
                                             textarea(name='description' placeholder='Description') #{description}
