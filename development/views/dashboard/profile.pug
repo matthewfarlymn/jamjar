@@ -34,11 +34,11 @@ block content
                                     input(type='tel' name='phoneNumber' placeholder='0123456789' value=phoneNumber)
                                     label(for='avatar') Image Size (400 x 400)
                                     span.user
-                                        input(type='file' name='avatar')
+                                        input(type='file' name='avatar').avatar
                                         if !avatar
-                                            img(src='/img/avatar.jpg')
+                                            img(src='/img/avatar.jpg').avatar
                                         else
-                                            img(src='/uploads/users/' + avatar)
+                                            img( src='/uploads/users/' + avatar).avatar
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Billing Details
                                     label(for='address1') Address 1

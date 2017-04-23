@@ -146,7 +146,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
     var password1 = req.body.password1;
     var password2 = req.body.password2;
     var password3 = req.body.password3;
-    var avatar = req.file.filename;
+    var avatar;
 
     connect(function(err, connection) {
         if (err) {
@@ -274,6 +274,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             else {
                                 console.log("Connected to the DB");
 
+                                avatar = results[0].avatar;
+
+                                if(req.file) {
+                                    avatar = req.file.filename;
+                                }
+
                                 // update replaces password
                                 // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
                                 connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
@@ -306,6 +312,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             console.log("Connected to the DB");
                             console.log("email: " + email);
                             console.log("req.session.user: " + req.session.user);
+
+                            avatar = results[0].avatar;
+
+                            if(req.file) {
+                                avatar = req.file.filename;
+                            }
 
                             // update does not replace password
                             // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
@@ -751,13 +763,12 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
 });
 
 router.post('/dashboard/update-product/:productId/:title', productImageUpload.any(), function(req, res, next) {
-// router.post('/dashboard/update-product/:productId/:title', function(req, res, next) {
 
     console.log("productId " + req.params.productId);
     var productId = req.params.productId;
     var title = req.body.title;
     var description = req.body.description;
-    var images = req.files[0];
+    var images;
     var status = req.body.prodstatus;
 
     var detailsId;
@@ -816,21 +827,21 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                             var image4 = results[0].image4;
                             var image5 = results[0].image5;
 
-                            if (images) {
-                                if (images.fieldname === 'image1') {
-                                    image1 = images.filename;
+                            if (req.files[0]) {
+                                if (req.files[0].fieldname === 'image1') {
+                                    image1 = req.files[0].filename;
                                     console.log(image1);
-                                } else if (images.fieldname === 'image2') {
-                                    image2 = images.filename;
+                                } else if (req.files[0].fieldname === 'image2') {
+                                    image2 = req.files[0].filename;
                                     console.log(image2);
-                                } else if (images.fieldname === 'image3') {
-                                    image3 = images.filename;
+                                } else if (req.files[0].fieldname === 'image3') {
+                                    image3 = req.files[0].filename;
                                     console.log(image3);
-                                } else if (images.fieldname === 'image4') {
-                                    image4 = images.filename;
+                                } else if (req.files[0].fieldname === 'image4') {
+                                    image4 = req.files[0].filename;
                                     console.log(image4);
                                 } else {
-                                    image5 = images.filename;
+                                    image5 = req.files[0].fieldname;
                                     console.log(image5);
                                 }
                             }

@@ -33,7 +33,7 @@ block content
                                             input(type='text' name='title' placeholder='Title' value=title required)
                                         span.col-xs-12.col-sm-3
                                             label(for='status') Status
-                                            select(class='status-product' name='status')
+                                            select(class=status === 'inactive' ? 'inactive' : '' class='status-product' name='status')
                                                 option(disabled='true') -- Select --
                                                 option(value='active') Active
                                                 option(value='inactive') Inactive
@@ -86,7 +86,7 @@ block content
                                     h2 Item Attributes
                                     if details
                                         each detail, index in details
-                                            span(data-row=(index + 1)).row.middle-xs.grey
+                                            span(class=detail.status === 'inactive' ? 'inactive' : '' data-row=(index + 1)).row.middle-xs.grey
                                                 span.col-xs-12
                                                     label= 'Item ' + (index + 1)
                                                 span.col-xs-6.col-sm
