@@ -695,7 +695,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
     var password1 = req.body.password1;
     var password2 = req.body.password2;
     var password3 = req.body.password3;
-    var avatar = req.file.filename;
+    var avatar;
 
     connect(function(err, connection) {
         if (err) {
@@ -823,6 +823,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             else {
                                 console.log("Connected to the DB");
 
+                                avatar = results[0].avatar;
+
+                                if(req.file) {
+                                    avatar = req.file.filename;
+                                }
+
                                 // update replaces password
                                 // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
                                 connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
@@ -856,6 +862,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             console.log("Connected to the DB");
                             console.log("email: " + email);
                             console.log("req.session.user: " + req.session.user);
+
+                            avatar = results[0].avatar;
+
+                            if(req.file) {
+                                avatar = req.file.filename;
+                            }
 
                             // update does not replace password
                             // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {

@@ -617,7 +617,7 @@ router.post('/register', function(req, res, next) {
               else {
                 console.log("Connected to the DB - insert");
 
-                connection.query('INSERT INTO users (firstName, lastName, email, password) VALUES (?,?,?,?)',[firstName, lastName, email, password1], function(err, results, fields) {
+                connection.query('INSERT INTO users (firstName, lastName, email, password, userType) VALUES (?,?,?,?,?)',[firstName, lastName, email, password1, 'customer'], function(err, results, fields) {
                   connection.release();
 
                   if (err) {
