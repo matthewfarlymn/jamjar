@@ -1739,7 +1739,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
 });
 
 
-router.post('/dashboard/update-user/:id/:email', avatarUpload.single('avatar'), function(req, res, next) {
+router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
 
     var userId = req.params.id;
     var firstName = req.body.firstName;
@@ -1859,15 +1859,9 @@ router.post('/dashboard/update-user/:id/:email', avatarUpload.single('avatar'), 
                                             else {
                                                 console.log("Connected to the DB");
 
-                                                avatar = results[0].avatar;
-
-                                                if(req.file) {
-                                                    avatar = req.file.filename;
-                                                }
-
                                                 // update replaces password
                                                 // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
-                                                connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password1, avatar, req.params.id], function(err, results, fields) {
+                                                connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password1, req.params.id], function(err, results, fields) {
                                                     connection.release();
 
                                                     if (err) {
@@ -1895,15 +1889,9 @@ router.post('/dashboard/update-user/:id/:email', avatarUpload.single('avatar'), 
                                         else {
                                             console.log("Connected to the DB");
 
-                                            avatar = results[0].avatar;
-
-                                            if(req.file) {
-                                                avatar = req.file.filename;
-                                            }
-
                                             // update does not replace password
                                             // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
-                                            connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, avatar=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, avatar, req.params.id], function(err, results, fields) {
+                                            connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, req.params.id], function(err, results, fields) {
                                                 connection.release();
 
                                                 if (err) {
@@ -1945,15 +1933,9 @@ router.post('/dashboard/update-user/:id/:email', avatarUpload.single('avatar'), 
                             else {
                                 console.log("Connected to the DB");
 
-                                avatar = results[0].avatar;
-
-                                if(req.file) {
-                                    avatar = req.file.filename;
-                                }
-
                                 // update replaces password
                                 // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
-                                connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password1, avatar, req.params.id], function(err, results, fields) {
+                                connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password1, req.params.id], function(err, results, fields) {
                                     connection.release();
 
                                     if (err) {
@@ -1981,15 +1963,9 @@ router.post('/dashboard/update-user/:id/:email', avatarUpload.single('avatar'), 
                         else {
                             console.log("Connected to the DB");
 
-                            avatar = results[0].avatar;
-
-                            if(req.file) {
-                                avatar = req.file.filename;
-                            }
-
                             // update does not replace password
                             // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
-                            connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, avatar=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, avatar, req.params.id], function(err, results, fields) {
+                            connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, req.params.id], function(err, results, fields) {
                                 connection.release();
 
                                 if (err) {
@@ -2031,7 +2007,6 @@ router.get('/dashboard/add-new-user', function(req, res, next) {
     var country = req.session.country = "";
     var email = req.session.email = "";
     var phoneNumber = req.session.phoneNumber = "";
-    var avatar = req.session.avatar = "";
     var userType = req.session.userType = "";
 
     res.redirect('/admin/dashboard/add-user');
@@ -2050,7 +2025,7 @@ router.get('/dashboard/add-user', function(req, res, next) {
     var country = req.session.country ? req.session.country : "";
     var email = req.session.email ? req.session.email : "";
     var phoneNumber = req.session.phoneNumber ? req.session.phoneNumber : "";
-    var avatar = req.session.avatar ? req.session.avatar : "";
+    var avatar;
     var userType = req.session.userType ? req.session.userType : "";
 
     req.session.msg = "";
@@ -2064,7 +2039,6 @@ router.get('/dashboard/add-user', function(req, res, next) {
     req.session.country = "";
     req.session.email = "";
     req.session.phoneNumber = "";
-    req.session.avatar = "";
     req.session.userType = "";
 
     res.render('dashboard/user', {
@@ -2104,7 +2078,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
     var phoneNumber = req.body.phoneNumber;
     var password1 = req.body.password1;
     var password2 = req.body.password2;
-    var avatar = req.file.filename;
     var userType = req.body.userType;
 
     connect(function(err, connection) {
@@ -2143,7 +2116,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                         req.session.postalcode = postalcode;
                         req.session.country = country;
                         req.session.phoneNumber = phoneNumber;
-                        req.session.avatar = avatar;
                         req.session.userType = userType;
                         res.redirect('/admin/dashboard/add-user');
                     }
@@ -2161,7 +2133,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                             req.session.country = country;
                             req.session.email = email;
                             req.session.phoneNumber = phoneNumber;
-                            req.session.avatar = avatar;
                             req.session.userType = userType;
                             res.redirect('/admin/dashboard/add-user');
                         }
@@ -2178,7 +2149,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                             req.session.country = country;
                             req.session.email = email;
                             req.session.phoneNumber = phoneNumber;
-                            req.session.avatar = avatar;
                             req.session.userType = userType;
                             res.redirect('/admin/dashboard/add-user');
                         }
@@ -2196,7 +2166,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                             req.session.country = country;
                             req.session.email = email;
                             req.session.phoneNumber = phoneNumber;
-                            req.session.avatar = avatar;
                             req.session.userType = userType;
                             res.redirect('/admin/dashboard/add-user');
                         }
@@ -2214,7 +2183,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                             req.session.country = country;
                             req.session.email = email;
                             req.session.phoneNumber = phoneNumber;
-                            req.session.avatar = avatar;
                             req.session.userType = userType;
                             res.redirect('/admin/dashboard/add-user');
                         }
@@ -2234,7 +2202,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                                 req.session.country = country;
                                 req.session.email = email;
                                 req.session.phoneNumber = phoneNumber;
-                                req.session.avatar = avatar;
                                 req.session.userType = userType;
                                 res.redirect('/admin/dashboard/add-user');
                             }
@@ -2248,7 +2215,7 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                                     else {
                                         console.log("Connected to the DB");
 
-                                        connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar, userType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password1, avatar, userType], function(err, results, fields) {
+                                        connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, userType) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password1, userType], function(err, results, fields) {
 
                                             if (err) {
                                                 console.log("Error connecting to the database - add");
