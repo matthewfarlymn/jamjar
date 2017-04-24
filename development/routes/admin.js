@@ -85,7 +85,7 @@ router.get('/dashboard/profile', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM users WHERE email=?',[req.session.user],function(err, results, fields) {
-                console.log('Query returned1 ' + JSON.stringify(results));
+                // console.log('Query returned1 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -172,7 +172,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
-                console.log('Query returned2 ' + JSON.stringify(results));
+                // console.log('Query returned2 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -181,18 +181,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                 else if (email.trim().length === 0) {
                     console.log("email field empty.");
                     req.session.msg = "Please enter email.";
-                    // req.session.user = email;
-                    // req.session.firstName = firstName;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - email already registered
                 else if ((results.length !== 0) && (email !== req.session.user)) {
                     console.log("Email already registered - update profile");
                     req.session.msg = "Unable to update. Email address already registered.";
-                    // req.session.user = email;
-                    // req.session.firstName = firstName;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - firstname not entered
@@ -200,8 +194,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("firstName field empty.");
                     req.session.msg = "Please enter Firstname.";
                     req.session.user = email;
-                    // req.session.firstName = firstName;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - lastname not entered
@@ -209,7 +201,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("lastname field empty.");
                     req.session.msg = "Please enter Lastname.";
                     req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - current password empty
@@ -217,7 +208,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("current password field empty.");
                     req.session.msg = "Current password missing. Please re-enter all password fields.";
                     req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - new password empty
@@ -225,15 +215,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("new password field empty.");
                     req.session.msg = "New password missing. Please re-enter all password fields.";
                     req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - confirm password empty
                 else if ((password1.trim().length !== 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
                     console.log("new re-enter password field empty.");
                     req.session.msg = "Re-enter password missing. Please re-enter all password fields.";
-                    // req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - new and confirm empty
@@ -241,7 +228,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("only current password entered.");
                     req.session.msg = "Enter all password fields to change password.";
                     req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - current and confirm empty
@@ -267,15 +253,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                         console.log("current password does not match table.");
                         req.session.msg = "Current password is incorrect.  Please re-enter all password fields.";
                         req.session.user = email;
-                        // req.session.lastName = lastName;
                         res.redirect('/admin/dashboard/profile');
                     }
                     // error - current and new do not match
                     else if (password2.trim() !== password3.trim()) {
                         console.log("new and confirm passwords does not match.");
                         req.session.msg = "New and confrim passwords do not match.  Please re-enter all password fields.";
-                        // req.session.user = email;
-                        // req.session.lastName = lastName;
                         res.redirect('/admin/dashboard/profile');
                     }
 
@@ -462,7 +445,7 @@ router.get('/dashboard/order/:id', function(req, res, next) {
             console.log('req.session.id: ' + req.session.userId);
 
             connection.query('SELECT d.id, d.date, d.userId, o.orderId, SUM(o.price * o.quantity) AS SubTotal, d.tax, d.shipping, u.firstName, u.lastName, u.email, u.phoneNumber FROM orders o INNER JOIN order_details d ON o.orderId = d.id INNER JOIN users u ON d.userId = u.id WHERE o.orderId=? GROUP BY o.orderId',[req.params.id],function(err, results, fields) {
-                console.log('Query returned4 ' + JSON.stringify(results));
+                // console.log('Query returned4 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -593,7 +576,7 @@ router.get('/dashboard/products', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM products ORDER BY id',[],function(err, results, fields) {
-                console.log('Query returned6 ' + JSON.stringify(results));
+                // console.log('Query returned6 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -607,8 +590,6 @@ router.get('/dashboard/products', function(req, res, next) {
                 else {
                     console.log("Products found");
                     productData = true;
-
-                    // productDetails = results;
 
                     for (var i=0; i<results.length; i++) {
 
@@ -697,9 +678,8 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
         else {
             console.log("Connected to the DB");
 
-            // connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
             connection.query('SELECT p.id AS prodId, p.title, p.description, p.image1, p.image2, p.image3, p.image4, p.image5, p.status AS prodStatus, d.id, d.size, d.color, d.stock, d.price, d.status FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
-                console.log('Query returned7' + JSON.stringify(results));
+                // console.log('Query returned7' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -846,18 +826,12 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                     else if (title.trim().length === 0) {
                         console.log("title field empty.");
                         req.session.msg = "Please enter product title.";
-                        // req.session.user = email;
-                        // req.session.firstName = firstName;
-                        // req.session.lastName = lastName;
                         res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                     }
                     // error - description not entered
                     else if (description.trim().length === 0) {
                         console.log("description field empty.");
                         req.session.msg = "Please enter product description.";
-                        // req.session.user = email;
-                        // req.session.firstName = firstName;
-                        // req.session.lastName = lastName;
                         res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                     }
                     else {
@@ -949,8 +923,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                             }
                                             else {
                                                 console.log("Product detail1 update successful.");
-                                                // req.session.successMsg = "Product successfully updated.";
-                                                // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                                             }
                                         });
 
@@ -964,8 +936,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                             }
                                             else {
                                                 console.log("Product detail2 update successful. ");
-                                                // req.session.successMsg = "Product successfully updated.";
-                                                // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                                             }
                                         });
 
@@ -979,8 +949,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                             }
                                             else {
                                                 console.log("Product detail3 update successful. ");
-                                                // req.session.successMsg = "Product successfully updated.";
-                                                // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                                             }
                                         });
 
@@ -994,8 +962,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                             }
                                             else {
                                                 console.log("Product detail4 update successful. ");
-                                                // req.session.successMsg = "Product successfully updated.";
-                                                // res.redirect('/admin/dashboard/edit-product/' + productId + '/' + title);
                                             }
                                         });
 
@@ -1045,7 +1011,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                 console.log(images);
 
                 connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
-                    console.log('Query returned9 ' + JSON.stringify(results));
+                    // console.log('Query returned9 ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
@@ -1377,7 +1343,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
             else {
                 console.log("Connected to the DB");
                 connection.query('SELECT * FROM products WHERE title=? AND status="active"' ,[title],function(err, results, fields) {
-                    console.log('Query returned10 ' + JSON.stringify(results));
+                    // console.log('Query returned10 ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
@@ -1527,7 +1493,6 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                             else {
                                                                 console.log("Connected to the DB");
 
-                                                                // connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?)',[productId, size, color, stock, price, status], function(err, results, fields) {
                                                                 connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',
                                                                     [productId, size1, color1, stock1, price1, status1, productId, size2, color2, stock2, price2, status2, productId, size3, color3, stock3, price3, status3, productId, size4, color4, stock4, price4, status4, productId, size5, color5, stock5, price5, status5], function(err, results, fields) {
                                                                     // connection.release();
@@ -1548,10 +1513,6 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                                 });
                                                             }
                                                         });
-
-                                                        // req.session.successMsg = "Successfully added user " + email;
-                                                        // console.log("User inserted successful. " + userId + " " + email);
-                                                        // res.redirect('/admin/dashboard/edit-product/' + userId + '/' + email);
                                                     }
                                                 });
                                             }
@@ -1674,7 +1635,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
-                console.log('Query returned13 ' + JSON.stringify(results));
+                // console.log('Query returned13 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -1766,7 +1727,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
 
             // connection.query('SELECT * FROM users WHERE id=? AND email=?',[req.params.id, req.params.email],function(err, results, fields) {
             connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
-                console.log('Query returned14 ' + JSON.stringify(results));
+                // console.log('Query returned14 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -1775,9 +1736,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                 if (email.trim().length === 0) {
                     console.log("email field empty.");
                     req.session.msg = "Please enter email.";
-                    // req.session.user = email;
-                    // req.session.firstName = firstName;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/edit-user/' + userId + '/' + req.params.email);
                 }
                 // error - firstname not entered
@@ -1785,8 +1743,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                     console.log("firstName field empty.");
                     req.session.msg = "Please enter Firstname.";
                     req.session.user = email;
-                    // req.session.firstName = firstName;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                 }
                 // error - lastname not entered
@@ -1794,7 +1750,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                     console.log("lastName field empty.");
                     req.session.msg = "Please enter Lastname.";
                     req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                 }
                 // error - new password empty
@@ -1802,7 +1757,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                     console.log("new password field empty.");
                     req.session.msg = "New password missing. Please re-enter all password fields.";
                     req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                 }
                 // error - confirm password empty
@@ -1810,7 +1764,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                     console.log("re-enter password field empty.");
                     req.session.msg = "Confirm password missing. Please re-enter all password fields.";
                     req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                 }
 
@@ -1833,9 +1786,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                 else if (results.length !== 0) {
                                     console.log("Email already registered - update user");
                                     req.session.msg = "Unable to update. Email address already registered.";
-                                    // req.params.email = email;
-                                    // req.session.firstName = firstName;
-                                    // req.session.lastName = lastName;
                                     res.redirect('/admin/dashboard/edit-user/' + userId + '/' + req.params.email);
                                 }
                                 // okay - all password filds entered
@@ -1844,8 +1794,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                     if (password1.trim() !== password2.trim()) {
                                         console.log("new and confirm passwords does not match.");
                                         req.session.msg = "New and confrim passwords do not match.  Please re-enter all password fields.";
-                                        // req.session.user = email;
-                                        // req.session.lastName = lastName;
                                         res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                                     }
 
@@ -1860,7 +1808,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                                 console.log("Connected to the DB");
 
                                                 // update replaces password
-                                                // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
                                                 connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password1, req.params.id], function(err, results, fields) {
                                                     connection.release();
 
@@ -1890,7 +1837,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                             console.log("Connected to the DB");
 
                                             // update does not replace password
-                                            // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
                                             connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, req.params.id], function(err, results, fields) {
                                                 connection.release();
 
@@ -1918,8 +1864,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                     if (password1.trim() !== password2.trim()) {
                         console.log("new and confirm passwords does not match.");
                         req.session.msg = "New and confrim passwords do not match.  Please re-enter all password fields.";
-                        // req.session.user = email;
-                        // req.session.lastName = lastName;
                         res.redirect('/admin/dashboard/edit-user/' + userId + '/' + email);
                     }
 
@@ -2233,7 +2177,7 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
 
                                                         connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
                                                             // connection.release();
-                                                            console.log('Query returned17 ' + JSON.stringify(results));
+                                                            // console.log('Query returned17 ' + JSON.stringify(results));
 
                                                             if(err) {
                                                                 throw err;
@@ -2371,7 +2315,7 @@ router.get('/dashboard/settings', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
-                console.log('Query returned1 ' + JSON.stringify(results));
+                // console.log('Query returned1 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -2393,19 +2337,16 @@ router.get('/dashboard/settings', function(req, res, next) {
                     sliderDescription1 = req.session.sliderDescription1 = results[0].sliderDescription1;
                     sliderUrl1 = req.session.sliderUrl1 = results[0].sliderUrl1;
                     sliderImage1 = req.session.sliderImage1 = results[0].sliderImage1;
-                    // sliderImage1 = req.session.filename1 = req.file.filename1;
 
                     sliderTitle2 = req.session.sliderTitle2 = results[0].sliderTitle2;
                     sliderDescription2 = req.session.sliderDescription2 = results[0].sliderDescription2;
                     sliderUrl2 = req.session.sliderUrl2 = results[0].sliderUrl2;
                     sliderImage2 = req.session.sliderImage2 = results[0].sliderImage2;
-                    // sliderImage2 = req.session.filename2 = req.file.filename2;
 
                     sliderTitle3 = req.session.sliderTitle3 = results[0].sliderTitle3;
                     sliderDescription3 = req.session.sliderDescription3 = results[0].sliderDescription3;
                     sliderUrl3 = req.session.sliderUrl3 = results[0].sliderUrl3;
                     sliderImage3 = req.session.sliderImage3 = results[0].sliderImage3;
-                    // sliderImage3 = req.session.filename3 = req.file.filename3;
 
                     ctaTitle1 = req.session.ctaTitle1 = results[0].ctaTitle1;
                     ctaSubtitle1 = req.session.ctaSubtitle1 = results[0].ctaSubtitle1;
@@ -2534,11 +2475,6 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                 else {
                     console.log("Connected to the DB");
 
-                    // var logo = results[0].logo;
-                    // var sliderImage1 = results[0].sliderImage1;
-                    // var sliderImage2 = results[0].sliderImage2;
-                    // var sliderImage3 = results[0].sliderImage3;
-
                     var logo = req.session.logo;
                     var sliderImage1 = req.session.sliderImage1;
                     var sliderImage2 = req.session.sliderImage2;
@@ -2578,9 +2514,7 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                         }
                         else {
                             console.log("User update successful. ");
-                            // req.session.user = email;
                             res.redirect('/admin/dashboard/settings');
-                            // res.redirect('/admin-session');
                         }
                     });
                 }
