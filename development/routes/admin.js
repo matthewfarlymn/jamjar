@@ -40,8 +40,7 @@ var settingsImageStorage = multer.diskStorage({
     filename: function (req, file, cb) {
         var filename = file.originalname;
         var fileExtension = filename.split(".")[1];
-        // cb(null, Date.now() + "-" + req.session.settingsId + "." + fileExtension);
-        cb(null, Date.now() + "." + fileExtension);
+        cb(null, Date.now() + "-" + req.session.settingsId + "." + fileExtension);
     }
 });
 
@@ -1397,7 +1396,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                         req.session.size1 = size1;
                         req.session.color1 = color1;
                         req.session.stock1 = stock1;
-                        req.session.price1 = price1;
+                        req.session.price1 = prcie1;
                         req.session.status1 = status1;
 
                         req.session.size2 = size2;
@@ -2473,7 +2472,6 @@ router.get('/dashboard/settings', function(req, res, next) {
                 });
             }
             else {
-
                 res.render('dashboard/settings', {
                     errorMessage: msg,
                     access: req.session.user,
@@ -2568,6 +2566,11 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                 }
                 else {
                     console.log("Connected to the DB");
+
+                    // var logo = results[0].logo;
+                    // var sliderImage1 = results[0].sliderImage1;
+                    // var sliderImage2 = results[0].sliderImage2;
+                    // var sliderImage3 = results[0].sliderImage3;
 
                     var logo = req.session.logo;
                     var sliderImage1 = req.session.sliderImage1;
