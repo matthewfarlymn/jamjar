@@ -1346,7 +1346,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                 req.session.size1 = size1;
                 req.session.color1 = color1;
                 req.session.stock1 = stock1;
-                req.session.price1 = prcie1;
+                req.session.price1 = price1;
                 req.session.status1 = status1;
 
                 req.session.size2 = size2;
@@ -1397,7 +1397,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                         req.session.size1 = size1;
                         req.session.color1 = color1;
                         req.session.stock1 = stock1;
-                        req.session.price1 = prcie1;
+                        req.session.price1 = price1;
                         req.session.status1 = status1;
 
                         req.session.size2 = size2;
