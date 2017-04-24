@@ -4,17 +4,21 @@ block content
     main
         section.products
             header.row.container
-                div.col-xs-12
+                div(class=!searchResults ? 'error' : '').col-xs-12
                     h1 Search Results
-            div.row.container
-                each product in searchResults 
-                    div.col-xs-12.col-sm-6.col-md-3
-                        div.product
-                            if !product.image1
-                                img(src='/img/product.jpg')
-                            else
-                                img(src='/uploads/products/' + product.image1)
-                            h3 #{product.title}
-                            p #{product.excerpt}
-                            a(href='/product/' + product.id + '/' + product.title) Learn More
+                    if !searchResults
+                        h2 Doesn't look like you've search for anything yet!
+                        p The best thing to do now would be to search for something. Just select the magnifying glass to get started!
+            if searchResults
+                div.row.container
+                    each product in searchResults 
+                        div.col-xs-12.col-sm-6.col-md-3
+                            div.product
+                                if !product.image1
+                                    img(src='/img/product.jpg')
+                                else
+                                    img(src='/uploads/products/' + product.image1)
+                                h3 #{product.title}
+                                p #{product.excerpt}
+                                a(href='/product/' + product.id + '/' + product.title) Learn More
         include modules/register-cta
