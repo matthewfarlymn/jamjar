@@ -384,6 +384,21 @@ router.post('/search', function(req, res, next) {
                 connection.release();
                 console.log(results);
 
+                for (var i=0; i<results.length; i++) {
+                    var excerptLength = 75;
+                    var description = results[i].description;
+                    var excerpt = "";
+
+                    if (description.length > excerptLength) {
+                        excerpt = description.substring(0,excerptLength).trim() + '...';
+                    }
+                    else {
+                        excerpt = description;
+                    }
+
+                    results[i].excerpt = excerpt;
+                }
+
                 req.session.searchResults = results;
 
                 if(err) {
