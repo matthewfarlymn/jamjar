@@ -65,12 +65,21 @@ connect(function(err, connection) {
     }
 });
 
+var themeSettings = function(req, res, next) {
+    if (!req.session.themeSettings) {
+        req.session.themeSettings = themeSettings;
+    }
+    next();
+};
+
+app.use(themeSettings);
+
 app.use(function (req, res, next) {
     res.locals = {
         access: req.session.user,
         owner: req.session.admin,
         avatar: req.session.avatar,
-        themeSettings: themeSettings
+        themeSettings: req.session.themeSettings
     };
     next();
 });
