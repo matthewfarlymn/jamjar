@@ -656,6 +656,11 @@ section {
                             color: #000000;
                         }
                     }
+                    @include breakpoint(xs) {
+                        &:last-of-type {
+                            margin-top: 20px;
+                        }
+                    }
                 }
             }
         }
@@ -737,6 +742,12 @@ section {
                     .image {
                         width: 100%;
                         height: auto;
+                    }
+                    .color-select {
+                        background: #ffffff;
+                        padding: 0 2px;
+                        margin: -10px 0 0 10px;
+                        width: 25%;
                     }
                 }
                 button {
