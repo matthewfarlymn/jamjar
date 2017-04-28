@@ -41,10 +41,10 @@ block content
                                         option(value='admin' selected=userType === 'admin') Admin
                                     label(for='avatar') Avatar
                                     span.adminUser
-                                        if !avatar
+                                        if !userAvatar
                                             img(src='/img/avatar.jpg')
                                         else
-                                            img(src='/uploads/users/' + avatar)
+                                            img(src='/uploads/users/' + userAvatar)
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Billing Details
                                     label(for='address1') Address 1
