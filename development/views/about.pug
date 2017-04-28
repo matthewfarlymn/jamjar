@@ -5,4 +5,7 @@ block content
         section.about
             div.row.reverse.middle-xs.container
                 div.col-xs-12 !{themeSettings.aboutDescription}
-        include modules/register-cta
+        if !access
+            include modules/register-cta
+        else    
+            include modules/contact-cta

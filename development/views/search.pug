@@ -21,4 +21,7 @@ block content
                                 h3 #{product.title}
                                 p #{product.excerpt}
                                 a(href='/product/' + product.id + '/' + product.title) Learn More
-        include modules/register-cta
+        if !access
+            include modules/register-cta
+        else
+            include modules/contact-cta

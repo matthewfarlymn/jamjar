@@ -45,4 +45,7 @@ block content
                         input(type='number' name='quantity' min='1' placeholder='0' value='1' required)
                         button(type='submit').button.pink Add to Cart   
         include modules/popular-carousel
-        include modules/register-cta
+        if !access
+            include modules/register-cta
+        else
+            include modules/contact-cta

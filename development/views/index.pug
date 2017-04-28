@@ -54,7 +54,8 @@ block content
                             if themeSettings.sliderUrl3
                                 a(href=themeSettings.sliderUrl3).button.gold Learn More
                                 //- a(href='/shopping-cart').button.pink Buy Now    
-        include modules/register-cta
+        if !access
+            include modules/register-cta
         include modules/popular-carousel
         include modules/recent-carousel
         include modules/contact-cta
