@@ -67,18 +67,6 @@ jQuery(document).ready(function($) {
         }
     });
 
-    // $(':file').change(function() {
-    //     $('form').submit();
-    // });
-
-    // $('input .avatar').onchange = function () {
-    //     var reader = new FileReader();
-    //     reader.onload = function (e) {
-    //         $('img .avatar').src = e.target.result;
-    //     };
-    //     reader.readAsDataURL(this.files[0]);
-    // };
-
     $(':file').on('change', function() {
         _this = this;
         var files = !!this.files ? this.files : [];
@@ -123,37 +111,12 @@ jQuery(document).ready(function($) {
         }
     });
 
-    // $('#add-details').click(function() {
-    //     var data = $('span.product-details').find('.row').last().data('row') + 1;
-    //     if (data <= 5) {
-    //         $('span.product-details').append(
-    //             '<span class="row middle-xs grey" data-row="' + data +'">\
-    //                 <span class="col-xs-12">\
-    //                     <label>Item '+ data +'</label>\
-    //                 </span>\
-    //                 <span class="col-xs-6 col-sm">\
-    //                     <input type="text" name="size' + data + '" placeholder="Size">\
-    //                 </span>\
-    //                 <span class="col-xs-6 col-sm">\
-    //                     <input type="text" name="color' + data + '" placeholder="Color">\
-    //                 </span>\
-    //                 <span class="col-xs-6 col-sm">\
-    //                     <input type="number" name="stock' + data + '" min="0" placeholder="100">\
-    //                 </span>\
-    //                 <span class="col-xs-6 col-sm">\
-    //                     <input type="number" name="price' + data + '" min="0" placeholder="0.00">\
-    //                 </span>\
-    //                 <span class="col-xs-12 col-sm-3">\
-    //                 <select name="status' + data + '">\
-    //                     <option>Active</option>\
-    //                     <option>Inactive</option>\
-    //                 </select>\
-    //             </span>'
-    //         );
-    //         if (data === 5) {
-    //             $(this).remove();
-    //         }
-    //     }
-    // });
+    $('.color-input').on('change', function() {
+        $(this).next('.color-select').val($(this).val());
+    });
+
+    $('.color-select').on('change', function() {
+        $(this).prev('.color-input').val($(this).val());
+    });
 
 });

@@ -2570,17 +2570,24 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                         'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
                     connection.query(sql, [logo, color1, color2, color3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter], function(err, results, fields) {
-                        connection.release();
-
                         if (err) {
                             console.log("Error connecting to the database - insert46");
                             throw err;
                         }
                         else {
-                            console.log("User update successful. ");
-                            // req.session.user = email;
-                            res.redirect('/admin/dashboard/settings');
-                            // res.redirect('/admin-session');
+                            connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
+                                connection.release();
+                                console.log('Query returned1 ' + JSON.stringify(results[0]));
+                                if(err) {
+                                    throw err;
+                                } else {
+                                    console.log("User update successful. ");
+                                    req.session.themeSettings = results[0];
+                                    // req.session.user = email;
+                                    res.redirect('/admin/dashboard/settings');
+                                    // res.redirect('/admin-session');
+                                }
+                            });
                         }
                     });
                 }

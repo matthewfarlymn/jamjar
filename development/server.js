@@ -45,6 +45,7 @@ connect(function(err, connection) {
         console.log("Connected to the DB");
 
         connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
+            connection.release();
             console.log('Query returned1 ' + JSON.stringify(results[0]));
 
             if(err) {
@@ -65,21 +66,21 @@ connect(function(err, connection) {
     }
 });
 
-var themeSettings = function(req, res, next) {
+var currentThemeSettings = function(req, res, next) {
     if (!req.session.themeSettings) {
         req.session.themeSettings = themeSettings;
     }
     next();
 };
 
-app.use(themeSettings);
+app.use(currentThemeSettings);
 
 app.use(function (req, res, next) {
     res.locals = {
         access: req.session.user,
         owner: req.session.admin,
         avatar: req.session.avatar,
-        themeSettings: req.session.themeSettings
+        themeSettings: themeSettings = req.session.themeSettings
     };
     next();
 });
