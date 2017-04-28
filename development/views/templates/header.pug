@@ -31,8 +31,9 @@ header.brown
                         a(href='/user/shopping-cart')
                             span.fa.fa-shopping-cart
                 else
-                    li.sign-in
-                        a(href='/sign-in').button.pink Sign-In
+                    if !signIn
+                        li.sign-in
+                            a(href='/sign-in').button.pink Sign-In
                 li.options
                     span.fa.fa-ellipsis-v
 include ../modules/search-field
