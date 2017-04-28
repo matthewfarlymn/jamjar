@@ -72,7 +72,6 @@ router.get('/dashboard/profile', function(req, res, next) {
     req.session.province = "";
     req.session.postalcode = "";
     req.session.country = "";
-    // req.session.user = "";
     req.session.phoneNumber = "";
     req.session.avatar = "";
 
@@ -234,8 +233,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                 else if ((password1.trim().length === 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
                     console.log("only new password entered.");
                     req.session.msg = "Enter all password fields to change password.";
-                    // req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - current and new empty
@@ -243,7 +240,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("only re-enter password entered.");
                     req.session.msg = "Enter all password fields to change password.";
                     req.session.user = email;
-                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // okay - all password filds entered
@@ -279,7 +275,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                 }
 
                                 // update replaces password
-                                // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
                                 connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
                                     connection.release();
 
@@ -291,7 +286,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                         console.log("User update successful. " + email);
                                         req.session.user = email;
                                         res.redirect('/admin/dashboard/profile');
-                                        // res.redirect('/admin-session');
                                     }
                                 });
                             }
@@ -318,7 +312,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             }
 
                             // update does not replace password
-                            // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
                             connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, avatar, req.session.user], function(err, results, fields) {
                                 connection.release();
 
@@ -416,7 +409,6 @@ router.get('/dashboard/orders', function(req, res, next) {
             }
             else {
                 res.render('dashboard/orders', {
-                    // errorMessage: msg,
                     access: req.session.user,
                     owner: req.session.admin,
                     orders: true,
@@ -504,19 +496,14 @@ router.get('/dashboard/order/:id', function(req, res, next) {
                 // no user found
                 else if (results.length === 0) {
                     console.log("No product details found for order");
-                    // orderData = false;
                 }
                 // user found
                 else {
                     console.log("Product details found for order");
-                    // orderData = true;
 
                     for (var i=0; i<results.length; i++) {
-
                         var product = {};
-
                         var subtotal = results[i].price * results[i].quantity;
-
                         var excerptLength = 75;
                         var description = results[i].description;
                         var excerpt = "";
@@ -645,7 +632,6 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
 
     var msg = req.session.msg ? req.session.msg : "";
     var successMsg = req.session.successMsg ? req.session.successMsg : "";
-    // var productId = req.session.productId ? req.session.productId : "";
     var title = req.session.title ? req.session.title : "";
     var description = req.session.desc ? req.session.desc : "";
     var image1 = req.session.image1 ? req.session.image1 : "";
@@ -915,7 +901,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line1
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size1, color1, stock1, price1, status1, detailId1, req.params.productId], function(err, results, fields) {
-                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4a");
@@ -928,7 +913,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line2
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size2, color2, stock2, price2, status2, detailId2, req.params.productId], function(err, results, fields) {
-                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4b");
@@ -941,7 +925,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line3
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size3, color3, stock3, price3, status3, detailId3, req.params.productId], function(err, results, fields) {
-                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4c");
@@ -954,7 +937,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line4
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size4, color4, stock4, price4, status4, detailId4, req.params.productId], function(err, results, fields) {
-                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4d");
@@ -967,7 +949,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line5
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size5, color5, stock5, price5, status5, detailId5, req.params.productId], function(err, results, fields) {
-                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4e");
@@ -1110,7 +1091,6 @@ router.get('/dashboard/add-product', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
     var successMsg = req.session.successMsg ? req.session.successMsg : "";
-    // var productId = req.session.productId ? req.session.productId : "";
     var title = req.session.title ? req.session.title : "";
     var description = req.session.desc ? req.session.desc : "";
     var image1 = req.session.image1 ? req.session.image1 : "";
@@ -1293,7 +1273,6 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
             if (title.trim().length === 0) {
                 console.log("title field empty.");
                 req.session.msg = "Please enter title.";
-                // req.session.title = title;
                 req.session.desc = description;
                 req.session.image1 = image1;
                 req.session.image2 = image2;
@@ -1432,7 +1411,6 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                 console.log("Connected to the DB");
 
                                                 connection.query('SELECT * FROM products WHERE title=?',[title],function(err, results, fields) {
-                                                    // connection.release();
                                                     console.log('Query returned11 ' + JSON.stringify(results));
 
                                                     if(err) {
@@ -1489,7 +1467,6 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
 
                                                                 connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',
                                                                     [productId, size1, color1, stock1, price1, status1, productId, size2, color2, stock2, price2, status2, productId, size3, color3, stock3, price3, status3, productId, size4, color4, stock4, price4, status4, productId, size5, color5, stock5, price5, status5], function(err, results, fields) {
-                                                                    // connection.release();
 
                                                                     if(err) {
                                                                         throw err;
@@ -1590,7 +1567,6 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
     var successMsg = req.session.successMsg ? req.session.successMsg : "";
-    // var userId = req.session.userId ? req.session.userId : "";
     var firstName = req.session.firstName ? req.session.firstName : "";
     var lastName = req.session.lastName ? req.session.lastName : "";
     var address1 = req.session.address1 ? req.session.address1 : "";
@@ -1606,7 +1582,6 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
 
     req.session.msg = "";
     req.session.successMsg = "";
-    // req.session.userId = "";
     req.session.firstName = "";
     req.session.lastName = "";
     req.session.address1 = "";
@@ -1719,7 +1694,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            // connection.query('SELECT * FROM users WHERE id=? AND email=?',[req.params.id, req.params.email],function(err, results, fields) {
             connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
                 // console.log('Query returned14 ' + JSON.stringify(results));
 
@@ -1872,7 +1846,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                 console.log("Connected to the DB");
 
                                 // update replaces password
-                                // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
                                 connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password1, req.params.id], function(err, results, fields) {
                                     connection.release();
 
@@ -1902,7 +1875,6 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                             console.log("Connected to the DB");
 
                             // update does not replace password
-                            // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
                             connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, req.params.id], function(err, results, fields) {
                                 connection.release();
 
@@ -2028,7 +2000,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
             if (email.trim().length === 0) {
                 console.log("email field empty.");
                 req.session.msg = "Please enter email.";
-                // req.session.email = email;
                 req.session.firstName = firstName;
                 req.session.lastName = lastName;
                 res.redirect('/admin/dashboard/add-user');
@@ -2170,7 +2141,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                                                         console.log("Connected to the DB");
 
                                                         connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
-                                                            // connection.release();
                                                             // console.log('Query returned17 ' + JSON.stringify(results));
 
                                                             if(err) {
@@ -2510,13 +2480,9 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                                 } else {
                                     console.log("User update successful. ");
                                     req.session.themeSettings = results[0];
-                                    // req.session.user = email;
                                     res.redirect('/admin/dashboard/settings');
-                                    // res.redirect('/admin-session');
                                 }
                             });
-                            console.log("User update successful. ");
-                            res.redirect('/admin/dashboard/settings');
                         }
                     });
                 }
