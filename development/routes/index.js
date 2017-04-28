@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
+var nodemailer = require('nodemailer');
+require('dotenv').config();
 
 // var session = '';
 
@@ -127,12 +129,23 @@ router.get('/about', function(req, res, next) {
 
 
 router.get('/confirmation', function(req, res, next) {
-    res.render('confirmation', {
-        access: req.session.user,
-        owner: req.session.admin,
-        userId: req.session.userId,
-        avatar: req.session.avatar
-    });
+
+    var contact = req.session.contact ? req.session.contact : "";
+
+    req.session.contact = "";
+
+    if (contact) {
+
+        res.render('confirmation', {
+            contact: contact
+        });
+
+    } else {
+
+        res.redirect('error');
+
+    }
+
 });
 
 
@@ -349,12 +362,54 @@ router.get('/product/:id/:title', function(req, res, next) {
 
 
 router.get('/contact', function(req, res, next) {
+
     res.render('contact', {
         access: req.session.user,
         owner: req.session.admin,
         userId: req.session.userId,
         avatar: req.session.avatar
     });
+});
+
+router.post('/contact', function(req, res, next) {
+    // jill
+
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
+    var email = req.body.email;
+    var phoneNumber = req.body.phoneNumber;
+    var message = req.body.message;
+
+    req.session.contact = true;
+
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.APPSETTING_GMAIL_EMAIL,
+            pass: process.env.APPSETTING_GMAIL_PASSWORD
+        }
+    });
+
+    // setup email data with unicode symbols
+    let mailOptions = {
+        from: '"Jam Jar" <jamjarink@gmail.com>', // sender address
+        to: email, // list of receivers
+        bcc: 'jamjarink@gmail.com', // bcc jamjarink
+        subject: 'Please let this work!', // Subject line
+        text: message, // plain text body
+        html: '<p>' + message + '</p>' // html body
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+    });
+
+    res.redirect('confirmation');
 });
 
 
@@ -494,14 +549,12 @@ router.post('/sign-in', function(req, res, next) {
         else if (password.trim().length === 0) {
           console.log("No password entered.");
           req.session.msg = "Please enter password.";
-        //   req.session.user = email;
           res.redirect('/sign-in');
         }
         // fail login - password does not match
         else if (password !== results[0].password) {
           console.log("Incorrect password.");
           req.session.msg = "Password incorrect.";
-        //   req.session.user = email;
           res.redirect('/sign-in');
         }
         // fail login - email not found

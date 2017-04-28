@@ -2509,24 +2509,21 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
         0.068 * Math.pow(b3, 2));
 
 
-    if (luma1 < 175) {
-    // if (luma1 < 20) {
+    if (luma1 < 190) {
         font1 = '#FFFFFF';
     }
     else {
         font1 = '#000000';
     }
 
-    if (luma2 < 175) {
-    // if (luma2 < 20) {
+    if (luma2 < 190) {
         font2 = '#FFFFFF';
     }
     else {
         font2 = '#000000';
     }
 
-    if (luma3 < 175) {
-    // if (luma3 < 20) {
+    if (luma3 < 190) {
         font3 = '#FFFFFF';
     }
     else {
