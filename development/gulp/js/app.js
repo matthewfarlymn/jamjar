@@ -45,6 +45,20 @@ jQuery(document).ready(function($) {
         toolbar: 'undo redo | formatselect | bold bullist link',
     });
 
+    $('.send-password').click(function() {
+        $('.access .sign-in').html(
+            '<h1>Password</h1>' +
+            '<form action="/send-password" method="post">' +
+                '<label for="email">Email<label>' +
+                '<input type="email" name="email" placeholder="Email" value=user required>' +
+                '<span class="flex between">' +
+                    '<button class="button pink" type="submit">Send Password</button>' +
+                    '<a href="/sign-in">Sign-In?</a>' +
+                '</span>' +
+            '</form>'
+        );
+    });
+
     $('#attributes').change(function() {
         $('span.price').html('$' + $(this).find(':selected').data('price'));
     });
