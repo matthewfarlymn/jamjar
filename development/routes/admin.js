@@ -72,6 +72,7 @@ router.get('/dashboard/profile', function(req, res, next) {
     req.session.province = "";
     req.session.postalcode = "";
     req.session.country = "";
+    // req.session.user = "";
     req.session.phoneNumber = "";
     req.session.avatar = "";
 
@@ -233,6 +234,8 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                 else if ((password1.trim().length === 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
                     console.log("only new password entered.");
                     req.session.msg = "Enter all password fields to change password.";
+                    // req.session.user = email;
+                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // error - current and new empty
@@ -240,6 +243,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("only re-enter password entered.");
                     req.session.msg = "Enter all password fields to change password.";
                     req.session.user = email;
+                    // req.session.lastName = lastName;
                     res.redirect('/admin/dashboard/profile');
                 }
                 // okay - all password filds entered
@@ -275,6 +279,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                 }
 
                                 // update replaces password
+                                // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
                                 connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
                                     connection.release();
 
@@ -286,6 +291,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                         console.log("User update successful. " + email);
                                         req.session.user = email;
                                         res.redirect('/admin/dashboard/profile');
+                                        // res.redirect('/admin-session');
                                     }
                                 });
                             }
@@ -312,6 +318,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             }
 
                             // update does not replace password
+                            // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
                             connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, avatar, req.session.user], function(err, results, fields) {
                                 connection.release();
 
@@ -350,7 +357,7 @@ router.get('/dashboard/orders', function(req, res, next) {
             console.log('req.session.id: ' + req.session.userId);
 
             connection.query('SELECT d.id, d.date, d.userId, o.orderId, SUM(o.price * o.quantity) AS SubTotal, d.tax, d.shipping, u.firstName, u.lastName, u.email FROM orders o INNER JOIN order_details d ON o.orderId = d.id INNER JOIN users u ON d.userId = u.id GROUP BY o.orderId',[],function(err, results, fields) {
-                console.log('Query returned3 ' + JSON.stringify(results));
+                // console.log('Query returned3 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -409,6 +416,7 @@ router.get('/dashboard/orders', function(req, res, next) {
             }
             else {
                 res.render('dashboard/orders', {
+                    // errorMessage: msg,
                     access: req.session.user,
                     owner: req.session.admin,
                     orders: true,
@@ -488,7 +496,7 @@ router.get('/dashboard/order/:id', function(req, res, next) {
             });
 
             connection.query('SELECT o.id, o.orderId, o.price, o.quantity, p.title, p.description, p.image1 FROM orders o INNER JOIN product_details d ON o.productId = d.id INNER JOIN products p ON d.productsId = p.id  WHERE o.orderId=? GROUP BY o.id',[req.params.id],function(err, results, fields) {
-                console.log('Query returned5 ' + JSON.stringify(results));
+                // console.log('Query returned5 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -496,14 +504,19 @@ router.get('/dashboard/order/:id', function(req, res, next) {
                 // no user found
                 else if (results.length === 0) {
                     console.log("No product details found for order");
+                    // orderData = false;
                 }
                 // user found
                 else {
                     console.log("Product details found for order");
+                    // orderData = true;
 
                     for (var i=0; i<results.length; i++) {
+
                         var product = {};
+
                         var subtotal = results[i].price * results[i].quantity;
+
                         var excerptLength = 75;
                         var description = results[i].description;
                         var excerpt = "";
@@ -632,6 +645,7 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
 
     var msg = req.session.msg ? req.session.msg : "";
     var successMsg = req.session.successMsg ? req.session.successMsg : "";
+    // var productId = req.session.productId ? req.session.productId : "";
     var title = req.session.title ? req.session.title : "";
     var description = req.session.desc ? req.session.desc : "";
     var image1 = req.session.image1 ? req.session.image1 : "";
@@ -803,7 +817,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                 console.log(images);
 
                 connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
-                    console.log('Query returned8 ' + JSON.stringify(results));
+                    // console.log('Query returned8 ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
@@ -901,6 +915,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line1
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size1, color1, stock1, price1, status1, detailId1, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4a");
@@ -913,6 +928,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line2
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size2, color2, stock2, price2, status2, detailId2, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4b");
@@ -925,6 +941,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line3
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size3, color3, stock3, price3, status3, detailId3, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4c");
@@ -937,6 +954,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line4
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size4, color4, stock4, price4, status4, detailId4, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4d");
@@ -949,6 +967,7 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
 
                                         // update product_details - line5
                                         connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size5, color5, stock5, price5, status5, detailId5, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
 
                                             if (err) {
                                                 console.log("Error connecting to the database - update4e");
@@ -1091,6 +1110,7 @@ router.get('/dashboard/add-product', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
     var successMsg = req.session.successMsg ? req.session.successMsg : "";
+    // var productId = req.session.productId ? req.session.productId : "";
     var title = req.session.title ? req.session.title : "";
     var description = req.session.desc ? req.session.desc : "";
     var image1 = req.session.image1 ? req.session.image1 : "";
@@ -1273,6 +1293,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
             if (title.trim().length === 0) {
                 console.log("title field empty.");
                 req.session.msg = "Please enter title.";
+                // req.session.title = title;
                 req.session.desc = description;
                 req.session.image1 = image1;
                 req.session.image2 = image2;
@@ -1411,7 +1432,8 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                 console.log("Connected to the DB");
 
                                                 connection.query('SELECT * FROM products WHERE title=?',[title],function(err, results, fields) {
-                                                    console.log('Query returned11 ' + JSON.stringify(results));
+                                                    // connection.release();
+                                                    // console.log('Query returned11 ' + JSON.stringify(results));
 
                                                     if(err) {
                                                         throw err;
@@ -1467,6 +1489,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
 
                                                                 connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',
                                                                     [productId, size1, color1, stock1, price1, status1, productId, size2, color2, stock2, price2, status2, productId, size3, color3, stock3, price3, status3, productId, size4, color4, stock4, price4, status4, productId, size5, color5, stock5, price5, status5], function(err, results, fields) {
+                                                                    // connection.release();
 
                                                                     if(err) {
                                                                         throw err;
@@ -1523,7 +1546,7 @@ router.get('/dashboard/users', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM users ORDER BY id',[],function(err, results, fields) {
-                console.log('Query returned12 ' + JSON.stringify(results));
+                // console.log('Query returned12 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -1567,6 +1590,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
     var successMsg = req.session.successMsg ? req.session.successMsg : "";
+    // var userId = req.session.userId ? req.session.userId : "";
     var firstName = req.session.firstName ? req.session.firstName : "";
     var lastName = req.session.lastName ? req.session.lastName : "";
     var address1 = req.session.address1 ? req.session.address1 : "";
@@ -1582,6 +1606,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
 
     req.session.msg = "";
     req.session.successMsg = "";
+    // req.session.userId = "";
     req.session.firstName = "";
     req.session.lastName = "";
     req.session.address1 = "";
@@ -1694,6 +1719,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
+            // connection.query('SELECT * FROM users WHERE id=? AND email=?',[req.params.id, req.params.email],function(err, results, fields) {
             connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
                 // console.log('Query returned14 ' + JSON.stringify(results));
 
@@ -1746,7 +1772,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                         }
                         else {
                             connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
-                                console.log('Query returned15 ' + JSON.stringify(results));
+                                // console.log('Query returned15 ' + JSON.stringify(results));
 
                                 if(err) {
                                     throw err;
@@ -1846,6 +1872,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                 console.log("Connected to the DB");
 
                                 // update replaces password
+                                // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
                                 connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password1, req.params.id], function(err, results, fields) {
                                     connection.release();
 
@@ -1875,6 +1902,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                             console.log("Connected to the DB");
 
                             // update does not replace password
+                            // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
                             connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, req.params.id], function(err, results, fields) {
                                 connection.release();
 
@@ -2000,6 +2028,7 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
             if (email.trim().length === 0) {
                 console.log("email field empty.");
                 req.session.msg = "Please enter email.";
+                // req.session.email = email;
                 req.session.firstName = firstName;
                 req.session.lastName = lastName;
                 res.redirect('/admin/dashboard/add-user');
@@ -2008,7 +2037,7 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                 console.log("Connected to the DB");
 
                 connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
-                    console.log('Query returned16 ' + JSON.stringify(results));
+                    // console.log('Query returned16 ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
@@ -2141,6 +2170,7 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
                                                         console.log("Connected to the DB");
 
                                                         connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
+                                                            // connection.release();
                                                             // console.log('Query returned17 ' + JSON.stringify(results));
 
                                                             if(err) {
@@ -2193,6 +2223,9 @@ router.get('/dashboard/settings', function(req, res, next) {
     var color1 = req.session.color1 ? req.session.color1 : "";
     var color2 = req.session.color2 ? req.session.color2 : "";
     var color3 = req.session.color3 ? req.session.color3 : "";
+    var font1 = req.session.font1 ? req.session.font1 : "";
+    var font2 = req.session.font2 ? req.session.font2 : "";
+    var font3 = req.session.font3 ? req.session.font3 : "";
 
     var sliderTitle1 = req.session.sliderTitle1 ? req.session.sliderTitle1 : "";
     var sliderDescription1 = req.session.sliderDescription1 ? req.session.sliderDescription1 : "";
@@ -2234,6 +2267,9 @@ router.get('/dashboard/settings', function(req, res, next) {
     req.session.color1 = "";
     req.session.color2 = "";
     req.session.color3 = "";
+    req.session.font1 = "";
+    req.session.font2 = "";
+    req.session.font3 = "";
 
     req.session.sliderTitle1 = "";
     req.session.sliderDescription1 = "";
@@ -2277,7 +2313,7 @@ router.get('/dashboard/settings', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
-                // console.log('Query returned1 ' + JSON.stringify(results));
+                // console.log('Query returned18 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -2294,6 +2330,10 @@ router.get('/dashboard/settings', function(req, res, next) {
                     color1 = req.session.color1 = results[0].color1;
                     color2 = req.session.color2 = results[0].color2;
                     color3 = req.session.color3 = results[0].color3;
+
+                    font1 = req.session.font1 = results[0].font1;
+                    font2 = req.session.font2 = results[0].font2;
+                    font3 = req.session.font3 = results[0].font3;
 
                     sliderTitle1 = req.session.sliderTitle1 = results[0].sliderTitle1;
                     sliderDescription1 = req.session.sliderDescription1 = results[0].sliderDescription1;
@@ -2352,6 +2392,9 @@ router.get('/dashboard/settings', function(req, res, next) {
                     color1: color1,
                     color2: color2,
                     color3: color3,
+                    font1: font1,
+                    font2: font2,
+                    font3: font3,
                     sliderTitle1: sliderTitle1,
                     sliderDescription1: sliderDescription1,
                     sliderUrl1: sliderUrl1,
@@ -2422,6 +2465,71 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
     var facebook = req.body.facebook;
     var twitter = req.body.twitter;
 
+    var font1 = '';
+    var font2 = '';
+    var font3 = '';
+
+    var c1 = color1.substring(1);   // strip #
+    var rgb1 = parseInt(c1, 16);     // convert rrggbb to decimal
+    var r1 = (rgb1 >> 16) & 0xff;    // extract red
+    var g1 = (rgb1 >>  8) & 0xff;    // extract green
+    var b1 = (rgb1 >>  0) & 0xff;    // extract blue
+    // var luma1 = 0.2126 * r1 + 0.7152 * g1 + 0.0722 * b1; // per ITU-R BT.709
+    // var luma1 = (r1 + g1 + b1)/3;
+
+    var c2 = color2.substring(1);   // strip #
+    var rgb2 = parseInt(c2, 16);     // convert rrggbb to decimal
+    var r2 = (rgb2 >> 16) & 0xff;    // extract red
+    var g2 = (rgb2 >>  8) & 0xff;    // extract green
+    var b2 = (rgb2 >>  0) & 0xff;    // extract blue
+    // var luma2 = 0.2126 * r2 + 0.7152 * g2 + 0.0722 * b2; // per ITU-R BT.709
+    // var luma2 = (r2 + g2 + b2)/3;
+
+    var c3 = color3.substring(1);   // strip #
+    var rgb3 = parseInt(c3, 16);     // convert rrggbb to decimal
+    var r3 = (rgb3 >> 16) & 0xff;    // extract red
+    var g3 = (rgb3 >>  8) & 0xff;    // extract green
+    var b3 = (rgb3 >>  0) & 0xff;    // extract blue
+    // var luma3 = 0.2126 * r3 + 0.7152 * g3 + 0.0722 * b3; // per ITU-R BT.709
+    // var luma3 = (r3 + g3 + b3)/3;
+
+    var luma1 = Math.sqrt(0.241 * Math.pow(r1, 2) +
+        0.691 * Math.pow(g1, 2) +
+        0.068 * Math.pow(b1, 2));
+
+    var luma2 = Math.sqrt(0.241 * Math.pow(r2, 2) +
+        0.691 * Math.pow(g2, 2) +
+        0.068 * Math.pow(b2, 2));
+
+    var luma3 = Math.sqrt(0.241 * Math.pow(r3, 2) +
+        0.691 * Math.pow(g3, 2) +
+        0.068 * Math.pow(b3, 2));
+
+
+    if (luma1 < 175) {
+    // if (luma1 < 20) {
+        font1 = '#FFFFFF';
+    }
+    else {
+        font1 = '#000000';
+    }
+
+    if (luma2 < 175) {
+    // if (luma2 < 20) {
+        font2 = '#FFFFFF';
+    }
+    else {
+        font2 = '#000000';
+    }
+
+    if (luma3 < 175) {
+    // if (luma3 < 20) {
+        font3 = '#FFFFFF';
+    }
+    else {
+        font3 = '#000000';
+    }
+
     connect(function(err, connection) {
         if (err) {
             console.log("Error connecting to the database");
@@ -2456,6 +2564,7 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                     }
 
                     var sql = 'INSERT INTO settings (logo, color1, color2, color3, ' +
+                        'font1, font2, font3, ' +
                         'sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, ' +
                         'sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, ' +
                         'sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ' +
@@ -2464,9 +2573,9 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                         'ctaTitle3, ctaSubtitle3, ctaDescription3, ' +
                         'aboutDescription, contactName, contactEmail, ' +
                         'facebook, twitter) ' +
-                        'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                        'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-                    connection.query(sql, [logo, color1, color2, color3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter], function(err, results, fields) {
+                    connection.query(sql, [logo, color1, color2, color3, font1, font2, font3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, contactName, contactEmail, facebook, twitter], function(err, results, fields) {
                         if (err) {
                             console.log("Error connecting to the database - insert46");
                             throw err;
@@ -2474,13 +2583,15 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                         else {
                             connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
                                 connection.release();
-                                console.log('Query returned1 ' + JSON.stringify(results[0]));
+                                // console.log('Query returned19 ' + JSON.stringify(results[0]));
                                 if(err) {
                                     throw err;
                                 } else {
                                     console.log("User update successful. ");
                                     req.session.themeSettings = results[0];
+                                    // req.session.user = email;
                                     res.redirect('/admin/dashboard/settings');
+                                    // res.redirect('/admin-session');
                                 }
                             });
                         }

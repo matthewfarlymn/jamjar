@@ -46,7 +46,7 @@ connect(function(err, connection) {
 
         connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
             connection.release();
-            console.log('Query returned1 ' + JSON.stringify(results[0]));
+            // console.log('Query returned1 ' + JSON.stringify(results[0]));
 
             if(err) {
                 throw err;
