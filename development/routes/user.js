@@ -130,7 +130,7 @@ router.get('/shopping-cart', function(req, res, next) {
                 else {
                     console.log("items in cart found for" + email);
 
-                    var taxrate = .135;
+                    var taxrate = 0.135;
                     var shipping = 10;
                     var subtotal = 0;
                     var tax = 0;
@@ -320,7 +320,7 @@ router.get('/checkout', function(req, res, next) {
                 else {
                     console.log("items in cart found for" + email);
 
-                    var taxrate = .135;
+                    var taxrate = 0.135;
                     var shipping = 10;
                     var subtotal = 0;
                     var tax = 0;
@@ -635,7 +635,7 @@ router.get('/dashboard/profile', function(req, res, next) {
                 });
             }
         });
-    })
+    });
 });
 
 
@@ -872,10 +872,10 @@ router.get('/dashboard/orders', function(req, res, next) {
                         var curr_year = d.getFullYear();
 
                         if (curr_date < 10) {
-                            curr_date = '0' + curr_date
+                            curr_date = '0' + curr_date;
                         }
                         if (curr_month < 10) {
-                            curr_month = '0' + curr_month
+                            curr_month = '0' + curr_month;
                         }
 
                         orderDetail.id = results[i].id;
@@ -910,7 +910,7 @@ router.get('/dashboard/orders', function(req, res, next) {
                 });
             }
         });
-    })
+    });
 });
 
 
@@ -955,10 +955,10 @@ router.get('/dashboard/order/:id', function(req, res, next) {
                         var curr_year = d.getFullYear();
 
                         if (curr_date < 10) {
-                            curr_date = '0' + curr_date
+                            curr_date = '0' + curr_date;
                         }
                         if (curr_month < 10) {
-                            curr_month = '0' + curr_month
+                            curr_month = '0' + curr_month;
                         }
 
                         orderDetail.id = results[i].id;

@@ -143,7 +143,7 @@ router.get('/dashboard/profile', function(req, res, next) {
                 });
             }
         });
-    })
+    });
 });
 
 router.post('/update-profile', avatarUpload.single('avatar'), function(req, res, next) {
@@ -384,10 +384,10 @@ router.get('/dashboard/orders', function(req, res, next) {
                         var curr_year = d.getFullYear();
 
                         if (curr_date < 10) {
-                            curr_date = '0' + curr_date
+                            curr_date = '0' + curr_date;
                         }
                         if (curr_month < 10) {
-                            curr_month = '0' + curr_month
+                            curr_month = '0' + curr_month;
                         }
 
                         orderDetail.id = results[i].id;
@@ -426,7 +426,7 @@ router.get('/dashboard/orders', function(req, res, next) {
                 });
             }
         });
-    })
+    });
 });
 
 
@@ -472,10 +472,10 @@ router.get('/dashboard/order/:id', function(req, res, next) {
                         var curr_year = d.getFullYear();
 
                         if (curr_date < 10) {
-                            curr_date = '0' + curr_date
+                            curr_date = '0' + curr_date;
                         }
                         if (curr_month < 10) {
-                            curr_month = '0' + curr_month
+                            curr_month = '0' + curr_month;
                         }
 
                         orderDetail.id = results[i].id;
@@ -724,7 +724,7 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
                         details.push(detail);
                     }
 
-                    if (results.length = 5) {
+                    if (results.length === 5) {
                         hide = true;
                     }
                 }
@@ -760,7 +760,7 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
                 });
             }
         });
-    })
+    });
 });
 
 router.post('/dashboard/update-product/:productId/:title', productImageUpload.any(), function(req, res, next) {
@@ -1070,12 +1070,6 @@ router.get('/dashboard/add-new-product', function(req, res, next) {
     var image4 = req.session.image4 = "";
     var image5 = req.session.image5 = "";
     var status = req.session.prodstatus = "";
-
-    var size1 = req.session.size1 = "";
-    var color1 = req.session.color1 = "";
-    var stock1 = req.session.stock1 = "";
-    var price1 = req.session.price1 = "";
-    var status1 = req.session.status1 = "";
 
     var size1 = req.session.size1 = "";
     var color1 = req.session.color1 = "";
@@ -1696,7 +1690,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
                 });
             }
         });
-    })
+    });
 });
 
 
@@ -2220,7 +2214,6 @@ router.post('/dashboard/save-user', avatarUpload.single('avatar'), function(req,
 
 });
 
-
 router.get('/dashboard/settings', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
@@ -2263,7 +2256,6 @@ router.get('/dashboard/settings', function(req, res, next) {
     var contactEmail = req.session.contactEmail ? req.session.contactEmail : "";
     var facebook = req.session.facebook ? req.session.facebook : "";
     var twitter = req.session.twitter ? req.session.twitter : "";
-
 
     req.session.msg = "";
     req.session.successMsg = "";
@@ -2419,9 +2411,8 @@ router.get('/dashboard/settings', function(req, res, next) {
                 });
             }
         });
-    })
+    });
 });
-
 
 router.post('/dashboard/update-settings', settingsImageUpload.any(), function(req, res, next) {
 
@@ -2511,7 +2502,6 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                             throw err;
                         }
                         else {
-<<<<<<< HEAD
                             connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
                                 connection.release();
                                 console.log('Query returned1 ' + JSON.stringify(results[0]));
@@ -2525,10 +2515,8 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                                     // res.redirect('/admin-session');
                                 }
                             });
-=======
                             console.log("User update successful. ");
                             res.redirect('/admin/dashboard/settings');
->>>>>>> a417cf21b5d3029971ada8ce17684925bb1a7938
                         }
                     });
                 }
@@ -2536,6 +2524,5 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
         }
     });
 });
-
 
 module.exports = router;

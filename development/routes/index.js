@@ -37,12 +37,12 @@ router.get('/', function(req, res, next) {
                     popularProducts = results;
 
                     var obj = {};
-                    for (var i=0; i < popularProducts.length; i++)
+                    for (var i=0; i < popularProducts.length; i++) {
                         obj[popularProducts[i].title] = popularProducts[i];
-
-                    for (var key in obj)
+                    }
+                    for (var key in obj) {
                         popularProducts.push(obj[key]);
-
+                    }
                     for (var i=0; i<results.length; i++) {
                         var excerptLength = 75;
                         var description = results[i].description;
@@ -54,15 +54,11 @@ router.get('/', function(req, res, next) {
                         else {
                             excerpt = description;
                         }
-
                         results[i].excerpt = excerpt;
                     }
-
                     popularProducts = popularProducts.slice(0,4);
-
                 }
             });
-
 
             connection.query('SELECT * FROM products ORDER BY id DESC',[], function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
