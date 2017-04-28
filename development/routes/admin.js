@@ -1601,7 +1601,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
     var country = req.session.country ? req.session.country : "";
     var email = req.session.email ? req.session.email : "";
     var phoneNumber = req.session.phoneNumber ? req.session.phoneNumber : "";
-    var avatar = req.session.avatar ? req.session.avatar : "";
+    var userAvatar = req.session.userAvatar ? req.session.userAvatar : "";
     var userType = req.session.userType ? req.session.userType : "";
 
     req.session.msg = "";
@@ -1617,7 +1617,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
     req.session.country = "";
     req.session.email = "";
     req.session.phoneNumber = "";
-    req.session.avatar = "";
+    req.session.userAvatar = "";
     req.session.userType = "";
 
     connect(function(err, connection) {
@@ -1653,7 +1653,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
                     country = req.session.country = results[0].country;
                     email = req.session.email = results[0].email;
                     phoneNumber = req.session.phoneNumber = results[0].phoneNumber;
-                    avatar = req.session.avatar = results[0].avatar;
+                    userAvatar = req.session.userAvatar = results[0].avatar;
                     userType = req.session.userType = results[0].userType;
                 }
             });
@@ -1685,7 +1685,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
                     country: country,
                     email: email,
                     phoneNumber: phoneNumber,
-                    avatar: avatar,
+                    userAvatar: userAvatar,
                     userType: userType
                 });
             }
@@ -1709,7 +1709,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
     var phoneNumber = req.body.phoneNumber;
     var password1 = req.body.password1;
     var password2 = req.body.password2;
-    var avatar;
+    var userAvatar;
 
     connect(function(err, connection) {
         if (err) {
@@ -2509,24 +2509,21 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
         0.068 * Math.pow(b3, 2));
 
 
-    if (luma1 < 175) {
-    // if (luma1 < 20) {
+    if (luma1 < 190) {
         font1 = '#FFFFFF';
     }
     else {
         font1 = '#000000';
     }
 
-    if (luma2 < 175) {
-    // if (luma2 < 20) {
+    if (luma2 < 190) {
         font2 = '#FFFFFF';
     }
     else {
         font2 = '#000000';
     }
 
-    if (luma3 < 175) {
-    // if (luma3 < 20) {
+    if (luma3 < 190) {
         font3 = '#FFFFFF';
     }
     else {

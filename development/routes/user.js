@@ -427,6 +427,8 @@ router.post('/checkout', function(req, res, next) {
     var ccMonth = req.body.month;
     var ccYear = req.body.year;
 
+    req.session.order = true;
+
     if (req.body.shippingDetails){
         shipAddress1 = req.body.address1;
         shipAddress2 = req.body.address2;
@@ -531,13 +533,22 @@ router.post('/checkout', function(req, res, next) {
 
 router.get('/confirmation', function(req, res, next) {
 
-    res.render('confirmation', {
-        access: req.session.user,
-        owner: req.session.admin,
-        userId: req.session.userId,
-        avatar: req.session.avatar,
-        orderId: req.session.orderId
-    });
+    var order = req.session.order ? req.session.order : "";
+
+    req.session.order = "";
+
+    if (order) {
+
+        res.render('confirmation', {
+            orderId: req.session.orderId
+        });
+
+    } else {
+
+        res.redirect('error');
+
+    }
+
 });
 
 
