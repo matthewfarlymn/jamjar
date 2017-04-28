@@ -436,6 +436,7 @@ router.get('/sign-in', function(req, res, next) {
 
         res.render('access', {
             errorMessage: msg,
+            signIn: true,
             email: email,
             user: user,
             firstName: firstname,
