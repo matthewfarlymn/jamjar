@@ -494,14 +494,14 @@ router.post('/sign-in', function(req, res, next) {
         else if (password.trim().length === 0) {
           console.log("No password entered.");
           req.session.msg = "Please enter password.";
-          req.session.user = email;
+        //   req.session.user = email;
           res.redirect('/sign-in');
         }
         // fail login - password does not match
-        else if ((results.length !== 0) && (password !== results[0].password)) {
+        else if (password !== results[0].password) {
           console.log("Incorrect password.");
           req.session.msg = "Password incorrect.";
-          req.session.user = email;
+        //   req.session.user = email;
           res.redirect('/sign-in');
         }
         // fail login - email not found
