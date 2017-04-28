@@ -10,10 +10,6 @@ router.get('/settings', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
 
-    // if (!session) {
-    //     session = req.session.id;
-    // }
-
     var popularProducts = '';
     var recentProducts = '';
 
@@ -123,6 +119,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
+
 router.get('/about', function(req, res, next) {
     res.render('about', {
         access: req.session.user,
@@ -132,6 +129,7 @@ router.get('/about', function(req, res, next) {
     });
 });
 
+
 router.get('/confirmation', function(req, res, next) {
     res.render('confirmation', {
         access: req.session.user,
@@ -140,7 +138,6 @@ router.get('/confirmation', function(req, res, next) {
         avatar: req.session.avatar
     });
 });
-
 
 
 router.get('/products', function(req, res, next) {
@@ -252,7 +249,6 @@ router.get('/product/:id/:title', function(req, res, next) {
 
 
             connection.query('SELECT * FROM product_details WHERE productsId=? AND status="active" ORDER BY price',[req.params.id],function(err, results, fields) {
-            // connection.query('SELECT id, productsId, size, color, stock, CONCAT(price), salePrice, status, date FROM product_details WHERE productsId=? AND status="active" ORDER BY price',[req.params.id],function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
@@ -278,9 +274,6 @@ router.get('/product/:id/:title', function(req, res, next) {
                     if ((results[0].size === null) || (results[0].size === "")) {
                         sizes = false;
                     }
-
-                    // console.log(colorset + " " + sizeset);
-
 
                 }
             });
@@ -358,6 +351,7 @@ router.get('/product/:id/:title', function(req, res, next) {
     }
 });
 
+
 router.get('/contact', function(req, res, next) {
     res.render('contact', {
         access: req.session.user,
@@ -366,6 +360,7 @@ router.get('/contact', function(req, res, next) {
         avatar: req.session.avatar
     });
 });
+
 
 router.post('/search', function(req, res, next) {
 
@@ -411,6 +406,7 @@ router.post('/search', function(req, res, next) {
     });
 });
 
+
 router.get('/search-results', function(req, res, next) {
     var searchResults = req.session.searchResults;
 
@@ -420,10 +416,12 @@ router.get('/search-results', function(req, res, next) {
 
 });
 
+
 router.get('/sign-out', function(req, res, next) {
     req.session.destroy();
     res.redirect('/');
 });
+
 
 router.get('/sign-in', function(req, res, next) {
 
@@ -452,6 +450,7 @@ router.get('/sign-in', function(req, res, next) {
         res.redirect('/');
     }
 });
+
 
 // sign-in user
 router.post('/sign-in', function(req, res, next) {

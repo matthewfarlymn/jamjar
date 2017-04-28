@@ -38,9 +38,6 @@ router.post('/add-to-cart', function(req, res, next) {
     if (!email) {
         console.log("login needed");
         req.session.msg = "Please login or register.";
-        // req.session.user = email;
-        // req.session.firstName = firstName;
-        // req.session.lastName = lastName;
         res.redirect('/admin/dashboard/profile');
     }
     else {
@@ -54,7 +51,7 @@ router.post('/add-to-cart', function(req, res, next) {
                 console.log("Connected to the DB");
 
                 connection.query('SELECT * FROM shopping_cart WHERE email=? AND detailId=?',[email, detailId],function(err, results, fields) {
-                    console.log('Query returned2 ' + JSON.stringify(results));
+                    // console.log('Query returned2 ' + JSON.stringify(results));
 
                     if(err) {
                         throw err;
@@ -64,8 +61,6 @@ router.post('/add-to-cart', function(req, res, next) {
                         console.log("Product already exists in cart");
                         req.session.msg = "Product already exists in cart.";
                         req.session.user = email;
-                        // req.session.firstName = firstName;
-                        // req.session.lastName = lastName;
                         res.redirect('/product/' + productId + '/' + title);
                     }
 
@@ -114,8 +109,6 @@ router.get('/shopping-cart', function(req, res, next) {
 
     req.session.msg = "";
 
-    // var cartDetails = [];
-
     connect(function(err, connection) {
         if (err) {
             console.log("Error connecting to the database");
@@ -123,8 +116,6 @@ router.get('/shopping-cart', function(req, res, next) {
         }
         else {
             console.log("Connected to the DB");
-            // connection.query('SELECT * FROM shopping_cart WHERE email=?',[email], function(err, results, fields) {
-            // connection.query('SELECT * FROM shopping_cart s INNER JOIN product_details d ON s.detailId = d.id INNER JOIN products p ON d.productsId = p.id WHERE s.email=?',[email], function(err, results, fields) {
             connection.query('SELECT s.id, s.email, s.detailId, s.quantity, d.productsId, d.size, d.color, d.price, p.title, p.description, p.image1 FROM shopping_cart s INNER JOIN product_details d ON s.detailId = d.id INNER JOIN products p ON d.productsId = p.id WHERE s.email=?',[email], function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
@@ -180,7 +171,6 @@ router.get('/shopping-cart', function(req, res, next) {
                     cartDetail.subtotal = subtotal.toFixed(2);
                     cartDetail.total = total.toFixed(2);
 
-                    // cartDetails.push(cartDetail);
                     console.log('cartDetail ' + JSON.stringify(cartDetail));
                 }
             });
@@ -199,8 +189,6 @@ router.get('/shopping-cart', function(req, res, next) {
                     successMessage: successMsg,
                     access: req.session.user,
                     owner: req.session.admin,
-                    // userId: req.session.userId,
-                    // avatar: req.session.avatar,
                     cart: cart,
                     cartDetail: cartDetail
                 });
@@ -257,12 +245,8 @@ router.post('/update-cart', function(req,res, next) {
             else {
                 console.log("Connected to the DB");
 
-                // connection.query('DELETE FROM shopping_cart WHERE id=?',[req.params.itemid], function(err, results, fields) {
                 connection.query('UPDATE shopping_cart SET quantity=? WHERE id=?',[quantity, itemId], function(err, results, fields) {
-
                     connection.release();
-
-                    // console.log('Item updated ' + req.params.itemid);
 
                     res.redirect('/user/shopping-cart');
 
@@ -287,8 +271,6 @@ router.get('/checkout', function(req, res, next) {
     var province = '';
     var postalcode = '';
     var country = '';
-    // var email = '';
-    // var phoneNumber = '';
 
     req.session.msg = "";
 
@@ -310,15 +292,12 @@ router.get('/checkout', function(req, res, next) {
                 else if (results.address1 !== '') {
                   console.log("address found for user " + email);
 
-                //   firstName = results[0].firstName;
-                //   lastName = results[0].lastName;
                   address1 = results[0].address1;
                   address2 = results[0].address2;
                   city = results[0].city;
                   province = results[0].province;
                   postalcode = results[0].postalcode;
                   country = results[0].country;
-                //   phoneNumber = results[0].phoneNumber;
 
                 }
                 // address not found for user
@@ -327,10 +306,8 @@ router.get('/checkout', function(req, res, next) {
                 }
             });
 
-            // connection.query('SELECT * FROM shopping_cart WHERE email=?',[email], function(err, results, fields) {
-            // connection.query('SELECT * FROM shopping_cart s INNER JOIN product_details d ON s.detailId = d.id INNER JOIN products p ON d.productsId = p.id WHERE s.email=?',[email], function(err, results, fields) {
             connection.query('SELECT s.id, s.email, s.detailId, s.quantity, d.productsId, d.size, d.color, d.price, p.title, p.description, p.image1 FROM shopping_cart s INNER JOIN product_details d ON s.detailId = d.id INNER JOIN products p ON d.productsId = p.id WHERE s.email=?',[email], function(err, results, fields) {
-                console.log('Query returned ' + JSON.stringify(results));
+                // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
                   throw err;
@@ -387,7 +364,6 @@ router.get('/checkout', function(req, res, next) {
                     req.session.cart = cart;
                     req.session.cartDetail = cartDetail;
 
-                    // cartDetails.push(cartDetail);
                     console.log('cartDetail ' + JSON.stringify(cartDetail));
                 }
             });
@@ -406,8 +382,6 @@ router.get('/checkout', function(req, res, next) {
                     // successMessage: successMsg,
                     access: req.session.user,
                     owner: req.session.admin,
-                    // firstName: firstName,
-                    // lastName: lastName,
                     address1: address1,
                     address2: address2,
                     city: city,
@@ -415,7 +389,6 @@ router.get('/checkout', function(req, res, next) {
                     postalcode: postalcode,
                     country: country,
                     email: email,
-                    // phoneNumber: phoneNumber,
                     cart: cart,
                     cartDetail: cartDetail
                 });
@@ -434,8 +407,6 @@ router.post('/checkout', function(req, res, next) {
     var province = req.body.province;
     var postalcode = req.body.postalcode;
     var country = req.body.country;
-    // var email = req.body.email;
-    // var phoneNumber = req.body.phoneNumber;
 
     var shipAddress1 = '';
     var shipAddress2 = '';
@@ -443,8 +414,6 @@ router.post('/checkout', function(req, res, next) {
     var shipProvince = '';
     var shipPostalcode = '';
     var shipCountry = '';
-    // var shipemail = '';
-    // var shipphoneNumber = '';
 
     var cart = req.session.cart;
 
@@ -465,8 +434,6 @@ router.post('/checkout', function(req, res, next) {
         shipProvince = req.body.province;
         shipPostalcode = req.body.postalcode;
         shipCountry = req.body.country;
-        // shipemail = req.body.email;
-        // shipphoneNumber = req.body.phoneNumber;
     }
     else {
         shipAddress1 = req.body.shipaddress1;
@@ -475,8 +442,6 @@ router.post('/checkout', function(req, res, next) {
         shipProvince = req.body.shipprovince;
         shipPostalcode = req.body.shippostalcode;
         shipCountry = req.body.shipcountry;
-        // shipemail = req.body.shipemail;
-        // shipphoneNumber = req.body.shipphoneNumber;
     }
 
     connect(function(err, connection) {
@@ -494,7 +459,6 @@ router.post('/checkout', function(req, res, next) {
 
                     // insert into order_details
                     connection.query('INSERT INTO order_details (userId, tax, shipping, shipAddress1, shipAddress2, shipCity, shipProvince, shipPostalcode, shipCountry, ccNumber, ccCVV, ccFullName, ccMonth, ccYear) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[userId, tax, shipping, shipAddress1, shipAddress2, shipCity, shipProvince, shipPostalcode, shipCountry, ccNumber, ccCVV, ccFullName, ccMonth, ccYear], function(err, results, fields) {
-                        // connection.release();
 
                         if (err) {
                             console.log("Error connecting to the database - insert");
@@ -505,7 +469,7 @@ router.post('/checkout', function(req, res, next) {
                             // req.session.user = email;
 
                             connection.query('SELECT * FROM order_details WHERE userId=? ORDER BY id DESC',[userId], function(err, results, fields) {
-                                console.log('Query returned1 ' + JSON.stringify(results));
+                                // console.log('Query returned1 ' + JSON.stringify(results));
 
                                 if (err) {
                                     console.log("Error connecting to the database - select");
@@ -516,9 +480,6 @@ router.post('/checkout', function(req, res, next) {
 
                                     var orderId = req.session.orderId = results[0].id;
 
-                                    // req.session.user = email;
-
-                                    console.log('cart.length: ' + cart.length);
                                     for (var i=0; i<cart.length; i++) {
 
                                         connection.query('INSERT INTO orders (orderId, productId, price, quantity) VALUES (?,?,?,?)',[orderId, cart[i].detailId, cart[i].price, cart[i].quantity], function(err, results, fields) {
@@ -530,7 +491,7 @@ router.post('/checkout', function(req, res, next) {
                                     }
 
                                     connection.query('SELECT * FROM order_details WHERE userId=? ORDER BY id DESC',[userId], function(err, results, fields) {
-                                        console.log('Query returned1 ' + JSON.stringify(results));
+                                        // console.log('Query returned1 ' + JSON.stringify(results));
 
                                         if (err) {
                                             console.log("Error connecting to the database - select");
@@ -540,8 +501,6 @@ router.post('/checkout', function(req, res, next) {
                                             console.log("Order_details insert successful.");
 
                                             var orderId = req.session.orderId = results[0].id;
-
-                                            // req.session.user = email;
 
                                             connection.query('DELETE FROM shopping_cart WHERE email=?',[req.session.user], function(err, results, fields) {
                                                 if (err) {
@@ -568,6 +527,7 @@ router.post('/checkout', function(req, res, next) {
         }
     });
 });
+
 
 router.get('/confirmation', function(req, res, next) {
 
@@ -618,7 +578,7 @@ router.get('/dashboard/profile', function(req, res, next) {
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM users WHERE email=?',[req.session.user],function(err, results, fields) {
-                console.log('Query returned1 ' + JSON.stringify(results));
+                // console.log('Query returned1 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -706,7 +666,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
             console.log("Connected to the DB");
 
             connection.query('SELECT * FROM users WHERE email=?',[email],function(err, results, fields) {
-                console.log('Query returned2 ' + JSON.stringify(results));
+                // console.log('Query returned2 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -715,18 +675,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                 else if (email.trim().length === 0) {
                     console.log("email field empty.");
                     req.session.msg = "Please enter email.";
-                    // req.session.user = email;
-                    // req.session.firstname = firstName;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // error - email already registered
                 else if ((results.length !== 0) && (email !== req.session.user)) {
                     console.log("Email already registered");
                     req.session.msg = "Unable to update. Email address already registered.";
-                    // req.session.user = email;
-                    // req.session.firstname = firstName;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // error - firstname not entered
@@ -734,8 +688,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("firstName field empty.");
                     req.session.msg = "Please enter Firstname.";
                     req.session.user = email;
-                    // req.session.firstname = firstName;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // error - lastname not entered
@@ -743,7 +695,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("lastname field empty.");
                     req.session.msg = "Please enter Lastname.";
                     req.session.user = email;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // error - current password empty
@@ -751,7 +702,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("current password field empty.");
                     req.session.msg = "Current password missing. Please re-enter all password fields.";
                     req.session.user = email;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // error - new password empty
@@ -759,15 +709,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("new password field empty.");
                     req.session.msg = "New password missing. Please re-enter all password fields.";
                     req.session.user = email;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // error - confirm password empty
                 else if ((password1.trim().length !== 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
                     console.log("new re-enter password field empty.");
                     req.session.msg = "Re-enter password missing. Please re-enter all password fields.";
-                    // req.session.user = email;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // error - new and confirm empty
@@ -775,15 +722,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("only current password entered.");
                     req.session.msg = "Enter all password fields to change password.";
                     req.session.user = email;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // error - current and confirm empty
                 else if ((password1.trim().length === 0) && (password2.trim().length !== 0) && (password3.trim().length === 0)) {
                     console.log("only new password entered.");
                     req.session.msg = "Enter all password fields to change password.";
-                    // req.session.user = email;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // error - current and new empty
@@ -791,7 +735,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                     console.log("only re-enter password entered.");
                     req.session.msg = "Enter all password fields to change password.";
                     req.session.user = email;
-                    // req.session.lastname = lastName;
                     res.redirect('/user/dashboard/profile');
                 }
                 // okay - all password filds entered
@@ -801,15 +744,12 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                         console.log("current password does not match table.");
                         req.session.msg = "Current password is incorrect.  Please re-enter all password fields.";
                         req.session.user = email;
-                        // req.session.lastname = lastName;
                         res.redirect('/user/dashboard/profile');
                     }
                     // error - current and new do not match
                     else if (password2.trim() !== password3.trim()) {
                         console.log("new and confirm passwords does not match.");
                         req.session.msg = "New and confrim passwords do not match.  Please re-enter all password fields.";
-                        // req.session.user = email;
-                        // req.session.lastname = lastName;
                         res.redirect('/user/dashboard/profile');
                     }
 
@@ -830,7 +770,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                 }
 
                                 // update replaces password
-                                // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, password, avatar) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, password2, avatar], function(err, results, fields) {
                                 connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, password=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, password2, avatar, req.session.user], function(err, results, fields) {
                                     connection.release();
 
@@ -842,7 +781,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                         console.log("User update successful. " + email);
                                         req.session.user = email;
                                         res.redirect('/user/dashboard/profile');
-                                        // res.redirect('/user-session');
                                     }
                                 });
                             }
@@ -870,7 +808,6 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             }
 
                             // update does not replace password
-                            // connection.query('INSERT INTO users (firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar) VALUES (?,?,?,?,?,?,?,?,?,?)',[firstName, lastName, address1, address2, city, province, postalcode, country, email, avatar], function(err, results, fields) {
                             connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, avatar, req.session.user], function(err, results, fields) {
                                 connection.release();
 
@@ -989,10 +926,9 @@ router.get('/dashboard/order/:id', function(req, res, next) {
         }
         else {
             console.log("Connected to the DB");
-            console.log('req.session.id: ' + req.session.userId);
 
             connection.query('SELECT d.id, d.date, d.userId, o.orderId, SUM(o.price * o.quantity) AS SubTotal, d.tax, d.shipping FROM orders o INNER JOIN order_details d ON o.orderId = d.id WHERE o.orderId=? GROUP BY o.orderId',[req.params.id],function(err, results, fields) {
-                console.log('Query returned3 ' + JSON.stringify(results));
+                // console.log('Query returned3 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -1039,7 +975,7 @@ router.get('/dashboard/order/:id', function(req, res, next) {
             });
 
             connection.query('SELECT o.id, o.orderId, o.price, o.quantity, p.title, p.description, p.image1 FROM orders o INNER JOIN product_details d ON o.productId = d.id INNER JOIN products p ON d.productsId = p.id  WHERE o.orderId=? GROUP BY o.id',[req.params.id],function(err, results, fields) {
-                console.log('Query returned4 ' + JSON.stringify(results));
+                // console.log('Query returned4 ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -1047,12 +983,10 @@ router.get('/dashboard/order/:id', function(req, res, next) {
                 // no user found
                 else if (results.length === 0) {
                     console.log("No product details found for order");
-                    // orderData = false;
                 }
                 // user found
                 else {
                     console.log("Product details found for order");
-                    // orderData = true;
 
                     for (var i=0; i<results.length; i++) {
 
