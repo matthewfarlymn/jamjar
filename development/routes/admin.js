@@ -1332,7 +1332,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                 req.session.price5 = price5;
                 req.session.status5 = status5;
 
-                res.redirect('/admin/dashboard/add-user');
+                res.redirect('/admin/dashboard/add-product');
             }
             else {
                 console.log("Connected to the DB");
@@ -1945,6 +1945,7 @@ router.get('/dashboard/add-new-user', function(req, res, next) {
     var country = req.session.country = "";
     var email = req.session.email = "";
     var phoneNumber = req.session.phoneNumber = "";
+    var userAvatar = req.session.userAvatar = "";
     var userType = req.session.userType = "";
 
     res.redirect('/admin/dashboard/add-user');
@@ -1964,6 +1965,7 @@ router.get('/dashboard/add-user', function(req, res, next) {
     var email = req.session.email ? req.session.email : "";
     var phoneNumber = req.session.phoneNumber ? req.session.phoneNumber : "";
     var avatar;
+    var userAvatar = req.session.userAvatar ? req.session.userAvatar : "";
     var userType = req.session.userType ? req.session.userType : "";
 
     req.session.msg = "";
@@ -1977,6 +1979,7 @@ router.get('/dashboard/add-user', function(req, res, next) {
     req.session.country = "";
     req.session.email = "";
     req.session.phoneNumber = "";
+    req.session.userAvatar = "";
     req.session.userType = "";
 
     res.render('dashboard/user', {
@@ -1996,7 +1999,7 @@ router.get('/dashboard/add-user', function(req, res, next) {
         country: country,
         email: email,
         phoneNumber: phoneNumber,
-        avatar: avatar,
+        userAvatar: userAvatar,
         userType: userType
     });
 });
