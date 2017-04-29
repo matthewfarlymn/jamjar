@@ -131,13 +131,16 @@ router.get('/about', function(req, res, next) {
 router.get('/confirmation', function(req, res, next) {
 
     var contact = req.session.contact ? req.session.contact : "";
+    var ticketId = req.session.ticketId ? req.session.ticketId : "";
 
     req.session.contact = "";
+    req.session.ticketId = "";
 
     if (contact) {
 
         res.render('confirmation', {
-            contact: contact
+            contact: contact,
+            ticketId: ticketId
         });
 
     } else {
@@ -367,7 +370,6 @@ router.get('/contact', function(req, res, next) {
         access: req.session.user,
         owner: req.session.admin,
         userId: req.session.userId,
-        ticketId: req.session.ticketId,
         avatar: req.session.avatar
     });
 });
