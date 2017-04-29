@@ -8,9 +8,9 @@ nav
                 a(class=profile ? 'active' : '' href=owner ? '/admin/dashboard/profile' : '/user/dashboard/profile') Profile
             li    
                 a(class=orders ? 'active' : '' href=owner ? '/admin/dashboard/orders' : '/user/dashboard/orders') Orders
-            li    
-                a(class=tickets ? 'active' : '' href=owner ? '/admin/dashboard/tickets' : '/user/dashboard/tickets') Tickets
             if owner
+                li    
+                    a(class=tickets ? 'active' : '' href='/admin/dashboard/tickets') Tickets
                 li    
                     a(class=products ? 'active' : '' href='/admin/dashboard/products') Products
                 li    
