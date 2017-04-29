@@ -1545,7 +1545,7 @@ router.get('/dashboard/users', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM users ORDER BY id',[],function(err, results, fields) {
+            connection.query('SELECT * FROM users WHERE email != ? ORDER BY id',[req.session.user],function(err, results, fields) {
                 // console.log('Query returned12 ' + JSON.stringify(results));
 
                 if(err) {
@@ -1628,7 +1628,7 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM users WHERE id=?',[req.params.id],function(err, results, fields) {
+            connection.query('SELECT * FROM users WHERE id = ?',[req.params.id],function(err, results, fields) {
                 // console.log('Query returned13 ' + JSON.stringify(results));
 
                 if(err) {
@@ -1667,27 +1667,31 @@ router.get('/dashboard/edit-user/:id/:email', function(req, res, next) {
                 });
             }
             else {
-                res.render('dashboard/user', {
-                    errorMessage: msg,
-                    successMessage: successMsg,
-                    access: req.session.user,
-                    owner: req.session.admin,
-                    users: true,
-                    add: false,
-                    userId: userId,
-                    firstName: firstName,
-                    lastName: lastName,
-                    address1: address1,
-                    address2: address2,
-                    city: city,
-                    province: province,
-                    postalcode: postalcode,
-                    country: country,
-                    email: email,
-                    phoneNumber: phoneNumber,
-                    userAvatar: userAvatar,
-                    userType: userType
-                });
+                if (req.params.email !== req.session.user) {
+                    res.render('dashboard/user', {
+                        errorMessage: msg,
+                        successMessage: successMsg,
+                        access: req.session.user,
+                        owner: req.session.admin,
+                        users: true,
+                        add: false,
+                        userId: userId,
+                        firstName: firstName,
+                        lastName: lastName,
+                        address1: address1,
+                        address2: address2,
+                        city: city,
+                        province: province,
+                        postalcode: postalcode,
+                        country: country,
+                        email: email,
+                        phoneNumber: phoneNumber,
+                        userAvatar: userAvatar,
+                        userType: userType
+                    });
+                } else {
+                    res.redirect('/admin/dashboard/users');
+                }
             }
         });
     });

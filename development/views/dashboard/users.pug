@@ -13,24 +13,30 @@ block content
                     div.col-xs-12.col-md-8
                         a(href='/admin/dashboard/add-new-user').button.pink Add
                     div.col-xs-12.col-md-8
-                        each user in userDetails
+                        if !userData
                             div.row.middle-xs.grey
-                                div.col-sm-4
-                                    div.user
-                                        if !user.avatar
-                                            img(src='/img/avatar.jpg')
-                                        else
-                                            img(src='/uploads/users/' + user.avatar)
-                                div.col-xs-9.col-sm-6
-                                    h3 #{user.firstName} #{user.lastName}
-                                    ul
-                                        li
-                                            span.fa.fa-envelope
-                                            span #{user.email}
-                                        li
-                                            span.fa.fa-phone
-                                            span #{user.phoneNumber}
-                                div.col-xs-3.col-sm-2.right
-                                    a(href='/admin/dashboard/edit-user/' + user.id + '/' + user.email) Edit
+                                div.col-sm-12
+                                    h2 No registered users...
+                                    p Sorry, it doesn't look like you have an registered users at the moment.
+                        else
+                            each user in userDetails
+                                div.row.middle-xs.grey
+                                    div.col-sm-4
+                                        div.user
+                                            if !user.avatar
+                                                img(src='/img/avatar.jpg')
+                                            else
+                                                img(src='/uploads/users/' + user.avatar)
+                                    div.col-xs-9.col-sm-6
+                                        h3 #{user.firstName} #{user.lastName}
+                                        ul
+                                            li
+                                                span.fa.fa-envelope
+                                                span #{user.email}
+                                            li
+                                                span.fa.fa-phone
+                                                span #{user.phoneNumber}
+                                    div.col-xs-3.col-sm-2.right
+                                        a(href='/admin/dashboard/edit-user/' + user.id + '/' + user.email) Edit
                     div.col-xs-12.col-md-8
                         a(href='/admin/dashboard/add-new-user').button.pink Add

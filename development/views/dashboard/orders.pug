@@ -11,18 +11,24 @@ block content
                             span #{errorMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        each order in orderDetails
+                        if !orderData
                             div.row.middle-xs.grey
-                                div.col-xs-8.col-sm-10
-                                    div.row.middle-xs
-                                        div.col-xs-12.col-sm-3.detail
-                                            strong ID:
-                                            span #{order.id}
-                                        div.col-xs-12.col-sm-5.detail
-                                            strong Date:
-                                            span #{order.date}
-                                        div.col-xs-12.col-sm-4.detail
-                                            strong Total:
-                                            span $#{order.total}
-                                div.col-xs-4.col-sm-2.right
-                                    a(href=owner ? '/admin/dashboard/order/' + order.id : '/user/dashboard/order/' + order.id) Details
+                                div.col-sm-12
+                                    h2 No current orders...
+                                    p Sorry, it doesn't look like you have any current orders at the moment.
+                        else
+                            each order in orderDetails
+                                div.row.middle-xs.grey
+                                    div.col-xs-8.col-sm-10
+                                        div.row.middle-xs
+                                            div.col-xs-12.col-sm-3.detail
+                                                strong ID:
+                                                span #{order.id}
+                                            div.col-xs-12.col-sm-5.detail
+                                                strong Date:
+                                                span #{order.date}
+                                            div.col-xs-12.col-sm-4.detail
+                                                strong Total:
+                                                span $#{order.total}
+                                    div.col-xs-4.col-sm-2.right
+                                        a(href=owner ? '/admin/dashboard/order/' + order.id : '/user/dashboard/order/' + order.id) Details

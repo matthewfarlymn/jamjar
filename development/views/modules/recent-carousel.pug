@@ -1,17 +1,18 @@
-section.carousel
-    header.row.middle-xs.container
-        div.col-xs-6
-            h1 Recently Added
-        div.col-xs-6.end-xs
-            a(href='/products').button.pink See All
-    div.row.container
-        each product in recentProducts
-            div.col-xs-12.col-sm-6.col-md-3
-                div.product
-                    if !product.image1
-                        img(src='/img/product.jpg')   
-                    else 
-                        img(src='/uploads/products/' + product.image1)
-                    h3 #{product.title}
-                    p #{product.excerpt}
-                    a(href='/product/' + product.id + '/' + product.title) Learn More
+if recentProducts
+    section.carousel
+        header.row.middle-xs.container
+            div.col-xs-6
+                h1 Recently Added
+            div.col-xs-6.end-xs
+                a(href='/products').button.pink See All
+        div.row.container
+            each product in recentProducts
+                div.col-xs-12.col-sm-6.col-md-3
+                    div.product
+                        if !product.image1
+                            img(src='/img/product.jpg')   
+                        else 
+                            img(src='/uploads/products/' + product.image1)
+                        h3 #{product.title}
+                        p #{product.excerpt}
+                        a(href='/product/' + product.id + '/' + product.title) Learn More

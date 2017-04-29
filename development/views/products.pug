@@ -3,21 +3,31 @@ extends templates/layout
 block content
     main
         section.products
-            header.row.container
-                div.col-xs-12
-                    h1 All Products
-            div.row.container
-                each product in products 
-                    div.col-xs-12.col-sm-6.col-md-3
-                        div.product
-                            if !product.image1
-                                img(src='/img/product.jpg')
-                            else
-                                img(src='/uploads/products/' + product.image1)
-                            h3 #{product.title}
-                            p #{product.excerpt}
-                            a(href='/product/' + product.id + '/' + product.title) Learn More
-        if !access
-            include modules/register-cta
+            if !products
+                header.row.container
+                    div.col-xs-12.col-md-8.error
+                        h1 All Products
+                        h2 There don't seem to be any products...
+                        p The best thing to do now would be to check the url for errors, start again from #[a(href='/') home] or contact us and let us know something is broken!
+            else
+                header.row.container
+                    div.col-xs-12
+                        h1 All Products
+                div.row.container
+                    each product in products 
+                        div.col-xs-12.col-sm-6.col-md-3
+                            div.product
+                                if !product.image1
+                                    img(src='/img/product.jpg')
+                                else
+                                    img(src='/uploads/products/' + product.image1)
+                                h3 #{product.title}
+                                p #{product.excerpt}
+                                a(href='/product/' + product.id + '/' + product.title) Learn More
+        if !products
+            include modules/error-cta
         else
-            include modules/contact-cta
+            if !access
+                include modules/register-cta
+            else
+                include modules/contact-cta
