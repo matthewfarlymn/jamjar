@@ -429,6 +429,8 @@ router.post('/checkout', function(req, res, next) {
     var ccMonth = req.body.month;
     var ccYear = req.body.year;
 
+    var companyName = themeSettings.companyName;
+    var compnayURL = themeSettings.compnayURL;
     var contactName = themeSettings.contactName;
     var contactEmail = themeSettings.contactEmail;
 
@@ -536,11 +538,11 @@ router.post('/checkout', function(req, res, next) {
 
                                     // setup email data with unicode symbols
                                     let mailOptions = {
-                                        from: '"' + contactName + '" <' + contactEmail + '>', // sender address
+                                        from: '"' + companyName + '" <' + contactEmail + '>', // sender address
                                         to: email, // list of receivers
-                                        subject: 'Your ' + contactName + 'order was successful.', // Subject line
-                                        text: 'Your ' + contactName + ' order was successful.', // plain text body
-                                        html: '<p>Your '+ contactName + ' order was successful.</p>' // html body
+                                        subject: 'Your ' + companyName + 'order was successful.', // Subject line
+                                        text: 'Your ' + companyName + ' order was successful.', // plain text body
+                                        html: '<p>Your '+ companyName + ' order was successful.</p>' // html body
                                     };
 
                                     // send mail with defined transport object

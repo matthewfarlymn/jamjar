@@ -2462,6 +2462,8 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
 
     var aboutDescription = req.body.aboutDescription;
 
+    var companyName = req.body.companyName;
+    var companyURL = req.body.companyURL;
     var contactName = req.body.contactName;
     var contactEmail = req.body.contactEmail;
 
@@ -2575,7 +2577,7 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                         'facebook, twitter) ' +
                         'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-                    connection.query(sql, [logo, color1, color2, color3, font1, font2, font3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, companyName, companyURL, contactName, contactEmail, facebook, twitter], 
+                    connection.query(sql, [logo, color1, color2, color3, font1, font2, font3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, companyName, companyURL, contactName, contactEmail, facebook, twitter],
                         function(err, results, fields) {
                         if (err) {
                             console.log("Error connecting to the database - insert46");
