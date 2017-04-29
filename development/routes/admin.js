@@ -814,7 +814,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
             }
             else {
                 console.log("Connected to the DB");
-                console.log(images);
 
                 connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
                     // console.log('Query returned8 ' + JSON.stringify(results));
@@ -1008,7 +1007,6 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
             }
             else {
                 console.log("Connected to the DB");
-                console.log(images);
 
                 connection.query('SELECT * FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.id=?',[req.params.productId],function(err, results, fields) {
                     // console.log('Query returned9 ' + JSON.stringify(results));
