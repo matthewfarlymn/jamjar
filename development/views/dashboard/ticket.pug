@@ -1,0 +1,41 @@
+extends ../templates/layout
+
+block content
+    main
+        section.dashboard
+            include ../modules/dashboard-nav
+            div.ticket
+                div.row.center-xs.container
+                    div.col-xs-12.col-md-8
+                        div.row.middle-xs.grey
+                            div.col-xs-12
+                                div.row.middle-xs
+                                    div.col-xs-12.col-sm-4.detail
+                                        strong ID:
+                                        span #{ticketDetails[0].id}
+                                    div.col-xs-12.col-sm-4.detail
+                                        strong Date:
+                                        span #{ticketDetails[0].date}
+                                    div.col-xs-12.col-sm-4.detail
+                                        strong Status:
+                                        span $#{ticketDetails[0].status}
+                    if owner
+                        div.col-xs-12.col-md-8
+                            div.row.middle-xs.grey
+                                div.col-xs-12.col-sm-4
+                                    h3 #{ticketDetails[0].firstName} #{ticketDetails[0].lastName}
+                                div.col-xs-12.col-sm-4
+                                    ul
+                                        li
+                                            span.fa.fa-envelope
+                                            span #{ticketDetails[0].email}
+                                div.col-xs-12.col-sm-4
+                                    ul
+                                        li
+                                            span.fa.fa-phone
+                                            span #{ticketDetails[0].phoneNumber}
+                    div.col-xs-12.col-md-8
+                        each ticket in ticketDetails
+                            div.row.middle-xs.grey
+                                div.col-xs-12
+                                    p #{ticket.message}

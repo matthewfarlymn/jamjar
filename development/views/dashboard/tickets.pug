@@ -4,27 +4,27 @@ block content
     main
         section.dashboard
             include ../modules/dashboard-nav
-            div.orders
+            div.tickets
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        if !orderData
+                        if !ticketData
                             div.row.middle-xs.grey
                                 div.col-sm-12
-                                    h2 No current orders...
-                                    p Sorry, it doesn't look like you have any current orders at the moment.
+                                    h2 No current tickets...
+                                    p Sorry, it doesn't look like you have any current tickets at the moment.
                         else
-                            each order in orderDetails
+                            each ticket in ticketDetails
                                 div.row.middle-xs.grey
                                     div.col-xs-8.col-sm-10
                                         div.row.middle-xs
                                             div.col-xs-12.col-sm-3.detail
                                                 strong ID:
-                                                span #{order.id}
+                                                span #{ticket.id}
                                             div.col-xs-12.col-sm-5.detail
                                                 strong Date:
-                                                span #{order.date}
+                                                span #{ticket.date}
                                             div.col-xs-12.col-sm-4.detail
-                                                strong Total:
-                                                span $#{order.total}
+                                                strong Status:
+                                                span $#{ticket.status}
                                     div.col-xs-4.col-sm-2.right
-                                        a(href=owner ? '/admin/dashboard/order/' + order.id : '/user/dashboard/order/' + order.id) Details
+                                        a(href=owner ? '/admin/dashboard/ticket/' + ticket.id : '/user/dashboard/ticket/' + ticket.id) Details

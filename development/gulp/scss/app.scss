@@ -813,7 +813,7 @@ section {
             }
         }
 
-        .orders, .order, .products, .users {
+        .orders, .order, .tickets, .ticket .products, .users {
             .grey {
                 background-color: #f6f6f6;
                 padding: 20px 4px;
@@ -889,7 +889,7 @@ section {
             }
         }
 
-        .orders, .order {
+        .orders, .order, .tickets, .ticket {
             margin-bottom: -15px;
             .grey {
                 &:first-of-type {
