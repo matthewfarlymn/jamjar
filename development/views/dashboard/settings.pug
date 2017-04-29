@@ -153,10 +153,16 @@ block content
                                     h2 Contact Information
                                     span.row
                                         span.col-xs-12.col-sm-6
-                                            label(for='name') Name
-                                            input(type='text' name='contactName' placeholder='Name' value=contactName required)
+                                            label(for='companyName') Company Name
+                                            input(type='text' name='companyName' placeholder='Company Name' value=companyName required)
                                         span.col-xs-12.col-sm-6
-                                            label(for='email') Email
+                                            label(for='companyUrl') Url
+                                            input(type='url' name='companyUrl' placeholder='Url' value=companyUrl required)
+                                        span.col-xs-12.col-sm-6
+                                            label(for='contactName') Contact Name
+                                            input(type='text' name='contactName' placeholder='Contact Name' value=contactName required)
+                                        span.col-xs-12.col-sm-6
+                                            label(for='contactEmail') Email
                                             input(type='email' name='contactEmail' placeholder='Email' value=contactEmail required)
                             span.row.grey
                                 span.col-xs-12.fieldset

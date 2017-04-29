@@ -46,11 +46,12 @@ jQuery(document).ready(function($) {
     });
 
     $('.send-password').click(function() {
+        $('.error, .success').remove();
         $('.access .sign-in').html(
             '<h1>Password</h1>' +
             '<form action="/send-password" method="post">' +
                 '<label for="email">Email<label>' +
-                '<input type="email" name="email" placeholder="Email" value=user required>' +
+                '<input type="email" name="email" placeholder="Email" required>' +
                 '<span class="flex between">' +
                     '<button class="button pink" type="submit">Send Password</button>' +
                     '<a href="/sign-in">Sign-In?</a>' +
