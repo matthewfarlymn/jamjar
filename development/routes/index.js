@@ -379,6 +379,11 @@ router.post('/contact', function(req, res, next) {
     var phoneNumber = req.body.phoneNumber;
     var message = req.body.message;
 
+    var companyName = themeSettings.companyName;
+    var compnayURL = themeSettings.compnayURL;
+    var contactName = themeSettings.contactName;
+    var contactEmail = themeSettings.contactEmail;
+
     req.session.contact = true;
 
     // create reusable transporter object using the default SMTP transport
@@ -392,10 +397,10 @@ router.post('/contact', function(req, res, next) {
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: '"Jam Jar" <jamjarink@gmail.com>', // sender address
+        from: '"' + companyName + '" <' + contactEmail + '>', // sender address
         to: email, // list of receivers
-        bcc: 'jamjarink@gmail.com', // bcc jamjarink
-        subject: 'Please let this work!', // Subject line
+        bcc: contactEmail, // bcc jamjarink
+        subject: companyName + ' has received the following message.', // Subject line
         text: message, // plain text body
         html: '<p>' + message + '</p>' // html body
     };
@@ -537,22 +542,16 @@ router.post('/sign-in', function(req, res, next) {
         if(err) {
           throw err;
         }
-        // successful login - id and password match
-        else if ((results.length !== 0) && (password === results[0].password)) {
-            console.log("Login successful!" + email);
-
-            req.session.user = email;
-
-            if (results[0].userType === 'admin') {
-                req.session.admin = 'admin';
-            }
-
-            res.redirect('/user-session');
-        }
         // fail login - email not entered
         else if (email.trim().length === 0) {
           console.log("No email entered.");
           req.session.msg = "Please enter email.";
+          res.redirect('/sign-in');
+        }
+        // fail login - email not found
+        else if (results.length === 0)  {
+          console.log("Email not found.");
+          req.session.msg = email + " does not exist. Please register.";
           res.redirect('/sign-in');
         }
         // fail login - password not entered
@@ -567,11 +566,18 @@ router.post('/sign-in', function(req, res, next) {
           req.session.msg = "Password incorrect.";
           res.redirect('/sign-in');
         }
-        // fail login - email not found
-        else  {
-          console.log("Email not found.");
-          req.session.msg = email + " does not exist. Please register.";
-          res.redirect('/sign-in');
+        // successful login - id and password match
+        // else if ((results.length !== 0) && (password === results[0].password)) {
+        else {
+            console.log("Login successful!" + email);
+
+            req.session.user = email;
+
+            if (results[0].userType === 'admin') {
+                req.session.admin = 'admin';
+            }
+
+            res.redirect('/user-session');
         }
       });
     }
@@ -585,6 +591,11 @@ router.post('/send-password', function(req, res, next) {
     var msg = "";
     var successMsg = "";
     var email = req.body.email;
+
+    var companyName = themeSettings.companyName;
+    var compnayURL = themeSettings.compnayURL;
+    var contactName = themeSettings.contactName;
+    var contactEmail = themeSettings.contactEmail;
 
     connect(function(err, connection) {
         if (err) {
@@ -622,9 +633,9 @@ router.post('/send-password', function(req, res, next) {
 
                     // setup email data with unicode symbols
                     let mailOptions = {
-                        from: '"Jam Jar" <jamjarink@gmail.com>', // sender address
+                        from: '"' + companyName + '" <' + contactEmail + '>', // sender address
                         to: email, // list of receivers
-                        subject: 'Jam Jar password', // Subject line
+                        subject: companyName + ' password', // Subject line
                         text: 'Your password is ' + results[0].password + '.', // plain text body
                         html: '<p>Your password is ' + results[0].password + '.</p>' // html body
                     };
