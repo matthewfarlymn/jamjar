@@ -35,16 +35,7 @@ router.get('/', function(req, res, next) {
                 }
                 // products found
                 else {
-                    console.log("Products found :)");
-                    popularProducts = results;
-
-                    var obj = {};
-                    for (var i=0; i < popularProducts.length; i++) {
-                        obj[popularProducts[i].title] = popularProducts[i];
-                    }
-                    for (var key in obj) {
-                        popularProducts.push(obj[key]);
-                    }
+                    console.log("products found :)");
                     for (var i=0; i<results.length; i++) {
                         var excerptLength = 75;
                         var description = results[i].description;
@@ -56,9 +47,11 @@ router.get('/', function(req, res, next) {
                         else {
                             excerpt = description;
                         }
+
                         results[i].excerpt = excerpt;
                     }
-                    popularProducts = popularProducts.slice(0,4);
+
+                    popularProducts = results.slice(0,4);
                 }
             });
 
@@ -163,7 +156,7 @@ router.get('/products', function(req, res, next) {
         }
         else {
             console.log("Connected to the DB");
-            connection.query('SELECT * FROM products ORDER BY id DESC',[], function(err, results, fields) {
+            connection.query('SELECT * FROM products where status = "active" ORDER BY id DESC',[], function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
@@ -290,9 +283,8 @@ router.get('/product/:id/:title', function(req, res, next) {
                 }
             });
 
-            // connection.query('SELECT DISTINCT(d.productsId), d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.status = "active" ORDER BY d.stock',[],function(err, results, fields) {
-            connection.query('SELECT DISTINCT(p.id), d.productsId, d.stock, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.status = "active" ORDER BY d.stock',[],function(err, results, fields) {
-                // console.log('Query returned ' + JSON.stringify(results));
+            connection.query('SELECT DISTINCT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId WHERE p.status = "active" ORDER BY d.stock',[],function(err, results, fields) {
+                console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
                     throw err;
@@ -304,16 +296,6 @@ router.get('/product/:id/:title', function(req, res, next) {
                 // products found
                 else {
                     console.log("products found :)");
-                    // popularProducts = results.slice(0,4);
-                    popularProducts = results;
-
-                    var obj = {};
-                    for (var i=0; i < popularProducts.length; i++)
-                        obj[popularProducts[i].title] = popularProducts[i];
-
-                    for (var key in obj)
-                        popularProducts.push(obj[key]);
-
                     for (var i=0; i<results.length; i++) {
                         var excerptLength = 75;
                         var description = results[i].description;
@@ -329,8 +311,7 @@ router.get('/product/:id/:title', function(req, res, next) {
                         results[i].excerpt = excerpt;
                     }
 
-                    popularProducts = popularProducts.slice(0,4);
-
+                    popularProducts = results.slice(0,4);
                 }
             });
 
