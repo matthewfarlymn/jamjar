@@ -20,7 +20,7 @@ block content
                                     p Sorry, It doesn't look like you have added any products at the moment.
                         else
                             each product in productDetails
-                                div.row.middle-xs.grey
+                                div(class=product.status === 'inactive' ? 'inactive' : '').row.middle-xs.grey
                                     div.col-sm-4.image
                                         if !product.image
                                             img(src='/img/product.jpg')   

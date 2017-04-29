@@ -170,6 +170,10 @@ form {
 }
 
 .inactive {
+    color: #cccccc;
+    img {
+        filter: grayscale(100%);
+    }
     input, textarea {
         background-color: #eeeeee;
         color: #cccccc;
