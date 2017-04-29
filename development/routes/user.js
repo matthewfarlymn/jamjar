@@ -536,7 +536,7 @@ router.post('/checkout', function(req, res, next) {
                                     // setup email data with unicode symbols
                                     let mailOptions = {
                                         from: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // sender address
-                                        to: email, // list of receivers
+                                        to: req.session.user, // list of receivers
                                         subject: 'Your ' + themeSettings.companyName + 'order was successful.', // Subject line
                                         text: 'Your ' + themeSettings.companyName + ' order was successful.', // plain text body
                                         html: '<p>Your '+ themeSettings.companyName + ' order was successful.</p>' // html body
