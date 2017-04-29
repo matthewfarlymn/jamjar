@@ -367,9 +367,11 @@ router.get('/contact', function(req, res, next) {
         access: req.session.user,
         owner: req.session.admin,
         userId: req.session.userId,
+        ticketId: req.session.ticketId,
         avatar: req.session.avatar
     });
 });
+
 
 router.post('/contact', function(req, res, next) {
 
@@ -383,38 +385,72 @@ router.post('/contact', function(req, res, next) {
 
     req.session.contact = true;
 
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.APPSETTING_GMAIL_EMAIL,
-            pass: process.env.APPSETTING_GMAIL_PASSWORD
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
         }
-    });
+        else {
+            console.log("Connected to the DB - insert");
 
-    // setup email data with unicode symbols
-    let mailOptions = {
-        from: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // sender address
-        to: '"' + firstName + ' ' + lastName + '" <' + email + '>', // list of receivers
-        bcc: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // bcc jamjarink
-        subject: 'Your ticket for ' + themeSettings.companyName + ' [Ticket ID: ' + req.session.ticketId + '] was received.', // Subject line
-        text: 'Dear ' + firstName + ' ' + lastName + ', Thank you for contacting us, we have received the following message. ' + message + ' We will be in touch with you shortly. If you require anything further please make sure to respond to this email. Thank you, ' + themeSettings.contactName, // plain text body
-        html: '<p> Dear ' + firstName + ' ' + lastName + ',</p>' +
-        '<p>Thank you for contacting us, we have received the following message.</p>' +
-        '<p>' + message + '</p>' +
-        '<p>We will be in touch with you shortly. If you require anything further please make sure to respond to this email.</p>' +
-        '<p>Thank you, ' + themeSettings.contactName + '</p>'
-    };
+            connection.query('INSERT INTO tickets (firstName, lastName, email, phoneNumber, message) VALUES (?,?,?,?,?)',[firstName, lastName, email, phoneNumber, message], function(err, results, fields) {
+                // connection.release();
 
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
+                if (err) {
+                    console.log("Error connecting to the database - tickets");
+                    throw err;
+                }
+                else {
+                    connection.query('SELECT id FROM tickets ORDER BY id DESC',[], function(err, results, fields) {
+                        connection.release();
+
+                        if (err) {
+                        console.log("Error connecting to the database - tickets2");
+                        throw err;
+                        }
+                        else {
+
+                            req.session.ticketId = results[0].id;
+
+                            // create reusable transporter object using the default SMTP transport
+                            let transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: process.env.APPSETTING_GMAIL_EMAIL,
+                                    pass: process.env.APPSETTING_GMAIL_PASSWORD
+                                }
+                            });
+
+                            // setup email data with unicode symbols
+                            let mailOptions = {
+                                from: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // sender address
+                                to: '"' + firstName + ' ' + lastName + '" <' + email + '>', // list of receivers
+                                bcc: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // bcc jamjarink
+                                subject: 'Your ticket for ' + themeSettings.companyName + ' [Ticket ID: ' + req.session.ticketId + '] was received.', // Subject line
+                                text: 'Dear ' + firstName + ' ' + lastName + ', Thank you for contacting us, we have received the following message. ' + message + ' We will be in touch with you shortly. If you require anything further please make sure to respond to this email. Thank you, ' + themeSettings.contactName, // plain text body
+                                html: '<p> Dear ' + firstName + ' ' + lastName + ',</p>' +
+                                '<p>Thank you for contacting us, we have received the following message.</p>' +
+                                '<p>' + message + '</p>' +
+                                '<p>We will be in touch with you shortly. If you require anything further please make sure to respond to this email.</p>' +
+                                '<p>Thank you, ' + themeSettings.contactName + '</p>'
+                            };
+
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) {
+                                    return console.log(error);
+                                }
+                                console.log('Message %s sent: %s', info.messageId, info.response);
+                            });
+
+                            res.redirect('confirmation');
+                        }
+                    });
+                }
+            });
         }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-    });
 
-    res.redirect('confirmation');
+    });
 });
 
 
