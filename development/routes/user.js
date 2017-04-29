@@ -429,10 +429,7 @@ router.post('/checkout', function(req, res, next) {
     var ccMonth = req.body.month;
     var ccYear = req.body.year;
 
-    var companyName = themeSettings.companyName;
-    var compnayURL = themeSettings.compnayURL;
-    var contactName = themeSettings.contactName;
-    var contactEmail = themeSettings.contactEmail;
+    var themeSettings = req.session.themeSettings;
 
     req.session.order = true;
 
@@ -538,11 +535,11 @@ router.post('/checkout', function(req, res, next) {
 
                                     // setup email data with unicode symbols
                                     let mailOptions = {
-                                        from: '"' + companyName + '" <' + contactEmail + '>', // sender address
+                                        from: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // sender address
                                         to: email, // list of receivers
-                                        subject: 'Your ' + companyName + 'order was successful.', // Subject line
-                                        text: 'Your ' + companyName + ' order was successful.', // plain text body
-                                        html: '<p>Your '+ companyName + ' order was successful.</p>' // html body
+                                        subject: 'Your ' + themeSettings.companyName + 'order was successful.', // Subject line
+                                        text: 'Your ' + themeSettings.companyName + ' order was successful.', // plain text body
+                                        html: '<p>Your '+ themeSettings.companyName + ' order was successful.</p>' // html body
                                     };
 
                                     // send mail with defined transport object

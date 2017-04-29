@@ -379,10 +379,7 @@ router.post('/contact', function(req, res, next) {
     var phoneNumber = req.body.phoneNumber;
     var message = req.body.message;
 
-    var companyName = themeSettings.companyName;
-    var compnayURL = themeSettings.compnayURL;
-    var contactName = themeSettings.contactName;
-    var contactEmail = themeSettings.contactEmail;
+    var themeSettings = req.session.themeSettings;
 
     req.session.contact = true;
 
@@ -397,10 +394,10 @@ router.post('/contact', function(req, res, next) {
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: '"' + companyName + '" <' + contactEmail + '>', // sender address
+        from: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // sender address
         to: email, // list of receivers
-        bcc: contactEmail, // bcc jamjarink
-        subject: companyName + ' has received the following message.', // Subject line
+        bcc: themeSettings.contactEmail, // bcc jamjarink
+        subject: themeSettings.companyName + ' has received the following message.', // Subject line
         text: message, // plain text body
         html: '<p>' + message + '</p>' // html body
     };
@@ -587,15 +584,12 @@ router.post('/sign-in', function(req, res, next) {
 
 // send password
 router.post('/send-password', function(req, res, next) {
-
+    console.log('** send-password');
     var msg = "";
     var successMsg = "";
     var email = req.body.email;
 
-    var companyName = themeSettings.companyName;
-    var compnayURL = themeSettings.compnayURL;
-    var contactName = themeSettings.contactName;
-    var contactEmail = themeSettings.contactEmail;
+    var themeSettings = req.session.themeSettings;
 
     connect(function(err, connection) {
         if (err) {
@@ -633,9 +627,9 @@ router.post('/send-password', function(req, res, next) {
 
                     // setup email data with unicode symbols
                     let mailOptions = {
-                        from: '"' + companyName + '" <' + contactEmail + '>', // sender address
+                        from: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // sender address
                         to: email, // list of receivers
-                        subject: companyName + ' password', // Subject line
+                        subject: themeSettings.companyName + ' password', // Subject line
                         text: 'Your password is ' + results[0].password + '.', // plain text body
                         html: '<p>Your password is ' + results[0].password + '.</p>' // html body
                     };
