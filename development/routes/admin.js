@@ -1710,6 +1710,8 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
     var password1 = req.body.password1;
     var password2 = req.body.password2;
     var userAvatar;
+    var userType = req.body.userType;
+
 
     connect(function(err, connection) {
         if (err) {
@@ -1831,7 +1833,7 @@ router.post('/dashboard/update-user/:id/:email', function(req, res, next) {
                                             console.log("Connected to the DB");
 
                                             // update does not replace password
-                                            connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, req.params.id], function(err, results, fields) {
+                                            connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, userType=? WHERE id=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, userType, req.params.id], function(err, results, fields) {
                                                 connection.release();
 
                                                 if (err) {
