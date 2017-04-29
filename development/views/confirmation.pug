@@ -7,9 +7,9 @@ block content
                 div.col-xs-12.col-md-8.success
                     if contact
                         h1 Thank you for contacting us
-                        h2 Ticket ID is #{ticketId}
+                        h2 Ticket ID: #{ticketId}
                     else
                         h1 Thank you for your order
-                        h2 Order ID is #{orderId}
+                        h2 Order ID: #{orderId}
                     p You will receive a confirmation email shortly from #{themeSettings.contactEmail}.
         include modules/error-cta
