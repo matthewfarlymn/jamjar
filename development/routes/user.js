@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
 var multer = require('multer');
+var nodemailer = require('nodemailer');
+require('dotenv').config();
 
 var avatarStorage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -427,6 +429,9 @@ router.post('/checkout', function(req, res, next) {
     var ccMonth = req.body.month;
     var ccYear = req.body.year;
 
+    var contactName = themeSettings.contactName;
+    var contactEmail = themeSettings.contactEmail;
+
     req.session.order = true;
 
     if (req.body.shippingDetails){
@@ -478,7 +483,7 @@ router.post('/checkout', function(req, res, next) {
                                     throw err;
                                 }
                                 else {
-                                    console.log("Order_details insert successful.");
+                                    console.log("Item inserted in Orders successful.");
 
                                     var orderId = req.session.orderId = results[0].id;
 
@@ -500,8 +505,6 @@ router.post('/checkout', function(req, res, next) {
                                             throw err;
                                         }
                                         else {
-                                            console.log("Order_details insert successful.");
-
                                             var orderId = req.session.orderId = results[0].id;
 
                                             connection.query('DELETE FROM shopping_cart WHERE email=?',[req.session.user], function(err, results, fields) {
@@ -513,13 +516,41 @@ router.post('/checkout', function(req, res, next) {
                                                     console.log("shopping cart emptied for " + req.session.user);
 
                                                     connection.release();
-                                                    console.log("Order items insert successful.");
+                                                    console.log("Order items deleted successful.");
                                                     // req.session.user = email;
                                                     res.redirect('/user/confirmation');
                                                 }
                                             });
                                         }
                                     });
+
+
+                                    // create reusable transporter object using the default SMTP transport
+                                    let transporter = nodemailer.createTransport({
+                                        service: 'gmail',
+                                        auth: {
+                                            user: process.env.APPSETTING_GMAIL_EMAIL,
+                                            pass: process.env.APPSETTING_GMAIL_PASSWORD
+                                        }
+                                    });
+
+                                    // setup email data with unicode symbols
+                                    let mailOptions = {
+                                        from: '"' + contactName + '" <' + contactEmail + '>', // sender address
+                                        to: email, // list of receivers
+                                        subject: 'Your ' + contactName + 'order was successful.', // Subject line
+                                        text: 'Your ' + contactName + ' order was successful.', // plain text body
+                                        html: '<p>Your '+ contactName + ' order was successful.</p>' // html body
+                                    };
+
+                                    // send mail with defined transport object
+                                    transporter.sendMail(mailOptions, (error, info) => {
+                                        if (error) {
+                                            return console.log(error);
+                                        }
+                                        console.log('Message %s sent: %s', info.messageId, info.response);
+                                    });
+
                                 }
                             });
                         }

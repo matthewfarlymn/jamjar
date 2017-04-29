@@ -372,7 +372,6 @@ router.get('/contact', function(req, res, next) {
 });
 
 router.post('/contact', function(req, res, next) {
-    // jill
 
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -479,18 +478,21 @@ router.get('/sign-in', function(req, res, next) {
     if (!req.session.user) {
 
         var msg = req.session.msg ? req.session.msg : "";
+        var successMsg = req.session.successMsg ? req.session.successMsg : "";
         var email = req.session.email ? req.session.email : "";
         var user = req.session.user ? req.session.user : "";
         var firstname = req.session.firstname ? req.session.firstname : "";
         var lastname = req.session.lastname ? req.session.lastname : "";
 
         req.session.msg = "";
+        req.session.successMsg = "";
         req.session.user = "";
         req.session.firstname = "";
         req.session.lastname = "";
 
         res.render('access', {
             errorMessage: msg,
+            successMessage: successMsg,
             signIn: true,
             email: email,
             user: user,
@@ -506,11 +508,19 @@ router.get('/sign-in', function(req, res, next) {
 
 // sign-in user
 router.post('/sign-in', function(req, res, next) {
+    // console.log("sign-in");
 
-  // console.log("sign-in");
+    // var msg = req.session.msg ? req.session.msg : "";
+    // var successMsg = req.session.successMsg ? req.session.successMsg : "";
+    //
+    // req.session.msg = "";
+    // req.session.successMsg = "";
 
-  var email = req.body.email;
-  var password = req.body.password;
+    var msg = "";
+    var successMsg = "";
+
+    var email = req.body.email;
+    var password = req.body.password;
 
   connect(function(err, connection) {
     if (err) {
@@ -567,6 +577,74 @@ router.post('/sign-in', function(req, res, next) {
     }
   });
 });
+
+
+// send password
+router.post('/send-password', function(req, res, next) {
+
+    var msg = "";
+    var successMsg = "";
+    var email = req.body.email;
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            connection.query('SELECT * FROM users WHERE email=?',[email], function(err, results, fields) {
+            connection.release();
+            // console.log('Query returned ' + JSON.stringify(results));
+
+            if(err) {
+              throw err;
+            }
+            // fail - email does not exist
+            else if (results.length === 0) {
+                console.log("Email not found.");
+                req.session.msg = "Email is not registered with Jam Jar. Please reigster.";
+                res.redirect('/sign-in');
+            }
+            // success - email found
+            else  {
+                    console.log("Email found.");
+
+                    // create reusable transporter object using the default SMTP transport
+                    let transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: process.env.APPSETTING_GMAIL_EMAIL,
+                            pass: process.env.APPSETTING_GMAIL_PASSWORD
+                        }
+                    });
+
+                    // setup email data with unicode symbols
+                    let mailOptions = {
+                        from: '"Jam Jar" <jamjarink@gmail.com>', // sender address
+                        to: email, // list of receivers
+                        subject: 'Jam Jar password', // Subject line
+                        text: 'Your password is ' + results[0].password + '.', // plain text body
+                        html: '<p>Your password is ' + results[0].password + '.</p>' // html body
+                    };
+
+                    // send mail with defined transport object
+                    transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            return console.log(error);
+                        }
+                        console.log('Message %s sent: %s', info.messageId, info.response);
+                    });
+
+                    req.session.successMsg = "Please check your inbox for your password.";
+                    res.redirect('/sign-in');
+                }
+            });
+        }
+    });
+});
+
 
 // register user
 router.post('/register', function(req, res, next) {
