@@ -42,7 +42,7 @@ block content
                                 each detail in details
                                     option(value=detail.id data-price=detail.price) #{detail.size} #{detail.color}
                         label(for='quantity') Qty:
-                        input(type='number' name='quantity' min='1' placeholder='0' value='1' required)
+                        input(type='number' name='quantity' min='1' max='11' placeholder='0' value='1' required)
                         button(type='submit').button.pink Add to Cart   
         include modules/popular-carousel
         if !access

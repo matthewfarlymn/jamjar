@@ -25,13 +25,13 @@ block content
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Personal Details
                                     label(for='firstName') First Name
-                                    input(type='text' name='firstName' placeholder='First Name' value=firstName required)
+                                    input(type='text' name='firstName' placeholder='First Name' value=firstName max='45' required)
                                     label(for='lastName') Last Name
-                                    input(type='text' name='lastName' placeholder='Last Name' value=lastName required)
+                                    input(type='text' name='lastName' placeholder='Last Name' value=lastName max='45' required)
                                     label(for='email') Email
-                                    input(type='email' name='email' placeholder='Email' value=email required)
+                                    input(type='email' name='email' placeholder='Email' value=email max='100' required)
                                     label(for='phoneNumber') Phone Number
-                                    input(type='tel' name='phoneNumber' placeholder='0123456789' value=phoneNumber)
+                                    input(type='tel' name='phoneNumber' placeholder='0123456789' value=phoneNumber max='25')
                                     label(for='avatar') Image Size (400 x 400)
                                     span.user
                                         input(type='file' name='avatar').avatar
@@ -42,25 +42,25 @@ block content
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Billing Details
                                     label(for='address1') Address 1
-                                    input(type='text' name='address1' placeholder='Address' value=address1)
+                                    input(type='text' name='address1' placeholder='Address' value=address1 max='45')
                                     label(for='address2') Address 2
-                                    input(type='text' name='address2' placeholder='Address' value=address2)
+                                    input(type='text' name='address2' placeholder='Address' value=address2 max='45')
                                     label(for='city') Town/City
-                                    input(type='text' name='city' placeholder='Town/City' value=city)
+                                    input(type='text' name='city' placeholder='Town/City' value=city max='45')
                                     label(for='province') Province/State/County
-                                    input(type='text' name='province' placeholder='Province/State/County' value=province)
+                                    input(type='text' name='province' placeholder='Province/State/County' value=province max='45')
                                     label(for='postalcode') Postalcode/Zipcode/Postcode
-                                    input(type='text' name='postalcode' placeholder='Postalcode/Zipcode/Postcode' value=postalcode)
+                                    input(type='text' name='postalcode' placeholder='Postalcode/Zipcode/Postcode' value=postalcode max='12')
                                     label(for='country') Country
-                                    input(type='text' name='country' placeholder='Country' value=country)
+                                    input(type='text' name='country' placeholder='Country' value=country max='25')
                                 span.col-xs-12.col-sm-6.fieldset
                                     h2 Password
                                     label(for='password1') Current Password
-                                    input(type='password' name='password1' placeholder='********')
+                                    input(type='password' name='password1' placeholder='********' max='45')
                                     label(for='password2') New Password
-                                    input(type='password' name='password2' placeholder='********')
+                                    input(type='password' name='password2' placeholder='********' max='45')
                                     label(for='password3') Re-enter New Password
-                                    input(type='password' name='password3' placeholder='********')
+                                    input(type='password' name='password3' placeholder='********' max='45')
                             span.row
                                 span.col-xs
                                     button(type='submit').button.pink Update

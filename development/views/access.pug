@@ -16,9 +16,9 @@ block content
                     h1 Sign-In
                     form(action='/sign-in' method='post')
                         label(for='email') Email
-                        input(type='email' name='email' placeholder='Email' value=user required)
+                        input(type='email' name='email' placeholder='Email' value=user max='100' required)
                         label(for='password') Password
-                        input(type='password' name='password' placeholder='Password' required)
+                        input(type='password' name='password' placeholder='Password' max='45' required)
                         span.flex.between
                             button(type='submit').button.pink Sign-In
                             a(href='#').send-password Forgot Password?
@@ -26,13 +26,13 @@ block content
                     h1 Register
                     form(action='/register' method='post')
                         label(for='firstName') First Name
-                        input(type='text' name='firstName' placeholder='First Name' value=firstName required)
+                        input(type='text' name='firstName' placeholder='First Name' value=firstName max='45' required)
                         label(for='lastName') Last Name
-                        input(type='text' name='lastName' placeholder='Last Name' value=lastName required)
+                        input(type='text' name='lastName' placeholder='Last Name' value=lastName max='45' required)
                         label(for='email') Email
-                        input(type='email' name='email' placeholder='Email' value=email required)
+                        input(type='email' name='email' placeholder='Email' value=email max='100' required)
                         label(for='password1') Password
-                        input(type='password' name='password1' placeholder='Password' required)
+                        input(type='password' name='password1' placeholder='Password' max='45' required)
                         label(for='password2') Re-enter Password
-                        input(type='password' name='password2' placeholder='Password' required)
+                        input(type='password' name='password2' placeholder='Password' max='45' required)
                         button(type="submit").button.gold Register

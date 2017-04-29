@@ -38,16 +38,16 @@ block content
                                                 span.col-xs-12
                                                     label Hex Colors
                                                     span.flex
-                                                        input(type='text' placeholder='#ffffff' value=color1 required).color-input
-                                                        input(type='color' name='color1' placeholder='#ffffff' value=color1 required).color-select
+                                                        input(type='text' placeholder='#ffffff' value=color1 max='7' required).color-input
+                                                        input(type='color' name='color1' placeholder='#ffffff' value=color1 max='7' required).color-select
                                                 span.col-xs-12
                                                     span.flex
-                                                        input(type='text' placeholder='#ffffff' value=color2 required).color-input
-                                                        input(type='color' name='color2' placeholder='#ffffff' value=color2 required).color-select
+                                                        input(type='text' placeholder='#ffffff' value=color2 max='7' required).color-input
+                                                        input(type='color' name='color2' placeholder='#ffffff' value=color2 max='7' required).color-select
                                                 span.col-xs-12
                                                     span.flex
-                                                        input(type='text' placeholder='#ffffff' value=color3 required).color-input
-                                                        input(type='color' name='color3' placeholder='#ffffff' value=color3 required).color-select
+                                                        input(type='text' placeholder='#ffffff' value=color3 max='7' required).color-input
+                                                        input(type='color' name='color3' placeholder='#ffffff' value=color3 max='7' required).color-select
                             span.row.grey
                                 span.col-xs-12.fieldset.settings
                                     h2 Sliders
@@ -56,11 +56,11 @@ block content
                                             label= 'Slider 1'
                                             span.row
                                                 span.col-xs-12.col-sm-12
-                                                    input(type='text' name='sliderTitle1' placeholder='Title' value=sliderTitle1 required)
+                                                    input(type='text' name='sliderTitle1' placeholder='Title' value=sliderTitle1 max='45' required)
                                                 span.col-xs-12
-                                                    textarea(name='sliderDescription1' placeholder='Description') #{sliderDescription1}
+                                                    textarea(name='sliderDescription1' placeholder='Description' max='1024') #{sliderDescription1}
                                                 span.col-xs-12.col-sm-12
-                                                    input(type='url' name='sliderUrl1' placeholder='Url' value=sliderUrl1)
+                                                    input(type='url' name='sliderUrl1' placeholder='Url' value=sliderUrl1 max='100')
                                         span.col-xs-12.col-sm-6
                                             label Image Size (900 x 600)
                                             span.image
@@ -74,11 +74,11 @@ block content
                                             label= 'Slider 2'
                                             span.row
                                                 span.col-xs-12.col-sm-12
-                                                    input(type='text' name='sliderTitle2' placeholder='Title' value=sliderTitle2 required)
+                                                    input(type='text' name='sliderTitle2' placeholder='Title' value=sliderTitle2 max='45' required)
                                                 span.col-xs-12
-                                                    textarea(name='sliderDescription2' placeholder='Description') #{sliderDescription2}
+                                                    textarea(name='sliderDescription2' placeholder='Description' max='1024') #{sliderDescription2}
                                                 span.col-xs-12.col-sm-12
-                                                    input(type='url' name='sliderUrl2' placeholder='Url' value=sliderUrl2)
+                                                    input(type='url' name='sliderUrl2' placeholder='Url' value=sliderUrl2  max='100')
                                         span.col-xs-12.col-sm-6
                                             label Image Size (900 x 600)
                                             span.image
@@ -92,11 +92,11 @@ block content
                                             label= 'Slider 3'
                                             span.row
                                                 span.col-xs-12.col-sm-12
-                                                    input(type='text' name='sliderTitle3' placeholder='Title' value=sliderTitle3 required)
+                                                    input(type='text' name='sliderTitle3' placeholder='Title' value=sliderTitle3 max='45' required)
                                                 span.col-xs-12
-                                                    textarea(name='sliderDescription3' placeholder='Description') #{sliderDescription3}
+                                                    textarea(name='sliderDescription3' placeholder='Description' max='1024') #{sliderDescription3}
                                                 span.col-xs-12.col-sm-12
-                                                    input(type='url' name='sliderUrl3' placeholder='Url' value=sliderUrl3)
+                                                    input(type='url' name='sliderUrl3' placeholder='Url' value=sliderUrl3 max='100')
                                         span.col-xs-12.col-sm-6
                                             label Image Size (900 x 600)
                                             span.image
@@ -114,11 +114,11 @@ block content
                                         span.col-xs-12.col-sm-12
                                             span.row
                                                 span.col-xs-12.col-sm-6
-                                                    input(type='text' name='ctaTitle1' placeholder='Title' value=ctaTitle1 required)
+                                                    input(type='text' name='ctaTitle1' placeholder='Title' value=ctaTitle1 max='45' required)
                                                 span.col-xs-12.col-sm-6
-                                                    input(type='text' name='ctaSubtitle1' placeholder='Subtitle' value=ctaSubtitle1)
+                                                    input(type='text' name='ctaSubtitle1' placeholder='Subtitle' value=ctaSubtitle1 max='100')
                                                 span.col-xs-12
-                                                    textarea(name='ctaDescription1' placeholder='Description') #{ctaDescription1}
+                                                    textarea(name='ctaDescription1' placeholder='Description' max='1024') #{ctaDescription1}
                                                     span.row.grey
                                     span.row.grey
                                         span.col-xs-12.col-sm-12
@@ -126,54 +126,54 @@ block content
                                         span.col-xs-12.col-sm-12
                                             span.row
                                                 span.col-xs-12.col-sm-6
-                                                    input(type='text' name='ctaTitle2' placeholder='Title' value=ctaTitle2 required)
+                                                    input(type='text' name='ctaTitle2' placeholder='Title' value=ctaTitle2 max='45' required)
                                                 span.col-xs-12.col-sm-6
-                                                    input(type='text' name='ctaSubtitle2' placeholder='Subtitle' value=ctaSubtitle2)
+                                                    input(type='text' name='ctaSubtitle2' placeholder='Subtitle' value=ctaSubtitle2 max='100')
                                                 span.col-xs-12
-                                                    textarea(name='ctaDescription2' placeholder='Description') #{ctaDescription2}
+                                                    textarea(name='ctaDescription2' placeholder='Description' max='1024') #{ctaDescription2}
                                     span.row.grey
                                         span.col-xs-12.col-sm-12
                                             label Error
                                         span.col-xs-12.col-sm-12
                                             span.row
                                                 span.col-xs-12.col-sm-6
-                                                    input(type='text' name='ctaTitle3' placeholder='Title' value=ctaTitle3 required)
+                                                    input(type='text' name='ctaTitle3' placeholder='Title' value=ctaTitle3 max='45' required)
                                                 span.col-xs-12.col-sm-6
-                                                    input(type='text' name='ctaSubtitle3' placeholder='Subtitle' value=ctaSubtitle3)
+                                                    input(type='text' name='ctaSubtitle3' placeholder='Subtitle' value=ctaSubtitle3 max='100')
                                                 span.col-xs-12
-                                                    textarea(name='ctaDescription3' placeholder='Description') #{ctaDescription3}
+                                                    textarea(name='ctaDescription3' placeholder='Description' max='1024') #{ctaDescription3}
                             span.row.grey
                                 span.col-xs-12.fieldset
                                     h2 About
                                     span.row
                                         span.col-xs-12
-                                            textarea(name='aboutDescription' placeholder='Description' required).tinymce #{aboutDescription}
+                                            textarea(name='aboutDescription' placeholder='Description' max='2048' required).tinymce #{aboutDescription}
                             span.row.grey
                                 span.col-xs-12.fieldset
                                     h2 Contact Information
                                     span.row
                                         span.col-xs-12.col-sm-6
                                             label(for='companyName') Company Name
-                                            input(type='text' name='companyName' placeholder='Company Name' value=companyName required)
+                                            input(type='text' name='companyName' placeholder='Company Name' value=companyName max='45' required)
                                         span.col-xs-12.col-sm-6
                                             label(for='companyUrl') Url
-                                            input(type='url' name='companyUrl' placeholder='Url' value=companyUrl required)
+                                            input(type='url' name='companyUrl' placeholder='Url' value=companyUrl max='45' required)
                                         span.col-xs-12.col-sm-6
                                             label(for='contactName') Contact Name
-                                            input(type='text' name='contactName' placeholder='Contact Name' value=contactName required)
+                                            input(type='text' name='contactName' placeholder='Contact Name' value=contactName max='45' required)
                                         span.col-xs-12.col-sm-6
                                             label(for='contactEmail') Email
-                                            input(type='email' name='contactEmail' placeholder='Email' value=contactEmail required)
+                                            input(type='email' name='contactEmail' placeholder='Email' value=contactEmail max='100' required)
                             span.row.grey
                                 span.col-xs-12.fieldset
                                     h2 Social Media
                                     span.row
                                         span.col-xs-12.col-sm-6
                                             label(for='facebook') Facebook
-                                            input(type='url' name='facebook' placeholder='http://facebook.com' value=facebook)
+                                            input(type='url' name='facebook' placeholder='http://facebook.com' value=facebook max='100')
                                         span.col-xs-12.col-sm-6
                                             label(for='twitter') Twitter
-                                            input(type='url' name='facebook' placeholder='http://twitter.com' value=twitter)
+                                            input(type='url' name='facebook' placeholder='http://twitter.com' value=twitter max='100')
                             span.row
                                 span.col-xs
                                     button(type='submit').button.pink Update

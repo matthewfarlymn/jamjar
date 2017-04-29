@@ -30,7 +30,7 @@ block content
                                     span.row
                                         span.col-xs-12.col-sm-9
                                             label(for='title') Title
-                                            input(type='text' name='title' placeholder='Title' value=title disabled=status === 'inactive' required).product-title
+                                            input(type='text' name='title' placeholder='Title' value=title disabled=status === 'inactive' max='45' required).product-title
                                         span.col-xs-12.col-sm-3
                                             label(for='status') Status
                                             select(class='status-product' name='status')
@@ -39,7 +39,7 @@ block content
                                                 option(value='inactive' selected=status === 'inactive') Inactive
                                         span.col-xs-12
                                             label(for='description') Description
-                                            textarea(name='description' placeholder='Description' disabled=status === 'inactive').product-description #{description}
+                                            textarea(name='description' placeholder='Description' disabled=status === 'inactive' max='270').product-description #{description}
                                 span.col-xs-12.fieldset
                                     h2 Images
                                     span.row.middle-xs
@@ -91,13 +91,13 @@ block content
                                                     label= 'Item ' + (index + 1)
                                                     input(type='hidden' name='detailId' + (index + 1) value=detail.id)
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='size' + (index + 1) placeholder='Size' value=detail.size disabled=detail.status === 'inactive')
+                                                    input(type='text' name='size' + (index + 1) placeholder='Size' value=detail.size max='30' disabled=detail.status === 'inactive')
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='color' + (index + 1) placeholder='Color' value=detail.color disabled=detail.status === 'inactive')
+                                                    input(type='text' name='color' + (index + 1) placeholder='Color' value=detail.color max='45' disabled=detail.status === 'inactive')
                                                 span.col-xs-6.col-sm
-                                                    input(type='number' name='stock' + (index + 1) min='0' placeholder='100' value=detail.stock disabled=detail.status === 'inactive')
+                                                    input(type='number' name='stock' + (index + 1) min='0' placeholder='100' value=detail.stock max='5' disabled=detail.status === 'inactive')
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='price' + (index + 1) min='1' placeholder='0.00' value=detail.price disabled=detail.status === 'inactive' required)
+                                                    input(type='text' name='price' + (index + 1) min='1' placeholder='0.00' value=detail.price max='7' disabled=detail.status === 'inactive' required)
                                                 span.col-xs-12.col-sm-3
                                                     select(class='status-attributes' name='status' + (index + 1) disabled=status === 'inactive')
                                                         option(disabled='true') -- Select --
@@ -110,13 +110,13 @@ block content
                                                 span.col-xs-12
                                                     label='Item' + i
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='size' + i placeholder='Size' disabled=i !== 1)
+                                                    input(type='text' name='size' + i placeholder='Size' max='30' disabled=i !== 1)
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='color' + i placeholder='Color' disabled=i !== 1)
+                                                    input(type='text' name='color' + i placeholder='Color' max='45' disabled=i !== 1)
                                                 span.col-xs-6.col-sm
-                                                    input(type='number' name='stock' + i min='0' placeholder='100' disabled=i !== 1)
+                                                    input(type='number' name='stock' + i min='0' placeholder='100' max='5' disabled=i !== 1)
                                                 span.col-xs-6.col-sm
-                                                    input(type='text' name='price' + i min='1' placeholder='0.00' required disabled=i !== 1)
+                                                    input(type='text' name='price' + i min='1' placeholder='0.00' max='7' disabled=i !== 1 required)
                                                 span.col-xs-12.col-sm-3
                                                     select(class='status' name='status' + i)
                                                         option(disabled='true') -- Select --
