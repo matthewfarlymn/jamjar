@@ -290,8 +290,7 @@ router.get('/product/:id/:title', function(req, res, next) {
                 }
             });
 
-
-            connection.query('SELECT d.productsId, d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
+            connection.query('SELECT DISTINCT(d.productsId), d.stock, p.id, p.title, p.description, p.image1 FROM products p INNER JOIN product_details d ON p.id = d.productsId ORDER BY d.stock',[],function(err, results, fields) {
                 // console.log('Query returned ' + JSON.stringify(results));
 
                 if(err) {
