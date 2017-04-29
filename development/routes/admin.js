@@ -2258,6 +2258,8 @@ router.get('/dashboard/settings', function(req, res, next) {
     var ctaDescription3 = req.session.ctaDescription3 ? req.session.ctaDescription3 : "";
 
     var aboutDescription = req.session.aboutDescription ? req.session.aboutDescription : "";
+    var companyName = req.session.companyName ? req.session.companyName : "";
+    var companyUrl = req.session.companyUrl ? req.session.companyUrl : "";
     var contactName = req.session.contactName ? req.session.contactName : "";
     var contactEmail = req.session.contactEmail ? req.session.contactEmail : "";
     var facebook = req.session.facebook ? req.session.facebook : "";
@@ -2302,6 +2304,8 @@ router.get('/dashboard/settings', function(req, res, next) {
     req.session.ctaDescription3 = "";
 
     req.session.aboutDescription = "";
+    req.session.companyName = "";
+    req.session.companyUrl = "";
     req.session.contactName = "";
     req.session.contactEmail = "";
     req.session.facebook = "";
@@ -2367,6 +2371,8 @@ router.get('/dashboard/settings', function(req, res, next) {
 
                     aboutDescription = req.session.aboutDescription = results[0].aboutDescription;
 
+                    companyName = req.session.companyName = results[0].companyName;
+                    companyUrl = req.session.companyUrl = results[0].companyUrl;
                     contactName = req.session.contactName = results[0].contactName;
                     contactEmail = req.session.contactEmail = results[0].contactEmail;
 
@@ -2420,6 +2426,8 @@ router.get('/dashboard/settings', function(req, res, next) {
                     ctaSubtitle3: ctaSubtitle3,
                     ctaDescription3: ctaDescription3,
                     aboutDescription: aboutDescription,
+                    companyName: companyName,
+                    companyUrl: companyUrl,
                     contactName: contactName,
                     contactEmail: contactEmail,
                     facebook: facebook,
@@ -2463,7 +2471,7 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
     var aboutDescription = req.body.aboutDescription;
 
     var companyName = req.body.companyName;
-    var companyURL = req.body.companyURL;
+    var companyUrl = req.body.companyUrl;
     var contactName = req.body.contactName;
     var contactEmail = req.body.contactEmail;
 
@@ -2573,11 +2581,11 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                         'ctaTitle1, ctaSubtitle1, ctaDescription1, ' +
                         'ctaTitle2, ctaSubtitle2, ctaDescription2, ' +
                         'ctaTitle3, ctaSubtitle3, ctaDescription3, ' +
-                        'aboutDescription, companyName, companyURL, contactName, contactEmail, ' +
+                        'aboutDescription, companyName, companyUrl, contactName, contactEmail, ' +
                         'facebook, twitter) ' +
-                        'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                        'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-                    connection.query(sql, [logo, color1, color2, color3, font1, font2, font3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, companyName, companyURL, contactName, contactEmail, facebook, twitter],
+                    connection.query(sql, [logo, color1, color2, color3, font1, font2, font3, sliderTitle1, sliderDescription1, sliderUrl1, sliderImage1, sliderTitle2, sliderDescription2, sliderUrl2, sliderImage2, sliderTitle3, sliderDescription3, sliderUrl3, sliderImage3, ctaTitle1, ctaSubtitle1, ctaDescription1, ctaTitle2, ctaSubtitle2, ctaDescription2, ctaTitle3, ctaSubtitle3, ctaDescription3, aboutDescription, companyName, companyUrl, contactName, contactEmail, facebook, twitter],
                         function(err, results, fields) {
                         if (err) {
                             console.log("Error connecting to the database - insert46");
