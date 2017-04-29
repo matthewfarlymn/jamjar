@@ -536,10 +536,14 @@ router.post('/checkout', function(req, res, next) {
                                     // setup email data with unicode symbols
                                     let mailOptions = {
                                         from: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // sender address
-                                        to: req.session.user, // list of receivers
-                                        subject: 'Your ' + themeSettings.companyName + 'order was successful.', // Subject line
-                                        text: 'Your ' + themeSettings.companyName + ' order was successful.', // plain text body
-                                        html: '<p>Your '+ themeSettings.companyName + ' order was successful.</p>' // html body
+                                        to: '"' + req.session.firstName + ' ' + req.session.lastName + '" <' + req.session.user + '>', // list of receivers
+                                        bcc: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // bcc jamjarink
+                                        subject: 'Your order for ' + themeSettings.companyName + ' [Order ID: ' + req.session.orderId + '] was successful.', // Subject line
+                                        text: 'Dear ' + req.session.firstName + ' ' + req.session.lastName + ', Thank you for your order! To check order details please visit your orders dashboard by signing into your account. If you require anything further please respond to this email. Thank you, ' + themeSettings.contactName, // plain text body
+                                        html: '<p> Dear ' + req.session.firstName + ' ' + req.session.lastName + ',</p>' +
+                                        '<p>Thank you for your order!</p>' +
+                                        '<p>To check this orders details please visit your orders dashboard by signing into <a href="' + themeSettings.companyUrl + '/sign-in">your account</a>. If you require anything further please make sure to respond to this email.</p>' +
+                                        '<p>Thank you, ' + themeSettings.contactName + '</p>'
                                     };
 
                                     // send mail with defined transport object

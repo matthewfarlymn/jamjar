@@ -395,11 +395,15 @@ router.post('/contact', function(req, res, next) {
     // setup email data with unicode symbols
     let mailOptions = {
         from: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // sender address
-        to: email, // list of receivers
-        bcc: themeSettings.contactEmail, // bcc jamjarink
-        subject: themeSettings.companyName + ' has received the following message.', // Subject line
-        text: message, // plain text body
-        html: '<p>' + message + '</p>' // html body
+        to: '"' + firstName + ' ' + lastName + '" <' + email + '>', // list of receivers
+        bcc: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // bcc jamjarink
+        subject: 'Your ticket for ' + themeSettings.companyName + ' [Ticket ID: ' + req.session.ticketId + '] was received.', // Subject line
+        text: 'Dear ' + firstName + ' ' + lastName + ', Thank you for contacting us, we have received the following message. ' + message + ' We will be in touch with you shortly. If you require anything further please make sure to respond to this email. Thank you, ' + themeSettings.contactName, // plain text body
+        html: '<p> Dear ' + firstName + ' ' + lastName + ',</p>' +
+        '<p>Thank you for contacting us, we have received the following message.</p>' +
+        '<p>' + message + '</p>' +
+        '<p>We will be in touch with you shortly. If you require anything further please make sure to respond to this email.</p>' +
+        '<p>Thank you, ' + themeSettings.contactName + '</p>'
     };
 
     // send mail with defined transport object
@@ -628,10 +632,14 @@ router.post('/send-password', function(req, res, next) {
                     // setup email data with unicode symbols
                     let mailOptions = {
                         from: '"' + themeSettings.companyName + '" <' + themeSettings.contactEmail + '>', // sender address
-                        to: email, // list of receivers
-                        subject: themeSettings.companyName + ' password', // Subject line
-                        text: 'Your password is ' + results[0].password + '.', // plain text body
-                        html: '<p>Your password is ' + results[0].password + '.</p>' // html body
+                        to: '"' + results[0].firstName + ' ' + results[0].lastName + '" <' + results[0].email + '>', // list of receivers
+                        subject: 'Password request for ' + themeSettings.companyName + ' account', // Subject line
+                        text: 'Dear ' + results[0].firstName + ' ' + results[0].lastName + ', Please find your account password listed below. Password: ' + results[0].password + ' If you require anything further please make sure to respond to this email. Thank you, ' + themeSettings.contactName, // plain text body
+                        html: '<p> Dear ' + results[0].firstName + ' ' + results[0].lastName + ',</p>' +
+                        '<p>Please find your account password listed below.</p>' +
+                        '<p>Password: ' + results[0].password + '.</p>' +
+                        '<p>If you require anything further please make sure to respond to this email.</p>' +
+                        '<p>Thank you, ' + themeSettings.contactName + '</p>'
                     };
 
                     // send mail with defined transport object
