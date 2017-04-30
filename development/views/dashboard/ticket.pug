@@ -62,7 +62,7 @@ block content
                             span #{successMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        form(class=status === 'inactive' ? 'inactive' : '' action='/admin/dashboard/update-ticket/' + ticketId enctype='multipart/form-data' method='post')
+                        form(class=ticketDetails[0].status === 'inactive' ? 'inactive' : '' action='/admin/dashboard/update-ticket/' + ticketId enctype='multipart/form-data' method='post')
                             span.row
                                 span.col-xs
                                     button(type='submit').button.pink Update
@@ -80,8 +80,8 @@ block content
                                         span.col-xs-12.col-sm-4.detail
                                             select(class='status-ticket' name='status')
                                                 option(disabled='true') -- Select --
-                                                option(value='active' selected=status === 'active') Active
-                                                option(value='inactive' selected=status === 'inactive') Inactive
+                                                option(value='active' selected=ticketDetails[0]status === 'active') Active
+                                                option(value='inactive' selected=ticketDetails[0].status === 'inactive') Inactive
                             span.row.grey
                                 span.col-xs-12.fieldset
                                     span.row.middle-xs
