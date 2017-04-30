@@ -2711,7 +2711,7 @@ router.get('/dashboard/ticket/:id', function(req, res, next) {
                 }
                 // user found
                 else {
-                    console.log("Orders found for user");
+                    console.log("Ticket found");
                     ticketData = true;
 
                     var month = results[0].date.getMonth();
@@ -2745,11 +2745,13 @@ router.get('/dashboard/ticket/:id', function(req, res, next) {
 });
 
 //POST update status from ticket
-router.post('/update-ticket/:id', function(req,res, next) {
+router.post('/dashboard/update-ticket/:id', function(req,res, next) {
 
     var ticketId = req.params.id;
     var status = req.body.status;
-    var comments = req.body.comments;
+    var comment = req.body.comment;
+
+    console.log(ticketId +' '+ status +' '+ comment);
 
     connect(function(err, connection) {
         if (err) {
@@ -2759,11 +2761,10 @@ router.post('/update-ticket/:id', function(req,res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('UPDATE tickets SET status=?, comments=? WHERE id=?',[status, comments, ticketId], function(err, results, fields) {
+            connection.query('UPDATE tickets SET status=?, comment=? WHERE id=?',[status, comment, ticketId], function(err, results, fields) {
                 connection.release();
 
-                res.redirect('/user/tickets');
-
+                res.redirect('/admin/dashboard/ticket/' + ticketId);
             });
         }
     });

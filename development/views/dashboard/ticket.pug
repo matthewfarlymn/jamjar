@@ -15,7 +15,7 @@ block content
                             span #{successMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        form(class=ticketDetails[0].status === 'inactive' ? 'inactive' : '' action='/admin/dashboard/update-ticket/' + ticketDetails[0].id enctype='multipart/form-data' method='post')
+                        form(class=ticketDetails[0].status === 'inactive' ? 'inactive' : '' action='/admin/dashboard/update-ticket/' + ticketDetails[0].id method='post')
                             span.row
                                 span.col-xs
                                     button(type='submit').button.pink Update
