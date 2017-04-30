@@ -26,7 +26,7 @@ var avatarUpload = multer({
         basepath: '/users',
         ftp: {
             host: process.env.APPSETTING_FTP_HOST,
-            secure: process.env.APPSETTING_FTP_SECURE,
+            // secure: process.env.APPSETTING_FTP_SECURE,
             user: process.env.APPSETTING_FTP_USER,
             password: process.env.APPSETTING_FTP_PASSWORD
         }
