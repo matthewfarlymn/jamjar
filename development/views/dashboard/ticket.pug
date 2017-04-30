@@ -106,7 +106,7 @@ block content
                                     span.row.middle-xs.grey
                                         span.col-xs-12
                                             h3 Comment:
-                                            textarea(disabled=ticketDetails[0].status === 'inactive')
+                                            textarea(name='comment' placeholder='Comment' max='1024' disabled=ticketDetails[0].status === 'inactive') #{ticketDetails[0].comment}
                             span.row
                                 span.col-xs
                                     button(type='submit').button.pink Update
