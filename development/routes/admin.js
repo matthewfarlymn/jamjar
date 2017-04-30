@@ -913,7 +913,8 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                         console.log("Product update successful. " + title);
 
                                         // update product_details - line1
-                                        connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size1, color1, stock1, price1, status1, detailId1, req.params.productId], function(err, results, fields) {
+                                        var query1 = connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size1, color1, stock1, price1, status1, detailId1, req.params.productId], function(err, results, fields) {
+                                        console.log(query1);
                                             // connection.release();
 
                                             if (err) {
@@ -2650,16 +2651,11 @@ router.get('/dashboard/tickets', function(req, res, next) {
 
                     for (i=0; i<results.length; i++) {
 
-                        var day = results[i].date.getDay();
                         var month = results[i].date.getMonth();
                         var date = results[i].date.getDate();
                     	var year = results[i].date.getFullYear();
-                    	var hours = results[i].date.getHours();
-                    	var mins = results[i].date.getMinutes();
-                    	var secs = results[i].date.getSeconds();
 
-                        results[i].date = date + "/" + month + "/" + year +
-                            " " + hours + ":" + mins + ":" + secs;
+                        results[i].date = date + "/" + month + "/" + year;
                     }
 
                     ticketDetails = results;
@@ -2718,19 +2714,12 @@ router.get('/dashboard/ticket/:id', function(req, res, next) {
                     console.log("Orders found for user");
                     ticketData = true;
 
-                    for (i=0; i<results.length; i++) {
+                    var month = results[0].date.getMonth();
+                    var date = results[0].date.getDate();
+                	var year = results[0].date.getFullYear();
 
-                        var day = results[i].date.getDay();
-                        var month = results[i].date.getMonth();
-                        var date = results[i].date.getDate();
-                    	var year = results[i].date.getFullYear();
-                    	var hours = results[i].date.getHours();
-                    	var mins = results[i].date.getMinutes();
-                    	var secs = results[i].date.getSeconds();
+                    results[0].date = date + "/" + month + "/" + year;
 
-                        results[i].date = date + "/" + month + "/" + year +
-                            " " + hours + ":" + mins + ":" + secs;
-                    }
                     ticketDetails = results;
                 }
             });
@@ -2755,6 +2744,29 @@ router.get('/dashboard/ticket/:id', function(req, res, next) {
     });
 });
 
+//POST update status from ticket
+router.post('/update-ticket/:id', function(req,res, next) {
 
+    var ticketId = req.params.id;
+    var status = req.body.status;
+    var comments = req.body.comments;
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            connection.query('UPDATE tickets SET status=?, comments=? WHERE id=?',[status, comments, ticketId], function(err, results, fields) {
+                connection.release();
+
+                res.redirect('/user/tickets');
+
+            });
+        }
+    });
+});
 
 module.exports = router;

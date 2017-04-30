@@ -363,6 +363,7 @@ router.post('/contact', function(req, res, next) {
     var email = req.body.email;
     var phoneNumber = req.body.phoneNumber;
     var message = req.body.message;
+    var status = 'active';
 
     var themeSettings = req.session.themeSettings;
 
@@ -376,7 +377,7 @@ router.post('/contact', function(req, res, next) {
         else {
             console.log("Connected to the DB - insert");
 
-            connection.query('INSERT INTO tickets (firstName, lastName, email, phoneNumber, message) VALUES (?,?,?,?,?)',[firstName, lastName, email, phoneNumber, message], function(err, results, fields) {
+            connection.query('INSERT INTO tickets (firstName, lastName, email, phoneNumber, message, status) VALUES (?,?,?,?,?,?)',[firstName, lastName, email, phoneNumber, message, status], function(err, results, fields) {
                 // connection.release();
 
                 if (err) {
