@@ -25,10 +25,10 @@ var avatarUpload = multer({
     storage: new ftp({
         basepath: '/users',
         ftp: {
-            host: APPSETTING_FTP_HOST,
-            secure: APPSETTING_FTP_SECURE,
-            user: APPSETTING_FTP_USER,
-            password: APPSETTING_FTP_PASSWORD
+            host: process.env.APPSETTING_FTP_HOST,
+            secure: process.env.APPSETTING_FTP_SECURE,
+            user: process.env.APPSETTING_FTP_USER,
+            password: process.env.APPSETTING_FTP_PASSWORD
         }
     })
 });
