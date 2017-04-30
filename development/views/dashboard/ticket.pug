@@ -62,7 +62,7 @@ block content
                             span #{successMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        form(class=ticketDetails[0].status === 'inactive' ? 'inactive' : '' action='/admin/dashboard/update-ticket/' + ticketId enctype='multipart/form-data' method='post')
+                        form(class=ticketDetails[0].status === 'inactive' ? 'inactive' : '' action='/admin/dashboard/update-ticket/' + ticketDetails[0].id enctype='multipart/form-data' method='post')
                             span.row
                                 span.col-xs
                                     button(type='submit').button.pink Update
@@ -99,15 +99,14 @@ block content
                                                     span #{ticketDetails[0].phoneNumber}
                             span.row.grey
                                 span.col-xs-12.fieldset.item-attributes
-                                    each ticket in ticketDetails
-                                        span.row.middle-xs.grey
-                                            span.col-xs-12
-                                                h3 Message:
-                                                p #{ticket.message}
-                                        span.row.middle-xs.grey
-                                            span.col-xs-12
-                                                h3 Comment:
-                                                textarea(disabled=status === 'inactive')
+                                    span.row.middle-xs.grey
+                                        span.col-xs-12
+                                            h3 Message:
+                                            p #{ticketDetails[0].message}
+                                    span.row.middle-xs.grey
+                                        span.col-xs-12
+                                            h3 Comment:
+                                            textarea(disabled=ticketDetails[0].status === 'inactive')
                             span.row
                                 span.col-xs
                                     button(type='submit').button.pink Update
