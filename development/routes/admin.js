@@ -575,7 +575,7 @@ router.get('/dashboard/products', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM products ORDER BY id',[],function(err, results, fields) {
+            connection.query('SELECT * FROM products ORDER BY status, id',[],function(err, results, fields) {
                 // console.log('Query returned6 ' + JSON.stringify(results));
 
                 if(err) {
@@ -2633,7 +2633,7 @@ router.get('/dashboard/tickets', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            connection.query('SELECT * FROM tickets ORDER BY status',[],function(err, results, fields) {
+            connection.query('SELECT * FROM tickets ORDER BY status, id',[],function(err, results, fields) {
                 // console.log('Query returned - tickets ' + JSON.stringify(results));
 
                 if(err) {
