@@ -1,8 +1,4 @@
-/development/node_modules
-/development/.env
-/development/npm-debug.log
+/node_modules
+npm-debug.log
+.env
 
-/old_development/back-end/node_modules
-/old_development/front-end/node_modules
-/old_development/merge/node_modules
-/old_development/merge/api/dbconnection.js
