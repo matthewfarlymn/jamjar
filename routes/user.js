@@ -23,7 +23,7 @@ require('dotenv').config();
 
 var avatarUpload = multer({
     storage: new ftp({
-        basepath: '/users',
+        basepath: process.env.APPSETTING_FTP_PATH,
         ftp: {
             host: process.env.APPSETTING_FTP_HOST,
             // secure: process.env.APPSETTING_FTP_SECURE,
