@@ -2617,4 +2617,144 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
     });
 });
 
+
+router.get('/dashboard/tickets', function(req, res, next) {
+
+    var ticketDetails = [];
+
+    req.session.ticketDetails = ticketDetails;
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database - 7");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            connection.query('SELECT * FROM tickets ORDER BY status',[],function(err, results, fields) {
+                // console.log('Query returned - tickets ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no user found
+                else if (results.length === 0) {
+                    console.log("No tickets found");
+                    ticketData = false;
+                }
+                // user found
+                else {
+                    console.log("Tickets found");
+                    ticketData = true;
+
+                    for (i=0; i<results.length; i++) {
+
+                        var day = results[i].date.getDay();
+                        var month = results[i].date.getMonth();
+                        var date = results[i].date.getDate();
+                    	var year = results[i].date.getFullYear();
+                    	var hours = results[i].date.getHours();
+                    	var mins = results[i].date.getMinutes();
+                    	var secs = results[i].date.getSeconds();
+
+                        results[i].date = date + "/" + month + "/" + year +
+                            " " + hours + ":" + mins + ":" + secs;
+                    }
+
+                    ticketDetails = results;
+                }
+            });
+        }
+
+        connection.commit(function(err) {
+            connection.release();
+            if (err) {
+                connection.rollback(function() {
+                    throw err;
+                });
+            }
+            else {
+                res.render('dashboard/tickets', {
+                    // errorMessage: msg,
+                    access: req.session.user,
+                    owner: req.session.admin,
+                    tickets: true,
+                    userId: userId,
+                    ticketDetails: ticketDetails,
+                    tcketData: ticketData
+                });
+            }
+        });
+    });
+});
+
+
+router.get('/dashboard/ticket/:id', function(req, res, next) {
+
+    var ticketDetails = [];
+
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            connection.query('SELECT * FROM tickets WHERE id=?',[req.params.id],function(err, results, fields) {
+                // console.log('Query returned - tickets2 ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no user found
+                else if (results.length === 0) {
+                    console.log("No ticket found");
+                    ticketData = false;
+                }
+                // user found
+                else {
+                    console.log("Orders found for user");
+                    ticketData = true;
+
+                    for (i=0; i<results.length; i++) {
+
+                        var day = results[i].date.getDay();
+                        var month = results[i].date.getMonth();
+                        var date = results[i].date.getDate();
+                    	var year = results[i].date.getFullYear();
+                    	var hours = results[i].date.getHours();
+                    	var mins = results[i].date.getMinutes();
+                    	var secs = results[i].date.getSeconds();
+
+                        results[i].date = date + "/" + month + "/" + year +
+                            " " + hours + ":" + mins + ":" + secs;
+                    }
+                    ticketDetails = results;
+                }
+            });
+        }
+
+        connection.commit(function(err) {
+            connection.release();
+            if (err) {
+                connection.rollback(function() {
+                    throw err;
+                });
+            }
+            else {
+                res.render('dashboard/ticket', {
+                    access: req.session.user,
+                    owner: req.session.admin,
+                    tickets: true,
+                    ticketDetails: ticketDetails
+                });
+            }
+        });
+    });
+});
+
+
+
 module.exports = router;
