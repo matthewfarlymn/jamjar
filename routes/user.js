@@ -2,22 +2,35 @@ var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
 var multer = require('multer');
+var ftp = require('multer-ftp');
 var nodemailer = require('nodemailer');
 require('dotenv').config();
 
-var avatarStorage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, './assets/uploads/users/');
-    },
-    filename: function (req, file, cb) {
-        var filename = file.originalname;
-        var fileExtension = filename.split(".")[1];
-        cb(null, req.session.userId + "." + fileExtension);
-    }
-});
+// var avatarStorage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, './assets/uploads/users/');
+//     },
+//     filename: function (req, file, cb) {
+//         var filename = file.originalname;
+//         var fileExtension = filename.split(".")[1];
+//         cb(null, req.session.userId + "." + fileExtension);
+//     }
+// });
+//
+// var avatarUpload = multer({
+//     storage: avatarStorage
+// });
 
 var avatarUpload = multer({
-    storage: avatarStorage
+    storage: new ftp({
+        basepath: '/users',
+        ftp: {
+            host: APPSETTING_FTP_HOST,
+            secure: APPSETTING_FTP_SECURE,
+            user: APPSETTING_FTP_USER,
+            password: APPSETTING_FTP_PASSWORD
+        }
+    })
 });
 
 router.post('/add-to-cart', function(req, res, next) {
