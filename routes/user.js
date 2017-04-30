@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
 var multer = require('multer');
-var ftp = require('multer-ftp');
+var FTPStorage = require('multer-ftp');
+var FTP = require('ftp');
 var nodemailer = require('nodemailer');
 require('dotenv').config();
 
@@ -22,13 +23,16 @@ require('dotenv').config();
 // });
 
 var avatarUpload = multer({
-    storage: new ftp({
-        basepath: process.env.APPSETTING_FTP_PATH,
+    storage: new FTPStorage({
+        basepath: '/',
         ftp: {
             host: process.env.APPSETTING_FTP_HOST,
-            // secure: process.env.APPSETTING_FTP_SECURE,
             user: process.env.APPSETTING_FTP_USER,
             password: process.env.APPSETTING_FTP_PASSWORD
+        },
+        destination: function(req, file, option, callback) {
+            var fileExtension = file.originalname.split('.')[1];
+            callback(null, 'user-' + req.session.userId + '.' + fileExtension);
         }
     })
 });
@@ -828,7 +832,8 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                 avatar = results[0].avatar;
 
                                 if(req.file) {
-                                    avatar = req.file.filename;
+                                    var fileExtension = req.file.originalname.split('.')[1];
+                                    avatar = 'user-' + req.session.userId + '.' + fileExtension;
                                 }
 
                                 // update replaces password
@@ -866,8 +871,11 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             avatar = results[0].avatar;
 
                             if(req.file) {
-                                avatar = req.file.filename;
+                                var fileExtension = req.file.originalname.split('.')[1];
+                                avatar = 'user-' + req.session.userId + '.' + fileExtension;
                             }
+
+                            console.log(avatar);
 
                             // update does not replace password
                             connection.query('UPDATE users SET firstName=?, lastName=?, address1=?, address2=?, city=?, province=?, postalcode=?, country=?, email=?, phoneNumber=?, avatar=? WHERE email=?',[firstName, lastName, address1, address2, city, province, postalcode, country, email, phoneNumber, avatar, req.session.user], function(err, results, fields) {
