@@ -673,7 +673,7 @@ section {
             }
         }
 
-        .profile, .product, .user, .settings {
+        .profile, .ticket, .product, .user, .settings {
             form {
                 margin: 0;
                 .grey {
@@ -757,6 +757,27 @@ section {
                         margin: -10px 0 0 10px;
                         width: 25%;
                     }
+                    strong {
+                        margin-right: 5px;
+                    }
+                    span {
+                        &.fa {
+                            margin-right: 10px;
+                        }
+                    }
+                    p {
+                        margin: 5px 0 0 0;
+                    }
+                    ul {
+                        padding: 0;
+                        li {
+                            list-style: none;
+                            margin-top: 5px;
+                        }
+                    }
+                    .mce-tinymce {
+                        margin-bottom: 15px;
+                    }
                 }
                 button {
                     &:last-of-type {
@@ -799,7 +820,9 @@ section {
                     }
                 }
                 .settings {
+                    margin-bottom: 0 !important;
                     .grey {
+                        padding-bottom: 10px;
                         input {
                             margin-bottom: 15px;
                         }
@@ -808,7 +831,18 @@ section {
             }
         }
 
-        .orders, .order, .tickets, .ticket, .products, .users {
+        .ticket {
+            form {
+                .grey {
+                    padding-bottom: 10px;
+                    select {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+
+        .orders, .order, .tickets, .products, .users {
             .grey {
                 background-color: #f6f6f6;
                 padding: 20px 4px;
@@ -884,7 +918,7 @@ section {
             }
         }
 
-        .orders, .order, .tickets, .ticket {
+        .orders, .order, .tickets {
             margin-bottom: -15px;
             .grey {
                 &:first-of-type {

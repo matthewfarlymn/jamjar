@@ -14,7 +14,7 @@ block content
                                     p Sorry, it doesn't look like you have any current tickets at the moment.
                         else
                             each ticket in ticketDetails
-                                div.row.middle-xs.grey
+                                div(class=ticket.status === 'inactive' ? 'inactive' : '').row.middle-xs.grey
                                     div.col-xs-8.col-sm-10
                                         div.row.middle-xs
                                             div.col-xs-12.col-sm-3.detail
@@ -25,6 +25,9 @@ block content
                                                 span #{ticket.date}
                                             div.col-xs-12.col-sm-4.detail
                                                 strong Status:
-                                                span #{ticket.status}
+                                                if ticket.status === 'inactive'
+                                                    span Inactive
+                                                else
+                                                    span Active
                                     div.col-xs-4.col-sm-2.right
                                         a(href=owner ? '/admin/dashboard/ticket/' + ticket.id : '/user/dashboard/ticket/' + ticket.id) Details

@@ -109,8 +109,17 @@ jQuery(document).ready(function($) {
     $('.status-attributes').change(function() {
         if($(this).val() === 'inactive') {
             $(this).closest('.grey').addClass('inactive').find('input').attr('disabled', true);
+            $(this).closest('.grey').find(':hidden').attr('disabled', false);
         } else {
             $(this).closest('.grey').removeClass('inactive').find('input').attr('disabled', false);
+        }
+    });
+
+    $('.status-ticket').change(function() {
+        if($(this).val() === 'inactive') {
+            $(this).closest('form').addClass('inactive').find('textarea').attr('disabled', true);
+        } else {
+            $(this).closest('form').removeClass('inactive').find('textarea').attr('disabled', false);
         }
     });
 

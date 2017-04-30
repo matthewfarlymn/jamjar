@@ -1,41 +1,115 @@
 extends ../templates/layout
 
+//- block content
+//-     main
+//-         section.dashboard
+//-             include ../modules/dashboard-nav
+//-             div.ticket
+//-                 div.row.center-xs.container
+//-                     form(action=add ? '/admin/dashboard/save-product' : '/admin/dashboard/update-product/' + productId + '/' + title enctype='multipart/form-data' method='post')
+//-                         div.col-xs-12.col-md-8
+//-                             div.row.middle-xs.grey
+//-                                 div.col-xs-12
+//-                                     div.row.middle-xs
+//-                                         div.col-xs-12.col-sm-4.detail
+//-                                             strong ID:
+//-                                             span #{ticketDetails[0].id}
+//-                                         div.col-xs-12.col-sm-4.detail
+//-                                             strong Date:
+//-                                             span #{ticketDetails[0].date}
+//-                                         div.col-xs-12.col-sm-4.detail
+//-                                             strong Status:
+//-                                             span #{ticketDetails[0].status}
+//-                         if owner
+//-                             div.col-xs-12.col-md-8
+//-                                 div.row.middle-xs.grey
+//-                                     div.col-xs-12.col-sm-4
+//-                                         h3 #{ticketDetails[0].firstName} #{ticketDetails[0].lastName}
+//-                                     div.col-xs-12.col-sm-4
+//-                                         ul
+//-                                             li
+//-                                                 span.fa.fa-envelope
+//-                                                 span #{ticketDetails[0].email}
+//-                                     div.col-xs-12.col-sm-4
+//-                                         ul
+//-                                             li
+//-                                                 span.fa.fa-phone
+//-                                                 span #{ticketDetails[0].phoneNumber}
+//-                         div.col-xs-12.col-md-8
+//-                             each ticket in ticketDetails
+//-                                 div.row.middle-xs.grey
+//-                                     div.col-xs-12
+//-                                         strong Message:
+//-                                         p #{ticket.message}
+//-                                 div.row.middle-xs.grey
+//-                                     div.col-xs-12
+//-                                         strong Comment:
+//-                                         textarea
+//- extends ../templates/layout
+
 block content
     main
         section.dashboard
             include ../modules/dashboard-nav
             div.ticket
+                if errorMessage
+                    div.row.center-xs.container
+                        div.col-xs-12.col-sm-12.col-md-8.error
+                            span #{errorMessage}
+                if successMessage
+                    div.row.center-xs.container
+                        div.col-xs-12.col-sm-12.col-md-8.success
+                            span #{successMessage}
                 div.row.center-xs.container
                     div.col-xs-12.col-md-8
-                        div.row.middle-xs.grey
-                            div.col-xs-12
-                                div.row.middle-xs
-                                    div.col-xs-12.col-sm-4.detail
-                                        strong ID:
-                                        span #{ticketDetails[0].id}
-                                    div.col-xs-12.col-sm-4.detail
-                                        strong Date:
-                                        span #{ticketDetails[0].date}
-                                    div.col-xs-12.col-sm-4.detail
-                                        strong Status:
-                                        span #{ticketDetails[0].status}
-                    if owner
-                        div.col-xs-12.col-md-8
-                            div.row.middle-xs.grey
-                                div.col-xs-12.col-sm-4
-                                    h3 #{ticketDetails[0].firstName} #{ticketDetails[0].lastName}
-                                div.col-xs-12.col-sm-4
-                                    ul
-                                        li
-                                            span.fa.fa-envelope
-                                            span #{ticketDetails[0].email}
-                                div.col-xs-12.col-sm-4
-                                    ul
-                                        li
-                                            span.fa.fa-phone
-                                            span #{ticketDetails[0].phoneNumber}
-                    div.col-xs-12.col-md-8
-                        each ticket in ticketDetails
-                            div.row.middle-xs.grey
-                                div.col-xs-12
-                                    p #{ticket.message}
+                        form(class=status === 'inactive' ? 'inactive' : '' action='/admin/dashboard/update-ticket/' + ticketId enctype='multipart/form-data' method='post')
+                            span.row
+                                span.col-xs
+                                    button(type='submit').button.pink Update
+                                span.col-xs.right
+                                    button(type='reset').button.brown Reset
+                            span.row.grey
+                                span.col-xs-12.fieldset
+                                    span.row.middle-xs
+                                        span.col-xs-12.col-sm-4.detail
+                                            strong ID:
+                                            span #{ticketDetails[0].id}
+                                        span.col-xs-12.col-sm-4.detail
+                                            strong Date:
+                                            span #{ticketDetails[0].date}
+                                        span.col-xs-12.col-sm-4.detail
+                                            select(class='status-ticket' name='status')
+                                                option(disabled='true') -- Select --
+                                                option(value='active' selected=status === 'active') Active
+                                                option(value='inactive' selected=status === 'inactive') Inactive
+                            span.row.grey
+                                span.col-xs-12.fieldset
+                                    span.row.middle-xs
+                                        span.col-xs-12.col-sm-4
+                                            h3 #{ticketDetails[0].firstName} #{ticketDetails[0].lastName}
+                                        span.col-xs-12.col-sm-4
+                                            ul
+                                                li
+                                                    span.fa.fa-envelope
+                                                    span #{ticketDetails[0].email}
+                                        span.col-xs-12.col-sm-4
+                                            ul
+                                                li
+                                                    span.fa.fa-phone
+                                                    span #{ticketDetails[0].phoneNumber}
+                            span.row.grey
+                                span.col-xs-12.fieldset.item-attributes
+                                    each ticket in ticketDetails
+                                        span.row.middle-xs.grey
+                                            span.col-xs-12
+                                                h3 Message:
+                                                p #{ticket.message}
+                                        span.row.middle-xs.grey
+                                            span.col-xs-12
+                                                h3 Comment:
+                                                textarea(disabled=status === 'inactive')
+                            span.row
+                                span.col-xs
+                                    button(type='submit').button.pink Update
+                                span.col-xs.right
+                                    button(type='reset').button.brown Reset
