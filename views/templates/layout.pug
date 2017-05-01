@@ -9,16 +9,16 @@ html
         script(type='text/javascript' src='/js/tinymce/tinymce.min.js')
         script(type='text/javascript' src='/js/app.min.js')
         style.
+            a {color: #{themeSettings.color2};}
             .pink {background-color: #{themeSettings.color1}; color: #{themeSettings.font1};}
             .pink a {color: #{themeSettings.font1};}
+            .pink.button {color: #{themeSettings.font1};}
             .gold {background-color: #{themeSettings.color2}; color: #{themeSettings.font2};}
             .gold a {color: #{themeSettings.font2};}
+            .gold.button {color: #{themeSettings.font2};}
             .brown {background-color: #{themeSettings.color3}; color: #{themeSettings.font3};}
             .brown a {color: #{themeSettings.font3};}
-            a {color: #{themeSettings.color2};}
-            .button.pink {color: #{themeSettings.font1};}
-            .button.gold {color: #{themeSettings.font2};}
-            .button.brown {color: #{themeSettings.font3};}
+            .brown.button {color: #{themeSettings.font3};}
     body
         div.cover.brown
         include header
