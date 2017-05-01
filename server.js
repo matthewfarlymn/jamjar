@@ -44,7 +44,7 @@ connect(function(err, connection) {
     else {
         console.log("Connected to the DB");
 
-        connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
+        connection.query({sql: 'SELECT * FROM settings ORDER BY id DESC', timeout: 60000},[],function(err, results, fields) {
             connection.release();
             // console.log('Query returned1 ' + JSON.stringify(results[0]));
 
