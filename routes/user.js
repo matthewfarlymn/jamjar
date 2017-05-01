@@ -3,7 +3,6 @@ var router = express.Router();
 var connect = require('../database/connect');
 var multer = require('multer');
 var FTPStorage = require('multer-ftp');
-var FTP = require('ftp');
 var nodemailer = require('nodemailer');
 require('dotenv').config();
 
@@ -32,7 +31,7 @@ var avatarUpload = multer({
         },
         destination: function(req, file, option, callback) {
             var fileExtension = file.originalname.split('.')[1];
-            callback(null, 'user-' + req.session.userId + '.' + fileExtension);
+            callback(null, 'avatar-' + req.session.userId + '.' + fileExtension);
         }
     })
 });
@@ -833,7 +832,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
 
                                 if(req.file) {
                                     var fileExtension = req.file.originalname.split('.')[1];
-                                    avatar = 'user-' + req.session.userId + '.' + fileExtension;
+                                    avatar = 'avatar-' + req.session.userId + '.' + fileExtension;
                                 }
 
                                 // update replaces password
@@ -872,7 +871,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
 
                             if(req.file) {
                                 var fileExtension = req.file.originalname.split('.')[1];
-                                avatar = 'user-' + req.session.userId + '.' + fileExtension;
+                                avatar = 'avatar-' + req.session.userId + '.' + fileExtension;
                             }
 
                             console.log(avatar);

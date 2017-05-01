@@ -2,50 +2,96 @@ var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
 var multer = require('multer');
+var FTPStorage = require('multer-ftp');
 
-var avatarStorage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, './assets/uploads/users/');
-    },
-    filename: function (req, file, cb) {
-        var filename = file.originalname;
-        var fileExtension = filename.split(".")[1];
-        cb(null, req.session.userId + "." + fileExtension);
-    }
-});
+// var avatarStorage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, './assets/uploads/users/');
+//     },
+//     filename: function (req, file, cb) {
+//         var filename = file.originalname;
+//         var fileExtension = filename.split(".")[1];
+//         cb(null, req.session.userId + "." + fileExtension);
+//     }
+// });
+//
+// var avatarUpload = multer({
+//     storage: avatarStorage
+// });
 
 var avatarUpload = multer({
-    storage: avatarStorage
+    storage: new FTPStorage({
+        basepath: '/',
+        ftp: {
+            host: process.env.APPSETTING_FTP_HOST,
+            user: process.env.APPSETTING_FTP_USER,
+            password: process.env.APPSETTING_FTP_PASSWORD
+        },
+        destination: function(req, file, option, callback) {
+            var fileExtension = file.originalname.split('.')[1];
+            callback(null, 'avatar-' + req.session.userId + '.' + fileExtension);
+        }
+    })
 });
 
-var productImageStorage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, './assets/uploads/products/');
-    },
-    filename: function (req, file, cb) {
-        var filename = file.originalname;
-        var fileExtension = filename.split(".")[1];
-        cb(null, Date.now() + "-" + req.session.productId + "." + fileExtension);
-    }
-});
+// var productImageStorage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, './assets/uploads/products/');
+//     },
+//     filename: function (req, file, cb) {
+//         var filename = file.originalname;
+//         var fileExtension = filename.split(".")[1];
+//         cb(null, Date.now() + "-" + req.session.productId + "." + fileExtension);
+//     }
+// });
+//
+// var productImageUpload = multer({
+//     storage: productImageStorage
+// });
 
 var productImageUpload = multer({
-    storage: productImageStorage
+    storage: new FTPStorage({
+        basepath: '/',
+        ftp: {
+            host: process.env.APPSETTING_FTP_HOST,
+            user: process.env.APPSETTING_FTP_USER,
+            password: process.env.APPSETTING_FTP_PASSWORD
+        },
+        destination: function(req, file, option, callback) {
+            var fileExtension = file.originalname.split('.')[1];
+            callback(null, 'product-' + req.session.productId + '-' + file.fieldname +'.' + fileExtension);
+        }
+    })
 });
 
-var settingsImageStorage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, './assets/uploads/settings/');
-    },
-    filename: function (req, file, cb) {
-        var filename = file.originalname;
-        var fileExtension = filename.split(".")[1];
-        cb(null, Date.now() + "-" + req.session.settingsId + "." + fileExtension);
-    }
-});
+// var settingsImageStorage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, './assets/uploads/settings/');
+//     },
+//     filename: function (req, file, cb) {
+//         var filename = file.originalname;
+//         var fileExtension = filename.split(".")[1];
+//         cb(null, Date.now() + "-" + req.session.settingsId + "." + fileExtension);
+//     }
+// });
+//
+// var settingsImageUpload = multer({
+//     storage: settingsImageStorage
+// });
 
 var settingsImageUpload = multer({
-    storage: settingsImageStorage
+    storage: new FTPStorage({
+        basepath: '/',
+        ftp: {
+            host: process.env.APPSETTING_FTP_HOST,
+            user: process.env.APPSETTING_FTP_USER,
+            password: process.env.APPSETTING_FTP_PASSWORD
+        },
+        destination: function(req, file, option, callback) {
+            var fileExtension = file.originalname.split('.')[1];
+            callback(null, 'settings-' + req.session.settingsId + '-' + file.fieldname +'.' + fileExtension);
+        }
+    })
 });
 
 router.get('/dashboard/profile', function(req, res, next) {
@@ -275,7 +321,8 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                 avatar = results[0].avatar;
 
                                 if(req.file) {
-                                    avatar = req.file.filename;
+                                    var fileExtension = req.file.originalname.split('.')[1];
+                                    avatar = 'avatar-' + req.session.userId + '.' + fileExtension;
                                 }
 
                                 // update replaces password
@@ -314,7 +361,8 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             avatar = results[0].avatar;
 
                             if(req.file) {
-                                avatar = req.file.filename;
+                                var fileExtension = req.file.originalname.split('.')[1];
+                                avatar = 'avatar-' + req.session.userId + '.' + fileExtension;
                             }
 
                             // update does not replace password
@@ -850,21 +898,26 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                 var image5 = results[0].image5;
 
                                 if (req.files) {
-                                    for (var i=0; i<req.files.length;i++) {
+                                    for (var i = 0; i < req.files.length; i++) {
                                         if (req.files[i].fieldname === 'image1') {
-                                            image1 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image1 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image1);
                                         } else if (req.files[i].fieldname === 'image2') {
-                                            image2 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image2 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image2);
                                         } else if (req.files[i].fieldname === 'image3') {
-                                            image3 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image3 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image3);
                                         } else if (req.files[i].fieldname === 'image4') {
-                                            image4 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image4 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image4);
                                         } else {
-                                            image5 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image5 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image5);
                                         }
                                     }
@@ -2567,13 +2620,17 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                     if (req.files) {
                         for (var i=0; i<req.files.length;i++) {
                             if (req.files[i].fieldname === 'logo') {
-                                logo = req.files[i].filename;
+                                var fileExtension = req.files[i].originalname.split('.')[1];
+                                logo = 'settings-' + req.session.settingsId + '-' + req.files[i].fieldname + '.' + fileExtension;
                             } else if (req.files[i].fieldname === 'sliderImage1') {
-                                sliderImage1 = req.files[i].filename;
+                                var fileExtension = req.files[i].originalname.split('.')[1];
+                                sliderImage1 = 'settings-' + req.session.settingsId + '-' + req.files[i].fieldname + '.' + fileExtension;
                             } else if (req.files[i].fieldname === 'sliderImage2') {
-                                sliderImage2 = req.files[i].filename;
+                                var fileExtension = req.files[i].originalname.split('.')[1];
+                                sliderImage2 = 'settings-' + req.session.settingsId + '-' + req.files[i].fieldname + '.' + fileExtension;
                             } else {
-                                sliderImage3 = req.files[i].filename;
+                                var fileExtension = req.files[i].originalname.split('.')[1];
+                                sliderImage3 = 'settings-' + req.session.settingsId + '-' + req.files[i].fieldname + '.' + fileExtension;
                             }
                         }
                     }
