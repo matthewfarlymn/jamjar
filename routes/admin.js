@@ -1444,21 +1444,26 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                 console.log("Connected to the DB");
 
                                 if (req.files) {
-                                    for (var i=0; i<req.files.length;i++) {
+                                    for (var i = 0; i < req.files.length; i++) {
                                         if (req.files[i].fieldname === 'image1') {
-                                            image1 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image1 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image1);
                                         } else if (req.files[i].fieldname === 'image2') {
-                                            image2 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image2 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image2);
                                         } else if (req.files[i].fieldname === 'image3') {
-                                            image3 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image3 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image3);
                                         } else if (req.files[i].fieldname === 'image4') {
-                                            image4 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image4 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image4);
                                         } else {
-                                            image5 = req.files[i].filename;
+                                            var fileExtension = req.files[i].originalname.split('.')[1];
+                                            image5 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
                                             console.log(image5);
                                         }
                                     }
