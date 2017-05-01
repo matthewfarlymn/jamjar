@@ -17,20 +17,30 @@ block content
                         if !product[0].image1
                             img(src='/img/product.jpg')
                         else
-                            div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image1)
-                                img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image1)
+                            //- div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image1)
+                            //-     img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image1)
+                            div(data-thumb='/uploads/' + product[0].image1)
+                                img(src='/uploads/' + product[0].image1)
                         if product[0].image2 !== null
-                            div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image2)
-                                img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image2)
+                            //- div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image2)
+                            //-     img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image2)
+                            div(data-thumb='/uploads/' + product[0].image2)
+                                img(src='/uploads/' + product[0].image2)
                         if product[0].image3 !== null
-                            div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image3)
-                                img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image3)
+                            //- div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image3)
+                            //-     img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image3)
+                            div(data-thumb='/uploads/' + product[0].image3)
+                                img(src='/uploads/' + product[0].image3)
                         if product[0].image4 !== null
-                            div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image4)
-                                img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image4)
+                            //- div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image4)
+                            //-     img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image4)
+                            div(data-thumb='/uploads/' + product[0].image4)
+                                img(src='/uploads/' + product[0].image4)
                         if product[0].image5 !== null
-                            div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image5)
-                                img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image5)
+                            //- div(data-thumb='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image5)
+                            //-     img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product[0].image5)
+                            div(data-thumb='/uploads/' + product[0].image5)
+                                img(src='/uploads/' + product[0].image5)
                 div.col-xs-12.col-sm-6
                     h1 #{product[0].title}
                     p #{product[0].description}

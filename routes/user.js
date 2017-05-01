@@ -2,39 +2,38 @@ var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
 var multer = require('multer');
-var FTPStorage = require('multer-ftp');
+// var FTPStorage = require('multer-ftp');
 var nodemailer = require('nodemailer');
 require('dotenv').config();
 
-// var avatarStorage = multer.diskStorage({
-//     destination: function(req, file, cb) {
-//         cb(null, './assets/uploads/users/');
-//     },
-//     filename: function (req, file, cb) {
-//         var filename = file.originalname;
-//         var fileExtension = filename.split(".")[1];
-//         cb(null, req.session.userId + "." + fileExtension);
-//     }
-// });
-//
-// var avatarUpload = multer({
-//     storage: avatarStorage
-// });
+var avatarStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './assets/uploads/');
+    },
+    filename: function (req, file, cb) {
+        var fileExtension = file.originalname.split('.')[1];
+        cb(null, 'avatar-' + req.session.userId + '.' + fileExtension);
+    }
+});
 
 var avatarUpload = multer({
-    storage: new FTPStorage({
-        basepath: '/',
-        ftp: {
-            host: process.env.APPSETTING_FTP_HOST,
-            user: process.env.APPSETTING_FTP_USER,
-            password: process.env.APPSETTING_FTP_PASSWORD
-        },
-        destination: function(req, file, option, callback) {
-            var fileExtension = file.originalname.split('.')[1];
-            callback(null, 'avatar-' + req.session.userId + '.' + fileExtension);
-        }
-    })
+    storage: avatarStorage
 });
+
+// var avatarUpload = multer({
+//     storage: new FTPStorage({
+//         basepath: '/',
+//         ftp: {
+//             host: process.env.APPSETTING_FTP_HOST,
+//             user: process.env.APPSETTING_FTP_USER,
+//             password: process.env.APPSETTING_FTP_PASSWORD
+//         },
+//         destination: function(req, file, option, callback) {
+//             var fileExtension = file.originalname.split('.')[1];
+//             callback(null, 'avatar-' + req.session.userId + '.' + fileExtension);
+//         }
+//     })
+// });
 
 router.post('/add-to-cart', function(req, res, next) {
 

@@ -4,7 +4,8 @@ header.brown
             div.row.middle-xs
                 if themeSettings.logo
                     a(href='/')
-                        div(style=themeSettings.logo ? 'background-image: url(//dev.matthewfarlymn.com/jamjarink/uploads/' + themeSettings.logo + ');' : '').logo
+                        //- div(style=themeSettings.logo ? 'background-image: url(//dev.matthewfarlymn.com/jamjarink/uploads/' + themeSettings.logo + ');' : '').logo
+                        div(style=themeSettings.logo ? 'background-image: url(/uploads/' + themeSettings.logo + ');' : '').logo
                 ul.primary-nav
                     if themeSettings.aboutDescription
                         li
@@ -23,7 +24,8 @@ header.brown
                             if !avatar
                                 span.fa.fa-user
                             else
-                                div(style=avatar ? 'background-image: url(//dev.matthewfarlymn.com/jamjarink/uploads/' + avatar + ');' : '').avatar
+                                //- div(style=avatar ? 'background-image: url(//dev.matthewfarlymn.com/jamjarink/uploads/' + avatar + ');' : '').avatar
+                                div(style=avatar ? 'background-image: url(/uploads/' + avatar + ');' : '').avatar
                 if access
                     li.sign-out
                         a(href='/sign-out').button.pink Sign-Out

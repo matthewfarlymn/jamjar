@@ -41,7 +41,8 @@ block content
                                     if !product.image
                                         img(src='/img/product.jpg')   
                                     else 
-                                        img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product.image)
+                                        //- img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product.image)
+                                        img(src='/uploads/' + product.image)
                                 div.col-xs-12.col-sm-8
                                     div.row
                                         div.col-xs-12

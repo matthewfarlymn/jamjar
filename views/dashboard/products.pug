@@ -21,7 +21,8 @@ block content
                                         if !product.image
                                             img(src='/img/product.jpg')   
                                         else 
-                                            img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product.image)
+                                            //- img(src='//dev.matthewfarlymn.com/jamjarink/uploads/' + product.image)
+                                            img(src='/uploads/' + product.image)
                                     div.col-xs-9.col-sm-6
                                         span.flex
                                             h3 #{product.title}

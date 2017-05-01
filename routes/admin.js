@@ -2,97 +2,94 @@ var express = require('express');
 var router = express.Router();
 var connect = require('../database/connect');
 var multer = require('multer');
-var FTPStorage = require('multer-ftp');
+// var FTPStorage = require('multer-ftp');
 
-// var avatarStorage = multer.diskStorage({
-//     destination: function(req, file, cb) {
-//         cb(null, './assets/uploads/users/');
-//     },
-//     filename: function (req, file, cb) {
-//         var filename = file.originalname;
-//         var fileExtension = filename.split(".")[1];
-//         cb(null, req.session.userId + "." + fileExtension);
-//     }
-// });
-//
-// var avatarUpload = multer({
-//     storage: avatarStorage
-// });
+var avatarStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './assets/uploads/');
+    },
+    filename: function (req, file, cb) {
+        var filename = file.originalname.split(".")[1];
+        cb(null, 'avatar-' + req.session.userId + '.' + fileExtension);
+    }
+});
 
 var avatarUpload = multer({
-    storage: new FTPStorage({
-        basepath: '/',
-        ftp: {
-            host: process.env.APPSETTING_FTP_HOST,
-            user: process.env.APPSETTING_FTP_USER,
-            password: process.env.APPSETTING_FTP_PASSWORD
-        },
-        destination: function(req, file, option, callback) {
-            var fileExtension = file.originalname.split('.')[1];
-            callback(null, 'avatar-' + req.session.userId + '.' + fileExtension);
-        }
-    })
+    storage: avatarStorage
 });
 
-// var productImageStorage = multer.diskStorage({
-//     destination: function(req, file, cb) {
-//         cb(null, './assets/uploads/products/');
-//     },
-//     filename: function (req, file, cb) {
-//         var filename = file.originalname;
-//         var fileExtension = filename.split(".")[1];
-//         cb(null, Date.now() + "-" + req.session.productId + "." + fileExtension);
-//     }
+// var avatarUpload = multer({
+//     storage: new FTPStorage({
+//         basepath: '/',
+//         ftp: {
+//             host: process.env.APPSETTING_FTP_HOST,
+//             user: process.env.APPSETTING_FTP_USER,
+//             password: process.env.APPSETTING_FTP_PASSWORD
+//         },
+//         destination: function(req, file, option, callback) {
+//             var fileExtension = file.originalname.split('.')[1];
+//             callback(null, 'avatar-' + req.session.userId + '.' + fileExtension);
+//         }
+//     })
 // });
-//
-// var productImageUpload = multer({
-//     storage: productImageStorage
-// });
+
+var productImageStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './assets/uploads/');
+    },
+    filename: function (req, file, cb) {
+        var filename = file.originalname.split(".")[1];
+        cb(null, 'product-' + req.session.productId + '-' + file.fieldname +'.' + fileExtension);
+    }
+});
 
 var productImageUpload = multer({
-    storage: new FTPStorage({
-        basepath: '/',
-        ftp: {
-            host: process.env.APPSETTING_FTP_HOST,
-            user: process.env.APPSETTING_FTP_USER,
-            password: process.env.APPSETTING_FTP_PASSWORD
-        },
-        destination: function(req, file, option, callback) {
-            var fileExtension = file.originalname.split('.')[1];
-            callback(null, 'product-' + req.session.productId + '-' + file.fieldname +'.' + fileExtension);
-        }
-    })
+    storage: productImageStorage
 });
 
-// var settingsImageStorage = multer.diskStorage({
-//     destination: function(req, file, cb) {
-//         cb(null, './assets/uploads/settings/');
-//     },
-//     filename: function (req, file, cb) {
-//         var filename = file.originalname;
-//         var fileExtension = filename.split(".")[1];
-//         cb(null, Date.now() + "-" + req.session.settingsId + "." + fileExtension);
-//     }
+// var productImageUpload = multer({
+//     storage: new FTPStorage({
+//         basepath: '/',
+//         ftp: {
+//             host: process.env.APPSETTING_FTP_HOST,
+//             user: process.env.APPSETTING_FTP_USER,
+//             password: process.env.APPSETTING_FTP_PASSWORD
+//         },
+//         destination: function(req, file, option, callback) {
+//             var fileExtension = file.originalname.split('.')[1];
+//             callback(null, 'product-' + req.session.productId + '-' + file.fieldname +'.' + fileExtension);
+//         }
+//     })
 // });
-//
-// var settingsImageUpload = multer({
-//     storage: settingsImageStorage
-// });
+
+var settingsImageStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './assets/uploads/');
+    },
+    filename: function (req, file, cb) {
+        var filename = file.originalname.split(".")[1];
+        cb(null, 'settings-' + file.fieldname +'.' + fileExtension);
+    }
+});
 
 var settingsImageUpload = multer({
-    storage: new FTPStorage({
-        basepath: '/',
-        ftp: {
-            host: process.env.APPSETTING_FTP_HOST,
-            user: process.env.APPSETTING_FTP_USER,
-            password: process.env.APPSETTING_FTP_PASSWORD
-        },
-        destination: function(req, file, option, callback) {
-            var fileExtension = file.originalname.split('.')[1];
-            callback(null, 'settings-' + req.session.settingsId + '-' + file.fieldname +'.' + fileExtension);
-        }
-    })
+    storage: settingsImageStorage
 });
+
+// var settingsImageUpload = multer({
+//     storage: new FTPStorage({
+//         basepath: '/',
+//         ftp: {
+//             host: process.env.APPSETTING_FTP_HOST,
+//             user: process.env.APPSETTING_FTP_USER,
+//             password: process.env.APPSETTING_FTP_PASSWORD
+//         },
+//         destination: function(req, file, option, callback) {
+//             var fileExtension = file.originalname.split('.')[1];
+//             callback(null, 'settings-' + file.fieldname +'.' + fileExtension);
+//         }
+//     })
+// });
 
 router.get('/dashboard/profile', function(req, res, next) {
 
@@ -2621,16 +2618,16 @@ router.post('/dashboard/update-settings', settingsImageUpload.any(), function(re
                         for (var i=0; i<req.files.length;i++) {
                             if (req.files[i].fieldname === 'logo') {
                                 var fileExtension = req.files[i].originalname.split('.')[1];
-                                logo = 'settings-' + req.session.settingsId + '-' + req.files[i].fieldname + '.' + fileExtension;
+                                logo = 'settings-' + req.files[i].fieldname + '.' + fileExtension;
                             } else if (req.files[i].fieldname === 'sliderImage1') {
                                 var fileExtension = req.files[i].originalname.split('.')[1];
-                                sliderImage1 = 'settings-' + req.session.settingsId + '-' + req.files[i].fieldname + '.' + fileExtension;
+                                sliderImage1 = 'settings-' + req.files[i].fieldname + '.' + fileExtension;
                             } else if (req.files[i].fieldname === 'sliderImage2') {
                                 var fileExtension = req.files[i].originalname.split('.')[1];
-                                sliderImage2 = 'settings-' + req.session.settingsId + '-' + req.files[i].fieldname + '.' + fileExtension;
+                                sliderImage2 = 'settings-' + req.files[i].fieldname + '.' + fileExtension;
                             } else {
                                 var fileExtension = req.files[i].originalname.split('.')[1];
-                                sliderImage3 = 'settings-' + req.session.settingsId + '-' + req.files[i].fieldname + '.' + fileExtension;
+                                sliderImage3 = 'settings-' + req.files[i].fieldname + '.' + fileExtension;
                             }
                         }
                     }
