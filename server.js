@@ -36,44 +36,14 @@ app.use(express.static(path.join(__dirname, 'assets')));
 
 var themeSettings;
 
-connect(function(err, connection) {
-    if (err) {
-        console.log("Error connecting to the database");
-        throw err;
-    }
-    else {
-        console.log("Connected to the DB");
-
-        connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
-            connection.release();
-            // console.log('Query returned1 ' + JSON.stringify(results[0]));
-
-            if(err) {
-                throw err;
-            }
-            // no settings found
-            else if (results.length === 0) {
-                console.log("Settings not found");
-            }
-            // settings found
-            else {
-                console.log("Settings found");
-
-                themeSettings = results[0];
-
-            }
-        });
-    }
-});
-
-var currentThemeSettings = function(req, res, next) {
-    if (!req.session.themeSettings) {
-        req.session.themeSettings = themeSettings;
-    }
-    next();
-};
-
-app.use(currentThemeSettings);
+// var currentThemeSettings = function(req, res, next) {
+//     if (!req.session.themeSettings) {
+//         req.session.themeSettings = themeSettings;
+//     }
+//     next();
+// };
+//
+// app.use(currentThemeSettings);
 
 app.use(function (req, res, next) {
     res.locals = {
@@ -103,7 +73,35 @@ var owner = function(req, res, next) {
 
 var initial = function(req, res, next) {
     if (!req.session.themeSettings) {
-        res.redirect('/');
+        connect(function(err, connection) {
+            if (err) {
+                console.log("Error connecting to the database");
+                throw err;
+            }
+            else {
+                console.log("Connected to the DB");
+
+                connection.query('SELECT * FROM settings ORDER BY id DESC',[],function(err, results, fields) {
+                    connection.release();
+                    // console.log('Query returned1 ' + JSON.stringify(results[0]));
+
+                    if(err) {
+                        throw err;
+                    }
+                    // no settings found
+                    else if (results.length === 0) {
+                        console.log("Settings not found");
+                    }
+                    // settings found
+                    else {
+                        console.log("Settings found");
+
+                        themeSettings = results[0];
+
+                    }
+                });
+            }
+        });
     } else {
         next();
     }
