@@ -54,12 +54,15 @@ img {
 
 .pink {
     background-color: #ee2a7b;
+    color: #ffffff;
 }
 .gold {
     background-color: #cca677;
+    color: #ffffff;
 }
 .brown {
     background-color: #5d4037;
+    color: #ffffff;
 }
 
 .right {
@@ -92,7 +95,6 @@ span {
 }
 
 .button {
-    color: #ffffff;
     text-decoration: none;
     font-weight: bold;
     padding: 10px 20px;
@@ -191,7 +193,6 @@ form {
 }
 
 header, footer {
-    color: #ffffff;
     padding: 20px 0;
     position: relative;
     z-index: 2;
@@ -256,7 +257,6 @@ header, footer {
             a {
                 display: block;
                 text-decoration: none;
-                color: #fff;
                 font-weight: bold;
             }
             span {
@@ -386,7 +386,6 @@ section {
                         margin: 0;
                     }
                     a {
-                        color: #ffffff;
                         span {
                             &.fa-shopping-cart {
                                 margin-left: 10px;
@@ -447,7 +446,6 @@ section {
     }
 
     &.cta {
-        color: #ffffff;
         .container {
             text-align: center;
         }
