@@ -101,10 +101,19 @@ var owner = function(req, res, next) {
     }
 };
 
+var initial = function(req, res, next) {
+    if (!req.session.themeSettings) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+};
+
 app.use('/user', access);
 app.use('/user', user);
 app.use('/admin', owner);
 app.use('/admin', admin);
+app.use('/', initial);
 app.use('/', index);
 
 // catch 404 and forward to error handler
