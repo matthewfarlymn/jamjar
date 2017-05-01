@@ -9,7 +9,7 @@ var avatarStorage = multer.diskStorage({
         cb(null, './assets/uploads/');
     },
     filename: function (req, file, cb) {
-        var filename = file.originalname.split(".")[1];
+        var fileExtension = file.originalname.split(".")[1];
         cb(null, 'avatar-' + req.session.userId + '.' + fileExtension);
     }
 });
@@ -38,7 +38,7 @@ var productImageStorage = multer.diskStorage({
         cb(null, './assets/uploads/');
     },
     filename: function (req, file, cb) {
-        var filename = file.originalname.split(".")[1];
+        var fileExtension = file.originalname.split(".")[1];
         cb(null, 'product-' + req.session.productId + '-' + file.fieldname +'.' + fileExtension);
     }
 });
@@ -67,7 +67,7 @@ var settingsImageStorage = multer.diskStorage({
         cb(null, './assets/uploads/');
     },
     filename: function (req, file, cb) {
-        var filename = file.originalname.split(".")[1];
+        var fileExtension = file.originalname.split(".")[1];
         cb(null, 'settings-' + file.fieldname +'.' + fileExtension);
     }
 });
