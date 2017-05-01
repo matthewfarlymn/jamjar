@@ -1241,51 +1241,83 @@ router.get('/dashboard/add-product', function(req, res, next) {
     req.session.price5 = "";
     req.session.status5 = "";
 
-    res.render('dashboard/product', {
-        errorMessage: msg,
-        access: req.session.user,
-        owner: req.session.admin,
-        productData: productData,
-        products: true,
-        details: details,
-        add: true,
-        title: title,
-        description: description,
-        image1: image1,
-        image2: image2,
-        image3: image3,
-        image4: image4,
-        image5: image5,
-        status: status,
-        size1: size1,
-        color1: color1,
-        stock1: stock1,
-        price1: price1,
-        status1: status1,
-        size2: size2,
-        color2: color2,
-        stock2: stock2,
-        price2: price2,
-        status2: status2,
-        size3: size3,
-        color3: color3,
-        stock3: stock3,
-        price3: price3,
-        status3: status3,
-        size4: size4,
-        color4: color4,
-        stock4: stock4,
-        price4: price4,
-        status4: status4,
-        size5: size5,
-        color5: color5,
-        stock5: stock5,
-        price5: price5,
-        status5: status5
+    connect(function(err, connection) {
+        if (err) {
+            console.log("Error connecting to the database");
+            throw err;
+        }
+        else {
+            console.log("Connected to the DB");
+
+            // connection.query('SELECT * FROM products WHERE title=?',[title],function(err, results, fields) {
+            connection.query('SELECT Auto_increment FROM information_schema.tables WHERE table_name="products"',[],function(err, results, fields) {
+                connection.release();
+                console.log('Query returned - Auto_increment ' + JSON.stringify(results));
+
+                if(err) {
+                    throw err;
+                }
+                // no user found
+                else if (results.length !== 0) {
+                    // console.log("Product not found");
+
+                    req.session.productId = results[0].Auto_increment;
+
+                    console.log('req.session.productId ' + req.session.productId);
+
+                    res.render('dashboard/product', {
+                        errorMessage: msg,
+                        access: req.session.user,
+                        owner: req.session.admin,
+                        productData: productData,
+                        products: true,
+                        // productId: req.session.productId,
+                        details: details,
+                        add: true,
+                        title: title,
+                        description: description,
+                        image1: image1,
+                        image2: image2,
+                        image3: image3,
+                        image4: image4,
+                        image5: image5,
+                        status: status,
+                        size1: size1,
+                        color1: color1,
+                        stock1: stock1,
+                        price1: price1,
+                        status1: status1,
+                        size2: size2,
+                        color2: color2,
+                        stock2: stock2,
+                        price2: price2,
+                        status2: status2,
+                        size3: size3,
+                        color3: color3,
+                        stock3: stock3,
+                        price3: price3,
+                        status3: status3,
+                        size4: size4,
+                        color4: color4,
+                        stock4: stock4,
+                        price4: price4,
+                        status4: status4,
+                        size5: size5,
+                        color5: color5,
+                        stock5: stock5,
+                        price5: price5,
+                        status5: status5
+                    });
+                }
+            });
+        }
     });
+
 });
 
 router.post('/dashboard/save-product', productImageUpload.any(), function(req, res, next) {
+
+    console.log('req.session.productId ' + req.session.productId);
 
     var productId = req.params.id;
     var title = req.body.title;
@@ -1331,6 +1363,32 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
     var stock5 = req.body.stock5;
     var price5 = req.body.price5;
     var status5 = req.body.status5;
+
+    if (req.files) {
+        for (var i = 0; i < req.files.length; i++) {
+            if (req.files[i].fieldname === 'image1') {
+                var fileExtension = req.files[i].originalname.split('.')[1];
+                image1 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
+                console.log(image1);
+            } else if (req.files[i].fieldname === 'image2') {
+                var fileExtension = req.files[i].originalname.split('.')[1];
+                image2 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
+                console.log(image2);
+            } else if (req.files[i].fieldname === 'image3') {
+                var fileExtension = req.files[i].originalname.split('.')[1];
+                image3 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
+                console.log(image3);
+            } else if (req.files[i].fieldname === 'image4') {
+                var fileExtension = req.files[i].originalname.split('.')[1];
+                image4 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
+                console.log(image4);
+            } else {
+                var fileExtension = req.files[i].originalname.split('.')[1];
+                image5 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
+                console.log(image5);
+            }
+        }
+    }
 
     connect(function(err, connection) {
         if (err) {
@@ -1405,7 +1463,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                         req.session.size1 = size1;
                         req.session.color1 = color1;
                         req.session.stock1 = stock1;
-                        req.session.price1 = prcie1;
+                        req.session.price1 = price1;
                         req.session.status1 = status1;
 
                         req.session.size2 = size2;
@@ -1443,33 +1501,8 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                             else {
                                 console.log("Connected to the DB");
 
-                                if (req.files) {
-                                    for (var i = 0; i < req.files.length; i++) {
-                                        if (req.files[i].fieldname === 'image1') {
-                                            var fileExtension = req.files[i].originalname.split('.')[1];
-                                            image1 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
-                                            console.log(image1);
-                                        } else if (req.files[i].fieldname === 'image2') {
-                                            var fileExtension = req.files[i].originalname.split('.')[1];
-                                            image2 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
-                                            console.log(image2);
-                                        } else if (req.files[i].fieldname === 'image3') {
-                                            var fileExtension = req.files[i].originalname.split('.')[1];
-                                            image3 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
-                                            console.log(image3);
-                                        } else if (req.files[i].fieldname === 'image4') {
-                                            var fileExtension = req.files[i].originalname.split('.')[1];
-                                            image4 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
-                                            console.log(image4);
-                                        } else {
-                                            var fileExtension = req.files[i].originalname.split('.')[1];
-                                            image5 = 'product-' + req.session.productId + '-' + req.files[i].fieldname + '.' + fileExtension;
-                                            console.log(image5);
-                                        }
-                                    }
-                                }
-
                                 connection.query('INSERT INTO products (title, description, image1, image2, image3, image4, image5, status) VALUES (?,?,?,?,?,?,?,?)',[title, description, image1, image2, image3, image4, image5, status], function(err, results, fields) {
+                                // connection.query('INSERT INTO products (title, description, status) VALUES (?,?,?)',[title, description, status], function(err, results, fields) {
 
                                     if (err) {
                                         console.log("Error connecting to the database - add");
@@ -1498,7 +1531,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                     }
                                                     // user found
                                                     else {
-                                                        productId = results[0].id;
+                                                        productId = req.session.productId = results[0].id ;
                                                         title = results[0].title;
 
                                                         if (!stock1) {
