@@ -4,12 +4,6 @@ var connect = require('../database/connect');
 var nodemailer = require('nodemailer');
 require('dotenv').config();
 
-// var session = '';
-
-router.get('/settings', function(req, res, next) {
-    res.render('dashboard/settings');
-});
-
 router.get('/', function(req, res, next) {
 
     var popularProducts = '';
