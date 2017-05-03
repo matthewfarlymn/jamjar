@@ -94,6 +94,7 @@ var settingsImageUpload = multer({
 router.get('/dashboard/profile', function(req, res, next) {
 
     var msg = req.session.msg ? req.session.msg : "";
+    var successMsg = req.session.successMsg ? req.session.successMsg : "";
     var firstName = req.session.firstName ? req.session.firstName : "";
     var lastName = req.session.lastName ? req.session.lastName : "";
     var address1 = req.session.address1 ? req.session.address1 : "";
@@ -107,6 +108,7 @@ router.get('/dashboard/profile', function(req, res, next) {
     var avatar = req.session.avatar ? req.session.avatar : "";
 
     req.session.msg = "";
+    req.session.successMsg = "";
     req.session.firstName = "";
     req.session.lastName = "";
     req.session.address1 = "";
@@ -168,6 +170,7 @@ router.get('/dashboard/profile', function(req, res, next) {
             else {
                 res.render('dashboard/profile', {
                     errorMessage: msg,
+                    successMessage: successMsg,
                     access: req.session.user,
                     owner: req.session.admin,
                     profile: true,
@@ -315,7 +318,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             else {
                                 console.log("Connected to the DB");
 
-                                avatar = results[0].avatar;
+                                avatar = req.session.avatar;
 
                                 if(req.file) {
                                     var fileExtension = req.file.originalname.split('.')[1];
@@ -333,6 +336,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                     }
                                     else {
                                         console.log("User update successful. " + email);
+                                        req.session.successMsg = "Profile successfully updated.";
                                         req.session.user = email;
                                         res.redirect('/admin/dashboard/profile');
                                         // res.redirect('/admin-session');
@@ -355,7 +359,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                             console.log("email: " + email);
                             console.log("req.session.user: " + req.session.user);
 
-                            avatar = results[0].avatar;
+                            avatar = req.session.avatar;
 
                             if(req.file) {
                                 var fileExtension = req.file.originalname.split('.')[1];
@@ -373,6 +377,7 @@ router.post('/update-profile', avatarUpload.single('avatar'), function(req, res,
                                 }
                                 else {
                                     console.log("User update successful - no password change. " + email);
+                                    req.session.successMsg = "Profile successfully updated.";
                                     req.session.user = email;
                                     res.redirect('/admin/dashboard/profile');
                                 }
