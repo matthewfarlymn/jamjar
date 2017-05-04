@@ -2570,6 +2570,7 @@ router.get('/dashboard/settings', function(req, res, next) {
             else {
                 res.render('dashboard/settings', {
                     errorMessage: msg,
+                    successMessage: SuccessMsg,
                     access: req.session.user,
                     owner: req.session.admin,
                     eSettings: true,
@@ -2864,7 +2865,13 @@ router.get('/dashboard/tickets', function(req, res, next) {
 
 router.get('/dashboard/ticket/:id', function(req, res, next) {
 
+    var msg = req.session.msg ? req.session.msg : "";
+    var successMsg = req.session.successMsg ? req.session.successMsg : "";
+
     var ticketDetails = [];
+
+    req.session.msg = "";
+    req.session.successMsg = "";
 
     connect(function(err, connection) {
         if (err) {
@@ -2910,6 +2917,8 @@ router.get('/dashboard/ticket/:id', function(req, res, next) {
             }
             else {
                 res.render('dashboard/ticket', {
+                    errorMessage: msg,
+                    successMessage: successMsg,
                     access: req.session.user,
                     owner: req.session.admin,
                     tickets: true,
@@ -2939,6 +2948,8 @@ router.post('/dashboard/update-ticket/:id', function(req,res, next) {
 
             connection.query('UPDATE tickets SET status=?, comment=? WHERE id=?',[status, comment, ticketId], function(err, results, fields) {
                 connection.release();
+
+                req.session.successMsg = "Ticket successfully updated.";
 
                 res.redirect('/admin/dashboard/ticket/' + ticketId);
             });
