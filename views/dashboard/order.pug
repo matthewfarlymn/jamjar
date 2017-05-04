@@ -48,6 +48,15 @@ block content
                                         div.col-xs-12
                                             h3 #{product.title}
                                             p #{product.excerpt}
+                                            ul
+                                                if product.size
+                                                    li
+                                                        strong Size:
+                                                        span #{product.size}
+                                                if product.color
+                                                    li
+                                                        strong Color:
+                                                        span #{product.color}
                                         div.col-xs-12
                                             div.details
                                                 div.row.middle-xs
