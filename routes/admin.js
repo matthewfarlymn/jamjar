@@ -774,7 +774,7 @@ router.get('/dashboard/edit-product/:productId/:title', function(req, res, next)
                         details.push(detail);
                     }
 
-                    if (results.length === 5) {
+                    if (results.length === 6) {
                         hide = true;
                     }
                 }
@@ -1255,7 +1255,6 @@ router.get('/dashboard/add-product', function(req, res, next) {
     req.session.image3 = "";
     req.session.image4 = "";
     req.session.image5 = "";
-    req.session.image6 = "";
     req.session.prodstatus = "";
 
     req.session.size1 = "";
@@ -1302,8 +1301,8 @@ router.get('/dashboard/add-product', function(req, res, next) {
         else {
             console.log("Connected to the DB");
 
-            // connection.query('SELECT * FROM products WHERE title=?',[title],function(err, results, fields) {
-            connection.query('SELECT Auto_increment FROM information_schema.tables WHERE table_name="products"',[],function(err, results, fields) {
+            // connection.query('SELECT Auto_increment FROM information_schema.tables WHERE table_name="products"',[],function(err, results, fields) {
+            connection.query('SELECT MAX(id) AS "id" FROM products',[],function(err, results, fields) {
                 connection.release();
                 console.log('Query returned - Auto_increment ' + JSON.stringify(results));
 
@@ -1314,7 +1313,8 @@ router.get('/dashboard/add-product', function(req, res, next) {
                 else if (results.length !== 0) {
                     // console.log("Product not found");
 
-                    req.session.productId = results[0].Auto_increment;
+                    // req.session.productId = results[0].Auto_increment;
+                    req.session.productId = results[0].id + 1;
 
                     console.log('req.session.productId ' + req.session.productId);
 
@@ -1626,7 +1626,6 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                         if (!stock5) {
                                                             stock5 = null;
                                                         }
-
                                                         if (!stock6) {
                                                             stock6 = null;
                                                         }
@@ -1646,7 +1645,6 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                         if (!status5) {
                                                             status5 = 'inactive';
                                                         }
-
                                                         if (!status6) {
                                                             status6 = 'inactive';
                                                         }
@@ -1659,8 +1657,9 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                             else {
                                                                 console.log("Connected to the DB");
 
-                                                                connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',
-                                                                    [productId, size1, color1, stock1, price1, status1, productId, size2, color2, stock2, price2, status2, productId, size3, color3, stock3, price3, status3, productId, size4, color4, stock4, price4, status4, productId, size5, color5, stock5, price5, status5, productId, size6, color6, stock6, price6, status6], function(err, results, fields) {
+                                                                connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',
+                                                                    [productId, size1, color1, stock1, price1, status1, productId, size2, color2, stock2, price2, status2, productId, size3, color3, stock3, price3, status3,
+                                                                        productId, size4, color4, stock4, price4, status4, productId, size5, color5, stock5, price5, status5, productId, size6, color6, stock6, price6, status6], function(err, results, fields) {
                                                                     // connection.release();
 
                                                                     if(err) {
