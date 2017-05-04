@@ -1359,7 +1359,7 @@ router.get('/dashboard/add-product', function(req, res, next) {
                         color5: color5,
                         stock5: stock5,
                         price5: price5,
-                        status5: status5
+                        status5: status5,
                         size6: size6,
                         color6: color6,
                         stock6: stock6,
