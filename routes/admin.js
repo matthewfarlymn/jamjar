@@ -2570,7 +2570,7 @@ router.get('/dashboard/settings', function(req, res, next) {
             else {
                 res.render('dashboard/settings', {
                     errorMessage: msg,
-                    successMessage: SuccessMsg,
+                    // successMessage: SuccessMsg,
                     access: req.session.user,
                     owner: req.session.admin,
                     eSettings: true,
