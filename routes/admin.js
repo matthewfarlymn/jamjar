@@ -856,6 +856,13 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
     var price5 = req.body.price5;
     var status5 = req.body.status5;
 
+    var detailId6 = req.body.detailId6;
+    var size6 = req.body.size6;
+    var color6 = req.body.color6;
+    var stock6 = req.body.stock6;
+    var price6 = req.body.price6;
+    var status6 = req.body.status6;
+
     if (status === 'active') {
         connect(function(err, connection) {
             if (err) {
@@ -941,6 +948,10 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                     stock5 = null;
                                 }
 
+                                if (!stock6) {
+                                    stock6 = null;
+                                }
+
                                 if (!status1) {
                                     status1 = 'inactive';
                                 }
@@ -955,6 +966,9 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                 }
                                 if (!status5) {
                                     status5 = 'inactive';
+                                }
+                                if (!status6) {
+                                    status6 = 'inactive';
                                 }
 
                                 // update products
@@ -1032,6 +1046,21 @@ router.post('/dashboard/update-product/:productId/:title', productImageUpload.an
                                                 console.log("Product detail5 update successful. ");
                                             }
                                         });
+
+
+                                        // update product_details - line6
+                                        connection.query('UPDATE product_details SET size=?, color=?, stock=?, price=?, status=? WHERE id=? AND productsId=?',[size6, color6, stock6, price6, status6, detailId6, req.params.productId], function(err, results, fields) {
+                                            // connection.release();
+
+                                            if (err) {
+                                                console.log("Error connecting to the database - update4f");
+                                                throw err;
+                                            }
+                                            else {
+                                                console.log("Product detail6 update successful. ");
+                                            }
+                                        });
+
                                     }
                                 });
                                 connection.commit(function(err) {
@@ -1155,6 +1184,12 @@ router.get('/dashboard/add-new-product', function(req, res, next) {
     var price5 = req.session.price5 = "";
     var status5 = req.session.status5 = "";
 
+    var size6 = req.session.size6 = "";
+    var color6 = req.session.color6 = "";
+    var stock6 = req.session.stock6 = "";
+    var price6 = req.session.price6 = "";
+    var status6 = req.session.status6 = "";
+
     res.redirect('/admin/dashboard/add-product');
 });
 
@@ -1178,7 +1213,7 @@ router.get('/dashboard/add-product', function(req, res, next) {
     var color1 = req.session.color1 ? req.session.color1 : "";
     var stock1 = req.session.stock1 ? req.session.stock1 : "";
     var price1 = req.session.price1 ? req.session.price1 : "";
-    var status1 = req.session.status1 ? req.session.status5 : "";
+    var status1 = req.session.status1 ? req.session.status1 : "";
 
     var size2 = req.session.size2 ? req.session.size2 : "";
     var color2 = req.session.color2 ? req.session.color2 : "";
@@ -1204,6 +1239,12 @@ router.get('/dashboard/add-product', function(req, res, next) {
     var price5 = req.session.price5 ? req.session.price5 : "";
     var status5 = req.session.status5 ? req.session.status5 : "";
 
+    var size6 = req.session.size6 ? req.session.size6 : "";
+    var color6 = req.session.color6 ? req.session.color6 : "";
+    var stock6 = req.session.stock6 ? req.session.stock6 : "";
+    var price6 = req.session.price6 ? req.session.price6 : "";
+    var status6 = req.session.status6 ? req.session.status6 : "";
+
     req.session.msg = "";
     req.session.successMsg = "";
     req.session.productId = req.params.productId;
@@ -1214,6 +1255,7 @@ router.get('/dashboard/add-product', function(req, res, next) {
     req.session.image3 = "";
     req.session.image4 = "";
     req.session.image5 = "";
+    req.session.image6 = "";
     req.session.prodstatus = "";
 
     req.session.size1 = "";
@@ -1245,6 +1287,12 @@ router.get('/dashboard/add-product', function(req, res, next) {
     req.session.stock5 = "";
     req.session.price5 = "";
     req.session.status5 = "";
+
+    req.session.size6 = "";
+    req.session.color6 = "";
+    req.session.stock6 = "";
+    req.session.price6 = "";
+    req.session.status6 = "";
 
     connect(function(err, connection) {
         if (err) {
@@ -1312,6 +1360,11 @@ router.get('/dashboard/add-product', function(req, res, next) {
                         stock5: stock5,
                         price5: price5,
                         status5: status5
+                        size6: size6,
+                        color6: color6,
+                        stock6: stock6,
+                        price6: price6,
+                        status6: status6
                     });
                 }
             });
@@ -1368,6 +1421,13 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
     var stock5 = req.body.stock5;
     var price5 = req.body.price5;
     var status5 = req.body.status5;
+
+    var detailId6 = '';
+    var size6 = req.body.size6;
+    var color6 = req.body.color6;
+    var stock6 = req.body.stock6;
+    var price6 = req.body.price6;
+    var status6 = req.body.status6;
 
     if (req.files) {
         for (var i = 0; i < req.files.length; i++) {
@@ -1444,6 +1504,12 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                 req.session.price5 = price5;
                 req.session.status5 = status5;
 
+                req.session.size6 = size6;
+                req.session.color6 = color6;
+                req.session.stock6 = stock6;
+                req.session.price6 = price6;
+                req.session.status6 = status6;
+
                 res.redirect('/admin/dashboard/add-product');
             }
             else {
@@ -1494,6 +1560,12 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                         req.session.stock5 = stock5;
                         req.session.price5 = price5;
                         req.session.status5 = status5;
+
+                        req.session.size6 = size6;
+                        req.session.color6 = color6;
+                        req.session.stock6 = stock6;
+                        req.session.price6 = price6;
+                        req.session.status6 = status6;
 
                         res.redirect('/admin/dashboard/add-product');
                     }
@@ -1555,6 +1627,10 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                             stock5 = null;
                                                         }
 
+                                                        if (!stock6) {
+                                                            stock6 = null;
+                                                        }
+
                                                         if (!status1) {
                                                             status1 = 'inactive';
                                                         }
@@ -1571,6 +1647,10 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                             status5 = 'inactive';
                                                         }
 
+                                                        if (!status6) {
+                                                            status6 = 'inactive';
+                                                        }
+
                                                         connect(function(err, connection) {
                                                             if (err) {
                                                                 console.log("Error connecting to the database");
@@ -1580,7 +1660,7 @@ router.post('/dashboard/save-product', productImageUpload.any(), function(req, r
                                                                 console.log("Connected to the DB");
 
                                                                 connection.query('INSERT INTO product_details (productsId, size, color, stock, price, status) VALUES (?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?),(?,?,?,?,?,?)',
-                                                                    [productId, size1, color1, stock1, price1, status1, productId, size2, color2, stock2, price2, status2, productId, size3, color3, stock3, price3, status3, productId, size4, color4, stock4, price4, status4, productId, size5, color5, stock5, price5, status5], function(err, results, fields) {
+                                                                    [productId, size1, color1, stock1, price1, status1, productId, size2, color2, stock2, price2, status2, productId, size3, color3, stock3, price3, status3, productId, size4, color4, stock4, price4, status4, productId, size5, color5, stock5, price5, status5, productId, size6, color6, stock6, price6, status6], function(err, results, fields) {
                                                                     // connection.release();
 
                                                                     if(err) {
