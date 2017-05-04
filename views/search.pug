@@ -17,7 +17,7 @@ block content
                                 if !product.image1
                                     img(src='/img/product.jpg')
                                 else
-                                    img(src='/uploads/products/' + product.image1)
+                                    img(src='/uploads/' + product.image1)
                                 h3 #{product.title}
                                 p #{product.excerpt}
                                 a(href='/product/' + product.id + '/' + product.title) Learn More
